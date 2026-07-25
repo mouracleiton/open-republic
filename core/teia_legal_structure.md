@@ -1,0 +1,543 @@
+# TEIA -- Estrutura Juridica: Cooperativa vs EPP vs Hibrido
+
+**Linguagem:** Portugol++ (PPM)
+
+**Arquivo original:** `core/teia_legal_structure.py`
+
+**Descricao:** ============================================================
+A DECISAO:
+  TEIA precisa de uma estrutura juridica para:
+  1. Contratar revendedores
+  2. Receber mensalidade do SaaS
+  3. Receber 30% sobre artefatos
+  4. Pagar royalty chain
+  5. Aceitar cripto
+  6. Emitir NF-e
+  7. Contratar funcionarios/cooperados
+  3 OPCOES:
+  A. Cooperativa (Lei 5.764/1971)
+  B. EPP LTDA (Simples Nacional)
+  C. HIBRIDO: EPP para TEIA + Associacao para Republica
+Author: TEIA / OpenRepublic Team
+
+---
+
+```portugol++
+
+// !/usr/bin/env python3
+// 
+TEIA -- Estrutura Juridica: Cooperativa vs EPP vs Hibrido
+============================================================
+
+A DECISAO:
+  TEIA precisa de uma estrutura juridica para:
+  1. Contratar revendedores
+  2. Receber mensalidade do SaaS
+  3. Receber 30% sobre artefatos
+  4. Pagar royalty chain
+  5. Aceitar cripto
+  6. Emitir NF-e
+  7. Contratar funcionarios/cooperados
+
+  3 OPCOES:
+  A. Cooperativa (Lei 5.764/1971)
+  B. EPP LTDA (Simples Nacional)
+  C. HIBRIDO: EPP para TEIA + Associacao para Republica
+
+Author: TEIA / OpenRepublic Team
+// 
+
+// importa annotations de __future__
+
+// importa dataclass, field de dataclasses
+// importa List, Dict de typing
+
+
+// ============================================================================
+// 1. COMPARACAO DIRETA
+// ============================================================================
+
+// decorador: @dataclass
+classe StructureComparison:
+    // Comparacao ponto a ponto.
+
+    criterio: texto
+    cooperativa: texto
+    epp_ltda: texto
+    hibrido: texto
+
+
+seja COMPARACAO: [StructureComparison] = [
+
+    StructureComparison(
+        "FILosofia OpenRepublic",
+        "PERFEITO. Sem dono. 1 pessoa = 1 voto. Assembleia decide. Anti-elitismo nativo.",
+        "CONTRADIZ. Tem dono (socio majoritario). Poder concentrado. Contra P1.",
+        "MELHOR DOS DOIS. EPP opera comercial. Associacao opera Republica. Cada um no seu.",
+    ),
+
+    StructureComparison(
+        "Velocidade de abertura",
+        "30-60 dias. Estatuto complexo. Junta comercial + OCERGS. Assembleia de fundacao.",
+        "1-3 dias. Portal do Empreendedor. Contrato social simples.",
+        "1-3 dias EPP + 30 dias Associacao (em paralelo).",
+    ),
+
+    StructureComparison(
+        "Custo de abertura",
+        "R$5-15k (advogado cooperativista + taxas + OCERGS)",
+        "R$0-2k (contador + taxas)",
+        "R$0-2k EPP + R$1-3k Associacao",
+    ),
+
+    StructureComparison(
+        "Tributacao",
+        "ISENTO de INSS patronal, PIS, COFINS sobre atos cooperativos. "
+        "Sobras rateadas nao sao lucro tributavel.",
+        "Simples Nacional: 6-15% sobre faturamento (anexo III/V). "
+        "Tudo tributado.",
+        "EPP: Simples (6-15%). Associacao: isenta IR (imunidade). "
+        "Pool vai para Associacao (nao tributado).",
+    ),
+
+    StructureComparison(
+        "Vender para governo",
+        "PODE. Lei 11.488/2007 permite cooperativa participar de licitacao. "
+        "Mas alguns editais exigem LTDA/SA.",
+        "PODE. Sem restricao. Maioria dos editais aceita.",
+        "PODE. EPP licita. Sem restricao.",
+    ),
+
+    StructureComparison(
+        "Vender SaaS para revendedor",
+        "PODE. Mas juridicamente complicado: cooperado e 'dono', nao 'cliente'. "
+        "Relacao comercial fica ambigua.",
+        "PODE. Simples: empresa vende servico para cliente. "
+        "Contrato SaaS padrao.",
+        "PODE. EPP vende SaaS. Claro e direto.",
+    ),
+
+    StructureComparison(
+        "Receber 30% sobre artefatos",
+        "PODE. Mas e 'sobras' ou 'receita'? Juridicamente confuso. "
+        "Receita Federal pode questionar.",
+        "PODE. E receita normal. Tributada. Clara.",
+        "PODE. EPP recebe como receita normal.",
+    ),
+
+    StructureComparison(
+        "Aceitar cripto",
+        "PODE mas juridicamente complexo. Cooperativa nao e 'empresa' tradicional. "
+        "Exchanges pedem CNPJ + contrato social.",
+        "PODE. CNPJ + contrato social LTDA. "
+        "Exchanges aceitam sem problema.",
+        "PODE. EPP aceita cripto como PJ normal.",
+    ),
+
+    StructureComparison(
+        "Emitir NF-e",
+        "PODE. Mas tipo de documento e diferente (nota de servico cooperado). "
+        "Alguns municipios nao tem modelo para cooperativa.",
+        "PODE. NF-e padrao. Sem complicacao.",
+        "PODE. NF-e padrao pela EPP.",
+    ),
+
+    StructureComparison(
+        "Contratar pessoas",
+        "Cooperados nao sao CLT (sao 'donos'). "
+        "Nao ha vinculo empregaticio. "
+        "Mas: se julgar que ha subordinacao, Justiça pode configurar CLT.",
+        "CLT normal. Sem risco. "
+        "Pode contratar quantos precisar.",
+        "EPP contrata CLT. "
+        "Associacao tem voluntarios/associados.",
+    ),
+
+    StructureComparison(
+        "Captar investimento",
+        "MUITO DIFICIL. Cooperativa nao emite quotas para investidor. "
+        "Sem equity. Ninguem investe no que nao e dono.",
+        "PODE. LTDA pode ter socio investidor. "
+        "Percentual negociavel.",
+        "EPP pode ter investidor. "
+        "Associacao nao (mas nao precisa).",
+    ),
+
+    StructureComparison(
+        "Governanca",
+        "Assembleia decide TUDO. Democratico mas LENTO. "
+        "Decisao comercial nao pode esperar assembleia.",
+        "Socio decide. Rapido. "
+        "Mas: concentracao de poder.",
+        "EPP: socio decide (rapido). "
+        "Associacao: assembleia decide Republica (democratico).",
+    ),
+
+    StructureComparison(
+        "Dividir lucro/prejuizo",
+        "Sobras rateadas por proporcionalidade. "
+        "Complexo de calcular com royalty chain.",
+        "Lucro = do socio. Decide como distribuir. "
+        "Simples.",
+        "EPP: lucro do socio. "
+        "Pool vai para Associacao (rateado democraticamente).",
+    ),
+
+    StructureComparison(
+        "Risco juridico",
+        "MAIOR. Receita Federal costuma auditor cooperativas. "
+        "Se atos nao-cooperativos > cooperativos, perde isencao.",
+        "MENOR. Regime claro. Burocracia padrao.",
+        "MEDIO. EPP claro. Associacao precisa ter cuidado com imunidade.",
+    ),
+
+    StructureComparison(
+        "Imagem publica",
+        "COOPERATIVA soa bem para governo/ONG/comunidade. "
+        "Associado a Banco Palmas, economia solidaria.",
+        "EMPRESA soa neutro. Nao ajuda nem atrapalha.",
+        "EPP comercial + Associacao social. "
+        "Melhor narrativa: 'empresa que financia projeto social.'",
+    ),
+
+    StructureComparison(
+        "Alinhacao com modelo revendedor",
+        "PROBLEMATICO. Revendedor nao e cooperado. "
+        "E cliente/parceiro comercial. "
+        "Cooperativa nao foi desenhada para ter 'clientes'.",
+        "PERFEITO. Revendedor = cliente do SaaS. "
+        "Relacao comercial clara.",
+        "PERFEITO. EPP gerencia revendedores. "
+        "Associacao gerencia Republica.",
+    ),
+
+    StructureComparison(
+        "Pool da Republica (7,5%)",
+        "E natural. Sobras viram pool. "
+        "Mas juridicamente complexo separar 'pool' de 'sobras'.",
+        "PRECISA de estrutura separada. "
+        "EPP nao pode doar 7,5% sem tributacao. "
+        "Faria acordo comercial.",
+        "NATURAL. EPP repassa 7,5% para Associacao "
+        "(despesa operacional dedutivel). Associacao e isenta.",
+    ),
+
+    StructureComparison(
+        "Escalabilidade internacional",
+        "DIFICIL. Cooperativa brasileira nao opera facil no exterior. "
+        "Revendedor internacional = juridicao complexa.",
+        "PODE. LTDA pode ter clientes internacionais. "
+        "Contrato SaaS global.",
+        "PODE. EPP opera global. Associacao nao precisa.",
+    ),
+]
+
+
+// ============================================================================
+// 2. ARQUITETURA SAAS EM VPN (o produto real)
+// ============================================================================
+
+SAAS_ARCHITECTURE = """
+ARQUITETURA DO PRODUTO (SaaS em VPN)
+=====================================
+
+O PRODUTO:
+  Nao e o Hermes. O Hermes e interno (desenvolvimento).
+  O produto e um SaaS web que roda em rede VPN fechada.
+
+  [Revendedor] --VPN--> [Servidor TEIA] --[dados]--> [Artefato]
+
+POR QUE VPN (limitar spectro de ataque):
+
+  1. SaaS PUBLICO (sem VPN):
+     - Qualquer IP no mundo pode tentar acessar
+     - DDoS, brute force, SQL injection, scraping
+     - Superficie de ataque = INTERNET INTEIRA
+     - Precisa de WAF, rate limiting, CAPTCHA, etc
+
+  2. SaaS EM VPN (fechado):
+     - So quem tem certificado VPN acessa
+     - Zero ataque externo
+     - Superficie de ataque = SO revendedores autenticados
+     - DDoS impossivel (nao ha IP publico exposto)
+     - Scraping impossivel (sem acesso a rede)
+
+  3. MODELO:
+     - WireGuard (VPN moderna, leve, rapida)
+     - Cada revendedor recebe: chave VPN + credencial SaaS
+     - Conecta na VPN -> acessa o SaaS
+     - Sem VPN = sem acesso
+     - Revendedor desligado (nao pagou) = chave VPN revogada
+
+  4. BENEFICIOS:
+     - Latencia baixa (WireGuard e UDP nativo)
+     - Criptografia end-to-end (dados nao passam em claro)
+     - Auditavel (log de conexao por revendedor)
+     - Barreira de entrada para atacante
+     - Compativel com cripto (pagamento libera chave VPN)
+
+  5. INFRA:
+     - 1 servidor (VPS Hetzner/DigitalOcean): R$200-500/mes
+     - WireGuard: gratuito (open source)
+     - SaaS: Streamlit/Dash/Flask (Python) -> depois Rust
+     - Dados: PostgreSQL + Parquet files
+     - Backup: diario, automatico, encriptado
+
+ESTRUTURA TECNICA:
+
+  Internet publica
+    |
+    | (nao exposto)
+    |
+  [WireGuard VPN Gateway]
+    |
+    |--- [SaaS TEIA - Streamlit/Flask]
+    | |-- Modulos (filtrados por ID/certificacao)
+    | |-- Gerador de dossies
+    | |-- Simulador
+    | |-- API interna
+    |
+    |--- [PostgreSQL - dados]
+    | |-- VIGISAN, SNIS, CAGED, INEP, etc
+    | |-- Modelos de impacto fiscal
+    | |-- Log de artefatos gerados (royalty chain)
+    |
+    |--- [Auth - por ID]
+    | |-- Revendedor ID -> cert nivel -> modulos
+    | |-- Log de acessos
+    | |-- Bloqueio de dados sensiveis
+    |
+    |--- [Billing]
+            |-- Mensalidade terminal
+            |-- 30% sobre artefatos
+            |-- Cripto (USDC) ou PIX
+            |-- Chave VPN revogada se inadimplente
+// 
+
+
+// ============================================================================
+// 3. RECOMENDACAO
+// ============================================================================
+
+RECOMMENDATION = """
+RECOMENDACAO: HIBRIDO (EPP LTDA + Associacao sem fins lucrativos)
+=================================================================
+
+ESTRUTURA:
+
+  1. EPP LTDA "TEIA Inteligencia Estrategica Ltda."
+     - CNPJ em 1-3 dias
+     - Simples Nacional
+     - Socio: Cleiton (inicialmente)
+     - Funcao: OPERACAO COMERCIAL
+       - Vende SaaS (terminal)
+       - Contrata revendedores
+       - Recebe 30%
+       - Paga royalty chain
+       - Emite NF-e
+       - Aceita cripto
+       - Licita/contratos
+
+  2. Associacao "Instituto OpenRepublic"
+     - CNPJ em 30 dias (sem fins lucrativos)
+     - Imunidade tributaria (IR, IPTU, etc)
+     - Assembleia de associados
+     - Funcao: IDEAL / IMPACTO
+       - Recebe pool (7,5% repassado da EPP)
+       - Financia pilotos comunitarios (OpenCredit)
+       - Mantem open-source CC0
+       - Gestao democratica (P1-P4)
+       - Comunidades reais
+
+  3. FLUXO FINANCEIRO:
+
+     Revendedor paga R$50.000 (artefato)
+       |
+       v
+     EPP TEIA recebe R$50.000
+       |-- 70% (R$35.000) -> repassa para revendedor (comissao)
+       |-- 9% (R$4.500) -> paga royalty chain (criadores de dados)
+       |-- 4,5% (R$2.250) -> manutencao terminal
+       |-- 3% (R$1.500) -> infraestrutura
+       |-- 2,4% (R$1.200) -> certificacao/qualidade
+       |-- 2,1% (R$1.050) -> fundo de garantia
+       |-- 1,5% (R$750) -> equipe fundadora (Cleiton)
+       |-- 7,5% (R$3.750) -> REPASSA para Associacao (dedutivel)
+       |
+       v
+     Associacao OpenRepublic recebe R$3.750
+       |-- 20% operacoes
+       |-- 25% desenvolvimento
+       |-- 15% comunidade
+       |-- 20% piloto comunitario
+       |-- 10% emergencia
+       |-- 10% reinvestimento
+
+POR QUE HIBRIDO e MELHOR:
+
+  1. EPP e RAPIDA para operar comercialmente
+     - Decisao em minutos, nao assembleia
+     - Contrato SaaS padrao
+     - NF-e, cripto, licitacao: tudo funciona
+
+  2. Associacao protege o IDEAL
+     - Pool nao e "lucro da empresa"
+     - e "doacao para projeto social" (dedutivel)
+     - Imunidade tributaria
+     - Governance democratica separada
+
+  3. DualMode natural
+     - EPP = "O Executavel opera"
+     - Associacao = "O Ideal guia"
+     - Cada um otimizado para sua funcao
+
+  4. Defesa juridica
+     - Se EPP para processada, Associacao nao e afetada
+     - Se Associacao para questionada, EPP continua operando
+     - Separacao de risco
+
+  5. Captar investimento (futuro)
+     - Investidor entra na EPP (equity)
+     - Associacao permanece independente
+     - Investor nao controla o Ideal
+
+  6. Narrativa para cliente
+     - "TEIA e uma empresa de inteligencia (EPP)"
+     - "Que financia o Instituto OpenRepublic (Associacao)"
+     - "Cada compra apoia comunidades reais"
+     - ESG nativo (nao greenwashing)
+// 
+
+
+// ============================================================================
+// 4. CRONOGRAMA DE ABRIR
+// ============================================================================
+
+TIMELINE = """
+CRONOGRAMA (o que fazer nos proximos dias):
+
+D+1: Abrir EPP LTDA
+  - Portal do Empreendedor ( RedeSim )
+  - Contrato social: EPP unipessoal ou LTDA com 2 socios
+  - CNAE: 6204-0/00 (consultoria em TI) + 8599-6/99 (educacao)
+  - Regime: Simples Nacional (Anexo III para servico)
+  - Custo: R$0 (Portal) a R$1.500 (contador)
+  - Tempo: 1-3 dias uteis
+
+D+3: Abrir conta PJ + MEI nao (EPP)
+  - Banco Inter, Nubank PJ, ou Sicredi (cooperativa de credito)
+  - PIX PJ
+  - Custo: R$0
+
+D+7: Regularidade fiscal
+  - CND Receita Federal (emitir online)
+  - CND INSS/FGTS
+  - Certidao Negativa Estadual e Municipal
+  - Manter renovada (60-180 dias dependendo)
+
+D+14: SICAF (para licitacao futuro)
+  - Cadastrar em www.compras.gov.br
+  - Habilitacao juridica + fiscal + trabalhista
+  - Tempo: 1-3 semanas para aprovacao
+
+D+14: Contrato social da Associacao
+  - Estatuto: Instituto OpenRepublic
+  - Natureza: sem fins lucrativos
+  - Finalidade: desenvolvimento social, tecnologia aberta, comunidades
+  - Minimo 5 associados fundadores (Cleiton + 4)
+  - Registro em cartorio + Junta Commercial
+  - Tempo: 30 dias
+
+D+30: Infraestrutura SaaS
+  - VPS (Hetzner CX21: R$100/mes, 4GB RAM)
+  - WireGuard VPN
+  - Streamlit/Flask SaaS
+  - PostgreSQL
+  - Deploy + teste
+
+D+45: Primeiro revendedor (piloto)
+  - Certificacao TEIA Base (16h remoto)
+  - Feedback de usabilidade
+  - Ajustar SaaS
+  - Cobrar R$1.500/mes + treinamento R$2.000
+// 
+
+
+// ============================================================================
+// 5. RELATORIO
+// ============================================================================
+
+funcao print_report() -> texto:
+    lines = []
+
+    lines.append("=" * 115)
+    lines.append("TEIA -- ESTRUTURA JURIDICA: COOPERATIVA vs EPP vs HIBRIDO")
+    lines.append("=" * 115)
+    lines.append("")
+
+    // Tabela comparativa
+    lines.append("COMPARACAO PONTO A PONTO")
+    lines.append("-" * 115)
+    lines.append("")
+
+    para cada c em COMPARACAO:
+        lines.append("  {c.criterio.upper()}")
+        lines.append("    Cooperativa:  {c.cooperativa}")
+        lines.append("    EPP LTDA:     {c.epp_ltda}")
+        lines.append("    Hibrido:      {c.hibrido}")
+        lines.append("")
+
+    // Arquitetura
+    lines.append("-" * 115)
+    lines.append(SAAS_ARCHITECTURE)
+    lines.append("")
+
+    // Recomendacao
+    lines.append("-" * 115)
+    lines.append(RECOMMENDATION)
+    lines.append("")
+
+    // Timeline
+    lines.append("-" * 115)
+    lines.append(TIMELINE)
+    lines.append("")
+
+    // Resumo
+    lines.append("=" * 115)
+    lines.append("VEREDICTO")
+    lines.append("=" * 115)
+    lines.append("")
+    lines.append("  COOPERATIVA:")
+    lines.append("    + Alinhada com OpenRepublic filosoficamente")
+    lines.append("    - LENTA para operar comercialmente")
+    lines.append("    - Revendedor nao encaixa (nao e 'cooperado')")
+    lines.append("    - Receita Federal auditoria mais")
+    lines.append("    - Sem investidor")
+    lines.append("    VEREDICTO: BONITO MAS IMPRATICAVEL PARA FASE 1")
+    lines.append("")
+    lines.append("  EPP LTDA pura:")
+    lines.append("    + Rapida, flexivel, comercialmente clara")
+    lines.append("    - Contradiz anti-elitismo (tem dono)")
+    lines.append("    - Pool fica tributado")
+    lines.append("    VEREDICTO: FUNCIONA MAS FILOSOFICAMENTE INCOMPLETA")
+    lines.append("")
+    lines.append("  HIBRIDO (EPP + Associacao):")
+    lines.append("    + Rapida comercialmente (EPP)")
+    lines.append("    + Pool protegido e nao-tributado (Associacao)")
+    lines.append("    + DualMode natural")
+    lines.append("    + Separacao de risco")
+    lines.append("    + Narrativa ESG autentica")
+    lines.append("    + Investidor futuro sem perder Republica")
+    lines.append("    - Mais complexa (2 CNPJ)")
+    lines.append("    - Mais burocracia (2 contabilidades)")
+    lines.append("    VEREDICTO: MELHOR OPCAO")
+    lines.append("")
+    lines.append("=" * 115)
+
+    retorne "\n".join(lines)
+
+
+se __name__ == "__main__" entao:
+    imprima(print_report())
+
+```
