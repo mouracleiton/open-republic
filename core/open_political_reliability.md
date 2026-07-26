@@ -733,28 +733,64 @@ funcao _demo() retorna None:
         ),
         IndicadorPolitico(
             tipo <- TipoIndicador.VIOLACAO_PRINCIPIOS,
-            descricao <- "Ataques sistemicos a instituicoes democraticas. Discurso de ruptura constitucional.",
+            descricao <- (
+                "Ataques sistemicos a instituicoes democraticas. Discurso de ruptura constitucional. "
+                "MINUTAS GOLPISTAS: elaboracao de documentos para impedir a posse do governo eleito "
+                "apos o pleito de 2022. Reunioes com aliados militares para golpe de Estado. "
+                "Crimes contra o Estado Democratico de Direito apurados pelo STF."
+            ),
             grau_evidencia <- GraveEvidencia.COMPROVADO_JUDICIAL,
             ocorrencias <- 5,
+            periodo <- "2022-2024",
         ),
         IndicadorPolitico(
             tipo <- TipoIndicador.CORRUPCAO_SISTEMICA,
-            descricao <- "Esquema de rachadinha no nucleo familiar e militar. Cargo publico como negocio.",
+            descricao <- (
+                "Esquema de rachadinha no nucleo familiar e militar. Cargo publico como negocio. "
+                "BOLSOLOA DO MEC: pastores sem cargo oficial controlavam liberacao de verbas do "
+                "Ministerio da Educacao. Ex-ministro Milton Ribeiro preso temporariamente por "
+                "trafico de influencia e corrupcao passiva."
+            ),
             grau_evidencia <- GraveEvidencia.COMPROVADO_JUDICIAL,
-            ocorrencias <- 3,
+            ocorrencias <- 5,
+            periodo <- "2019-2022",
         ),
         IndicadorPolitico(
             tipo <- TipoIndicador.USO_APARELHO_PUBLICO,
-            descricao <- "Uso de atos oficiais, decretos e cargo para beneficios eleitorais e ataque a opositores.",
-            grau_evidencia <- GraveEvidencia.EVIDENCIA_JORNALISTICA,
-            ocorrencias <- 2,
+            descricao <- (
+                "Uso de atos oficiais, decretos e cargo para beneficios eleitorais e ataque a "
+                "opositores. ESCANDALO DAS JOIAS: joias e presentes de alto valor recebidos de "
+                "autoridades estrangeiras (Arabia Saudita) nao registrados para o acervo publico. "
+                "PF apontou peculato, lavagem de dinheiro e associacao criminosa."
+            ),
+            grau_evidencia <- GraveEvidencia.INVESTIGACAO_OFICIAL,
+            ocorrencias <- 3,
             metodos <- [MetodoManipulacao.APARELHO_ELEITORAL, MetodoManipulacao.JUDICIALIZACAO_ARMA],
+            periodo <- "2021-2023",
         ),
         IndicadorPolitico(
             tipo <- TipoIndicador.PERSONALISMO,
-            descricao <- "Lider como messias. Movimento como seita. Nao ha sucesso institucional planejado.",
-            grau_evidencia <- GraveEvidencia.EVIDENCIA_JORNALISTICA,
-            ocorrencias <- 1,
+            descricao <- (
+                "Lider como messias. Movimento como seita. Nao ha sucesso institucional planejado. "
+                "FRAUDE EM CARTOES DE VACINACAO: insercao de dados falsos de vacina contra Covid-19 "
+                "nos sistemas do Ministerio da Saude para si proprio, familiares e assessores. "
+                "Acima da lei porque se acredita acima da lei."
+            ),
+            grau_evidencia <- GraveEvidencia.INVESTIGACAO_OFICIAL,
+            ocorrencias <- 3,
+            periodo <- "2021-2023",
+        ),
+        IndicadorPolitico(
+            tipo <- TipoIndicador.OPACIDADE,
+            descricao <- (
+                "GESTAO DA PANDEMIA / CPI DA COVID: relatorios da CPI no Senado apontaram omisses "
+                "deliberadas e acoes para promover tratamentos sem eficacia comprovada durante a "
+                "crise de saude publica. Centenas de milhares de mortes evitaveis. Opacidade "
+                "intencional na compra de vacinas e insumos."
+            ),
+            grau_evidencia <- GraveEvidencia.INVESTIGACAO_OFICIAL,
+            ocorrencias <- 4,
+            periodo <- "2020-2021",
         ),
     ]
 
@@ -792,8 +828,12 @@ funcao _demo() retorna None:
     Petrolao/Lava Jato (2014), BNDES (2007-2016),
     Fraudes no INSS (2025), Crises ministeriais/Codevasf (2023-2026).
 
-  O Polarizador (Bolsonaro): score 40 -- PREOCUPANTE.
-    Rachadinha familiar, gabinete do odio, ataques a instituicoes.
+  O Polarizador (Bolsonaro): score -- PREOCUPANTE/ALTO RISCO.
+    Minutas golpistas e tentativa de golpe (2022-2024),
+    Bolsolao do MEC / Milton Ribeiro (2019-2022),
+    Escandalo das joias / Arabia Saudita (2021-2023),
+    Fraude em cartoes de vacinacao (2021-2023),
+    Gestao da pandemia / CPI da Covid (2020-2021).
 
   MAS A CORRUPCAO BRASILEIRA E MAIS ANTIGA QUE O PT:
 
@@ -939,10 +979,13 @@ O DIAGNOSTICO:
       O sistema judicial vira arma. Democracia vira sequestro processual.
 
   O Polarizador: usa o MEDO e a RUPTURA para perpetuar.
-    - Ataca instituicoes.
-    - Bots e gabinete do odio.
-    - Corrupcao familiar/militar.
-    - Risco de ruptura democratica.
+    - Minutas golpistas: tentou impedir a posse do governo eleito.
+    - Bolsolao do MEC: pastores controlando verba publica.
+    - Joias da Arabia Saudita nao declaradas (peculato).
+    - Cartao de vacina fraudado (acima da lei).
+    - CPI da Covid: mortes evitaveis por omissao deliberada.
+    - Gabinete do odio institucionalizado.
+    - Risco de ruptura democratica -- TENTOU.
 
   AMBOS tem score ALTO RISCO ou INACEITAVEL.
   A Republica NAO integra nenhum dos dois sem auditoria radical.
