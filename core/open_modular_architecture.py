@@ -624,6 +624,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["distro.kali", "distro.accessibility", "distro.ia_local", "distro.hardening"],
         [],
         ["open-sovereign-tech", "open-inclusive-hardware", "open-telefonista", "open-unified-codebase"], 679)
+    mod("open-voice-os-control", "OpenVoiceOSControl", ModuleCategory.PRODUCTIVITY,
+        ["voice.command", "voice.dictation", "voice.reading", "voice.system"],
+        [],
+        ["open-telefonista", "open-inclusive-ide", "open-big-linux"], 890)
     return registry
 # ============================================================================
 # 5. MAIN
