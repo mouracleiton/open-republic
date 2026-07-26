@@ -581,6 +581,8 @@ classe ClipboardIntelligenceEngine:
             TipoClipboard.COMANDO: self.config.expandir_comando,
             TipoClipboard.TEXTO: self.config.expandir_texto,
             TipoClipboard.NUMERO: self.config.expandir_numero,
+            TipoClipboard.JSON: VERDADEIRO,
+            TipoClipboard.PATH: VERDADEIRO,
         }
         retorne mapa.get(tipo, FALSO)
 

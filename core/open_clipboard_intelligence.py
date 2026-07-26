@@ -541,6 +541,8 @@ class ClipboardIntelligenceEngine:
             TipoClipboard.COMANDO: self.config.expandir_comando,
             TipoClipboard.TEXTO: self.config.expandir_texto,
             TipoClipboard.NUMERO: self.config.expandir_numero,
+            TipoClipboard.JSON: True,
+            TipoClipboard.PATH: True,
         }
         return mapa.get(tipo, False)
 
