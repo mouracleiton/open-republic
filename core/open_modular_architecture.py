@@ -636,6 +636,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["bridge.voz_term", "bridge.term_voz", "bridge.sanitize", "bridge.tts_clean"],
         [],
         ["open-iara", "open-voice-os-control", "open-telefonista"], 1170)
+    mod("open-voice-pentest", "OpenVoicePentest", ModuleCategory.PRODUCTIVITY,
+        ["pentest.voice", "pentest.scan", "pentest.report", "pentest.ethics"],
+        [],
+        ["open-voice-terminal-bridge", "open-big-linux", "open-iara"], 1146)
     return registry
 # ============================================================================
 # 5. MAIN
