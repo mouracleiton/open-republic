@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" style="background:#0a0a0a;">
+    <text x="450.0" y="30" text-anchor="middle" fill="#ff4444" font-size="20" font-family="monospace" font-weight="bold">
+        A DIVIDA NUNCA SE PAGA -- Brasil
+    </text>
+
+    <!-- Eixos -->
+    <line x1="60" y1="440" x2="840" y2="440" stroke="#444" stroke-width="1"/>
+    <line x1="60" y1="60" x2="60" y2="440" stroke="#444" stroke-width="1"/>
+
+    <!-- Linha do PIB (verde) -->
+    <path d="M 60.0,438.5 L 75.6,438.5 L 91.2,438.4 L 106.8,438.4 L 122.4,438.4 L 138.0,438.3 L 153.6,438.3 L 169.2,438.2 L 184.8,438.2 L 200.4,438.2 L 216.0,438.1 L 231.6,438.1 L 247.2,438.0 L 262.8,438.0 L 278.4,437.9 L 294.0,437.9 L 309.6,437.8 L 325.2,437.7 L 340.8,437.7 L 356.4,437.6 L 372.0,437.6 L 387.6,437.5 L 403.2,437.5 L 418.8,437.4 L 434.4,437.3 L 450.0,437.3 L 465.6,437.2 L 481.2,437.1 L 496.8,437.0 L 512.4,437.0 L 528.0,436.9 L 543.6,436.8 L 559.2,436.7 L 574.8,436.7 L 590.4,436.6 L 606.0,436.5 L 621.6,436.4 L 637.2,436.3 L 652.8,436.2 L 668.4,436.1 L 684.0,436.0 L 699.6,435.9 L 715.2,435.8 L 730.8,435.7 L 746.4,435.6 L 762.0,435.5 L 777.6,435.4 L 793.2,435.3 L 808.8,435.2 L 824.4,435.0 L 840.0,434.9" fill="none" stroke="#00cc00" stroke-width="2"/>
+
+    <!-- Area sob a divida (vermelho) -->
+    <path d="M 60.0,439.1 L 75.6,439.0 L 91.2,438.8 L 106.8,438.7 L 122.4,438.5 L 138.0,438.2 L 153.6,438.0 L 169.2,437.7 L 184.8,437.4 L 200.4,437.1 L 216.0,436.7 L 231.6,436.2 L 247.2,435.7 L 262.8,435.2 L 278.4,434.6 L 294.0,433.9 L 309.6,433.1 L 325.2,432.2 L 340.8,431.3 L 356.4,430.2 L 372.0,428.9 L 387.6,427.6 L 403.2,426.0 L 418.8,424.3 L 434.4,422.4 L 450.0,420.2 L 465.6,417.8 L 481.2,415.0 L 496.8,412.0 L 512.4,408.6 L 528.0,404.7 L 543.6,400.4 L 559.2,395.6 L 574.8,390.2 L 590.4,384.2 L 606.0,377.4 L 621.6,369.9 L 637.2,361.4 L 652.8,351.9 L 668.4,341.2 L 684.0,329.3 L 699.6,315.9 L 715.2,300.9 L 730.8,284.2 L 746.4,265.4 L 762.0,244.3 L 777.6,220.7 L 793.2,194.3 L 808.8,164.8 L 824.4,131.6 L 840.0,94.5 L 840.0,440 L 60.0,440 Z"
+          fill="#ff0000" fill-opacity="0.15"/>
+    <path d="M 60.0,439.1 L 75.6,439.0 L 91.2,438.8 L 106.8,438.7 L 122.4,438.5 L 138.0,438.2 L 153.6,438.0 L 169.2,437.7 L 184.8,437.4 L 200.4,437.1 L 216.0,436.7 L 231.6,436.2 L 247.2,435.7 L 262.8,435.2 L 278.4,434.6 L 294.0,433.9 L 309.6,433.1 L 325.2,432.2 L 340.8,431.3 L 356.4,430.2 L 372.0,428.9 L 387.6,427.6 L 403.2,426.0 L 418.8,424.3 L 434.4,422.4 L 450.0,420.2 L 465.6,417.8 L 481.2,415.0 L 496.8,412.0 L 512.4,408.6 L 528.0,404.7 L 543.6,400.4 L 559.2,395.6 L 574.8,390.2 L 590.4,384.2 L 606.0,377.4 L 621.6,369.9 L 637.2,361.4 L 652.8,351.9 L 668.4,341.2 L 684.0,329.3 L 699.6,315.9 L 715.2,300.9 L 730.8,284.2 L 746.4,265.4 L 762.0,244.3 L 777.6,220.7 L 793.2,194.3 L 808.8,164.8 L 824.4,131.6 L 840.0,94.5" fill="none" stroke="#ff0000" stroke-width="3"/>
+    <text x="60" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2024</text>
+    <text x="138" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2029</text>
+    <text x="216" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2034</text>
+    <text x="294" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2039</text>
+    <text x="372" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2044</text>
+    <text x="450" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2049</text>
+    <text x="528" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2054</text>
+    <text x="606" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2059</text>
+    <text x="684" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2064</text>
+    <text x="762" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2069</text>
+    <text x="840" y="460" text-anchor="middle" fill="#888" font-size="11" font-family="monospace">2074</text>
+    <text x="50" y="444" text-anchor="end" fill="#888" font-size="10" font-family="monospace">0T</text>
+    <line x1="60" y1="440" x2="840" y2="440" stroke="#222" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="50" y="349" text-anchor="end" fill="#888" font-size="10" font-family="monospace">642T</text>
+    <line x1="60" y1="345" x2="840" y2="345" stroke="#222" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="50" y="254" text-anchor="end" fill="#888" font-size="10" font-family="monospace">1284T</text>
+    <line x1="60" y1="250" x2="840" y2="250" stroke="#222" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="50" y="159" text-anchor="end" fill="#888" font-size="10" font-family="monospace">1927T</text>
+    <line x1="60" y1="155" x2="840" y2="155" stroke="#222" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="50" y="64" text-anchor="end" fill="#888" font-size="10" font-family="monospace">2569T</text>
+    <line x1="60" y1="60" x2="840" y2="60" stroke="#222" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+    <rect x="720" y="60" width="12" height="12" fill="#ff0000"/>
+    <text x="740" y="71" fill="#ccc" font-size="12" font-family="monospace">Divida Publica</text>
+    <rect x="720" y="85" width="12" height="12" fill="#00cc00"/>
+    <text x="740" y="96" fill="#ccc" font-size="12" font-family="monospace">PIB</text>
+
+    <text x="450.0" y="495" text-anchor="middle" fill="#ff0000" font-size="14" font-family="monospace" font-weight="bold">
+        VEREDITO: IMPOSSIVEL DE PAGAR -- Divida cresce 389.2x em 50 anos
+    </text>
+</svg>

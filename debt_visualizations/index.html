@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Divida Nunca Se Paga -- Prova Matematica</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a; color: #e0e0e0;
+            padding: 20px; max-width: 1200px; margin: 0 auto;
+        }
+        h1 { color: #ff4444; text-align: center; margin: 20px 0; font-size: 2em; }
+        h2 { color: #ff6666; margin: 30px 0 10px; }
+        .verdict {
+            background: #1a0000; border: 3px solid #ff0000;
+            padding: 20px; text-align: center; margin: 20px 0;
+            font-size: 1.5em; color: #ff0000; font-weight: bold;
+        }
+        .proof {
+            background: #1a1100; border: 2px solid #ffaa00;
+            padding: 15px; margin: 15px 0; font-size: 1.1em;
+        }
+        .chart { margin: 20px 0; }
+        .bar-container {
+            display: flex; align-items: center; margin: 4px 0;
+            font-size: 0.85em;
+        }
+        .bar-year { width: 50px; color: #888; }
+        .bar {
+            height: 20px; background: linear-gradient(90deg, #ff4444, #ff0000);
+            transition: width 0.5s; min-width: 2px;
+        }
+        .bar.gdp { background: linear-gradient(90deg, #44ff44, #00aa00); }
+        .bar.interest { background: linear-gradient(90deg, #ffaa00, #ff6600); }
+        .bar-label { margin-left: 8px; color: #aaa; font-size: 0.8em; }
+        table {
+            width: 100%; border-collapse: collapse; margin: 15px 0;
+            font-size: 0.85em;
+        }
+        th, td { border: 1px solid #333; padding: 6px 8px; text-align: center; }
+        th { background: #1a1a1a; color: #ff6666; }
+        td { color: #ccc; }
+        .ponr { background: #330000; color: #ff0000; font-weight: bold; }
+        .numbers { color: #ff4444; font-weight: bold; font-size: 1.2em; }
+        .footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.8em; }
+        .comparison {
+            background: #001a1a; border: 2px solid #00aaaa;
+            padding: 15px; margin: 15px 0;
+        }
+        .comparison-item {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; border-bottom: 1px solid #222;
+        }
+        .comparison-lost { color: #ff4444; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>A DIVIDA NUNCA SE PAGA</h1>
+    <p style="text-align:center; color:#888;">Proof Visual -- Brasil -- Juros Composto vs PIB</p>
+
+    <div class="verdict">
+        VEREDITO: IMPOSSIVEL DE PAGAR
+    </div>
+
+    <div class="proof">
+        <strong>RAZAO:</strong> Juros (12%) cresce mais rapido que PIB (2.5%). GAP = 9.5 pontos percentuais. A divida cresce exponencialmente. O PIB cresce lentamente. A matematica nao mente: a divida NUNCA se paga.
+    </div>
+    
+    <h2>Grafico 1: Divida vs PIB (R$ Trilhoes)</h2>
+    <div class="chart">
+        <div class="bar-container"><span class="bar-year">2024</span><div class="bar" style="width:0.3%"></div><span class="bar-label">R$ 6.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.4%"></div><span class="bar-label">PIB R$ 10.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2025</span><div class="bar" style="width:0.3%"></div><span class="bar-label">R$ 6.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.4%"></div><span class="bar-label">PIB R$ 10.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2026</span><div class="bar" style="width:0.3%"></div><span class="bar-label">R$ 8.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 10.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2027</span><div class="bar" style="width:0.4%"></div><span class="bar-label">R$ 9.1T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 10.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2028</span><div class="bar" style="width:0.4%"></div><span class="bar-label">R$ 10.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 11.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2029</span><div class="bar" style="width:0.5%"></div><span class="bar-label">R$ 11.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 11.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2030</span><div class="bar" style="width:0.6%"></div><span class="bar-label">R$ 13.6T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 11.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2031</span><div class="bar" style="width:0.7%"></div><span class="bar-label">R$ 15.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 11.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2032</span><div class="bar" style="width:0.7%"></div><span class="bar-label">R$ 17.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 12.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2033</span><div class="bar" style="width:0.9%"></div><span class="bar-label">R$ 19.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 12.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2034</span><div class="bar" style="width:1.0%"></div><span class="bar-label">R$ 22.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.5%"></div><span class="bar-label">PIB R$ 12.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2035</span><div class="bar" style="width:1.1%"></div><span class="bar-label">R$ 25.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 13.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2036</span><div class="bar" style="width:1.2%"></div><span class="bar-label">R$ 28.8T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 13.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2037</span><div class="bar" style="width:1.4%"></div><span class="bar-label">R$ 32.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 13.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2038</span><div class="bar" style="width:1.6%"></div><span class="bar-label">R$ 36.6T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 14.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2039</span><div class="bar" style="width:1.8%"></div><span class="bar-label">R$ 41.3T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 14.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2040</span><div class="bar" style="width:2.0%"></div><span class="bar-label">R$ 46.6T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.6%"></div><span class="bar-label">PIB R$ 14.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2041</span><div class="bar" style="width:2.2%"></div><span class="bar-label">R$ 52.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 15.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2042</span><div class="bar" style="width:2.5%"></div><span class="bar-label">R$ 59.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 15.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2043</span><div class="bar" style="width:2.8%"></div><span class="bar-label">R$ 66.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 16.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2044</span><div class="bar" style="width:3.2%"></div><span class="bar-label">R$ 74.7T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 16.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2045</span><div class="bar" style="width:3.6%"></div><span class="bar-label">R$ 84.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 16.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2046</span><div class="bar" style="width:4.0%"></div><span class="bar-label">R$ 94.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.7%"></div><span class="bar-label">PIB R$ 17.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2047</span><div class="bar" style="width:4.5%"></div><span class="bar-label">R$ 106.1T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.8%"></div><span class="bar-label">PIB R$ 17.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2048</span><div class="bar" style="width:5.1%"></div><span class="bar-label">R$ 119.2T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.8%"></div><span class="bar-label">PIB R$ 18.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2049</span><div class="bar" style="width:5.7%"></div><span class="bar-label">R$ 133.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.8%"></div><span class="bar-label">PIB R$ 18.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2050</span><div class="bar" style="width:6.4%"></div><span class="bar-label">R$ 150.3T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.8%"></div><span class="bar-label">PIB R$ 19.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2051</span><div class="bar" style="width:7.2%"></div><span class="bar-label">R$ 168.7T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.8%"></div><span class="bar-label">PIB R$ 19.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2052</span><div class="bar" style="width:8.1%"></div><span class="bar-label">R$ 189.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.9%"></div><span class="bar-label">PIB R$ 20.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2053</span><div class="bar" style="width:9.1%"></div><span class="bar-label">R$ 212.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.9%"></div><span class="bar-label">PIB R$ 20.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2054</span><div class="bar" style="width:10.2%"></div><span class="bar-label">R$ 238.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.9%"></div><span class="bar-label">PIB R$ 21.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2055</span><div class="bar" style="width:11.5%"></div><span class="bar-label">R$ 267.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.9%"></div><span class="bar-label">PIB R$ 21.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2056</span><div class="bar" style="width:12.8%"></div><span class="bar-label">R$ 300.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:0.9%"></div><span class="bar-label">PIB R$ 22.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2057</span><div class="bar" style="width:14.4%"></div><span class="bar-label">R$ 336.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.0%"></div><span class="bar-label">PIB R$ 22.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2058</span><div class="bar" style="width:16.2%"></div><span class="bar-label">R$ 377.2T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.0%"></div><span class="bar-label">PIB R$ 23.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2059</span><div class="bar" style="width:18.1%"></div><span class="bar-label">R$ 423.0T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.0%"></div><span class="bar-label">PIB R$ 23.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2060</span><div class="bar" style="width:20.3%"></div><span class="bar-label">R$ 474.2T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.0%"></div><span class="bar-label">PIB R$ 24.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2061</span><div class="bar" style="width:22.8%"></div><span class="bar-label">R$ 531.6T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.1%"></div><span class="bar-label">PIB R$ 24.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2062</span><div class="bar" style="width:25.5%"></div><span class="bar-label">R$ 595.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.1%"></div><span class="bar-label">PIB R$ 25.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2063</span><div class="bar" style="width:28.6%"></div><span class="bar-label">R$ 667.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.1%"></div><span class="bar-label">PIB R$ 26.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2064</span><div class="bar" style="width:32.1%"></div><span class="bar-label">R$ 748.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.1%"></div><span class="bar-label">PIB R$ 26.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2065</span><div class="bar" style="width:35.9%"></div><span class="bar-label">R$ 838.9T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.2%"></div><span class="bar-label">PIB R$ 27.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2066</span><div class="bar" style="width:40.3%"></div><span class="bar-label">R$ 940.1T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.2%"></div><span class="bar-label">PIB R$ 28.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2067</span><div class="bar" style="width:45.1%"></div><span class="bar-label">R$ 1053.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.2%"></div><span class="bar-label">PIB R$ 28.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2068</span><div class="bar" style="width:50.6%"></div><span class="bar-label">R$ 1180.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.3%"></div><span class="bar-label">PIB R$ 29.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2069</span><div class="bar" style="width:56.6%"></div><span class="bar-label">R$ 1322.8T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.3%"></div><span class="bar-label">PIB R$ 30.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2070</span><div class="bar" style="width:63.5%"></div><span class="bar-label">R$ 1482.1T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.3%"></div><span class="bar-label">PIB R$ 31.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2071</span><div class="bar" style="width:71.1%"></div><span class="bar-label">R$ 1660.6T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.4%"></div><span class="bar-label">PIB R$ 31.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2072</span><div class="bar" style="width:79.7%"></div><span class="bar-label">R$ 1860.5T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.4%"></div><span class="bar-label">PIB R$ 32.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2073</span><div class="bar" style="width:89.3%"></div><span class="bar-label">R$ 2084.4T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.4%"></div><span class="bar-label">PIB R$ 33.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2074</span><div class="bar" style="width:100.0%"></div><span class="bar-label">R$ 2335.2T</span></div>
+        <div class="bar-container"><span class="bar-year"></span><div class="bar gdp" style="width:1.5%"></div><span class="bar-label">PIB R$ 34.4T</span></div>
+        <div style="margin-top:5px;">
+            <span style="color:#ff0000;">&#9608;</span> Divida &nbsp;&nbsp;
+            <span style="color:#00aa00;">&#9608;</span> PIB
+        </div>
+    </div>
+
+    <h2>Grafico 2: Juros Pagos por Ano (R$ Trilhoes)</h2>
+    <div class="chart">
+        <div class="bar-container"><span class="bar-year">2024</span><div class="bar interest" style="width:0.3%"></div><span class="bar-label">R$ 0.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2025</span><div class="bar interest" style="width:0.3%"></div><span class="bar-label">R$ 0.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2026</span><div class="bar interest" style="width:0.3%"></div><span class="bar-label">R$ 0.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2027</span><div class="bar interest" style="width:0.4%"></div><span class="bar-label ponr">R$ 0.9T &lt;&lt;&lt; NAO RETORNO</span></div>
+        <div class="bar-container"><span class="bar-year">2028</span><div class="bar interest" style="width:0.4%"></div><span class="bar-label">R$ 1.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2029</span><div class="bar interest" style="width:0.5%"></div><span class="bar-label">R$ 1.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2030</span><div class="bar interest" style="width:0.6%"></div><span class="bar-label">R$ 1.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2031</span><div class="bar interest" style="width:0.7%"></div><span class="bar-label">R$ 1.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2032</span><div class="bar interest" style="width:0.7%"></div><span class="bar-label">R$ 1.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2033</span><div class="bar interest" style="width:0.8%"></div><span class="bar-label">R$ 2.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2034</span><div class="bar interest" style="width:1.0%"></div><span class="bar-label">R$ 2.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2035</span><div class="bar interest" style="width:1.1%"></div><span class="bar-label">R$ 2.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2036</span><div class="bar interest" style="width:1.2%"></div><span class="bar-label">R$ 3.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2037</span><div class="bar interest" style="width:1.4%"></div><span class="bar-label">R$ 3.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2038</span><div class="bar interest" style="width:1.6%"></div><span class="bar-label">R$ 3.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2039</span><div class="bar interest" style="width:1.8%"></div><span class="bar-label">R$ 4.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2040</span><div class="bar interest" style="width:2.0%"></div><span class="bar-label">R$ 5.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2041</span><div class="bar interest" style="width:2.2%"></div><span class="bar-label">R$ 5.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2042</span><div class="bar interest" style="width:2.5%"></div><span class="bar-label">R$ 6.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2043</span><div class="bar interest" style="width:2.8%"></div><span class="bar-label">R$ 7.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2044</span><div class="bar interest" style="width:3.2%"></div><span class="bar-label">R$ 8.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2045</span><div class="bar interest" style="width:3.6%"></div><span class="bar-label">R$ 9.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2046</span><div class="bar interest" style="width:4.0%"></div><span class="bar-label">R$ 10.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2047</span><div class="bar interest" style="width:4.5%"></div><span class="bar-label">R$ 11.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2048</span><div class="bar interest" style="width:5.1%"></div><span class="bar-label">R$ 12.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2049</span><div class="bar interest" style="width:5.7%"></div><span class="bar-label">R$ 14.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2050</span><div class="bar interest" style="width:6.4%"></div><span class="bar-label">R$ 16.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2051</span><div class="bar interest" style="width:7.2%"></div><span class="bar-label">R$ 18.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2052</span><div class="bar interest" style="width:8.1%"></div><span class="bar-label">R$ 20.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2053</span><div class="bar interest" style="width:9.1%"></div><span class="bar-label">R$ 22.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2054</span><div class="bar interest" style="width:10.2%"></div><span class="bar-label">R$ 25.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2055</span><div class="bar interest" style="width:11.4%"></div><span class="bar-label">R$ 28.6T</span></div>
+        <div class="bar-container"><span class="bar-year">2056</span><div class="bar interest" style="width:12.8%"></div><span class="bar-label">R$ 32.1T</span></div>
+        <div class="bar-container"><span class="bar-year">2057</span><div class="bar interest" style="width:14.4%"></div><span class="bar-label">R$ 36.0T</span></div>
+        <div class="bar-container"><span class="bar-year">2058</span><div class="bar interest" style="width:16.1%"></div><span class="bar-label">R$ 40.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2059</span><div class="bar interest" style="width:18.1%"></div><span class="bar-label">R$ 45.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2060</span><div class="bar interest" style="width:20.3%"></div><span class="bar-label">R$ 50.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2061</span><div class="bar interest" style="width:22.7%"></div><span class="bar-label">R$ 56.9T</span></div>
+        <div class="bar-container"><span class="bar-year">2062</span><div class="bar interest" style="width:25.5%"></div><span class="bar-label">R$ 63.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2063</span><div class="bar interest" style="width:28.6%"></div><span class="bar-label">R$ 71.5T</span></div>
+        <div class="bar-container"><span class="bar-year">2064</span><div class="bar interest" style="width:32.0%"></div><span class="bar-label">R$ 80.2T</span></div>
+        <div class="bar-container"><span class="bar-year">2065</span><div class="bar interest" style="width:35.9%"></div><span class="bar-label">R$ 89.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2066</span><div class="bar interest" style="width:40.2%"></div><span class="bar-label">R$ 100.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2067</span><div class="bar interest" style="width:45.1%"></div><span class="bar-label">R$ 112.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2068</span><div class="bar interest" style="width:50.5%"></div><span class="bar-label">R$ 126.4T</span></div>
+        <div class="bar-container"><span class="bar-year">2069</span><div class="bar interest" style="width:56.6%"></div><span class="bar-label">R$ 141.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2070</span><div class="bar interest" style="width:63.5%"></div><span class="bar-label">R$ 158.7T</span></div>
+        <div class="bar-container"><span class="bar-year">2071</span><div class="bar interest" style="width:71.1%"></div><span class="bar-label">R$ 177.8T</span></div>
+        <div class="bar-container"><span class="bar-year">2072</span><div class="bar interest" style="width:79.7%"></div><span class="bar-label">R$ 199.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2073</span><div class="bar interest" style="width:89.3%"></div><span class="bar-label">R$ 223.3T</span></div>
+        <div class="bar-container"><span class="bar-year">2074</span><div class="bar interest" style="width:100.0%"></div><span class="bar-label">R$ 250.1T</span></div>
+    </div>
+
+    <h2>Tabela Completa</h2>
+    <table>
+        <tr><th>Ano</th><th>Divida (R$ T)</th><th>PIB (R$ T)</th><th>Div/PIB %</th><th>Juros/Ano (R$ T)</th><th>Juros/Receita %</th><th>Per Capita (R$)</th></tr>
+        <tr><td>2024</td><td>6.0</td><td>10.0</td><td>60.0</td><td>0.7</td><td>40.0</td><td>27,907</td></tr>
+        <tr><td>2025</td><td>6.9</td><td>10.2</td><td>67.5</td><td>0.7</td><td>40.0</td><td>32,186</td></tr>
+        <tr><td>2026</td><td>8.0</td><td>10.5</td><td>75.7</td><td>0.8</td><td>45.0</td><td>37,002</td></tr>
+        <tr class="ponr"><td>2027</td><td>9.1</td><td>10.8</td><td>84.7</td><td>1.0</td><td>50.5</td><td>42,419</td></tr>
+        <tr><td>2028</td><td>10.4</td><td>11.0</td><td>94.5</td><td>1.1</td><td>56.5</td><td>48,511</td></tr>
+        <tr><td>2029</td><td>11.9</td><td>11.3</td><td>105.2</td><td>1.3</td><td>63.0</td><td>55,360</td></tr>
+        <tr><td>2030</td><td>13.6</td><td>11.6</td><td>116.9</td><td>1.4</td><td>70.1</td><td>63,055</td></tr>
+        <tr><td>2031</td><td>15.4</td><td>11.9</td><td>129.7</td><td>1.6</td><td>77.9</td><td>71,701</td></tr>
+        <tr><td>2032</td><td>17.5</td><td>12.2</td><td>143.7</td><td>1.8</td><td>86.5</td><td>81,411</td></tr>
+        <tr><td>2033</td><td>19.8</td><td>12.5</td><td>158.9</td><td>2.1</td><td>95.8</td><td>92,313</td></tr>
+        <tr><td>2034</td><td>22.5</td><td>12.8</td><td>175.6</td><td>2.4</td><td>105.9</td><td>104,553</td></tr>
+        <tr><td>2035</td><td>25.4</td><td>13.1</td><td>193.8</td><td>2.7</td><td>117.1</td><td>118,290</td></tr>
+        <tr><td>2036</td><td>28.7</td><td>13.4</td><td>213.7</td><td>3.1</td><td>129.2</td><td>133,705</td></tr>
+        <tr><td>2037</td><td>32.5</td><td>13.8</td><td>235.5</td><td>3.4</td><td>142.5</td><td>151,001</td></tr>
+        <tr><td>2038</td><td>36.6</td><td>14.1</td><td>259.3</td><td>3.9</td><td>157.0</td><td>170,403</td></tr>
+        <tr><td>2039</td><td>41.3</td><td>14.5</td><td>285.3</td><td>4.4</td><td>172.9</td><td>192,166</td></tr>
+        <tr><td>2040</td><td>46.6</td><td>14.8</td><td>313.7</td><td>5.0</td><td>190.2</td><td>216,573</td></tr>
+        <tr><td>2041</td><td>52.4</td><td>15.2</td><td>344.7</td><td>5.6</td><td>209.1</td><td>243,943</td></tr>
+        <tr><td>2042</td><td>59.0</td><td>15.6</td><td>378.6</td><td>6.3</td><td>229.8</td><td>274,631</td></tr>
+        <tr><td>2043</td><td>66.4</td><td>16.0</td><td>415.6</td><td>7.1</td><td>252.4</td><td>309,038</td></tr>
+        <tr><td>2044</td><td>74.7</td><td>16.4</td><td>456.1</td><td>8.0</td><td>277.1</td><td>347,609</td></tr>
+        <tr><td>2045</td><td>84.0</td><td>16.8</td><td>500.3</td><td>9.0</td><td>304.1</td><td>390,847</td></tr>
+        <tr><td>2046</td><td>94.5</td><td>17.2</td><td>548.6</td><td>10.1</td><td>333.5</td><td>439,311</td></tr>
+        <tr><td>2047</td><td>106.1</td><td>17.6</td><td>601.4</td><td>11.3</td><td>365.8</td><td>493,630</td></tr>
+        <tr><td>2048</td><td>119.2</td><td>18.1</td><td>659.1</td><td>12.7</td><td>401.0</td><td>554,507</td></tr>
+        <tr><td>2049</td><td>133.9</td><td>18.5</td><td>722.2</td><td>14.3</td><td>439.4</td><td>622,730</td></tr>
+        <tr><td>2050</td><td>150.3</td><td>19.0</td><td>791.1</td><td>16.1</td><td>481.4</td><td>699,182</td></tr>
+        <tr><td>2051</td><td>168.7</td><td>19.5</td><td>866.3</td><td>18.0</td><td>527.4</td><td>784,852</td></tr>
+        <tr><td>2052</td><td>189.4</td><td>20.0</td><td>948.6</td><td>20.2</td><td>577.6</td><td>880,846</td></tr>
+        <tr><td>2053</td><td>212.5</td><td>20.5</td><td>1038.4</td><td>22.7</td><td>632.4</td><td>988,405</td></tr>
+        <tr><td>2054</td><td>238.4</td><td>21.0</td><td>1136.6</td><td>25.5</td><td>692.3</td><td>1,108,917</td></tr>
+        <tr><td>2055</td><td>267.4</td><td>21.5</td><td>1243.9</td><td>28.6</td><td>757.8</td><td>1,243,938</td></tr>
+        <tr><td>2056</td><td>300.0</td><td>22.0</td><td>1361.2</td><td>32.1</td><td>829.3</td><td>1,395,211</td></tr>
+        <tr><td>2057</td><td>336.4</td><td>22.6</td><td>1489.3</td><td>36.0</td><td>907.5</td><td>1,564,686</td></tr>
+        <tr><td>2058</td><td>377.2</td><td>23.2</td><td>1629.3</td><td>40.4</td><td>992.9</td><td>1,754,550</td></tr>
+        <tr><td>2059</td><td>423.0</td><td>23.7</td><td>1782.2</td><td>45.3</td><td>1086.2</td><td>1,967,249</td></tr>
+        <tr><td>2060</td><td>474.2</td><td>24.3</td><td>1949.4</td><td>50.8</td><td>1188.2</td><td>2,205,527</td></tr>
+        <tr><td>2061</td><td>531.6</td><td>24.9</td><td>2132.0</td><td>56.9</td><td>1299.6</td><td>2,472,453</td></tr>
+        <tr><td>2062</td><td>595.9</td><td>25.6</td><td>2331.5</td><td>63.8</td><td>1421.3</td><td>2,771,467</td></tr>
+        <tr><td>2063</td><td>667.9</td><td>26.2</td><td>2549.6</td><td>71.5</td><td>1554.4</td><td>3,106,420</td></tr>
+        <tr><td>2064</td><td>748.5</td><td>26.9</td><td>2787.8</td><td>80.1</td><td>1699.7</td><td>3,481,627</td></tr>
+        <tr><td>2065</td><td>838.9</td><td>27.5</td><td>3048.2</td><td>89.8</td><td>1858.6</td><td>3,901,920</td></tr>
+        <tr><td>2066</td><td>940.1</td><td>28.2</td><td>3332.6</td><td>100.7</td><td>2032.1</td><td>4,372,711</td></tr>
+        <tr><td>2067</td><td>1053.5</td><td>28.9</td><td>3643.5</td><td>112.8</td><td>2221.8</td><td>4,900,060</td></tr>
+        <tr><td>2068</td><td>1180.5</td><td>29.6</td><td>3983.1</td><td>126.4</td><td>2429.0</td><td>5,490,757</td></tr>
+        <tr><td>2069</td><td>1322.8</td><td>30.4</td><td>4354.2</td><td>141.7</td><td>2655.4</td><td>6,152,405</td></tr>
+        <tr><td>2070</td><td>1482.1</td><td>31.1</td><td>4759.7</td><td>158.7</td><td>2902.8</td><td>6,893,520</td></tr>
+        <tr><td>2071</td><td>1660.6</td><td>31.9</td><td>5202.8</td><td>177.9</td><td>3173.1</td><td>7,723,639</td></tr>
+        <tr><td>2072</td><td>1860.5</td><td>32.7</td><td>5687.0</td><td>199.3</td><td>3468.5</td><td>8,653,444</td></tr>
+        <tr><td>2073</td><td>2084.4</td><td>33.5</td><td>6216.0</td><td>223.3</td><td>3791.3</td><td>9,694,901</td></tr>
+        <tr><td>2074</td><td>2335.2</td><td>34.4</td><td>6794.1</td><td>250.1</td><td>4144.0</td><td>10,861,408</td></tr>
+    </table>
+
+    <h2>Os Numeros da Morte</h2>
+    <div class="comparison">
+        <div class="comparison-item">
+            <span>Divida inicial:</span>
+            <span class="numbers">R$ 6.0 trilhoes</span>
+        </div>
+        <div class="comparison-item">
+            <span>Divida em 2074:</span>
+            <span class="numbers">R$ 2335.2 trilhoes</span>
+        </div>
+        <div class="comparison-item">
+            <span>Cresceu:</span>
+            <span class="numbers">389.2x</span>
+        </div>
+        <div class="comparison-item">
+            <span>Total de juros pagos em 51 anos:</span>
+            <span class="comparison-lost">R$ 2310.4 trilhoes</span>
+        </div>
+        <div class="comparison-item">
+            <span>Isso e QUANTAS VEZES a divida inicial:</span>
+            <span class="comparison-lost">385.1x</span>
+        </div>
+        <div class="comparison-item">
+            <span>Juros pagos por cada brasileiro (total):</span>
+            <span class="comparison-lost">R$ 10,746,167</span>
+        </div>
+    </div>
+
+    <h2>O Que o Brasil Perdeu Pagando Juros</h2>
+    <div class="comparison">
+        <div class="comparison-item"><span>Escolas publicas de qualidade (R$ 5M cada):</span><span class="comparison-lost">462,085,183</span></div>
+        <div class="comparison-item"><span>Hospitais completos (R$ 50M cada):</span><span class="comparison-lost">46,208,518</span></div>
+        <div class="comparison-item"><span>Casas populares (R$ 80 mil cada):</span><span class="comparison-lost">28,880,323,921</span></div>
+        <div class="comparison-item"><span>Bolsas universitarias (R$ 2 mil/mes):</span><span class="comparison-lost">96,267,746,403</span></div>
+        <div class="comparison-item"><span>Bolsa Familia anual por pessoa (R$ 6 mil):</span><span class="comparison-lost">385,070,985,611</span></div>
+        <div class="comparison-item"><span>km de ferrovia (R$ 20M/km):</span><span class="comparison-lost">115,521,296</span></div>
+    </div>
+
+    <div class="verdict" style="font-size:1.2em;">
+        PONTO DE NAO RETORNO: 2027
+    </div>
+    <div class="proof">
+        No ano 2027, os juros da divida (50.5% da receita) superaram METADE de tudo que o governo arrecada. A partir daqui, e matematicamente impossivel pagar.
+    </div>
+
+    <div class="footer">
+        OpenDebtAbolition -- A prova matematica visual de que a divida nunca se paga.<br>
+        A divida nao e um emprestimo. E uma CORRENTE. O juros nao e uma taxa. E um SANGUESSUGA.<br>
+        OpenRepublic -- Extincao da divida = Extincao da escravidao moderna.
+    </div>
+</body>
+</html>
