@@ -640,6 +640,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["pentest.voice", "pentest.scan", "pentest.report", "pentest.ethics"],
         [],
         ["open-voice-terminal-bridge", "open-big-linux", "open-iara"], 1146)
+    mod("open-ambient-sound", "OpenAmbientSoundAI", ModuleCategory.PRODUCTIVITY,
+        ["a11y.listen", "a11y.alert", "a11y.escalate", "a11y.ambient"],
+        [],
+        ["open-iara", "open-voice-os-control", "open-accessibility-hardware-specs"], 881)
     return registry
 # ============================================================================
 # 5. MAIN
