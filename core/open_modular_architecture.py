@@ -648,6 +648,11 @@ def build_republic_catalog() -> ModuleRegistry:
         ["a11y.caption", "a11y.transcribe", "a11y.cc", "a11y.subtitle"],
         [],
         ["open-ambient-sound", "open-iara", "open-big-linux"], 794)
+    mod("open-voice-pipeline", "OpenVoicePipeline", ModuleCategory.CORE,
+        ["pipeline.layers", "pipeline.cascade", "pipeline.optimize", "pipeline.benchmark"],
+        [],
+        ["open-iara", "open-voice-os-control", "open-voice-terminal-bridge",
+         "open-voice-pentest", "open-universal-caption", "open-ambient-sound"], 918)
     return registry
 # ============================================================================
 # 5. MAIN
