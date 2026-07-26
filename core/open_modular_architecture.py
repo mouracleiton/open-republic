@@ -592,6 +592,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["agrarian.abolish", "agrarian.guardian", "agrarian.cooperative", "agrarian.conflict"],
         ["credit.recognize", "assembly.decide"],
         ["open-credit", "open-constituent-assembly", "open-communities"], 788)
+    mod("open-anti-polarization", "OpenAntiPolarization", ModuleCategory.GOVERNANCE,
+        ["p9.gate", "polarization.detect", "polarization.audit", "polarization.protocol"],
+        ["assembly.vote", "policy.propose"],
+        ["open-constituent-assembly", "open-democracy", "open-community-leaders"], 762)
     return registry
 # ============================================================================
 # 5. MAIN
