@@ -596,6 +596,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["p9.gate", "polarization.detect", "polarization.audit", "polarization.protocol"],
         ["assembly.vote", "policy.propose"],
         ["open-constituent-assembly", "open-democracy", "open-community-leaders"], 762)
+    mod("open-energy", "OpenEnergy", ModuleCategory.INFRASTRUCTURE,
+        ["energy.generate", "energy.store", "energy.allocate", "energy.donate"],
+        ["assembly.decide"],
+        ["open-decentralized-infra", "open-communities", "open-constituent-assembly"], 731)
     return registry
 # ============================================================================
 # 5. MAIN
