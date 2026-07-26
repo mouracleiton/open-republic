@@ -661,6 +661,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["a11y.shim", "a11y.ocr", "a11y.contrast", "a11y.inject"],
         [],
         ["open-universal-caption", "open-iara", "open-accessibility-hardware-specs"], 837)
+    mod("open-clipboard-intelligence", "OpenClipboardIntelligence", ModuleCategory.PRODUCTIVITY,
+        ["clipboard.capture", "clipboard.expand", "clipboard.validate", "clipboard.inject"],
+        [],
+        ["open-iara", "open-voice-os-control", "open-accessibility-shim"], 864)
     return registry
 # ============================================================================
 # 5. MAIN
