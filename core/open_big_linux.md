@@ -28,7 +28,10 @@ O QUE A REPUBLICA MUDA NO KALI:
    Orca, espeak-ng, brltty, at-spi2 instalados e ATIVOS.
    Kali puro nao tem isso. A Republica adiciona.
 3. IA LOCAL INSTALADA:
-   Whisper.cpp (transcricao), Piper (TTS pt-BR), llama.cpp (LLM local).
+   Vosk (comando de voz ~50ms), Whisper.cpp (ditado/transcricao),
+   Piper (TTS pt-BR), Kokoro+Chatterbox (voz Iara), llama.cpp (LLM local),
+   tldr-pages (documentacao acessivel de ~6000 comandos).
+   Arquitetura dual-STT: Vosk no gatilho, Whisper no aprofundamento.
    Tudo rodando no processador da Republica (RISC-V ou x86).
 4. STACK DA REPUBLICA INSTALADA:
    republica-telefonista, republica-ide, republica-energy,
@@ -86,7 +89,10 @@ O QUE A REPUBLICA MUDA NO KALI:
    Kali puro nao tem isso. A Republica adiciona.
 
 3. IA LOCAL INSTALADA:
-   Whisper.cpp (transcricao), Piper (TTS pt-BR), llama.cpp (LLM local).
+   Vosk (comando de voz ~50ms), Whisper.cpp (ditado/transcricao),
+   Piper (TTS pt-BR), Kokoro+Chatterbox (voz Iara), llama.cpp (LLM local),
+   tldr-pages (documentacao acessivel de ~6000 comandos).
+   Arquitetura dual-STT: Vosk no gatilho, Whisper no aprofundamento.
    Tudo rodando no processador da Republica (RISC-V ou x86).
 
 4. STACK DA REPUBLICA INSTALADA:
@@ -184,13 +190,17 @@ classe TipoFerramentaAcessibilidade herda de Enum:
 
 classe TipoIAlocal herda de Enum:
     // Modelos de IA que rodam localmente na distro.
-    WHISPER <- ("whisper", "Whisper.cpp -- transcricao de audio em tempo real")
+    VOSK <- ("vosk", "Vosk -- STT leve (~50ms) para hotword + comandos curtos")
+    WHISPER <- ("whisper", "Whisper.cpp -- STT preciso (~500ms-2s) para ditado longo")
     PIPER <- ("piper", "Piper TTS -- sintese de voz em pt-BR offline")
     LLAMA <- ("llama", "llama.cpp -- LLM local (sem nuvem, sem Big Tech)")
     LLAVA <- ("llava", "LLaVA -- visao computacional (descricao de cena)")
     COQUI <- ("coqui", "Coqui TTS -- clonagem de voz para Telefonista")
+    KOKORO <- ("kokoro", "Kokoro TTS -- voz natural para Iara (conversa)")
+    CHATTERBOX <- ("chatterbox", "Chatterbox TTS -- voz humana para Iara (conversa)")
     FACE_DETECT <- ("face_detect", "Detecao facial (reconhecimento de pessoas para cegos)")
     SOUND_DETECT <- ("sound_detect", "Classificacao de sons ambiente (sirene, porta, choro)")
+    TLDR <- ("tldr", "tldr-pages -- documentacao acessivel de ~6000 comandos")
 
     // decorador: @property
     funcao id(self) retorna str:
@@ -370,18 +380,30 @@ funcao _init_pacotes_acessibilidade() retorna List[PacoteDistro]:
 
 funcao _init_pacotes_ia_local() retorna List[PacoteDistro]:
     retorne [
+        PacoteDistro("vosk", CamadaDistro.IA_LOCAL,
+            "STT leve (~50ms). Hotword + comandos curtos. Roda em qualquer hardware.",
+            StatusPacote.PENDENTE, "pip install vosk", ["libsoundio-dev"], 50),
         PacoteDistro("whisper.cpp", CamadaDistro.IA_LOCAL,
-            "Transcricao de audio em tempo real (OpenAI Whisper, local). Surdo le legenda.",
+            "STT preciso (~500ms-2s). Ditado longo + transcricao. Arquitetura dual-STT com Vosk.",
             StatusPacote.PENDENTE, "git clone whisper.cpp && make", ["ffmpeg"], 500),
         PacoteDistro("piper", CamadaDistro.IA_LOCAL,
             "Sintese de voz TTS em pt-BR offline. Cego ouve texto.",
             StatusPacote.PENDENTE, "pip install piper-tts", ["espeak-ng"], 200),
+        PacoteDistro("kokoro", CamadaDistro.IA_LOCAL,
+            "TTS voz natural para Iara (conversa humana). Offline.",
+            StatusPacote.PENDENTE, "pip install kokoro", ["onnxruntime"], 300),
+        PacoteDistro("chatterbox", CamadaDistro.IA_LOCAL,
+            "TTS voz humana para Iara (conversa). Clonagem de voz emocional.",
+            StatusPacote.PENDENTE, "pip install chatterbox-tts", ["torch"], 800),
         PacoteDistro("llama.cpp", CamadaDistro.IA_LOCAL,
             "LLM local. Roda modelos de linguagem sem nuvem, sem Big Tech.",
             StatusPacote.PENDENTE, "git clone llama.cpp && make", [], 1000),
         PacoteDistro("llava", CamadaDistro.IA_LOCAL,
             "Visao computacional. Descricao de cena via webcam para cegos.",
             StatusPacote.PENDENTE, "git clone llava && pip install -e .", ["llama.cpp"], 2000),
+        PacoteDistro("tldr-pages", CamadaDistro.IA_LOCAL,
+            "Documentacao acessivel de ~6000 comandos. Substitui man pages para cidadaos.",
+            StatusPacote.PENDENTE, "git clone tldr-pages /usr/share/republica/tldr", [], 50),
     ]
 
 
@@ -403,6 +425,10 @@ funcao _init_pacotes_republica() retorna List[PacoteDistro]:
             "Stack de acessibilidade completa. Cego, surdo, tetraplegico, TEA.",
             StatusPacote.PENDENTE, "apt install republica-accessibility",
             ["orca", "brltty", "espeak-ng"], 80),
+        PacoteDistro("republica-command-reference", CamadaDistro.REPUBLICA,
+            "Documentacao acessivel de comandos (tldr + Vosk + output adaptativo).",
+            StatusPacote.PENDENTE, "apt install republica-command-reference",
+            ["vosk", "tldr-pages", "chatterbox"], 100),
     ]
 
 
@@ -673,6 +699,37 @@ funcao _demo() retorna None:
      - Stack da Republica instalada
   7. reiniciar
   8. Republica rodando. Com seguranca. Com acessibilidade. Com IA local.
+// )
+
+    // --- Dual-STT + Voz ---
+    print("\n[ARQUITETURA DUAL-STT -- Vosk + Whisper]")
+    print("""  Vosk (leve, ~50ms):
+    - Hotword "ajuda" + comandos curtos ("ajuda tar", "parar audio")
+    - Roda em Raspberry Pi, maquina doada, hardware minimo
+    - Sempre ativo. E o GATILHO do sistema de voz.
+
+  Whisper.cpp (preciso, ~500ms-2s):
+    - Ditado longo, transcricao de audio/video
+    - Ativado sob demanda ou quando Vosk falha
+    - Mais preciso, mas pesado. Precisa de CPU decente.
+
+  Regra: Vosk primeiro. Whisper se necessario. Nunca o contrario.
+
+  Pipeline: Microfone -> Vosk (50ms) -> intent detectado
+                              |-> comando curto: executar
+                              |-> ditado longo: passar para Whisper
+// )
+
+    print("[DOCUMENTACAO ACESSIVEL -- tldr + Vosk + Iara]")
+    print("""  Modulo: open_command_reference.py (republica-command-reference)
+
+  Fluxo: "ajuda tar" (voz) -> Vosk reconhece -> busca tldr
+         -> Iara fala exemplos (Chatterbox)
+         -> Orca expoe via AT-SPI (navegacao por tab)
+         -> Brltty exibe em braille (tetraplegico)
+
+  Substitui man pages. man tar = 2000 linhas (40min de Orca).
+  tldr tar <- 8 exemplos (30s de Iara). CIDADAOS > ESPECIALISTAS.
 // )
 
     // --- Scorecard ---
