@@ -628,6 +628,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["voice.command", "voice.dictation", "voice.reading", "voice.system"],
         [],
         ["open-telefonista", "open-inclusive-ide", "open-big-linux"], 890)
+    mod("open-iara", "OpenIara", ModuleCategory.CORE,
+        ["iara.overlay", "iara.tutor", "iara.jarvis", "iara.wm"],
+        [],
+        ["open-telefonista", "open-voice-os-control", "open-big-linux", "open-inclusive-ide"], 924)
     return registry
 # ============================================================================
 # 5. MAIN
