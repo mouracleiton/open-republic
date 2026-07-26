@@ -747,6 +747,130 @@ def _demo() -> None:
     print(f"  {'Nivel':.<40} {aval_a.nivel.id:>10} {aval_b.nivel.id:>12}")
     print(f"  {'Veredito':.<40} {aval_a.veredito.id:>10} {aval_b.veredito.id:>12}")
 
+    # --- Catalogo historico: corrupcao no Brasil NAO e de um lado so ---
+    print("\n" + "=" * 70)
+    print("[HISTORICO -- A corrupcao no Brasil NAO e de um lado so]")
+    print("=" * 70)
+    print("""
+  O Operador (PT/Lula): score 0 -- INACEITAVEL.
+    Waldomiro Diniz (2004), Mensalao (2005), Aloprados (2006),
+    Petrolao/Lava Jato (2014), BNDES (2007-2016),
+    Fraudes no INSS (2025), Crises ministeriais/Codevasf (2023-2026).
+
+  O Polarizador (Bolsonaro): score 40 -- PREOCUPANTE.
+    Rachadinha familiar, gabinete do odio, ataques a instituicoes.
+
+  MAS A CORRUPCAO BRASILEIRA E MAIS ANTIGA QUE O PT:
+
+  O Renegado (Collor, 1992): IMPEACHMENT por corrupcao.
+    Denunciado pelo PROPRIO IRMAO (Pedro Collor). Esquema de PC Farias,
+    extorsao de empresarios, uso de conta fantasma. Primeiro presidente
+    eleito por voto direto apos a ditadura -- e o primeiro CASSADO.
+    Score simulado: baixo. Corrupcao COMPROVADA + personalismo extremo.
+
+  O Cartorio (Anoes do Orcamento, 1993):
+    Grupo de parlamentares desviava verbas publicas do orcamento da Uniao.
+    Nome vem da fraudem no 'orcamento secreto' -- emendas sem destinacao
+    clara, desviadas para bolso de deputados. Escandalo que revelou que
+    o Congresso operava como caixa eletronico.
+    Nao e um sujeito -- e um SISTEMA. A Republica o combate.
+
+  A DITADURA MILITAR (1964-1985):
+    A corrupcao durante o regime militar nao foi investigada -- foi
+    PROTEGIDA pela ausencia de democracia. Sem P4 (transparencia radical),
+    nao ha corrupcao VISIVEL porque nao ha imprensa livre, nem Congresso,
+    nem judiciario independente. A corrupcao da ditadura e a mais grave
+    de todas: a que NUNCA foi contada. Billioes em comissoes de obras
+    faraonicas (Transamazonica, Itaipu, Angra), nepotismo, terrorismo
+    de Estado financiado com dinheiro publico.
+
+  ATESE DO HISTORICO:
+    A corrupcao brasileira e SISTEMICA, nao partidaria.
+    Collor (centro-direita), PT (esquerda), Bolsonaro (extrema-direita),
+    e a ditadura (militar) -- TODOS corromperam.
+    A Republica NAO herda nenhuma destas tradicoes.
+    Ela COMECA DO ZERO: processo limpo, voto = deliberacao, sem aparelho.
+""")
+
+    # --- Simulacao dos sujeitos historicos adicionais ---
+
+    # Collor
+    indicadores_collor: List[IndicadorPolitico] = [
+        IndicadorPolitico(
+            tipo=TipoIndicador.CORRUPCAO_SISTEMICA,
+            descricao="Esquema PC Farias: extorsao sistemica de empresarios, conta fantasma, desvio de dinheiro publico.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=5,
+            periodo="1990-1992",
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.USO_APARELHO_PUBLICO,
+            descricao="Uso da presidencia para beneficio pessoal e politico. Nomeacoes por lealdade, nao merito.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=3,
+            periodo="1990-1992",
+            metodos=[MetodoManipulacao.APARELHO_ELEITORAL],
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.PERSONALISMO,
+            descricao="Personalismo extremo. Denunciado pelo PROPRIO IRMAO (Pedro Collor). Sem rede de apoio institucional.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=1,
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.VIOLACAO_PRINCIPIOS,
+            descricao="Plano Collor: confisco de poupanca. Violacao de contrato e propriedade privada.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=1,
+            periodo="1990",
+        ),
+    ]
+    aval_collor = e.avaliar(
+        sujeito="O Renegado (Collor)",
+        cargo="Presidente (impeachado 1992)",
+        mandatos=1,
+        indicadores=indicadores_collor,
+    )
+    print(f"\n  [HISTORICO] O Renegado (Collor): score {aval_collor.score}/100 "
+          f"({aval_collor.nivel.id}) -- {aval_collor.veredito.id}")
+
+    # Anoes do Orcamento (sistema, nao sujeito individual)
+    indicadores_anoes: List[IndicadorPolitico] = [
+        IndicadorPolitico(
+            tipo=TipoIndicador.CORRUPCAO_SISTEMICA,
+            descricao="Anoes do Orcamento (1993): parlamentares desviavam verbas do orcamento da Uniao via emendas secretas. Congresso como caixa eletronico.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=7,
+            periodo="1993",
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.OPACIDADE,
+            descricao="Orcamento secreto: emendas sem destinacao clara, sem transparencia, sem auditoria. A opacidade ERA o mecanismo.",
+            grau_evidencia=GraveEvidencia.COMPROVADO_JUDICIAL,
+            ocorrencias=10,
+        ),
+    ]
+    aval_anoes = e.avaliar(
+        sujeito="O Cartorio (Anoes do Orcamento)",
+        cargo="Sistema congressual (1993)",
+        mandatos=0,
+        indicadores=indicadores_anoes,
+    )
+    print(f"  [HISTORICO] O Cartorio (Anoes): score {aval_anoes.score}/100 "
+          f"({aval_anoes.nivel.id}) -- {aval_anoes.veredito.id}")
+
+    # --- Tabela historica amplificada ---
+    print("\n[TABELA HISTORICA -- Scores de confiabilidade]")
+    print(f"  {'Sujeito':.<35} {'Score':>6} {'Nivel':>12} {'Veredito':>12}")
+    print(f"  {'-'*67}")
+    for aval, nome_curto in [
+        (aval_a, "O Operador (PT/Lula)"),
+        (aval_b, "O Polarizador (Bolsonaro)"),
+        (aval_collor, "O Renegado (Collor)"),
+        (aval_anoes, "O Cartorio (Anoes 1993)"),
+    ]:
+        print(f"  {nome_curto:.<35} {aval.score:>6} {aval.nivel.id:>12} {aval.veredito.id:>12}")
+
     # --- FILOSOFIA ---
     print("\n" + "=" * 70)
     print("FILOSOFIA -- A Republica nao escolhe o 'menos pior'")
