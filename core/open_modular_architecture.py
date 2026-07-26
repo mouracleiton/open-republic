@@ -657,6 +657,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["auth.adaptive", "auth.evdev", "auth.multifator", "auth.accessible"],
         [],
         ["open-accessibility-hardware-specs", "open-big-linux", "open-iara"], 920)
+    mod("open-accessibility-shim", "OpenAccessibilityShim", ModuleCategory.PRODUCTIVITY,
+        ["a11y.shim", "a11y.ocr", "a11y.contrast", "a11y.inject"],
+        [],
+        ["open-universal-caption", "open-iara", "open-accessibility-hardware-specs"], 837)
     return registry
 # ============================================================================
 # 5. MAIN
