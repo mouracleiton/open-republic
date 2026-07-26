@@ -588,6 +588,10 @@ def build_republic_catalog() -> ModuleRegistry:
     mod("open-x", "OpenX", ModuleCategory.SOCIAL,
         ["x.strategy"],
         [], [], 180)
+    mod("open-agrarian-revolution", "OpenAgrarianRevolution", ModuleCategory.HABITAT,
+        ["agrarian.abolish", "agrarian.guardian", "agrarian.cooperative", "agrarian.conflict"],
+        ["credit.recognize", "assembly.decide"],
+        ["open-credit", "open-constituent-assembly", "open-communities"], 788)
     return registry
 # ============================================================================
 # 5. MAIN
