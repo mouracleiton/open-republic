@@ -612,6 +612,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["sovereign.gps", "sovereign.riscv", "sovereign.network", "sovereign.test", "sovereign.lockin"],
         [],
         ["open-decentralized-infra", "open-energy", "open-cryptography"], 735)
+    mod("open-accessibility-hardware-specs", "OpenAccessibilityHardwareSpecs", ModuleCategory.INFRASTRUCTURE,
+        ["a11y.spec", "a11y.catalog", "a11y.verify", "a11y.recommend"],
+        [],
+        ["open-inclusive-hardware", "open-telefonista", "open-inclusive-ide", "open-sovereign-tech"], 1204)
     return registry
 # ============================================================================
 # 5. MAIN
