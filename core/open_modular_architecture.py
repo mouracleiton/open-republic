@@ -604,6 +604,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["energy.taxonomy", "energy.diagnose", "energy.coverage"],
         [],
         ["open-energy", "open-athlete", "open-telefonista", "open-human-knowledge"], 875)
+    mod("open-political-reliability", "OpenPoliticalReliability", ModuleCategory.GOVERNANCE,
+        ["reliability.score", "reliability.audit", "reliability.simulate", "reliability.compare"],
+        ["assembly.vote", "p9.gate"],
+        ["open-anti-polarization", "open-democracy", "open-constituent-assembly"], 701)
     return registry
 # ============================================================================
 # 5. MAIN
