@@ -616,6 +616,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["a11y.spec", "a11y.catalog", "a11y.verify", "a11y.recommend"],
         [],
         ["open-inclusive-hardware", "open-telefonista", "open-inclusive-ide", "open-sovereign-tech"], 1204)
+    mod("open-unified-codebase", "OpenUnifiedCodebase", ModuleCategory.CORE,
+        ["codebase.unify", "codebase.transpile", "codebase.channel", "codebase.matrix"],
+        [],
+        ["open-sovereign-tech", "open-accessibility-hardware-specs", "open-modular-architecture"], 728)
     return registry
 # ============================================================================
 # 5. MAIN
