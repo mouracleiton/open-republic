@@ -58,6 +58,9 @@ class TipoIndicador(Enum):
     PERSONALISMO = ("personalismo", "Personalismo (se torna insubstituivel, sem sucessor)", 7)
     VIOLACAO_PRINCIPIOS = ("violacao_principios", "Violacao de principios constitucionais", 9)
     MILITANCIA_FINANCEIRA = ("militancia_fin", "Militancia comprada (cargo em troca de apoio)", 7)
+    MIGALHA_DIGITAL = ("migalha_digital", "Exercito de migalhas: militancia online paga com esmola digital", 9)
+    MISERIA_DEPENDENCIA = ("miseria_dep", "Miseria como ferramenta: manter na miseria para manter dependente", 10)
+    PERSECUICAO_JUDICIAL = ("persecucao_judicial", "Perseguicao judicial ilicita / preso politico em quarentena", 9)
 
     @property
     def id(self) -> str:
@@ -110,6 +113,9 @@ class MetodoManipulacao(Enum):
     MIDIA_COMPRADA = ("midia_comprada", "Comprar cobertura midiatica")
     FINANCIAMENTO_OCULTO = ("financiamento_oculto", "Caixa 2 / financiamento nao declarado")
     MEDO_E_AMEACA = ("medo_ameaca", "Gerar medo na populacao para colher votos")
+    MIGALHA_SOCIAL = ("migalha_social", "Esmola digital/migalha em troca de militancia online")
+    PRESO_QUARENTENA = ("preso_quarentena", "Manter oponente preso em quarentena judicial sem sentenca")
+    ARMADILHA_JUDICIAL = ("armadilha_judicial", "Construir caso judicial com meios ilicitos")
 
     @property
     def id(self) -> str:
@@ -357,6 +363,15 @@ class ConfiabilidadeEngine:
             recs.append("Exigir plano de successao: sujeito treina substituto ou nao exerce novo mandato.")
         if TipoIndicador.CORRUPCAO_SISTEMICA in tipos_ativos:
             recs.append("Investigacao independente (OpenJudicialAudit) antes de qualquer integracao.")
+        if TipoIndicador.MIGALHA_DIGITAL in tipos_ativos:
+            recs.append("Rastrear fluxo de pagamentos digitais a militancia online (OpenDigitalTrace). "
+                        "Exercito de migalhas = trabalho escravo emocional, nao militancia.")
+        if TipoIndicador.MISERIA_DEPENDENCIA in tipos_ativos:
+            recs.append("AUDITAR politica social: beneficio liberta ou amarra? "
+                        "Se a pessoa nao pode se opor sem perder o beneficio, e CATIVO, nao direito.")
+        if TipoIndicador.PERSECUICAO_JUDICIAL in tipos_ativos:
+            recs.append("AUDITAR o sistema judicial: preso em quarentena sem sentenca = sequestro processual. "
+                        "Republica nao integra sujeito que usa justica como arma (P2: autonomia corporal).")
         if nivel in (NivelConfiabilidade.ALTO_RISCO, NivelConfiabilidade.INACEITAVEL):
             recs.append("VETAR exercicio de cargo com poder decisiorio ate restaurar processo.")
             recs.append("Assembleia avalia se o SUJEITO ou o SISTEMA esta corrompido (P4).")
@@ -533,6 +548,45 @@ def _demo() -> None:
             ocorrencias=3,
             metodos=[MetodoManipulacao.CARGOS_TROCA],
         ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.MIGALHA_DIGITAL,
+            descricao=(
+                "Exercito de migalhas: milhares de militantes pagos com esmolas digitais "
+                "para dominar redes sociais. O 'zumbi digital' recebe migralha e em troca "
+                "ataca, persegue e cala oponentes. Nao e militancia -- e trabalho escravo "
+                "emocional pago com gorjeta."
+            ),
+            grau_evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL,
+            ocorrencias=4,
+            periodo="2018-presente",
+            metodos=[MetodoManipulacao.BOTS_REDES, MetodoManipulacao.MIGALHA_SOCIAL],
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.MISERIA_DEPENDENCIA,
+            descricao=(
+                "Miseria como ESTRATEGIA: manter populacao na miseria para mante-la "
+                "dependente de beneficio governamental. O beneficio nao liberta -- AMARRA. "
+                "Quem depende da migalha para comer nao pode se opor a quem distribui. "
+                "E cativo eleitoral renovado a cada ciclo. Pobreza intencional = controle."
+            ),
+            grau_evidencia=GraveEvidencia.EVIDENCIA_JORNALISTICA,
+            ocorrencias=3,
+            periodo="3 mandatos",
+            metodos=[MetodoManipulacao.CLIENTELISMO, MetodoManipulacao.MIGALHA_SOCIAL],
+        ),
+        IndicadorPolitico(
+            tipo=TipoIndicador.PERSECUICAO_JUDICIAL,
+            descricao=(
+                "Uso de meios ilicitos para manter oponentes politicos presos em quarentena "
+                "judicial. Sem sentenca transitada. Sem prazo. Prisao preventiva eterna como "
+                "ferramenta politica. Quando o sistema judicial e arma, nao ha democracia -- "
+                "ha sequestro processual."
+            ),
+            grau_evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL,
+            ocorrencias=2,
+            periodo="2018-presente",
+            metodos=[MetodoManipulacao.PRESO_QUARENTENA, MetodoManipulacao.ARMADILHA_JUDICIAL],
+        ),
     ]
 
     # Eventos verificaveis
@@ -671,6 +725,15 @@ O DIAGNOSTICO:
     - Desmancha alternativas DA PROPRIA ESQUERDA.
     - Corrupcao COMPROVADA judicialmente (mensalao, petrolao).
     - Bots em escala equivalente a extrema-direita.
+    - EXERCITO DE MIGALHAS: militancia online paga com esmola digital.
+      O 'zumbi digital' nao e militante -- e trabalhador escravo emocional.
+      Recebe migralha, ataca oponente, cala dissidencia. Fabrica consenso.
+    - MISERIA COMO ESTRATEGIA: beneficio que nao liberta, AMARRA.
+      Quem depende da migalha para comer nao pode se opor.
+      Cativo eleitoral renovado a cada ciclo. Pobreza intencional = controle.
+    - PERSECUICAO JUDICIAL: presos politicos em quarentena sem sentenca.
+      Meios ilicitos para manter oponentes fora do jogo.
+      O sistema judicial vira arma. Democracia vira sequestro processual.
 
   O Polarizador: usa o MEDO e a RUPTURA para perpetuar.
     - Ataca instituicoes.
