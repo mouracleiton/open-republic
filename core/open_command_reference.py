@@ -649,10 +649,16 @@ def parse_tldr_markdown(conteudo: str, plataforma: PlataformaTldr,
                 descricao_parts.append(texto)
         elif linha.startswith("- "):
             desc = linha[2:]
-            if i + 1 < len(linhas) and linhas[i + 1].strip().startswith("`"):
-                cmd = linhas[i + 1].strip().strip("`")
+            # Procura o comando nas proximas linhas (pula linhas vazias)
+            j = i + 1
+            while j < len(linhas) and not linhas[j].strip():
+                j += 1
+            if j < len(linhas) and linhas[j].strip().startswith("`"):
+                cmd = linhas[j].strip().strip("`")
                 exemplos.append(ExemploComando(desc, cmd))
-                i += 1
+                i = j
+            elif j < len(linhas) and j > i + 1:
+                i = j - 1
         i += 1
 
     nome_cmd = titulo.replace("# ", "").replace(" ", "-")

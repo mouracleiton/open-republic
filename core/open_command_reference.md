@@ -722,10 +722,16 @@ def parse_tldr_markdown(conteudo: str, plataforma: PlataformaTldr,
                 descricao_parts.append(texto)
         senao se linha.startswith("- ") entao:
             desc <- linha[2:]
-            se i + 1 < len(linhas)  E  linhas[i + 1].strip().startswith("`") entao:
-                cmd <- linhas[i + 1].strip().strip("`")
+            // Procura o comando nas proximas linhas (pula linhas vazias)
+            j <- i + 1
+            enquanto j < len(linhas)  E  NAO  linhas[j].strip() faca:
+                j <- j + 1
+            se j < len(linhas)  E  linhas[j].strip().startswith("`") entao:
+                cmd <- linhas[j].strip().strip("`")
                 exemplos.append(ExemploComando(desc, cmd))
-                i <- i + 1
+                i <- j
+            senao se j < len(linhas)  E  j > i + 1 entao:
+                i <- j - 1
         i <- i + 1
 
     nome_cmd <- titulo.replace("# ", "").replace(" ", "-")
