@@ -653,6 +653,10 @@ def build_republic_catalog() -> ModuleRegistry:
         [],
         ["open-iara", "open-voice-os-control", "open-voice-terminal-bridge",
          "open-voice-pentest", "open-universal-caption", "open-ambient-sound"], 918)
+    mod("open-auth-access", "OpenAuthAccess", ModuleCategory.SECURITY,
+        ["auth.adaptive", "auth.evdev", "auth.multifator", "auth.accessible"],
+        [],
+        ["open-accessibility-hardware-specs", "open-big-linux", "open-iara"], 920)
     return registry
 # ============================================================================
 # 5. MAIN
