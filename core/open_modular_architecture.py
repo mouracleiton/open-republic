@@ -644,6 +644,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["a11y.listen", "a11y.alert", "a11y.escalate", "a11y.ambient"],
         [],
         ["open-iara", "open-voice-os-control", "open-accessibility-hardware-specs"], 881)
+    mod("open-universal-caption", "OpenUniversalCaption", ModuleCategory.PRODUCTIVITY,
+        ["a11y.caption", "a11y.transcribe", "a11y.cc", "a11y.subtitle"],
+        [],
+        ["open-ambient-sound", "open-iara", "open-big-linux"], 794)
     return registry
 # ============================================================================
 # 5. MAIN
