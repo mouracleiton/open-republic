@@ -628,34 +628,46 @@ funcao _demo() retorna None:
     eventos_a <- [
         e.registrar_evento("2003-2010", "Dois mandatos presidenciais", "eleicao", impacto=0),
         e.registrar_evento(
-            "2005", "MENSALAO: esquema de compra sistemica de votos de parlamentares no Congresso "
-            "em troca de apoio a projetos do governo. Mensalidades pagas com dinheiro publico. "
-            "Dezenas de condenacoes pelo STF (AP 470).", "investigacao",
+            "2004", "WALDOMIRO DINIZ: primeiro escandalo do primeiro mandato. Assessor da Casa "
+            "Civil filmado cobrando propina de empresario de jogos de azar (bicheiro). Expos a "
+            "conexao entre o nucleo duro do governo e o crime organizado. Origem da expressao "
+            "'trenzinho da alegria' -- a folha de pagamento paralela do PT.", "investigacao",
+            impacto <- -7, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
+        e.registrar_evento(
+            "2005", "MENSALAO (AP 470): esquema de compra sistemica de votos de parlamentares no "
+            "Congresso em troca de apoio politico a projetos do governo. Revelado pelo ex-deputado "
+            "Roberto Jefferson. Mensalidades pagas com dinheiro publico desviado de estatais. "
+            "Dezenas de condenacoes pelo STF.", "investigacao",
             impacto <- -9, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
         e.registrar_evento(
-            "2006", "ALOPRADOS: integrantes ligados a campanha presidencial presos com milhares de "
-            "reais em maos, para comprar dossie falso contra adversarios politicos. Dinheiro de "
-            "origem nao esclarecida.", "investigacao",
+            "2006", "ALOPRADOS: integrantes ligados a campanha de reeleicao presos em Sao Paulo "
+            "com maos de dinheiro destinados a comprar dossie falso contra adversarios politicos. "
+            "Dinheiro de origem nao esclarecida. Tentativa de fraude eleitoral flagrada.", "investigacao",
             impacto <- -6, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
         e.registrar_evento(
-            "2014", "PETROLAO / OPERACAO LAVA JATO: desvio bilionario de recursos da Petrobras via "
-            "contratos superfaturados com empreiteiras. Fundos abasteciam campanhas eleitorais e "
-            "partidos. Maior esquema de corrupcao ja descoberto no Brasil.", "investigacao",
+            "2014", "PETROLAO / OPERACAO LAVA JATO: gigantesco esquema de desvio de recursos, "
+            "superfaturamento e pagamento de propinas na Petrobras e outras estatais. Envolvel "
+            "empreiteiras e dezenas de politicos. Fundos abasteciam campanhas eleitorais e partidos. "
+            "Lula condenado e preso -- condenacoes anuladas depois pelo STF por questoes "
+            "processuais (nulidade, nao inocencia).", "investigacao",
             impacto <- -10, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
         e.registrar_evento(
             "2007-2016", "BNDES: suspeitas e investigacoes sobre linhas de credito bilionarias do "
             "BNDES para obras de empreiteiras em paises da America Latina e Africa. Contratos "
-            "superfaturados, financiamento sem garantia, comissoes ilicitas. Destino do dinheiro "
-            "publico sem licitacao competitiva.", "investigacao",
+            "superfaturados, financiamento sem garantia, comissoes ilicitas.", "investigacao",
             impacto <- -7, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
         e.registrar_evento(
-            "2018-2021", "Prisao e condenacao do lider (depois anuladas por vicios processuais do "
-            "juizo). Nao absolve -- anula por nulidade do processo, nao por inocencia.", "judicial",
-            impacto <- -4, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
+            "2025", "FRAUDES NO INSS: apuracao sobre descontos associativos nao autorizados em "
+            "beneficios de aposentados e pensionistas. Milhares de idosos tiveram dinheiro "
+            "descontado sem consentimento para entidades que repassavam parte a operadores. "
+            "Forte repercussao publica e cobrancas por transparencia.", "investigacao",
+            impacto <- -6, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
         e.registrar_evento(
-            "2023-2026", "Terceiro mandato: uso de aparelho de Estado em ritmo eleitoral. Programas "
-            "sociais ampliados em ano eleitoral. Nomeacoes estrategicas para captura institucional.",
-            "politica publica",
+            "2023-2026", "CRISES MINISTERIAIS: quedas e afastamentos de ministros sob suspeita de "
+            "irregularidades em emendas parlamentares, uso de estruturas de orgaos federais "
+            "(Codevasf) e denuncias de condutas incompativeis com a funcao publica. Aparelho de "
+            "Estado operando em ritmo eleitoral: programas sociais ampliados em ano eleitoral, "
+            "nomeacoes estrategicas para captura institucional.", "politica publica",
             impacto <- -5, evidencia=GraveEvidencia.INDICIO_FORTE),
     ]
 
