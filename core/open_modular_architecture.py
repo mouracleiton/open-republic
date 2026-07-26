@@ -632,6 +632,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["iara.overlay", "iara.tutor", "iara.jarvis", "iara.wm"],
         [],
         ["open-telefonista", "open-voice-os-control", "open-big-linux", "open-inclusive-ide"], 924)
+    mod("open-voice-terminal-bridge", "OpenVoiceTerminalBridge", ModuleCategory.PRODUCTIVITY,
+        ["bridge.voz_term", "bridge.term_voz", "bridge.sanitize", "bridge.tts_clean"],
+        [],
+        ["open-iara", "open-voice-os-control", "open-telefonista"], 1170)
     return registry
 # ============================================================================
 # 5. MAIN
