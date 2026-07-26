@@ -600,6 +600,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["energy.generate", "energy.store", "energy.allocate", "energy.donate"],
         ["assembly.decide"],
         ["open-decentralized-infra", "open-communities", "open-constituent-assembly"], 731)
+    mod("open-energy-taxonomy", "OpenEnergyTaxonomy", ModuleCategory.SCIENCE,
+        ["energy.taxonomy", "energy.diagnose", "energy.coverage"],
+        [],
+        ["open-energy", "open-athlete", "open-telefonista", "open-human-knowledge"], 875)
     return registry
 # ============================================================================
 # 5. MAIN
