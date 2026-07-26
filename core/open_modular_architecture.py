@@ -608,6 +608,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["reliability.score", "reliability.audit", "reliability.simulate", "reliability.compare"],
         ["assembly.vote", "p9.gate"],
         ["open-anti-polarization", "open-democracy", "open-constituent-assembly"], 701)
+    mod("open-sovereign-tech", "OpenSovereignTech", ModuleCategory.INFRASTRUCTURE,
+        ["sovereign.gps", "sovereign.riscv", "sovereign.network", "sovereign.test", "sovereign.lockin"],
+        [],
+        ["open-decentralized-infra", "open-energy", "open-cryptography"], 735)
     return registry
 # ============================================================================
 # 5. MAIN
