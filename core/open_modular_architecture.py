@@ -620,6 +620,10 @@ def build_republic_catalog() -> ModuleRegistry:
         ["codebase.unify", "codebase.transpile", "codebase.channel", "codebase.matrix"],
         [],
         ["open-sovereign-tech", "open-accessibility-hardware-specs", "open-modular-architecture"], 728)
+    mod("open-big-linux", "OpenBigLinux", ModuleCategory.INFRASTRUCTURE,
+        ["distro.kali", "distro.accessibility", "distro.ia_local", "distro.hardening"],
+        [],
+        ["open-sovereign-tech", "open-inclusive-hardware", "open-telefonista", "open-unified-codebase"], 679)
     return registry
 # ============================================================================
 # 5. MAIN
