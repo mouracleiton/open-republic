@@ -687,6 +687,10 @@ def _init_specs() -> List[SpecDispositivo]:
                               True, "Cobre voz humana. Baixa frequencia = graves (homem). Alta = agudos (mulher/crianca)."),
                 Especificacao("Mute fisico", "Botao de mute REAL (nao software)",
                               True, "Privacidade: usuario PRECISA saber que o microfone esta mudo."),
+                Especificacao("LED indicador", "Sim (LED mostra se esta captando)",
+                              True, "Surdo nao ouve o proprio audio. Precisa VER que o microfone esta ativo."),
+                Especificacao("Filtro pop", "Sim (espuma ou malha)",
+                              False, "Reduz 'p' e 't' que estouram o reconhecimento de voz."),
             ],
             produtos=[
                 ProdutoSuportado("Blue", "Yeti Nano", CategoriaDispositivo.MICROFONE, 500,
