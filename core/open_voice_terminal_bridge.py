@@ -478,7 +478,7 @@ def _init_traducoes_erros() -> List[RegraTraducaoErro]:
             "O programa crashou (erro de memoria).",
             "Isso e um bug do programa, nao seu. Reporte ao desenvolvedor."),
         RegraTraducaoErro(
-            r"is not in the sudoers file",
+            r"(?:is not in the sudoers file|not in sudoers|sudoers)",
             "Voce nao tem permissao de administrador.",
             "Sua conta nao permite usar sudo. Contate o administrador do sistema."),
         RegraTraducaoErro(
@@ -810,6 +810,16 @@ class VoiceTerminalBridgeEngine:
         """
         Pipeline completo: texto de voz -> comando shell -> execucao -> resultado.
         """
+        # 0. VERIFICAR PERIGO ANTES DE TUDO (mesmo antes de traduzir)
+        if self.tradutor_cmd.e_perigoso(texto_voz.lower()):
+            return ResultadoExecucao(
+                comando_shell=texto_voz,
+                status=StatusExecucao.PERIGOSO,
+                stderr="Comando bloqueado por seguranca.",
+                texto_para_tts="Comando perigoso bloqueado. Eu nao faco isso.",
+                timestamp=datetime.now().isoformat(),
+            )
+
         # 1. traduzir voz em comando
         traducao, params = self.tradutor_cmd.traduzir(texto_voz)
 
