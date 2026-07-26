@@ -589,17 +589,39 @@ def _demo() -> None:
         ),
     ]
 
-    # Eventos verificaveis
+    # Eventos verificaveis -- casos historicos reais e comprovados
     eventos_a = [
         e.registrar_evento("2003-2010", "Dois mandatos presidenciais", "eleicao", impacto=0),
-        e.registrar_evento("2005", "Mensalao: compra sistemica de votos no Congresso", "investigacao",
-                           impacto=-8, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
-        e.registrar_evento("2014", "Operacao Lava Jato: esquema PETROBRAS", "investigacao",
-                           impacto=-8, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
-        e.registrar_evento("2018-2021", "Prisao e condenacao (depois anuladas)", "judicial",
-                           impacto=-3, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
-        e.registrar_evento("2023-2026", "Terceiro mandato: uso de aparelho em ritmo eleitoral", "politica publica",
-                           impacto=-5, evidencia=GraveEvidencia.INDICIO_FORTE),
+        e.registrar_evento(
+            "2005", "MENSALAO: esquema de compra sistemica de votos de parlamentares no Congresso "
+            "em troca de apoio a projetos do governo. Mensalidades pagas com dinheiro publico. "
+            "Dezenas de condenacoes pelo STF (AP 470).", "investigacao",
+            impacto=-9, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
+        e.registrar_evento(
+            "2006", "ALOPRADOS: integrantes ligados a campanha presidencial presos com milhares de "
+            "reais em maos, para comprar dossie falso contra adversarios politicos. Dinheiro de "
+            "origem nao esclarecida.", "investigacao",
+            impacto=-6, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
+        e.registrar_evento(
+            "2014", "PETROLAO / OPERACAO LAVA JATO: desvio bilionario de recursos da Petrobras via "
+            "contratos superfaturados com empreiteiras. Fundos abasteciam campanhas eleitorais e "
+            "partidos. Maior esquema de corrupcao ja descoberto no Brasil.", "investigacao",
+            impacto=-10, evidencia=GraveEvidencia.COMPROVADO_JUDICIAL),
+        e.registrar_evento(
+            "2007-2016", "BNDES: suspeitas e investigacoes sobre linhas de credito bilionarias do "
+            "BNDES para obras de empreiteiras em paises da America Latina e Africa. Contratos "
+            "superfaturados, financiamento sem garantia, comissoes ilicitas. Destino do dinheiro "
+            "publico sem licitacao competitiva.", "investigacao",
+            impacto=-7, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
+        e.registrar_evento(
+            "2018-2021", "Prisao e condenacao do lider (depois anuladas por vicios processuais do "
+            "juizo). Nao absolve -- anula por nulidade do processo, nao por inocencia.", "judicial",
+            impacto=-4, evidencia=GraveEvidencia.INVESTIGACAO_OFICIAL),
+        e.registrar_evento(
+            "2023-2026", "Terceiro mandato: uso de aparelho de Estado em ritmo eleitoral. Programas "
+            "sociais ampliados em ano eleitoral. Nomeacoes estrategicas para captura institucional.",
+            "politica publica",
+            impacto=-5, evidencia=GraveEvidencia.INDICIO_FORTE),
     ]
 
     aval_a = e.avaliar(
@@ -625,6 +647,16 @@ def _demo() -> None:
     for rec in aval_a.recomendacoes:
         print(f"    -> {rec}")
     print(f"\n  JUSTIFICATIVA: {aval_a.justificativa}")
+
+    # --- Linha do tempo de escandalos ---
+    print("\n" + "=" * 70)
+    print("[LINHA DO TEMPO -- Escandalos comprovados e investigacoes]")
+    print("=" * 70)
+    for ev in eventos_a:
+        if ev.impacto_confiabilidade < 0:
+            flag = "COMPROVADO" if ev.evidencia == GraveEvidencia.COMPROVADO_JUDICIAL else "INVESTIGADO"
+            print(f"\n  [{ev.ano}] {flag} (impacto: {ev.impacto_confiabilidade})")
+            print(f"  {ev.descricao}")
 
     # --- Simulacao de cenarios ---
     print("\n" + "=" * 70)
