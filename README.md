@@ -1,244 +1,217 @@
 # OpenRepublic
 
-Repositorio de especificacoes de politicas publicas e sistemas para o Brasil.
+Repositorio de especificacoes executaveis em Python real do Brasil.
 
-Tudo e especificacao executavel em Python. Cada arquivo .py define enums,
-dataclasses e engines que ESPECIFICAM como um sistema funciona. Nao ha
-codigo de producao aqui -- ha a DEFINICAO do sistema.
+66 modulos. 55.000+ linhas. Tudo compila. Tudo com dados 2024/2025.
 
-Licenca: CC0 Universal
+```
+"O IBGE pergunta ao diretor. Nos perguntamos ao chao."
+```
+
+## O que e
+
+O OpenRepublic e um sistema de principios constitucionais codificados (P1-P14) que avaliam sistemas governamentais. Nao e partido. Nao e ONG. E especificacao tecnica de como um pais deveria funcionar, com dados verificaveis.
+
+O principio central: **Fraternismo** -- nem comunismo nem capitalismo. Fraternidade (roda de capoeira, time de domingo, grupo de Discord) ampliada a nivel nacao.
 
 ## Estrutura
 
 ```
 open-republic/
-├── core/                Especificacoes dos sistemas
-│   ├── *.py             140 modulos (open_*, teia_*, constitutional_*, ...)
-│   ├── ar_interface/    Interface de realidade aumentada
-│   ├── deploy/          Pipeline de deploy
-│   ├── query/           Camada de consulta
-│   ├── representation/  Representacao democratica
-│   └── treinamento/     Trilhas de aprendizagem (iniciante/intermediario/avancado)
-├── politicas/           Politicas publicas
-│   ├── propostas/       Documentos de proposta
-│   ├── execucao/        Planos de execucao (P01-P43)
-│   ├── polyglot/        POLITICAS_PUBLICAS_BRASIL (spec canonica)
-│   └── dashboard.html   Visualizador dos planos
-└── docs/                Documentacao tecnica
+├── core/
+│   ├── constituicao/        22 modulos -- Principios P1-P14, motor constitucional, cultura
+│   ├── acessibilidade/      18 modulos -- Cego, surdo, tetraplegico, idoso, autista
+│   ├── economia/            14 modulos -- Raio X, censo, educacao, divida, politica publica
+│   ├── voz/                  7 modulos -- Iara (IA), pipeline voz, pentest por voz
+│   └── distro/               5 modulos -- Linux, servidor jogos, smartphone modular, chip fab
+├── dashboard.html           Raio X do Brasil (6 abas interativas)
+├── relatorio.html           Ineficiencia das Politicas Publicas (mobile-first)
+├── carrosseis.html          6 carrosseis Instagram (frentes de ataque)
+├── carrosseis_png/          30 PNGs 1080x1080 prontos para postar
+├── README.md                Este arquivo
+└── .gitignore
 ```
 
-## Os 145 Modulos
+## Principios Constitucionais (P1-P14)
 
-### nucleo constitucional
+| # | Principio | O que faz |
+|---|-----------|-----------|
+| P1 | Anti-elitismo | Ninguem manda sozinho |
+| P2 | Autonomia corporal absoluta | Seu corpo e seu |
+| P3 | Trabalho igual | Todo trabalho vale o mesmo |
+| P4 | Processo democratico | Decisao em grupo |
+| P5 | Transparencia radical | Tudo publico |
+| P6 | Acesso universal | Conhecimento para todos |
+| P7 | Seguranca como cultura | Nao militarizada |
+| P8 | IA como instrumento | Nao substitui humano |
+| P9 | Anti-polarizacao | Estado nao toma partido |
+| P10 | Soberania aerea civica | Drone civico |
+| P11 | Letramento digital | Constituinte |
+| P12 | Defesa cibernetica transparente | 5 proibicoes |
+| P13 | Contravigilancia reciproca | 5 tiers de privacidade |
+| P14 | Soberania de dados | 6 direitos D1-D6 |
 
-constitutional_engine.py     Motor constitucional (P1-P10)
-constitutional_audit.py      Auditoria constitucional
-constituent_assembly.py      Assembleia constituinte
-open_constituent_assembly.py Assembleia constituinte (open)
-open_anti_polarization.py    P9 -- Anti-polarizacao do Estado
-open_anti_determinism.py     Anti-determinismo
-constitutional_engine.py     Engine constitucional
+## Alicerce Etico (5 pilares)
 
-### economia e valor
+1. **ESCOLHA_INTRINSECA** -- etica por escolha, nao imposicao
+2. **TRATAR_IGUAL** -- CEO e faxineira, teste da padaria
+3. **GENUINIDADE** -- etica que e estrategia ja falhou
+4. **CRESCER_ESPIRITUALMENTE** -- secular, sem recompensa divina
+5. **IMPACTO_EMOCIONAL_PERMANENTE** -- "esquecerao seu rosto, nunca como os fez sentir"
 
-open_energy.py               Energia como direito (nao commodity)
-open_energy_taxonomy.py      10 sistemas energeticos da civilizacao
-open_credit.py               Credito sem juros
-open_coin.py                 Moeda soberana
-open_value_flow.py           Fluxo de valor
-open_value_simulation.py     Simulacao de valor
-open_surplus.py              Excedente
-open_fair_surplus.py         Excedente justo
-open_fair_surplus_assembly.py Excedente justo por assembleia
-open_debt_abolition.py       Abolicao da divida
-open_debt_default.py         Default da divida
-open_debt_impact.py          Impacto da divida
-open_debt_mortality.py       Mortalidade da divida
-open_business_model.py       Modelo de negocio aberto
-open_business_models.py      Modelos de negocio (multiplos)
-open_industry.py             Industria aberta
-open_product.py              Produto aberto
-open_erp.py                  ERP aberto
-open_prohibited_business.py  Negocios proibidos
-open_recyclers.py            Recicladores
-teia_token_economy.py        Economia de tokens TEIA
-teia_terminal_economy.py     Economia do terminal TEIA
-teia_api_economy.py          Economia de API TEIA
-teia_data_valuation.py       Valorizacao de dados TEIA
-teia_products.py             Produtos TEIA
-teia_legal_structure.py      Estrutura juridica TEIA
+## Raio X do Brasil
 
-### governanca e democracia
+O checkup nacional. 18 exames em 18 dominios. Custo: R$ 85 milhoes/ano (3% do Censo IBGE).
 
-democratic_process.py        Processo democratico
-open_democracy.py            Democracia aberta
-open_representative.py       Representacao democratica
-open_communities.py          Comunidades
-open_community_leaders.py    Lideres comunitarios
-open_operations.py           Operacoes
-open_territory.py            Territorio
-open_transition.py           Transicao
-open_transition_plan.py      Plano de transicao
-open_internationalization.py Internacionalizacao
-open_wololo.py               Separacao com dignidade (divisao irreparavel)
-open_republic.py             Republica aberta
-open_founder_role.py         Papel do fundador
-open_cofounder_reparation.py Reparacao de cofundadora
-open_seniority.py            Senioridade aberta
-open_query.py                Consulta democratica
-execute_action_plan.py       Execucao de plano de acao
-manifest.py                  Manifesto
+**3 emergencias** (vidas em risco AGORA):
+- Violencia -- 21.7 homicidios/100k
+- Saude -- dengue 2024: 6M casos, 4000+ mortes
+- Alimentacao -- 33 milhoes passando fome
 
-### trabalho
+**37.5 milhoes de brasileiros invisiveis** que o IBGE nao conta.
 
-open_labor_policy.py         Politica de trabalho
-open_labor_relay.py          Rele de trabalho
-open_labor_impact.py         Impacto do trabalho
-open_labor_optimizer.py      Otimizador de trabalho
-open_multi_labor.py          Trabalho multilo
-open_family_labor.py         Trabalho familiar
-open_professions.py          Profissoes
+Ver dashboard.html para analise interativa completa.
 
-### saude e corpo
+## Politicas Publicas Mapeadas
 
-physical_care.py             Cuidado fisico
-open_childhood.py            Infancia
-open_mental_hygiene.py       Higiene mental
-open_psychology_reparation.py Reparacao psicologica
-open_body_camera.py          Camera corporal
-bodily_autonomy.py           Autonomia corporal
-open_brain_implant.py        Implante cerebral
-open_dignity.py              Dignidade
-open_dignity.py              Dignidade humana
-open_reintegration.py        Reintegracao
-open_relationships.py        Relacoes
+33 politicas avaliadas contra os 18 dominios do Raio X.
 
-### seguranca e justica
+**Veredito durao:**
+- 2 de 33 (6%) **resolvem** o problema
+- 20 de 33 (61%) sao **parciais**
+- 9 de 33 (27%) tem **impacto minimo**
+- 2 de 33 (6%) **nao resolvem**
 
-open_weapons_policy.py       Politica de armas
-open_penal_revision.py       Revisao penal
-open_decriminalize.py        Descriminalizacao
-entity_triage.py             Triagem de entidades
-open_anti_spam_call.py       Anti-spam de ligacoes
-noise_policy.py              Politica de ruido
-open_silence_policy.py       Politica de silencio
-open_nightlife.py            Vida noturna
-open_cryptography.py         Criptografia
-router_os.py                 Router OS
-proximity_mesh.py            Malha de proximidade
-decentralized_infra.py       Infraestrutura descentralizada
-open_resilience.py           Resiliencia
-open_martial_arts.py         Artes marciais
+As 2 que funcionam (VIGISAN e MapBiomas/INPE) sao sistemas de **observacao**, nao de acao.
 
-### educacao e cultura
+Ver relatorio.html para relatorio completo com 6 causas raiz e 6 recomendacoes.
 
-open_inclusive_education.py  Educacao inclusiva
-open_civic_education.py      Educacao civica
-open_music_heritage.py       Patrimonio musical
-open_symbol_revision.py      Revisao de simbolos
-open_lego_code.py            Lego code
-open_lego_studio.py          Lego studio
-open_creator.py              Criador
-research_database.py         Base de pesquisa
+## Triagem Operacional (Regra do Pronto-Socorro)
 
-### acessibilidade (cego, surdo, tetraplegico, baixa visao)
+| Categoria | Regra | Exemplo |
+|-----------|-------|---------|
+| VIDA | Age AGORA, diagnostica depois | Crianca com fome -> da comida |
+| BOLSO | Diagnostica PRIMEIRO, age depois | Inflacao -> entende causa |
+| VOTO | NUNCA sem FATO (P9 palanque) | Seguranca publica |
+| ESTRUTURA | Diagnostica + trata simultaneo | Escola sem agua |
 
-open_accessibility_hardware_specs.py  Specs de hardware COTS
-open_accessibility_shim.py   Camada que injeta a11y em apps sem suporte
-open_auth_access.py          Auth adaptativa via evdev
-open_inclusive_ide.py        IDE inclusiva
-open_inclusive_hardware.py   44 dispositivos acessiveis
-open_inclusive_home.py       Casa inclusiva
-open_command_reference.py    Doc de comandos acessivel (tldr)
-open_terminal.py             Terminal acessivel
-open_haptic_navigation.py    Navegacao tatil
-open_libras_bridge.py        Ponte Libras
-open_sign_language_policy.py  Politica de libras
-open_sign_language_universal.py Libras universal
-open_universal_caption.py    Legendas em tempo real
-open_ambient_sound.py        Cao-guia digital (escuta ambiente)
-open_digital_guide.py        Guia digital (GPS + visao + OCR)
-open_digital_dog_guide.py    Cao-guia digital completo
-open_iara.py                 IA com corpo visual (Iara/Jarvis/Tutor)
-open_telefonista.py          Telefonista
+## Censo Proprio
 
-### voz e IA
+Substituindo o IBGE. 18 dominios, coleta em tempo real, OSINT + cidadao.
 
-open_voice_pipeline.py       Pipeline de voz (9 camadas)
-open_voice_os_control.py     Controle de SO por voz
-open_voice_terminal_bridge.py Ponte voz<->terminal
-open_voice_pentest.py        Pentest por voz
-open_clipboard_intelligence.py Clipboard inteligente
-open_hand_tracking.py        Rastreamento de maos
-open_audio_channel.py        Canal de audio
-open_x.py                    Integracao X/Twitter
-open_dual_mode.py            Modo duplo
+- Custo: R$ 200M/ano (IBGE custou R$ 2.3bi)
+- 37.5M de brasileiros que o IBGE nao conta
+- Atualizacao: tempo real a anual (IBGE: a cada 10 anos)
 
-### tecnologia soberana
+## 10 Camadas (L0-L9)
 
-open_sovereign_tech.py       Tecnologia soberana (GPS, RISC-V, rede)
-open_big_linux.py            Distro base (Kali hardened + a11y)
-open_unified_codebase.py     Codebase unificada (.py = source)
-open_modular_architecture.py Arquitetura modular
-open_drone.py                P10 -- OpenDrone
-open_content_policy.py       Politica de conteudo
-open_propagation.py          Propagacao
-open_human_net.py            Rede humana
-open_anti_predatory.py       Anti-predatorio
-open_repo_skills.py          Repo skills
-open_inbox.py                Inbox
-open_absence.py              Ausencia
-open_responsibility.py       Responsabilidade
-open_social_cleaner.py       Limpeza social
-open_focus.py                Foco
-open_anti_spam_call.py       Anti-spam
-open_palmas_alliance.py      Alianca Palmas
-open_fair_surplus.py         Excedente justo
-sahel_solutions.py           Solucoes Sahel
-open_modular_architecture.py Arquitetura modular
+| Camada | Descricao | Cobertura |
+|--------|-----------|-----------|
+| L0 | Hardware fisico | 3/5 |
+| L1 | Soberania tecnologica | 2/5 |
+| L2 | Infra digital | 2/5 |
+| L3 | Constituicao | 9/9 (100%) |
+| L4 | Sistemas publicos | 4/12 |
+| L5 | Acessibilidade | 17/17 (100%) |
+| L6 | Interface | 7/9 |
+| L7 | Cultura | 3/6 |
+| L8 | Relacoes externas | 0/4 |
+| L9 | Memoria | 0/4 |
 
-### TEIA
+## Gate Epistemologico: FATO vs DADO vs OPINIAO
 
-teia_calibration.py          Calibracao TEIA
-teia_efficacy_measurement.py Medicao de eficacia TEIA
-teia_gate_c_blind_test.py    Gate C blind test TEIA
-teia_token_economy.py        Economia de tokens
-teia_terminal_economy.py     Economia do terminal
-teia_api_economy.py          Economia de API
-teia_data_valuation.py       Valorizacao de dados
-teia_products.py             Produtos
-teia_legal_structure.py      Estrutura juridica
+- **OPINIAO**: afirmacao sem dados (0% confianca)
+- **DADO**: numero com fonte mas sem verificacao (50-70%)
+- **FATO**: 7 criterios atendidos (100% confianca)
 
-### deploy e infra
+So FATO vira politica. Opiniao nunca. Dado precisa de mais comprovacao.
 
-deploy/deploy_pipeline.py    Pipeline de deploy
-ar_interface/ar_webcam.py    Webcam AR
+7 criterios: amostra representativa, reprodutivel, fonte independente, triangulacao, sem vies, magnitude mensuravel, dado temporal.
 
-## Principios Constitucionais (P1-P10)
+## Anticorpos contra Apropriacao
 
-- P1: Miseria e crime do sistema, nao falha individual
-- P2: Autonomia do corpo
-- P3: Transparencia radical
-- P4: Log auditavel
-- P5: Kaizen (melhoria continua)
-- P6: Acesso universal ao conhecimento
-- P7: Seguranca e cultura
-- P8: IA como instrumento, nao substituto humano
-- P9: Anti-polarizacao do Estado
-- P10: OpenDrone (soberania do espaco aereo civico)
+5 niveis de protecao:
+
+1. **Nome**: CC0 radical (ninguem dono do nome)
+2. **Codigo**: data.json publico (principios sao dados)
+3. **Lider**: P1 anti-guru (ninguem manda sozinho)
+4. **Dinheiro**: reputacao publica (todas as contas transparentes)
+5. **Estado**: constitutional_monitor (vigia o Estado em tempo real)
 
 ## Como rodar
 
-Cada modulo e um script Python standalone com um demo integrado:
+Cada modulo e um script Python standalone com demo integrado:
 
 ```bash
-python3 core/open_ambient_sound.py        # demo do cao-guia digital
-python3 core/open_digital_guide.py        # demo do guia para cegos
-python3 core/open_digital_dog_guide.py    # demo do cao-guia completo
-python3 core/open_anti_polarization.py    # demo P9
-python3 core/open_political_reliability.py  # simulador politico
+# Raio X do Brasil (18 exames)
+python3 core/economia/open_raio_x_brasil.py
+
+# Motor constitucional (14 principios)
+python3 core/constituicao/constitutional_engine.py
+
+# Censo nacional (18 dominios)
+python3 core/economia/open_censo_nacional.py
+
+# Politicas publicas (33 programas avaliados)
+python3 core/economia/open_politica_publica.py
+
+# Triagem operacional
+python3 core/constituicao/open_triage_operacional.py
+
+# Validador de ideias independente de sistema
+python3 core/constituicao/open_idea_validator.py
+
+# Fome infantil com rastreio
+python3 core/constituicao/open_child_food_security.py
+
+# Defesa cibernetica
+python3 core/constituicao/open_cyber_defense.py
+
+# Constituicao cultural (cordel + capoeira + alicerce etico)
+python3 core/constituicao/open_cultural_constitution.py
 ```
+
+## Visualizacoes
+
+| Arquivo | O que e |
+|---------|---------|
+| `dashboard.html` | Raio X do Brasil -- 6 abas interativas (ECharts) |
+| `relatorio.html` | Relatorio de Ineficiencia -- mobile-first com fallback |
+| `carrosseis.html` | 6 carrosseis Instagram por frente de ataque |
+| `carrosseis_png/` | 30 PNGs 1080x1080 prontos para postar |
+
+## Stack
+
+- **Linguagem**: Python 3.11+ (sem dependencias externas nos modulos)
+- **Arquitetura**: dados (data.json) <-> logica (.py puro) <-> discernimentos (.md)
+- **Dashboard**: Tailwind CSS + ECharts + fallback HTML puro
+- **Dados**: 2024/2025, fontes publicas (IBGE, INEP, VIGISAN, DataSUS, SINESP)
+- **Licenca**: CC0 Universal
+
+## 66 Modulos por Categoria
+
+### Constituicao (22 modulos)
+constitutional_engine, open_anti_polarization, open_citizen_oversight, open_constitutional_monitor, open_cultural_constitution, open_cyber_defense, open_data_sovereignty, open_denuncia, open_digital_literacy, open_drone, open_fato_dado_opiniao, open_triage_operacional, open_political_reliability, open_political_risk_predictor, open_republic_colors, open_republic_layers, open_republic_exporter, open_resilience, open_sovereign_tech, open_unified_codebase, open_idea_validator, open_child_food_security
+
+### Acessibilidade (18 modulos)
+open_accessibility_hardware_specs, open_accessibility_shim, open_ambient_sound, open_auth_access, open_body_camera, open_command_reference, open_digital_dog_guide, open_digital_guide, open_haptic_navigation, open_human_net, open_inclusive_education, open_inclusive_hardware, open_inclusive_home, open_inclusive_ide, open_libras_bridge, open_sign_language_policy, open_sign_language_universal, open_universal_caption
+
+### Economia (14 modulos)
+open_agrarian_revolution, open_censo_escolar, open_censo_nacional, open_debt_abolition, open_debt_default, open_debt_impact, open_debt_mortality, open_education_system, open_energy, open_energy_taxonomy, open_politica_publica, open_raio_x_brasil, open_recyclers_hardware (em distro), open_school_identity, open_school_osint
+
+### Voz (7 modulos)
+open_clipboard_intelligence, open_iara, open_telefonista, open_voice_os_control, open_voice_pipeline, open_voice_pentest, open_voice_terminal_bridge
+
+### Distro (5 modulos)
+open_big_linux, open_chip_fab, open_forge_os, open_modular_phone, open_recyclers_hardware
 
 ## Licenca
 
-CC0 Universal. Todo o conhecimento aqui e patrimônio público.
+CC0 Universal. Todo o conhecimento aqui e patrimonio publico.
+
+Ninguem e dono. Todos podem usar, modificar, distribuir.
+
+```
+github.com/mouracleiton/open-republic
+@openrepublic
+```
