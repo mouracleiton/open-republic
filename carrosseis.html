@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic — Carrosseis Instagram · Raio X</title>
+<style>
+  :root {
+    --verde: #1A5E3F;
+    --azul: #0A2540;
+    --preto: #1A1A1A;
+    --branco: #F5F5F0;
+    --vermelho: #D62828;
+    --amarelo: #D4A017;
+    --terra: #8B5E3C;
+    --ciano: #00B4D8;
+    --laranja: #E76F51;
+    --verde-claro: #52B788;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    padding: 40px 20px;
+  }
+  .header {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--verde), var(--ciano));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p {
+    color: #8b949e;
+    font-size: 0.9rem;
+  }
+  .frente-section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+  }
+  .frente-titulo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+  .frente-sub {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    padding-left: 20px;
+  }
+  .carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 20px 4px;
+    scroll-behavior: smooth;
+  }
+  .carousel::-webkit-scrollbar { height: 6px; }
+  .carousel::-webkit-scrollbar-track { background: #161b22; border-radius: 3px; }
+  .carousel::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+  .slide {
+    flex: 0 0 370px;
+    height: 370px;
+    scroll-snap-align: start;
+    border-radius: 16px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Slide index dots */
+  .slide-num {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    font-weight: 700;
+  }
+  /* COVER slides */
+  .slide-cover {
+    flex: 0 0 370px;
+    height: 460px;
+    justify-content: space-between;
+  }
+  .slide-cover .logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: white;
+  }
+  .slide-cover h2 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    font-weight: 900;
+  }
+  .slide-cover .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .slide-cover .footer-cover {
+    font-size: 0.7rem;
+    opacity: 0.5;
+  }
+  /* Content slides */
+  .slide .slide-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+  .slide h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  .slide .stat {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin: 8px 0;
+  }
+  .slide .stat-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+  .slide p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+  .slide ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+  .slide ul li {
+    font-size: 0.78rem;
+    padding: 4px 0;
+    opacity: 0.8;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .slide ul li:last-child { border-bottom: none; }
+  .slide .gap-box {
+    margin-top: auto;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+  .slide .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* === COLOR THEMES PER FRENTE === */
+  .frente-emergencia .slide-cover { background: linear-gradient(160deg, #8B1A1A, #D62828); }
+  .frente-emergencia .slide-content { background: #1C1012; border: 1px solid #3D1A1A; }
+  .frente-emergencia .gap-box { background: rgba(214,40,40,0.15); }
+  .frente-emergencia .pill { background: rgba(214,40,40,0.2); color: #FF6B6B; }
+
+  .frente-infra .slide-cover { background: linear-gradient(160deg, #264653, #2A9D8F); }
+  .frente-infra .slide-content { background: #0D1B1A; border: 1px solid #1A3530; }
+  .frente-infra .gap-box { background: rgba(42,157,143,0.15); }
+  .frente-infra .pill { background: rgba(42,157,143,0.2); color: #4ECDC4; }
+
+  .frente-desenvolvimento .slide-cover { background: linear-gradient(160deg, #0A2540, #00B4D8); }
+  .frente-desenvolvimento .slide-content { background: #0A1520; border: 1px solid #102535; }
+  .frente-desenvolvimento .gap-box { background: rgba(0,180,216,0.15); }
+  .frente-desenvolvimento .pill { background: rgba(0,180,216,0.2); color: #48CAE4; }
+
+  .frente-soberania .slide-cover { background: linear-gradient(160deg, #5A3E1A, #D4A017); }
+  .frente-soberania .slide-content { background: #1A1505; border: 1px solid #2D2510; }
+  .frente-soberania .gap-box { background: rgba(212,160,23,0.15); }
+  .frente-soberania .pill { background: rgba(212,160,23,0.2); color: #FFD60A; }
+
+  .frente-justica .slide-cover { background: linear-gradient(160deg, #1A1A2E, #6A0572); }
+  .frente-justica .slide-content { background: #150D1A; border: 1px solid #2A1A30; }
+  .frente-justica .gap-box { background: rgba(199,125,255,0.15); }
+  .frente-justica .pill { background: rgba(199,125,255,0.2); color: #C77DFF; }
+
+  .frente-futuro .slide-cover { background: linear-gradient(160deg, #1A5E3F, #52B788); }
+  .frente-futuro .slide-content { background: #0D1A12; border: 1px solid #1A2D20; }
+  .frente-futuro .gap-box { background: rgba(82,183,136,0.15); }
+  .frente-futuro .pill { background: rgba(82,183,136,0.2); color: #52B788; }
+
+  /* CTA slide */
+  .slide-cta {
+    background: #0A2540 !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .slide-cta h3 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+  .slide-cta p {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+
+  .nav-hint {
+    text-align: center;
+    color: #484f58;
+    font-size: 0.7rem;
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>RAIO X DO BRASIL — Carrosseis Instagram</h1>
+  <p>6 frentes de ataque · 18 exames · Dados pré-compilados OpenRepublic · github.com/mouracleiton/open-republic</p>
+  <p style="margin-top:8px; font-size:0.7rem; color:#484f58;">Arraste horizontalmente →</p>
+</div>
+
+<!-- CARROSSEIS SERAO GERADOS AQUI -->
+<div id="carrosseis"></div>
+
+<script>
+const FRENTES = [
+  {
+    id: "emergencia",
+    nome: "EMERGÊNCIA DE VIDA",
+    cor: "#D62828",
+    corClass: "frente-emergencia",
+    tagline: "Vidas em risco AGORA. Tratar antes de diagnosticar.",
+    descricao: "Violência, saúde e fome. São as 3 emergências nacionais onde brasileiros morrem TODO DIA enquanto esperamos dados.",
+    dados_chave: "33M passam fome · 21.7 homicidios/100k · Dengue 2024: 6M casos",
+  },
+  {
+    id: "infra",
+    nome: "INFRAESTRUTURA DE SOBREVIVÊNCIA",
+    cor: "#2A9D8F",
+    corClass: "frente-infra",
+    tagline: "Sem água, luz e teto, nenhum outro exame importa.",
+    descricao: "Saneamento, energia e habitação. O básico que ainda falha para milhões de brasileiros.",
+    dados_chave: "47% sem esgoto · ~200k sem luz · Déficit habitacional: 5.8M",
+  },
+  {
+    id: "desenvolvimento",
+    nome: "DESENVOLVIMENTO HUMANO",
+    cor: "#00B4D8",
+    corClass: "frente-desenvolvimento",
+    tagline: "Educação e emprego: a única saída que não é pela porta dos fundos.",
+    descricao: "Sem escola que ensina e trabalho que paga, o Brasil gira em círculo.",
+    dados_chave: "PISA 393/410/403 vs OCDE 472 · 7.9% desemprego · 50% não leem no 7º ano",
+  },
+  {
+    id: "soberania",
+    nome: "SOBERANIA ECONÔMICA",
+    cor: "#D4A017",
+    corClass: "frente-soberania",
+    tagline: "Quem controla o preço da sua comida controla seu voto.",
+    descricao: "Inflação de alimentos, transporte público e produção de comida. O bolso do brasileiro.",
+    dados_chave: "Arroz +50% · Feijão +30% · 2h+ em transporte · Agricultura familiar produz 70% da comida com 30% do crédito",
+  },
+  {
+    id: "justica",
+    nome: "JUSTIÇA E INCLUSÃO",
+    cor: "#C77DFF",
+    corClass: "frente-justica",
+    tagline: "37.5 milhões de brasileiros invisíveis. O sistema fingiu que não viu.",
+    descricao: "Indígenas, quilombolas, ribeirinhos, dependentes químicos. Quem o IBGE não conta.",
+    dados_chave: "570 crianças Yanomami mortas (2022-23) · Apenas 17% dos dependentes têm tratamento · População de rua cresceu 38%",
+  },
+  {
+    id: "futuro",
+    nome: "FUTURO E AMBIENTE",
+    cor: "#52B788",
+    corClass: "frente-futuro",
+    tagline: "Desmatamento não para. Internet não chega. Quem decide o amanhã?",
+    descricao: "Amazônia, conectividade e censo demográfico. O futuro do Brasil está em jogo.",
+    dados_chave: "13.235 km² desmatados (2023) · 70% zona rural sem internet · Censo IBGE: 2-3 anos de atraso",
+  },
+];
+
+const EXAMES = [{"dominio": "violencia", "frente_id": "emergencia", "exame_rotulo": "Toxicologico: violencia, drogas, crime", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 50, "indicadores": ["homicidios (tempo real)", "tiroteio (localizacao)", "violencia domestica (denuncia)", "violencia policial", "faccao/territorio", "desaparecidos"], "gap": "Nao sabemos onde tiroteio acontece em tempo real. SINESP tem 6-12h de atraso.", "custo": "R$ 6M/ano (infra + app)"}, {"dominio": "saude", "frente_id": "emergencia", "exame_rotulo": "Exame de Sangue: amostra profunda (sensor + medicao)", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 50, "indicadores": ["mortalidade infantil (tempo real)", "mortalidade materna", "fila SUS", "medicamento disponivel", "postos funcionando", "doencas endemicas (dengue, malaria)", "saude mental", "desnutricao infantil"], "gap": "Mortalidade infantil real e subnotificada. Dengue 2024: >6M casos, 4.000+ mortes. Fila SUS nao existe como metrica.", "custo": "R$ 12M/ano"}, {"dominio": "alimentacao", "frente_id": "emergencia", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 25, "indicadores": ["fome real (0 refeicoes/dia)", "inseguranca alimentar", "merenda escolar (verificar entrega)", "cesta basica por bairro"], "gap": "2o VIGISAN (2022): 33M com fome, 125M em IA. IBGE mede bienal. Fome muda em dias.", "custo": "R$ 4M/ano"}, {"dominio": "agua", "frente_id": "infra", "exame_rotulo": "Exame de Urina: o que o sistema excreta (agua, esgoto)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 50, "indicadores": ["quem tem agua potavel (medido)", "quantos dias/semana chega", "cloro residual (medido)", "esgoto: rede/fossa/nada", "qualidade do rio (PH, turbidez, coliformes)"], "gap": "35M sem agua tratada (PNAD 2022). SNIS e auto-relato da empresa. Esgoto: <55% de cobertura.", "custo": "R$ 9M/ano (sensores + campo)"}, {"dominio": "ambiente", "frente_id": "futuro", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 100, "indicadores": ["queimada (foco, area)", "desmatamento", "qualidade do ar (PM2.5)", "rio (PH, turbidez, mercurio)", "lixo (destino real)"], "gap": "Sabe onde queima. Nao sabe quem queima. 2024: pior seca+queimada em 2 decadas. Falta cruzar com CAR.", "custo": "R$ 2M/ano (maioria OSINT gratis)"}, {"dominio": "educacao", "frente_id": "desenvolvimento", "exame_rotulo": "Ressonancia: como pensa (educacao, letramento)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 75, "indicadores": ["ver open_censo_escolar.py", "analfabetismo funcional real", "evasao", "professor presente (verificado)", "escola com agua/luz/internet"], "gap": "INEP diz 6 salas. Realidade: 3. Ninguem foi verificar. SAEB 2021: 70% nao sabem matematica basica.", "custo": "R$ 16M/ano"}, {"dominio": "indigena", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 75, "indicadores": ["populacao por etnia", "terra demarcada vs invadida", "malario/desnutricao", "garimpo ilegal (mercurio)", "madeireira ilegal", "escola/saude indigena"], "gap": "Censo 2022: 1.7M indigenas (27% fora terras). Garimpo Yanomami cresce sem ninguem ver.", "custo": "R$ 4M/ano"}, {"dominio": "emprego", "frente_id": "desenvolvimento", "exame_rotulo": "Eletrocardiograma: coracao (economia, emprego)", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 50, "indicadores": ["ocupacao formal vs informal", "salario real (nao carteira)", "trabalho infantil", "trabalho escravo", "app-worker (Uber/iFood)", "desemprego real"], "gap": "Informal e 40% da forca de trabalho. PNAD estima por amostra. Desemprego PNAD 2024: ~6.5%.", "custo": "R$ 3M/ano"}, {"dominio": "inflacao", "frente_id": "soberania", "exame_rotulo": "Pressao Arterial: inflacao, custo de vida", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 75, "indicadores": ["preco arroz/feijao/oleo/leite por bairro", "gas/onibus/luz/remedio", "cesta basica por cidade", "IPCA periferia"], "gap": "IPCA mede 16 capitais. Periferia e interior: invisivel. IPCA 2024 acumulado ~4.5%.", "custo": "R$ 2M/ano"}, {"dominio": "energia", "frente_id": "infra", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 75, "indicadores": ["quem tem luz", "quantas horas/dia", "qualidade (pisca?)", "preco da conta", "quem tem geladeira", "energia solar comunitaria", "gato (roubo energia)"], "gap": "PNAD 2022: 1.8M sem energia. Amazonia: 600 mil sem luz. Qualidade nunca medida.", "custo": "R$ 4M/ano"}, {"dominio": "habitacao", "frente_id": "infra", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 50, "indicadores": ["tipo de construcao", "material", "favela vs formal", "sem-teto (contagem real)", "despejo"], "gap": "Sem-teto nao existe no IBGE. Favela: 17.9M (Censo 2022). Cresce sem medicao.", "custo": "R$ 3M/ano"}, {"dominio": "transporte", "frente_id": "soberania", "exame_rotulo": "Teste de Esforco: mobilidade (transporte)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 75, "indicadores": ["tempo casa->trabalho", "frequencia onibus", "lotacao", "bicicleta como transporte", "estrada: asfalto/terra/rio"], "gap": "Tempo de deslocamento periferia->centro nunca medido. IBGE mobility: >1h/dia media metropole.", "custo": "R$ 2M/ano"}, {"dominio": "agro", "frente_id": "futuro", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 100, "indicadores": ["area plantada", "producao", "familiar vs agronegocio", "agrotoxico no rio", "trabalho escravo rural"], "gap": "Censo agro e decadal (2017 foi o ultimo completo). Agronegocio muda em meses.", "custo": "R$ 2M/ano"}, {"dominio": "quilombola", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 75, "indicadores": ["populacao", "territorio certificado vs ameacado", "saude/escola/agua/luz", "ameaca (grileiro)"], "gap": "Censo 2022: 1.3M quilombolas. Titulacao: <15% dos territorios.", "custo": "R$ 2M/ano"}, {"dominio": "ribeirinha", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 25, "indicadores": ["populacao por comunidade", "acesso (barco, dias ate cidade)", "saude (malario?)", "energia (solar?)", "agua (rio? potavel?)"], "gap": "500.000+ invisiveis. IBGE nao chega. So de barco.", "custo": "R$ 5M/ano (logistica)"}, {"dominio": "populacao", "frente_id": "futuro", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 50, "indicadores": ["contagem populacional", "faixa etaria", "genero", "raca/cor", "migracao"], "gap": "Censo 2022 (divulgado 2023): 203.1M. Base legal: censo decenal. 4.5M subnotificados/n cobertos.", "custo": "R$ 5M/ano"}, {"dominio": "registro", "frente_id": "futuro", "exame_rotulo": "Genetico: raca, origem, migracao (sem juizo)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 50, "indicadores": ["nascimento (certidao digital)", "obito (causa real)", "casamento", "SEM cartorio (indigena/ribeirinho)"], "gap": "Indigena sem certidao. Obito sem causa. Ribeirinho sem cartorio. Sub-registro civil ~10%.", "custo": "R$ 3M/ano"}, {"dominio": "geografia", "frente_id": "futuro", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 100, "indicadores": ["mapa atualizado", "rua aberta vs fechada", "ponte existe vs caida", "limite municipal"], "gap": "Mapa IBGE desatualizado. Rua nova nao aparece. OSM melhor mas com gaps no rural.", "custo": "R$ 1M/ano"}];
+
+function renderCarrosseis() {
+  var container = document.getElementById('carrosseis');
+
+  container.innerHTML = FRENTES.map(function(f) {
+    var examesDaFrente = EXAMES.filter(function(e) {
+      return e.frente_id === f.id;
+    });
+
+    // COVER slide
+    var coverSlide =
+      '<div class="carousel">' +
+        '<div class="slide slide-cover ' + f.corClass.replace('frente-','slide-cover ').trim() + '" style="background: none;">' +
+          '<div class="' + f.corClass + '" style="width:100%;height:100%;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between;">' +
+            '<div>' +
+              '<div class="logo" style="background:rgba(255,255,255,0.15);">R</div>' +
+              '<div style="margin-top:24px;">' +
+                '<p class="tag">FRENTE DE ATAQUE</p>' +
+                '<h2 style="color:white;">' + f.nome + '</h2>' +
+              '</div>' +
+            '</div>' +
+            '<div>' +
+              '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;font-weight:600;margin-bottom:12px;">' + f.tagline + '</p>' +
+              '<p style="color:rgba(255,255,255,0.6);font-size:0.7rem;line-height:1.5;">' + f.dados_chave + '</p>' +
+              '<p class="footer-cover" style="color:rgba(255,255,255,0.4);margin-top:16px;">@openrepublic · github.com/mouracleiton/open-republic</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+    // EXAME slides
+    var exameSlides = examesDaFrente.map(function(e, i) {
+      var urgColor = e.urgencia_id === 'u1' ? '#D62828' : e.urgencia_id === 'u2' ? '#E76F51' : e.urgencia_id === 'u3' ? '#F4A261' : '#52B788';
+      return '<div class="slide slide-content ' + f.corClass + '">' +
+        '<span class="slide-num">' + (i+2) + '/' + (examesDaFrente.length + 2) + '</span>' +
+        '<div class="pill">' + e.urgencia + '</div>' +
+        '<h3>' + e.dominio.toUpperCase() + '</h3>' +
+        '<p class="slide-label">O QUE MEDE</p>' +
+        '<p>' + e.exame_rotulo + '</p>' +
+        '<div style="margin:16px 0;">' +
+          '<div class="stat-label">Automação</div>' +
+          '<div class="stat" style="font-size:1.8rem;color:' + (e.automacao_pct >= 75 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828') + ';">' + e.automacao_pct + '%</div>' +
+        '</div>' +
+        '<ul>' +
+          e.indicadores.slice(0,4).map(function(ind) { return '<li>• ' + ind + '</li>'; }).join('') +
+        '</ul>' +
+        '<div class="gap-box">' +
+          '<strong>⚠ GAP:</strong> ' + e.gap.substring(0, 120) + (e.gap.length > 120 ? '...' : '') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    // CTA slide
+    var ctaSlide =
+      '<div class="slide slide-cta ' + f.corClass + '" style="background:#0A2540;">' +
+        '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--verde),var(--ciano));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;color:white;margin-bottom:16px;">R</div>' +
+        '<h3 style="color:white;">O Raio X custa<br>R$ 0.42 por brasileiro/ano</h3>' +
+        '<p>Saber onde dói é o primeiro passo pra curar.</p>' +
+        '<p style="font-size:0.7rem;color:#484f58;">@openrepublic<br>github.com/mouracleiton/open-republic</p>' +
+      '</div>';
+
+    // Navigation dots
+    var navHint = '<p class="nav-hint">← Arraste para ver todos os ' + examesDaFrente.length + ' exames desta frente →</p>';
+
+    return '<div class="frente-section">' +
+      '<div class="frente-titulo" style="background:' + f.cor + '22; color:' + f.cor + ';">' + f.nome + '</div>' +
+      '<p class="frente-sub">' + f.descricao + '</p>' +
+      '<div class="carousel">' + coverSlide + exameSlides + ctaSlide + '</div>' +
+      navHint +
+    '</div>';
+  }).join('');
+}
+
+window.addEventListener('load', renderCarrosseis);
+</script>
+</body>
+</html>
