@@ -218,7 +218,7 @@ def _init_comandos() -> List[ComandoVoz]:
     return [
         # === JANELAS (inclui Wayland 2025) ===
         ComandoVoz("jan_abrir", DominioComando.JANELAS,
-            [r"^abrir (.+)$", r"^iniciar (.+)$", r"^abre (?:o |a )?(.+)$"],
+            [r"^abrir (?!com |usando |vscode|code|vs code|ide|neovim|nvim|obsidian|flatpak|energia|iara|telefonista)(.+)$", r"^iniciar (?!vscode|code|vs code|ide)(.+)$", r"^abre (?:o |a )?(?!vscode)(.+)$"],
             "abrir_app", ["app"],
             "Abre um aplicativo pelo nome",
             "abrir firefox"),
@@ -310,7 +310,7 @@ def _init_comandos() -> List[ComandoVoz]:
 
         # === DIGITACAO ===
         ComandoVoz("dig_ditar", DominioComando.DIGITACAO,
-            [r"^digitar (.+)$", r"^escrever (.+)$", r"^ditar (.+)$"],
+            [r"^digitar (?!codigo)(.+)$", r"^escrever (?!codigo)(.+)$", r"^ditar (?!codigo)(.+)$"],
             "digitar_texto", ["texto"],
             "Digita o texto ditado no campo ativo",
             "digitar ola mundo"),
@@ -471,7 +471,7 @@ def _init_comandos() -> List[ComandoVoz]:
             "Bloqueia a tela (loginctl lock-session)",
             "bloquear tela"),
         ComandoVoz("sis_suspend", DominioComando.SISTEMA,
-            [r"^(?:suspender |dormir |suspend |sleep)$"],
+            [r"^(?:suspender|dormir|suspend|sleep)$"],
             "suspender_sistema", [],
             "Suspende o sistema (systemctl suspend)",
             "suspender"),
