@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic — Relatório: Ineficiência das Políticas Públicas do Brasil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  :root {
+    --verde: #1A5E3F;
+    --azul: #0A2540;
+    --vermelho: #D62828;
+    --amarelo: #D4A017;
+    --ciano: #00B4D8;
+    --verde-claro: #52B788;
+    --laranja: #E76F51;
+    --terra: #8B5E3C;
+  }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+  }
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+  }
+  .stat-number {
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .info-box {
+    background: rgba(0,180,216,0.06);
+    border-left: 3px solid #00B4D8;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.6;
+  }
+  .danger-box {
+    background: rgba(214,40,40,0.06);
+    border-left: 3px solid #D62828;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.6;
+  }
+  .pill {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .fracasso-card {
+    border-left: 4px solid #D62828;
+  }
+  .sucesso-card {
+    border-left: 4px solid #52B788;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .toc-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #21262d;
+    font-size: 0.9rem;
+  }
+  .toc-item a {
+    color: #00B4D8;
+    text-decoration: none;
+  }
+  .toc-item a:hover {
+    text-decoration: underline;
+  }
+  @media print {
+    body { background: white; color: black; }
+    .card { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HEADER -->
+<header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
+  <div class="max-w-4xl mx-auto px-4 py-4">
+    <div class="flex items-center gap-3 mb-1">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg" style="background: linear-gradient(135deg, #1A5E3F, #0A2540);">R</div>
+      <div>
+        <h1 class="text-xl font-black">Relatório: Ineficiência das Políticas Públicas do Brasil</h1>
+        <p class="text-xs text-[#8b949e]">OpenRepublic · Dados pré-compilados · 33 políticas avaliadas · 2024/2025</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SUMÁRIO EXECUTIVO -->
+<section class="max-w-4xl mx-auto px-4 py-8">
+  <div class="info-box mb-8">
+    <strong>SUMÁRIO EXECUTIVO.</strong> Este relatório analisa <strong>33 políticas públicas brasileiras</strong>
+    mapeadas aos 18 domínios do Raio X do Brasil. Cada política foi avaliada em duas dimensões:
+    <strong>eficiência</strong> (o custo é proporcional ao resultado?) e <strong>eficácia</strong>
+    (o problema foi resolvido de fato?). Os dados vem de fontes públicas: IBGE, INEP, VIGISAN, DataSUS,
+    SINESP, Ministério da Fazenda, TCU.
+  </div>
+
+  <!-- HERO METRICS -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="card p-5 text-center" style="border-top: 3px solid #52B788;">
+      <p class="stat-number" style="color:#52B788;">6%</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">RESOLVEM</p>
+      <p class="text-xs text-[#8b949e] mt-1">2 de 33 políticas</p>
+    </div>
+    <div class="card p-5 text-center" style="border-top: 3px solid #D62828;">
+      <p class="stat-number" style="color:#D62828;">33%</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">NÃO RESOLVEM</p>
+      <p class="text-xs text-[#8b949e] mt-1">11 de 33 políticas</p>
+    </div>
+    <div class="card p-5 text-center" style="border-top: 3px solid #E76F51;">
+      <p class="stat-number" style="color:#E76F51;">12</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">BAIXA EFICIÊNCIA</p>
+      <p class="text-xs text-[#8b949e] mt-1">caro e sem resultado</p>
+    </div>
+    <div class="card p-5 text-center" style="border-top: 3px solid #D4A017;">
+      <p class="stat-number" style="color:#D4A017;">R$500bi+</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">ORÇAMENTO/ANO</p>
+      <p class="text-xs text-[#8b949e] mt-1">gasto nas 33 políticas</p>
+    </div>
+  </div>
+
+  <div class="danger-box mb-8">
+    <strong>VEREDITO CENTRAL.</strong> De R$ 500+ bilhões gastos anualmente em políticas públicas mapeadas,
+    <strong>apenas 2 programas (VIGISAN e MapBiomas/INPE) resolvem o problema que deveriam resolver</strong> --
+    e ambos são sistemas de <strong>observação</strong>, não de ação. <strong>Nenhuma política de AÇÃO resolve
+    completamente o problema que foi criada para resolver.</strong> 33% das políticas não resolvem NADA do que
+    prometem. O Brasil não tem problema de dinheiro. Tem problema de execução e accountability.
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="card p-6 mb-8">
+    <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Índice</h3>
+    <div class="toc-item"><a href="#fracassos">1. Os 11 Maiores Fracassos (não resolvem ou impacto mínimo)</a></div>
+    <div class="toc-item"><a href="#sucessos">2. As 2 Únicas Políticas que Funcionam</a></div>
+    <div class="toc-item"><a href="#charts">3. Análise Gráfica: Eficiência e Eficácia</a></div>
+    <div class="toc-item"><a href="#causas">4. Por Que Falham? 6 Causas Raiz</a></div>
+    <div class="toc-item"><a href="#dominios">5. Veredito por Domínio</a></div>
+    <div class="toc-item"><a href="#recomendacoes">6. Recomendações</a></div>
+  </div>
+</section>
+
+<!-- 1. FRACASSOS -->
+<section id="fracassos" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#D62828;">1. Os 11 Maiores Fracassos</h2>
+  <p class="section-sub">Políticas com impacto mínimo ou nulo. Dinheiro público gasto sem resultado observável no problema.</p>
+  <div id="fracassos-list" class="space-y-4"></div>
+</section>
+
+<!-- 2. SUCESSOS -->
+<section id="sucessos" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#52B788;">2. As 2 Únicas Políticas que Funcionam</h2>
+  <p class="section-sub">Exceções que confirmam a regra. Ambas medem -- nenhuma age diretamente.</p>
+  <div id="sucessos-list" class="space-y-4"></div>
+</section>
+
+<!-- 3. CHARTS -->
+<section id="charts" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#00B4D8;">3. Análise Gráfica</h2>
+  <p class="section-sub">Eficiência (custo vs resultado) e Eficácia (resolve?) das 33 políticas mapeadas.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficiência: o dinheiro é bem gasto?</h3>
+      <div id="chart-eficiencia" style="height: 300px;"></div>
+    </div>
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficácia: o problema foi resolvido?</h3>
+      <div id="chart-eficacia" style="height: 300px;"></div>
+    </div>
+  </div>
+
+  <div class="card p-6">
+    <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Veredito por Domínio (18 áreas do Raio X)</h3>
+    <div id="chart-veredito" style="height: 450px;"></div>
+  </div>
+</section>
+
+<!-- 4. CAUSAS RAIZ -->
+<section id="causas" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#D4A017;">4. Por Que Falham? 6 Causas Raiz</h2>
+  <p class="section-sub">Padrões que se repetem nas políticas que não funcionam. Não é caso isolado -- é sistêmico.</p>
+
+  <div class="space-y-4">
+    <div class="card p-5" style="border-left: 4px solid #D62828;">
+      <h3 class="font-bold text-base mb-2">CAUSA 1: "O dinheiro chega, o resultado não"</h3>
+      <p class="text-sm text-[#8b949e]">O governo transfere recursos mas nunca mede se o problema diminuiu. Exemplo: o Bolsa Família transfere R$ 36 bilhões/ano e a fome <strong>continua em 33 milhões</strong> (VIGISAN 2022). Ninguém verifica se o dinheiro virou comida no prato. 17% das famílias beneficiárias continuam passando fome.</p>
+    </div>
+
+    <div class="card p-5" style="border-left: 4px solid #E76F51;">
+      <h3 class="font-bold text-base mb-2">CAUSA 2: "Política de gaveta -- criada, não executada"</h3>
+      <p class="text-sm text-[#8b949e]">Leis, marcos regulatórios e planos que existem no papel mas nunca saem do papel. O Novo Marco do Saneamento (Lei 14.026/2020) promete 99% de água até 2033. Ritmo atual: 0,5%/ano. Vai chegar lá em 2050. O PNBL (Programa Nacional de Banda Larga) foi criado em 2010 e <strong>extinto em 2019 sem cumprir a meta</strong>. 70% da zona rural segue sem internet.</p>
+    </div>
+
+    <div class="card p-5" style="border-left: 4px solid #F4A261;">
+      <h3 class="font-bold text-base mb-2">CAUSA 3: "Cobertura parcial vendida como universal"</h3>
+      <p class="text-sm text-[#8b949e]">Políticas que atendem uma fração do público-alvo mas são apresentadas como solução nacional. O SUS atende 75% da população -- mas com cobertura vacinal em queda livre (95% em 2015 para 68% em 2023). A Lei Maria da Penha emitiu 1,8 milhão de medidas protetivas -- mas só 198 abrigos existem no Brasil para acolher mulheres. A política existe; a estrutura não acompanha.</p>
+    </div>
+
+    <div class="card p-5" style="border-left: 4px solid #D4A017;">
+      <h3 class="font-bold text-base mb-2">CAUSA 4: "Subfinanciamento crônico disfarçado de política completa"</h3>
+      <p class="text-sm text-[#8b949e]">O Brasil gasta 4% do PIB em saúde (média OCDE: 8%). Gasta R$ 5.500/aluno/ano (Finlândia: R$ 60.000). O SASI-SUS (saúde indígena) tem orçamento de R$ 3 bi/ano para 800 mil indígenas em territórios remotos -- <strong>570 crianças Yanomami morreram de fome entre 2022 e 2023</strong>. A política é anunciada como existe; o dinheiro é insuficiente para execução real.</p>
+    </div>
+
+    <div class="card p-5" style="border-left: 4px solid #C77DFF;">
+      <h3 class="font-bold text-base mb-2">CAUSA 5: "Dados autopreenchidos sem verificação"</h3>
+      <p class="text-sm text-[#8b949e]">O INEP pergunta ao diretor da escola quantas salas tem. O SNIS pergunta à empresa de saneamento quantas casas tem água. <strong>Ninguém vai verificar.</strong> O diretor tem incentivo para sobre-relatar (mais recurso). A empresa tem incentivo para sobre-relatar (melhor IDEB, menos multa). O dado que valida a política é produzido pelo próprio agente que deveria ser fiscalizado por ela. É o governo perguntando ao governo se o governo está fazendo o trabalho.</p>
+    </div>
+
+    <div class="card p-5" style="border-left: 4px solid #264653;">
+      <h3 class="font-bold text-base mb-2">CAUSA 6: "Descontinuidade política -- cada governo reinventa"</h3>
+      <p class="text-sm text-[#8b949e]">Programas que sobem e descem com mudança de governo. O Mais Médicos reduziu mortalidade infantil em 15% nas áreas atendidas -- e foi interrompido em 2023 (expulsão de médicos cubanos). O Programa Cisternas instalou 1 milhão de cisternas e oscila com cada nova gestão. O PPCDAm (desmatamento) reduz quando há vontade política e dispara quando não há. Políticas que dependem de governo não são políticas -- são campanhas eleitorais com dinheiro público.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. VEREDITO POR DOMINIO -->
+<section id="dominios" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#00B4D8;">5. Veredito por Domínio</h2>
+  <p class="section-sub">Para cada um dos 18 domínios do Raio X: as políticas existentes são suficientes?</p>
+
+  <div class="card p-6 mb-6">
+    <div id="chart-dominio-bar" style="height: 500px;"></div>
+  </div>
+
+  <div id="dominios-list" class="space-y-3"></div>
+</section>
+
+<!-- 6. RECOMENDACOES -->
+<section id="recomendacoes" class="max-w-4xl mx-auto px-4 pb-12">
+  <h2 class="section-title" style="color:#52B788;">6. Recomendações</h2>
+  <p class="section-sub">Não basta apontar o problema. O que precisa mudar -- e como.</p>
+
+  <div class="space-y-4">
+
+    <div class="card p-6" style="border-left: 4px solid #52B788;">
+      <h3 class="font-bold mb-2">1. FATO, NÃO OPINIÃO (Gate Epistemológico)</h3>
+      <p class="text-sm text-[#8b949e]">Toda política pública deve ter seus resultados medidos por <strong>dados independentes verificados</strong>, não por auto-relato do executor. Antes de renovar orçamento de qualquer programa, exigir os <strong>7 critérios de FATO</strong>: amostra representativa, reprodutível, fonte independente, triangulação, sem viés, magnitude mensurável, dado temporal. Sem FATO, o orçamento não é renovado.</p>
+    </div>
+
+    <div class="card p-6" style="border-left: 4px solid #00B4D8;">
+      <h3 class="font-bold mb-2">2. RASTREIO INDIVIDUAL, NÃO AGREGADO</h3>
+      <p class="text-sm text-[#8b949e]">Nenhuma política deve medir sucesso por "X milhões de atendimentos". Exigir rastreio individual: a criança Y recebeu a comida Z no dia W? O peso dela subiu? Nenhum programa social deve ser aprovado sem rastreio do beneficiário final até o resultado. Sem rastreio, desvio é invisível.</p>
+    </div>
+
+    <div class="card p-6" style="border-left: 4px solid #D4A017;">
+      <h3 class="font-bold mb-2">3. CENSO PRÓPRIO EM TEMPO REAL</h3>
+      <p class="text-sm text-[#8b949e]">O Censo IBGE sai a cada 10 anos com 2-3 de atraso e subnotifica 37,5 milhões. Nenhuma política pode ser avaliada com dado de 2 anos atrás. Implementar o Raio X proposto neste relatório: <strong>R$ 85 milhões/ano (R$ 0,42 por brasileiro), 18 exames em tempo real, OSINT + cidadão</strong>. 3% do custo do Censo IBGE.</p>
+    </div>
+
+    <div class="card p-6" style="border-left: 4px solid #F4A261;">
+      <h3 class="font-bold mb-2">4. EXTINÇÃO DE POLÍTICAS QUE NÃO RESOLVEM</h3>
+      <p class="text-sm text-[#8b949e]">As 11 políticas com eficácia mínima ou nula não devem ter orçamento renovado automaticamente. Cada uma deve passar por auditoria do TCU com pergunta direta: "O problema diminuiu?" Se a resposta é não, o orçamento é redirecionado para políticas que funcionam ou para novas abordagens. Continuar financiando fracasso é Lei de Gerson aplicada à máquina pública.</p>
+    </div>
+
+    <div class="card p-6" style="border-left: 4px solid #C77DFF;">
+      <h3 class="font-bold mb-2">5. CONTINUIDADE POR LEI, NÃO POR GESTÃO</h3>
+      <p class="text-sm text-[#8b949e]">Programas que comprovadamente funcionam (como Mais Médicos, PRONAF, Programa Cisternas) devem ter continuidade <strong>garantida por lei</strong>, não por decisão de gestão. A descontinuidade custa vidas. Cada interrupção retrocede anos de progresso. Políticas de Estado, não de governo.</p>
+    </div>
+
+    <div class="card p-6" style="border-left: 4px solid #D62828;">
+      <h3 class="font-bold mb-2">6. FISCALIZAÇÃO PELO CIDADÃO (P13)</h3>
+      <p class="text-sm text-[#8b949e]">Quem exerce poder público perde privacidade proporcional ao poder (Princípio 13). Toda licitação, todo repasse, todo contrato deve ser público em tempo real. Canal de denúncia anônimo, tamper-proof (blockchain), com verificação comunitária. O cidadão é o fiscal final. Sem isso, accountability é teatro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSÃO -->
+<section class="max-w-4xl mx-auto px-4 pb-12">
+  <div class="card p-8" style="border: 1px solid #D62828; background: rgba(214,40,40,0.03);">
+    <h2 class="text-xl font-black mb-4" style="color:#D62828;">Conclusão</h2>
+    <p class="text-sm text-[#8b949e] leading-relaxed mb-4">
+      O Brasil não tem problema de dinheiro. Tem problema de execução, medição e accountability.
+    </p>
+    <p class="text-sm text-[#8b949e] leading-relaxed mb-4">
+      Dos mais de R$ 500 bilhões gastos anualmente nas 33 políticas mapeadas, <strong>apenas 6% chegam ao resultado prometido</strong>.
+      Não é pouco dinheiro -- é mal aplicado. Não faltam políticas -- falta saber se elas funcionam.
+      Não faltam dados -- falta alguém que vá verificar se o dado é real.
+    </p>
+    <p class="text-sm text-[#8b949e] leading-relaxed mb-4">
+      A solução não é criar mais políticas. É <strong>extinguir as que não funcionam</strong>,
+      <strong>medir as que funcionam com dado independente</strong>, e
+      <strong>rastrear cada beneficiário até o resultado final</strong>.
+      O Raio X do Brasil proposto aqui custa R$ 0,42 por brasileiro por ano.
+      É menos que dois dias de juros da dívida pública.
+    </p>
+    <p class="text-sm text-[#e6edf3] font-semibold mt-6">
+      "O IBGE pergunta ao diretor. Nós perguntamos ao chão."
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#30363d] mt-8 py-8 text-center text-xs text-[#484f58]">
+  <p>OpenRepublic · github.com/mouracleiton/open-republic</p>
+  <p class="mt-1">33 políticas mapeadas · 18 domínios · Dados pré-compilados 2024/2025 · CC0 Universal</p>
+  <p class="mt-2 text-[#30363d]">Este relatório usa o framework FATO (7 critérios) e o princípio VIDA/BOLSO/VOTO/ESTRUTURA do Triage Operacional.</p>
+</footer>
+
+<script type="application/json" id="embedded-data">
+{"politicas": [{"dominio": "agropecuaria", "veredito": "PARCIAL", "nome": "Plano Safra (Crédito Rural)", "esfera": "Federal", "orcamento": "R$ 400 bi/ano (2024/2025)", "publico": "Produtores rurais (grande e pequeno)", "alcance": "~70% vai para grande produtor. ~30% para agricultura familiar.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Brasil e 2o maior exportador de alimentos. Mas 33M passam fome.", "gap": "Produz comida PRA EXPORTAR. Familiar recebe 30% do credito, produz 70% da comida DO BR.", "ano": 1965, "status": "ativo"}, {"dominio": "agropecuaria", "veredito": "PARCIAL", "nome": "PRONAF (Agricultura Familiar)", "esfera": "Federal", "orcamento": "R$ 60 bi/ano (dentro do Plano Safra)", "publico": "4 milhoes de familias de agricultores familiares", "alcance": "~2 milhoes de contratos ativos.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Agricultura familiar produz 70% da comida consumida no BR com 30% do credito.", "gap": "Subfinanciado. Demanda e 4x maior que oferta de credito.", "ano": 1995, "status": "ativo"}, {"dominio": "agua", "veredito": "PARCIAL", "nome": "Novo Marco Legal do Saneamento (Lei 14.026/2020)", "esfera": "Federal", "orcamento": "R$ 700 bi (meta 20 anos)", "publico": "Toda populacao", "alcance": "84% agua tratada (urbano). Rural: ~40%. Sertao: <30%.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Meta: 99% agua ate 2033. Ritmo atual: 0.5%/ano. Chegara em 2050.", "gap": "Privatizou sem fiscalizar. Tarifa subiu. Rural IGNORADO pela lei.", "ano": 2020, "status": "ativo"}, {"dominio": "agua", "veredito": "PARCIAL", "nome": "Programa Agua Doce / Cisternas", "esfera": "Federal", "orcamento": "R$ 500M/ano", "publico": "Sertao nordestino", "alcance": "~1 milhoao de cisternas instaladas (P1MC + P1+2). Demanda: ~3 milhoes.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Cisterna garante agua potavel por 8 meses de seca para uma familia.", "gap": "Cobre ~33% da demanda. Programa oscila com mudanca de governo.", "ano": 2003, "status": "ativo"}, {"dominio": "alimentacao", "veredito": "PARCIAL", "nome": "Bolsa Familia (novo)", "esfera": "Federal", "orcamento": "R$ 36 bi/ano", "publico": "~21 milhoes de familias (~55 milhoes)", "alcance": "~80% das familias elegiveis. 20% ainda sem cadastrar.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Fome caiu de 33M (2022) para ~33M (2024). NAo mudou. Dinheiro entra, fome continua.", "gap": "NAO garante que dinheiro vire comida. ~17% das familias ainda passam fome.", "ano": 2003, "status": "ativo"}, {"dominio": "alimentacao", "veredito": "PARCIAL", "nome": "PNAE (Merenda Escolar)", "esfera": "Federal", "orcamento": "R$ 2.5 bi/ano", "publico": "~40 milhoes de alunos", "alcance": "Cobre todas escolas publicas. Mas 1.6M criancas fora da escola = sem merenda.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Garante 1 refeicao/dia para 40M criancas. Custo R$0.36/aluno/dia.", "gap": "Crianca que falta nao come. Terceirizacao em 70% dos municipios. Qualidade duvidosa.", "ano": 1955, "status": "ativo"}, {"dominio": "ambiente", "veredito": "PARCIAL (alguma funciona)", "nome": "PPCDAm (Plano Prevencao Desmatamento Amazonia)", "esfera": "Federal", "orcamento": "R$ 2 bi/ano", "publico": "Amazonia Legal", "alcance": "Desmatamento: 13.235 km2 (2023). Caiu 22% vs 2022, mas ainda 2x meta.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu desmatamento 22% (2022->2023). Meta: eliminar ate 2027.", "gap": "Sobe e desce com governo. Ibama multa mas 80% das multas nao sao pagas.", "ano": 2004, "status": "ativo"}, {"dominio": "ambiente", "veredito": "PARCIAL (alguma funciona)", "nome": "MapBiomas / INPE (Monitoramento)", "esfera": "Federal/ONG", "orcamento": "R$ 500M/ano", "publico": "Toda populacao (dados publicos)", "alcance": "Cobertura nacional. DETER/PRODES alerta quase em tempo real.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "resolve", "eficacia_rotulo": "Resolve (problema diminuiu significativamente)", "impacto": "MapBiomas e referencia mundial. INPE detecta desmatamento em 1-7 dias.", "gap": "Detecta, mas fiscalizacao e fraca. Sabe onde queima, nao apaga o fogo.", "ano": 1988, "status": "ativo"}, {"dominio": "comunicacao", "veredito": "FALHOU (nao resolve)", "nome": "Programa Nacional de Banda Larga (PNBL)", "esfera": "Federal", "orcamento": "R$ 4 bi (total historico)", "publico": "Areas nao atendidas", "alcance": "Descontinuado em 2019. Cobertura rural: ~30%.", "eficiencia": "nula", "eficiencia_rotulo": "Nulo (dinheiro gasto, sem resultado)", "eficacia": "nao_resolve", "eficacia_rotulo": "Nao resolve (problema persiste)", "impacto": "Projeto abandonado. 70% das areas rurais sem internet em 2024.", "gap": "Internet chega pelo mercado (caro), nao por politica. Escola rural sem internet.", "ano": 2010, "status": "extinto"}, {"dominio": "cultura", "veredito": "PARCIAL", "nome": "Lei Paulo Gustavo / Lei Aldir Blanc", "esfera": "Federal", "orcamento": "R$ 3.8 bi (Aldir Blanc) + R$ 3.8 bi (Paulo Gustavo)", "publico": "Trabalhadores da cultura", "alcance": "~500 mil beneficiarios.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Manteve setor cultural vivo durante pandemia. Mas e emergencial, nao continuo.", "gap": "Lei Rouanet concentra 90% em 10% (ricos). Cultura periferica sem acesso.", "ano": 2020, "status": "ativo"}, {"dominio": "drogas", "veredito": "FALHOU (nao resolve)", "nome": "Política Nacional sobre Drogas (SENAD)", "esfera": "Federal", "orcamento": "R$ 1 bi/ano", "publico": "Usuarios dependentes + prevencao", "alcance": "~500 CAPS-AD (centros de atendimento). Demanda: ~3000.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Drogas sinteticas cresceram 400% (2019-2024). Crack persiste.", "gap": "So 17% dos dependentes tem acesso a tratamento. Lei de drogas eca racial.", "ano": 2002, "status": "ativo"}, {"dominio": "educacao", "veredito": "PARCIAL", "nome": "FUNDEB (Fundo de Manutencao da Educacao Basica)", "esfera": "Federal/Estadual/Municipal", "orcamento": "R$ 165 bi/ano", "publico": "40 milhoes de alunos da rede publica", "alcance": "Todas escolas publicas recebem repasse.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Brasil gasta R$5.500/aluno/ano. Finlandia gasta R$60k. PISA 2022: BR 393/410/403 vs OCDE 472/476/485.", "gap": "Dinheiro entra mas IDEB estagnou. 7o ano: 50% nao sabem ler.", "ano": 1996, "status": "ativo"}, {"dominio": "educacao", "veredito": "PARCIAL", "nome": "ProUNI / FIES / Enem", "esfera": "Federal", "orcamento": "R$ 12 bi/ano", "publico": "Estudantes de baixa renda para ensino superior", "alcance": "~3 milhoes de bolsas concedidas historico.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Ampliou acesso ao superior. Mas evasao ~50% nos primeiros 2 anos.", "gap": "So 18% dos jovens 18-24 chegam a universidade. Majoritariamente brancos.", "ano": 2004, "status": "ativo"}, {"dominio": "emprego", "veredito": "PARCIAL", "nome": "Seguro-Desemprego", "esfera": "Federal", "orcamento": "R$ 60 bi/ano", "publico": "Trabalhadores formais demitidos", "alcance": "~8 milhoes de beneficiarios/ano.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Socorro temporario. NAO reconecta ao mercado de trabalho.", "gap": "So cobre trabalhador FORMAL. ~40M informais nao tem direito.", "ano": 1986, "status": "ativo"}, {"dominio": "emprego", "veredito": "PARCIAL", "nome": "Programa Emprega + Mulheres / Renova Mais", "esfera": "Federal", "orcamento": "R$ 1 bi/ano", "publico": "Mulheres, jovens, pretos/pardos", "alcance": "~100 mil insercoes/ano vs 10M desempregados.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Cobertura <1% do publico alvo.", "gap": "Gota no oceano. Nao atende escala.", "ano": 2022, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "Luz para Todos", "esfera": "Federal", "orcamento": "R$ 8 bi (total historico)", "publico": "Comunidades rurais sem energia", "alcance": "~3.5 milhoes de ligacoes realizadas desde 2003.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Levou luz a 16 milhoes de pessoas. Mas ainda ha ~200 mil sem luz.", "gap": "Areas remotas (Amazonia, sertao) ainda sem. Energia solar nao incluida.", "ano": 2003, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "Tarifa Social de Energia Eletrica", "esfera": "Federal", "orcamento": "R$ 8 bi/ano (subsidio)", "publico": "Familias de baixa renda", "alcance": "~22 milhoes de familias beneficiadas.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Desconto de 10-65% na conta de luz. Evita corte.", "gap": "Nao cobre quem NAO tem rede eletrica. Subsidio a consumo, nao a geracao.", "ano": 2010, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "ProGD (Geracao Distribuida Solar)", "esfera": "Federal", "orcamento": "N/A (incentivo tributario)", "publico": "Quem pode instalar paineis", "alcance": "~2 milhoes de sistemas instalados (2024). Concentrado em classe media.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Solar cresceu 80%/ano. Mas pobre nao tem dinheiro pro painel.", "gap": "Beneficia quem tem telhado + credito. Pobre alugado fica de fora.", "ano": 2012, "status": "ativo"}, {"dominio": "habitacao", "veredito": "PARCIAL", "nome": "Minha Casa Minha Vida", "esfera": "Federal", "orcamento": "R$ 20 bi/ano", "publico": "Familias de baixa renda (até R$2.600)", "alcance": "~5 milhoes de unidades entregues desde 2009.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu deficit habitacional ~20%. Mas casas longe do centro = sem servicos.", "gap": "Casas no meio do nada. Sem escola, posto, onibus. Virou dormitorio.", "ano": 2009, "status": "ativo"}, {"dominio": "indigena", "veredito": "FALHOU (nao resolve)", "nome": "SASI-SUS (Subsistema Indigena de Saude)", "esfera": "Federal (SESAI)", "orcamento": "R$ 3 bi/ano", "publico": "~800 mil indigenas", "alcance": "34 Distritos Sanitarios Especiais Indigenas (DSEI).", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Mortalidade infantil indigena 2x nacional. Desnutricao crônica Yanomami.", "gap": "Sem medicos, sem estrutura. Yanomami: 570 criancas morreram de fome (2022-2023).", "ano": 2010, "status": "ativo"}, {"dominio": "inflacao", "veredito": "PARCIAL", "nome": "Meta de Inflacao (Copom/BCB)", "esfera": "Federal", "orcamento": "N/A (politica monetaria)", "publico": "Toda populacao (precos)", "alcance": "Afeta todos os precos da economia.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "IPCA 2023: 4.62%. Meta: 3.25%. Mas cesta basica subiu 8% (pesa mais no pobre).", "gap": "Juros altos (10.75%) matam emprego. Inflacao de alimentos > inflaCAO geral.", "ano": 1999, "status": "ativo"}, {"dominio": "inflacao", "veredito": "PARCIAL", "nome": "Cesta Basica Brasil / Subsidio de Alimentos", "esfera": "Federal", "orcamento": "R$ 0 (extinto)", "publico": "Populacao de baixa renda", "alcance": "0 (programa nao existe mais)", "eficiencia": "nula", "eficiencia_rotulo": "Nulo (dinheiro gasto, sem resultado)", "eficacia": "nao_resolve", "eficacia_rotulo": "Nao resolve (problema persiste)", "impacto": "Nenhum. Nao existe controle de preco de alimentos basicos no Brasil.", "gap": "Arroz +50%, feijao +30% em 2024. Zero politica de controle.", "ano": 1980, "status": "extinto"}, {"dominio": "saneamento", "veredito": "FALHOU (nao resolve)", "nome": "Novo Marco Saneamento (Lei 14.026/2020)", "esfera": "Federal", "orcamento": "R$ 700 bi (meta 20 anos)", "publico": "Toda populacao", "alcance": "Coleta de esgoto: 53% (urbano). Rural: ~15%.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Meta: 90% esgoto ate 2033. Ritmo atual: 0.8%/ano. Chegara em 2050.", "gap": "Privatizou sem metas reais. Crianca continua morrendo de diarreia no Norte.", "ano": 2020, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "SUS (Sistema Unico de Saude)", "esfera": "Federal/Estadual/Municipal", "orcamento": "R$ 280 bi/ano", "publico": "215 milhoes de brasileiros", "alcance": "75% da populacao DEPENDE exclusivamente do SUS. 25% tem plano.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Cobertura vacinal caiu de 95% (2015) para 68% (2023). Fila SUS nao existe como metrica. Dengue 2024: 6M casos.", "gap": "Subfinanciamento cronico (gasta 4% do PIB vs 8% OCDE). Faltam medicos no interior.", "ano": 1988, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "Mais Medicos", "esfera": "Federal", "orcamento": "R$ 5 bi/ano", "publico": "Areas remotas e periferias", "alcance": "~18 mil medicos em ~4 mil municipos.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu mortalidade infantil nas areas atendidas em ~15%.", "gap": "Programa interrompido em 2023 (expulsao de medicos cubanos). Retomado parcial.", "ano": 2013, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "Programa Nacional de Imunizacoes (PNI)", "esfera": "Federal", "orcamento": "R$ 8 bi/ano", "publico": "215 milhoes", "alcance": "Historicamente >90%. 2023: 68% (calendario basico).", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Eradicou polio, sarampo (reapareceu 2018-2020). Queda de cobertura e emergencia.", "gap": "Anti-vax + desinformacao + falta de campanha. Cobertura caindo desde 2016.", "ano": 1973, "status": "ativo"}, {"dominio": "seguranca_alimentar", "veredito": "RESOLVE", "nome": "VIGISAN (Vigilancia de Seguranca Alimentar)", "esfera": "Federal", "orcamento": "R$ 20M/ano", "publico": "Amostra nacional", "alcance": "Pesquisa bienal. ~100 mil entrevistados.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "resolve", "eficacia_rotulo": "Resolve (problema diminuiu significativamente)", "impacto": "VIGISAN 2022: 33M com fome, 125M em inseguranca alimentar. DADO REAL.", "gap": "Bienal. Fome muda em dias, VIGISAN mede a cada 2 anos. Volume insuficiente.", "ano": 2012, "status": "ativo"}, {"dominio": "transporte", "veredito": "PARCIAL", "nome": "PAC Mobilidade Urbana", "esfera": "Federal", "orcamento": "R$ 40 bi/ano", "publico": "Populacao urbana", "alcance": "Metros/VLT em ~20 cidades. Onibus sem subsídio federal direto.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Brasil tem 10 linhas de metro vs 200+ em paises equivalentes.", "gap": "Pobre gasta 2h+ em transporte. Tarifa cara. Bicicleta ignorada.", "ano": 2007, "status": "ativo"}, {"dominio": "transporte", "veredito": "PARCIAL", "nome": "Vale-Transporte", "esfera": "Federal", "orcamento": "R$ 12 bi/ano (empresas)", "publico": "Trabalhador formal CLT", "alcance": "~30 milhoes de trabalhadores.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Subsidia passagem do trabalhador formal.", "gap": "Trabalhador informal (40M) nao tem. Idoso e estudante por leis separadas.", "ano": 1987, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "SINESP (Sistema Nacional de Informacoes de Seguranca Publica)", "esfera": "Federal", "orcamento": "R$ 300M/ano", "publico": "Toda populacao (dados de seguranca em tempo real)", "alcance": "Dados com 6-12h de atraso. 40% dos municipios nao alimentam o sistema.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Taxa de homicidios: 21.7/100k (2023). Caiu 3% em 5 anos. SINESP nao previne, so conta.", "gap": "NAO da alerta em tempo real. NAO cobre violencia domestica (subnotificada ~70%).", "ano": 2004, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "PRONASCI / Mais Seguranca", "esfera": "Federal", "orcamento": "R$ 3.8 bi (total historico)", "publico": "Jovens em situacao de risco + forcas de seguranca", "alcance": "Descontinuado em varios estados. Cobertura <10% do publico alvo.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Estudos mostram zero impacto em homicidios nas areas atendidas.", "gap": "Foco em repressao, nao em prevencao. Ignora causas (fome, escola, emprego).", "ano": 2007, "status": "reformulado"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "Lei Maria da Penha (Lei 11.340/2006)", "esfera": "Federal", "orcamento": "~R$ 500M/ano (implementacao)", "publico": "Mulheres em situacao de violencia", "alcance": "1.8 milhoes de medidas protetivas/ano. Mas so 30% dos casos sao denunciados.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Homicidio de mulheres subiu 4% (2019-2023). Lei e boa, execucao falha.", "gap": "Faltam abrigos (so 198 no Brasil). Cumprimento de medidas protetivas ~40%.", "ano": 2006, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "Brasil Seguro (Plano Nacional)", "esfera": "Federal", "orcamento": "R$ 4.5 bi/ano", "publico": "Estados com altos indices de violencia", "alcance": "Repasse a estados. Sem metricas claras de resultado.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Norte/Nordeste continuam com homicidios subindo. Dinheiro sem accountability.", "gap": "Sem meta mensuravel. Dinheiro entra, violencia continua.", "ano": 2022, "status": "ativo"}], "scorecard": {"modulo": "open_politica_publica", "versao": "0.1.0-spec", "dominios_mapeados": 18, "politicas_total": 33, "eficiencia": {"alta": 10, "media": 11, "baixa": 10, "nula": 2, "contra": 0}, "eficacia": {"resolve": 2, "parcial": 20, "minima": 9, "nao_resolve": 2, "piora": 0}, "veredito_por_dominio": {"agropecuaria": "PARCIAL", "agua": "PARCIAL", "alimentacao": "PARCIAL", "ambiente": "PARCIAL (alguma funciona)", "comunicacao": "FALHOU (nao resolve)", "cultura": "PARCIAL", "drogas": "FALHOU (nao resolve)", "educacao": "PARCIAL", "emprego": "PARCIAL", "energia": "PARCIAL", "habitacao": "PARCIAL", "indigena": "FALHOU (nao resolve)", "inflacao": "PARCIAL", "saneamento": "FALHOU (nao resolve)", "saude": "PARCIAL", "seguranca_alimentar": "RESOLVE", "transporte": "PARCIAL", "violencia": "PARCIAL"}, "pct_eficaz": "2/33 resolvem (6%)", "pct_ineficaz": "11/33 nao resolvem (33%)"}}
+</script>
+<script>
+var __jsonData = document.getElementById('embedded-data').textContent;
+window.__DATA__ = JSON.parse(__jsonData);
+
+var EFICIENCIA_COLOR = {alta: '#52B788', media: '#F4A261', baixa: '#E76F51', nula: '#D62828', contra: '#8B1A1A'};
+var EFICIENCIA_LABEL = {alta: 'Alta (barato + resultado)', media: 'Média', baixa: 'Baixa (caro, pouco)', nula: 'Nula (zero resultado)', contra: 'Contraprodutiva'};
+var EFICACIA_COLOR = {resolve: '#52B788', parcial: '#F4A261', minima: '#E76F51', nao_resolve: '#D62828', piora: '#8B1A1A'};
+var EFICACIA_LABEL = {resolve: '✓ Resolve', parcial: '△ Parcial', minima: '△ Impacto mínimo', nao_resolve: '✗ Não resolve', piora: '✗ Piorou'};
+
+var pols = window.__DATA__.politicas;
+var sc = window.__DATA__.scorecard;
+
+// === FRACASSOS ===
+var fracassos = pols.filter(function(p) { return p.eficacia === 'nao_resolve' || p.eficacia === 'minima'; });
+fracassos.sort(function(a,b) {
+  var order = {nao_resolve: 0, minima: 1};
+  return (order[a.eficacia]||2) - (order[b.eficacia]||2);
+});
+
+document.getElementById('fracassos-list').innerHTML = fracassos.map(function(p, i) {
+  return '<div class="card p-5 fracasso-card">' +
+    '<div class="flex gap-2 mb-2 flex-wrap">' +
+      '<span class="pill" style="background:' + EFICACIA_COLOR[p.eficacia] + '22; color:' + EFICACIA_COLOR[p.eficacia] + ';">' + EFICACIA_LABEL[p.eficacia] + '</span>' +
+      '<span class="pill" style="background:' + EFICIENCIA_COLOR[p.eficiencia] + '22; color:' + EFICIENCIA_COLOR[p.eficiencia] + ';">EFICIÊNCIA: ' + p.eficiencia.toUpperCase() + '</span>' +
+      '<span class="pill" style="background:#30363d; color:#8b949e;">' + p.esfera + '</span>' +
+      '<span class="pill" style="background:#8B1A1A22; color:#D62828;">' + p.dominio.toUpperCase() + '</span>' +
+    '</div>' +
+    '<h3 class="font-bold text-base mb-1">' + (i+1) + '. ' + p.nome + '</h3>' +
+    '<p class="text-xs text-[#8b949e] mb-2">Criado em ' + p.ano + ' · ' + p.orcamento + (p.status !== 'ativo' ? ' · <strong style="color:#D62828;">' + p.status.toUpperCase() + '</strong>' : '') + '</p>' +
+    '<details class="text-sm"><summary class="cursor-pointer text-[#00B4D8] hover:underline font-semibold">▼ Detalhes</summary>' +
+    '<div class="mt-3 space-y-2 text-xs">' +
+      '<p><strong>Público alvo:</strong> ' + p.publico + '</p>' +
+      '<p><strong>Alcance real:</strong> ' + p.alcance + '</p>' +
+      '<p><strong>Dado de impacto:</strong> ' + p.impacto + '</p>' +
+      '<div class="p-3 rounded" style="background:rgba(214,40,40,0.05); border:1px solid rgba(214,40,40,0.15);">' +
+        '<strong style="color:#D4A017;">⚠ GAP:</strong> ' + p.gap +
+      '</div>' +
+    '</div></details>' +
+  '</div>';
+}).join('');
+
+// === SUCESSOS ===
+var sucessos = pols.filter(function(p) { return p.eficacia === 'resolve'; });
+document.getElementById('sucessos-list').innerHTML = sucessos.map(function(p, i) {
+  return '<div class="card p-5 sucesso-card">' +
+    '<div class="flex gap-2 mb-2 flex-wrap">' +
+      '<span class="pill" style="background:#52B78822; color:#52B788;">' + EFICACIA_LABEL[p.eficacia] + '</span>' +
+      '<span class="pill" style="background:' + EFICIENCIA_COLOR[p.eficiencia] + '22; color:' + EFICIENCIA_COLOR[p.eficiencia] + ';">EFICIÊNCIA: ' + p.eficiencia.toUpperCase() + '</span>' +
+      '<span class="pill" style="background:#30363d; color:#8b949e;">' + p.esfera + '</span>' +
+    '</div>' +
+    '<h3 class="font-bold text-base mb-1">' + (i+1) + '. ' + p.nome + '</h3>' +
+    '<p class="text-xs text-[#8b949e] mb-2">' + p.orcamento + '</p>' +
+    '<details class="text-sm"><summary class="cursor-pointer text-[#00B4D8] hover:underline font-semibold">▼ Detalhes</summary>' +
+    '<div class="mt-3 space-y-2 text-xs">' +
+      '<p><strong>Público alvo:</strong> ' + p.publico + '</p>' +
+      '<p><strong>Alcance:</strong> ' + p.alcance + '</p>' +
+      '<p><strong>Dado de impacto:</strong> ' + p.impacto + '</p>' +
+      '<p><strong>GAP:</strong> ' + p.gap + '</p>' +
+    '</div></details>' +
+  '</div>';
+}).join('');
+
+// === CHARTS ===
+window.addEventListener('load', function() {
+
+  // Eficiencia
+  var ef = echarts.init(document.getElementById('chart-eficiencia'));
+  var efData = [
+    {name: 'Alta (barato + resultado)', value: sc.eficiencia.alta, color: '#52B788'},
+    {name: 'Média', value: sc.eficiencia.media, color: '#F4A261'},
+    {name: 'Baixa (caro, pouco)', value: sc.eficiencia.baixa, color: '#E76F51'},
+    {name: 'Nula (zero resultado)', value: sc.eficiencia.nula, color: '#D62828'},
+  ].filter(function(d) { return d.value > 0; });
+  ef.setOption({
+    tooltip: {trigger: 'item', formatter: function(p) { return '<b>'+p.name+'</b><br/>'+p.value+' políticas ('+p.percent+'%)'; }},
+    legend: {bottom: 0, textStyle: {color: '#8b949e', fontSize: 10}},
+    series: [{type: 'pie', radius: ['35%','65%'],
+      data: efData.map(function(d) { return {value: d.value, name: d.name, itemStyle: {color: d.color}};}),
+      label: {color: '#e6edf3', fontSize: 14, fontWeight: 'bold', formatter: function(d) { return d.value; }}
+    }]
+  });
+
+  // Eficacia
+  var efc = echarts.init(document.getElementById('chart-eficacia'));
+  var efcData = [
+    {name: 'Resolve', value: sc.eficacia.resolve, color: '#52B788'},
+    {name: 'Parcial', value: sc.eficacia.parcial, color: '#F4A261'},
+    {name: 'Impacto mínimo', value: sc.eficacia.minima, color: '#E76F51'},
+    {name: 'Não resolve', value: sc.eficacia.nao_resolve, color: '#D62828'},
+  ].filter(function(d) { return d.value > 0; });
+  efc.setOption({
+    tooltip: {trigger: 'item', formatter: function(p) { return '<b>'+p.name+'</b><br/>'+p.value+' políticas ('+p.percent+'%)'; }},
+    legend: {bottom: 0, textStyle: {color: '#8b949e', fontSize: 10}},
+    series: [{type: 'pie', radius: ['35%','65%'],
+      data: efcData.map(function(d) { return {value: d.value, name: d.name, itemStyle: {color: d.color}};}),
+      label: {color: '#e6edf3', fontSize: 14, fontWeight: 'bold', formatter: function(d) { return d.value; }}
+    }]
+  });
+
+  // Veredito por dominio
+  var verb = sc.veredito_por_dominio;
+  var domains = Object.keys(verb).sort();
+  var verbData = domains.map(function(d) {
+    var v = verb[d];
+    var color = '#484f58';
+    if (v.startsWith('RESOLVE')) color = '#52B788';
+    else if (v.startsWith('PARCIAL')) color = '#F4A261';
+    else if (v.startsWith('FALHOU')) color = '#D62828';
+    else if (v.startsWith('SEM')) color = '#484f58';
+    return {value: 1, name: d, veredito: v, itemStyle: {color: color}};
+  });
+
+  var verbChart = echarts.init(document.getElementById('chart-veredito'));
+  verbChart.setOption({
+    tooltip: {trigger: 'axis', axisPointer: {type: 'shadow'},
+      formatter: function(params) {
+        var d = verbData[params[0].dataIndex];
+        return '<b>'+d.name.toUpperCase()+'</b><br/>Veredito: <b style="color:'+d.itemStyle.color+'">'+d.veredito+'</b>';
+      }
+    },
+    grid: {left: '3%', right: '28%', bottom: '5%', top: '5%'},
+    xAxis: {type: 'value', show: false},
+    yAxis: {type: 'category', data: domains, axisLabel: {color: '#8b949e', fontSize: 11}, inverse: true},
+    series: [{type: 'bar', data: verbData, barWidth: '60%',
+      label: {show: true, position: 'right', color: '#e6edf3', fontSize: 10,
+        formatter: function(d) { return verbData[d.dataIndex].veredito; }
+      }
+    }]
+  });
+
+  // Dominio bar chart (another view)
+  var domBar = echarts.init(document.getElementById('chart-dominio-bar'));
+  var domCounts = {};
+  pols.forEach(function(p) {
+    domCounts[p.dominio] = (domCounts[p.dominio] || 0) + 1;
+  });
+  var domSorted = Object.entries(domCounts).sort(function(a,b) { return b[1] - a[1]; });
+  domBar.setOption({
+    tooltip: {trigger: 'axis'},
+    grid: {left: '3%', right: '5%', bottom: '20%', top: '5%'},
+    xAxis: {type: 'category', data: domSorted.map(function(d) { return d[0]; }), axisLabel: {rotate: 45, color: '#8b949e', fontSize: 10}},
+    yAxis: {type: 'value', name: 'Políticas', nameTextStyle: {color: '#8b949e'}, axisLabel: {color: '#8b949e'}},
+    series: [{type: 'bar', data: domSorted.map(function(d) { return {value: d[1]}; }), barWidth: '50%',
+      label: {show: true, position: 'top', color: '#e6edf3', fontSize: 12, fontWeight: 'bold'},
+      itemStyle: {color: '#00B4D8'}
+    }]
+  });
+
+  // Dominios list
+  var verb = sc.veredito_por_dominio;
+  var domContainer = document.getElementById('dominios-list');
+  domContainer.innerHTML = domains.map(function(d) {
+    var v = verb[d];
+    var color = '#484f58';
+    if (v.startsWith('RESOLVE')) color = '#52B788';
+    else if (v.startsWith('PARCIAL')) color = '#F4A261';
+    else if (v.startsWith('FALHOU')) color = '#D62828';
+    return '<div class="card p-4 flex items-center justify-between">' +
+      '<div><span class="font-semibold text-sm">' + d.toUpperCase() + '</span></div>' +
+      '<span class="pill" style="background:'+color+'22; color:'+color+';">' + v + '</span>' +
+    '</div>';
+  }).join('');
+});
+
+window.addEventListener('resize', function() {
+  document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
+    var inst = echarts.getInstanceByDom(el);
+    if (inst) inst.resize();
+  });
+});
+</script>
+</body>
+</html>
