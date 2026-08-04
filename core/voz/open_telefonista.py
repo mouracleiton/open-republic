@@ -1565,6 +1565,7 @@ def demo():
     scenario_fall_detection()
     scenario_stress_detection()
     scenario_epilepsy_warning()
+    scenario_voice_stt_tts()
 
     # Perfis
     print(f"\n{'=' * 70}")
