@@ -56,12 +56,12 @@ class GovernoEstrutura:
 
             # === CO-PRESIDENTE 1 ===
             MembroGoverno(
-                nome="Co-Presidente A (Executivo/Ambiente)",
+                nome="Marina Silva",
                 cargo=TipoCargo.CO_PRESIDENTE,
                 nivel=NivelAcesso.EXECUTIVO,
                 dominios_raiox=["ambiente", "agua", "alimentacao", "agropecuaria",
                                 "saude", "educacao", "indigena", "energia"],
-                score_capacidade=4.2,
+                score_capacidade=4.11,
                 veredito_gate="APROVADO",
                 responsabilidades=[
                     "Executar politicas publicas nos dominios do Raio X",
@@ -77,18 +77,18 @@ class GovernoEstrutura:
                     "Usar Raio X para perseguir adversario politico (CRIME -- P13)",
                     "Nomear ministro que nao passe no Gate WO",
                 ],
-                baground="Perfil: seringueiro/ambientalista. Quem viu a fome, viveu a seca.",
+                baground="Seringueira do Acre. Reduziu desmatamento 80%. Criou Cisternas. Criou PAA. 3x candidata a presidente. Score: 4.11.",
             ),
 
             # === CO-PRESIDENTE 2 ===
             MembroGoverno(
-                nome="Co-Presidente B (Comunicacao/Cobranca/Rua)",
+                nome="Jones Manoel",
                 cargo=TipoCargo.CO_PRESIDENTE,
                 nivel=NivelAcesso.EXECUTIVO,
                 dominios_raiox=["violencia", "emprego", "transporte", "habitacao",
                                 "inflacao", "cultura"],
-                score_capacidade=3.3,
-                veredito_gate="JEQUERI (funcional)",
+                score_capacidade=2.50,
+                veredito_gate="WO (capacidade abaixo de 4.0, mas comunicador funcional)",
                 responsabilidades=[
                     "Comunicar ao povo o estado real do pais (com dados do Raio X)",
                     "Cobrar ministros publicamente com dados na mao",
@@ -103,7 +103,7 @@ class GovernoEstrutura:
                     "Usar Raio X como arma partidaria (CRIME -- P9)",
                     "Negar informacao ao povo (CRIME -- P5)",
                 ],
-                baground="Perfil: comunicador/rua. Quem cobra, quem fala a lingua do povo.",
+                baground="Comunicador. YouTuber (~2M inscritos). 10+ anos de producao politica. Score: 2.50. Nunca administrou orgao publico. Forca: comunicacao e cobranca.",
             ),
 
             # === SENSOR INDEPENDENTE ===
