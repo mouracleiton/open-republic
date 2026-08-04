@@ -4,14 +4,17 @@ OpenCyberDefense -- P12: Defesa Cibernetica Transparente
 =========================================================
 "A Republica nao tem exercito secreto. Tem cidadaos armados de nmap."
 
-TESE:
-  Russia e China construíram exercitos cibernéticos por 4 vias:
-  1. Cooptacao do cibercrime (hackers presos viram Estado ou presos)
-  2. Recrutamento universitario ("esquadrões científicos")
-  3. Hacktivismo patriotico (grupos de fachada tipo Killnet, Volt Typhoon)
-  4. Terceirizacao (empresas privadas tipo i-Soon)
+TESE (atualizado 2025):
+  Russia e China mantêm e expandiram exercitos cibernéticos por 4 vias (2024-2025):
+  1. Cooptacao do cibercrime (FSB/GRU continua usando REvil, Conti remanescentes)
+  2. Recrutamento universitario e "esquadrões científicos" (China intensificou competições)
+  3. Hacktivismo patriotico e grupos de fachada (Killnet, NoName057(16), Volt Typhoon proxies)
+  4. Terceirizacao via empresas privadas (i-Soon leak 2024 confirmou escala; novos contractors)
 
-  O resultado: capacidade ofensiva massiva, negacao plausivel, guerra híbrida.
+  Atividades 2024/2025: Volt Typhoon e Salt Typhoon continuam pre-posicionamento em infra crítica
+  (energia, telecom, água). Novos APTs chineses (UNC5221, Storm-1849, Flax Typhoon) focam em
+  living-off-the-land, supply-chain e persistência longa. Russia intensificou hybrid warfare
+  (destruição + desinformação).
 
   A Republica responde DIFERENTE. Nao replica o modelo ofensivo.
   Se a Republica criar um "exercito cibernetico secreto", vira Russia com
@@ -25,18 +28,19 @@ A RESPOSTA DA REPUBLICA (P12):
   Em vez de grupos de fachada, TRANSPARENCIA RADICAL (P5).
   Em vez de terceirizar ataques, AUDITAR infraestrutura publica.
 
-O MODELO DE AMEACA (o que Russia/China fazem):
+O MODELO DE AMEACA (atualizado 2025):
 
-  O motor cataloga as 4 doutrinas ofensivas inimigas para que a Republica
-  saiba o que enfrenta. Conhecer o inimigo nao e copiar o inimigo.
+  O motor cataloga as 4 doutrinas ofensivas inimigas + novos APTs reportados em 2024/2025
+  (Volt Typhoon persistente, Salt Typhoon em telecom, UNC5221, Storm-1849, Flax Typhoon,
+  NoName057(16)). Conhecer o inimigo nao e copiar o inimigo.
 
-  | Doutrina         | Russia              | China              |
-  |------------------|---------------------|--------------------|
-  | Cibercrime       | FSB coopta (ultimato)|-Menos tolerante    |
-  | Universidades    | Esquadrões cientif. | Competicoes estado |
-  | Hacktivismo      | Killnet, Cyber Army | Honker Union       |
-  | Terceirizacao    | -                   | i-Soon, empresas   |
-  | Foco             | DDoS, caos, ransom  | Pre-posicionamento |
+  | Doutrina             | Russia                          | China                              |
+  |----------------------|---------------------------------|------------------------------------|
+  | Cibercrime           | FSB/GRU cooptam (REvil remnants)| Menos tolerante, mas contractors   |
+  | Universidades        | Esquadrões científicos          | Competicoes + programas estatais   |
+  | Hacktivismo          | Killnet, NoName057(16), Cyber Army | Honker Union, proxies Volt Typhoon |
+  | Terceirizacao        | Empresas criminosas             | i-Soon (leak 2024), novos firms    |
+  | Foco 2024/2025       | Hybrid (DDoS + destruição física + desinfo) | Pre-posicionamento em OT, living-off-land, supply-chain |
 
   A Republica conhece tudo isso. Mas a resposta NAO e contra-ataque ofensivo.
 
@@ -53,7 +57,7 @@ O QUE A REPUBLICA FAZ (5 SIM):
   1. CULTURA DE MASSA: nmap, wireshark, metasploit em toda escola (P7).
   2. DEFESA COMUNITARIA: cidadaos auditam infraestrutura local.
   3. MURALHA: IDS/IPS em toda fronteira digital da Republica.
-  4. RESPOSTA PROPORCIONAL: se atacada, responde com隔离 + sanção, nao arma.
+  4. RESPOSTA PROPORCIONAL: se atacada, responde com isolamento + sanção, nao arma.
   5. COALIZAO ABERTA: alianca com paises que rejeitam guerra cibernetica.
 
 PRINCIPIO CONSTITUCIONAL (P12):
@@ -64,10 +68,11 @@ PRINCIPIO CONSTITUCIONAL (P12):
   A Republica nao coopta criminosos, nao militariza civis,
   nao financia grupos de fachada, nao terceiriza operacoes ofensivas.
 
-Constituicao: P1, P4, P5, P7, P8.
+Constituicao: P1, P4, P5, P7, P8, P9, P12.
 
-Author: OpenRepublic Team
+Author: OpenRepublic Team (atualizado 2025 com dados de relatorios CISA/Microsoft/Mandiant)
 """
+
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
@@ -97,8 +102,8 @@ class DoutrinaOfensiva(Enum):
 
 class ModeloAdversario(Enum):
     """Modelos de Estado adversario na guerra cibernetica."""
-    RUSSIA = ("russia", "Russia: tolerancia com crime local, DDoS, ransom, caos")
-    CHINA = ("china", "China: pre-posicionamento, espionagem industrial, terceirizacao")
+    RUSSIA = ("russia", "Russia: tolerancia com crime local, DDoS, ransom, caos, hybrid warfare 2024/25")
+    CHINA = ("china", "China: pre-posicionamento, espionagem industrial, terceirizacao, living-off-land (2024/25)")
     OUTRO_ESTADO = ("outro", "Outro Estado-nação com capacidade cibernetica")
 
     @property
@@ -120,6 +125,7 @@ class TipoAmeaca(Enum):
     PRE_POSICIONAMENTO = ("prepos", "Pre-posicionamento: infiltrar-se ANTES do conflito")
     SUPPLY_CHAIN = ("supply", "Ataque a cadeia de suprimentos: comprometer fornecedor")
     ZERO_DAY = ("zeroday", "Exploração de vulnerabilidade desconhecida (0-day)")
+    LIVING_OFF_THE_LAND = ("lotl", "Living-off-the-land: uso de ferramentas nativas do SO para persistencia")
 
     @property
     def id(self) -> str:
@@ -195,11 +201,12 @@ class AmeacaCatalogada:
     tipo: TipoAmeaca
     adversario: ModeloAdversario
     doutrina: DoutrinaOfensiva
-    nome_grupo: str           # ex: "Volt Typhoon", "Killnet"
+    nome_grupo: str           # ex: "Volt Typhoon", "Salt Typhoon", "UNC5221"
     descricao: str
     alvo_tipico: str
     mitlagao_republicana: str  # como a Republica se defende disso
     gravidade: int = 3         # 1-5
+    ano_referencia: str = "2024/2025"  # novo campo para rastrear atualizacoes
 
 
 @dataclass
@@ -225,89 +232,109 @@ class SistemaDefensivo:
 
 
 # ============================================================================
-# 4. CATALOGO DE AMEACAS (Russia + China)
+# 4. CATALOGO DE AMEACAS (atualizado com dados 2024/2025)
 # ============================================================================
 
 def _init_catalogo_ameacas() -> List[AmeacaCatalogada]:
-    """Cataloga as ameacas reais para que a Republica saiba o que enfrenta."""
+    """Cataloga as ameacas reais (incluindo relatorios 2024/2025) para que a Republica saiba o que enfrenta."""
     return [
         AmeacaCatalogada(
             tipo=TipoAmeaca.PRE_POSICIONAMENTO,
             adversario=ModeloAdversario.CHINA,
             doutrina=DoutrinaOfensiva.TERCEIRIZACAO,
-            nome_grupo="Volt Typhoon",
-            descricao="Infiltracao em infraestrutura critica dos EUA (agua, energia, "
-                      "telecom). Objetivo: pré-posicionar para sabotagem em conflito futuro.",
-            alvo_tipico="Sistemas SCADA, redes electricas, tratamento de agua",
-            mitlagao_republicana="Segmentacao de rede OT/IT. Air-gap onde possivel. "
-                                  "Audit continuo de trafego outbound. Cidadaos treinados "
-                                  "detectam anomalias (P7).",
+            nome_grupo="Volt Typhoon (APT41 proxies)",
+            descricao="Campanha chinesa de pre-posicionamento em infraestrutura critica (energia, agua, telecom). "
+                      "Continua ativa em 2024/2025 com foco em living-off-the-land e persistencia longa. "
+                      "Relatorios Microsoft, CISA e Mandiant confirmam expansao.",
+            alvo_tipico="Sistemas OT/SCADA, redes elétricas, tratamento de água, telecom nos EUA e aliados",
+            mitlagao_republicana="Segmentacao rigorosa OT/IT. Air-gapping onde possivel. Monitoramento contínuo "
+                                 "de comandos anormais. Auditoria publica de logs (P5). Cultura de detecção "
+                                 "por cidadaos treinados (P7). Zero-trust em toda infra critica.",
             gravidade=5,
+            ano_referencia="2024/2025",
         ),
         AmeacaCatalogada(
             tipo=TipoAmeaca.ESPIONAGEM,
             adversario=ModeloAdversario.CHINA,
             doutrina=DoutrinaOfensiva.TERCEIRIZACAO,
             nome_grupo="Salt Typhoon",
-            descricao="Invasao de redes de telecomunicacoes para interceptar "
-                      "comunicacoes de alto nivel.",
-            alvo_tipico="Operadoras de telecom, backbones, satelites",
-            mitlagao_republicana="Criptografia end-to-end obrigatoria na Republica. "
-                                  "Rede soberana (OpenNetwork). Nenhum backdoor.",
+            descricao="Operacao chinesa de invasao a operadoras de telecomunicações para acesso a comunicacoes "
+                      "governamentais e de alto nivel. Ativa em 2024 com comprometimento de múltiplas carriers "
+                      "nos EUA. Foco em interceptacao e persistencia.",
+            alvo_tipico="Operadoras de telecom, backbones, provedores de internet, satelites",
+            mitlagao_republicana="Criptografia end-to-end obrigatoria (P8). Rede soberana OpenNetwork com "
+                                 "controles de soberania. Auditoria publica e ausencia de backdoors. "
+                                 "Monitoramento de anomalias em trafego de controle.",
             gravidade=5,
+            ano_referencia="2024",
+        ),
+        AmeacaCatalogada(
+            tipo=TipoAmeaca.LIVING_OFF_THE_LAND,
+            adversario=ModeloAdversario.CHINA,
+            doutrina=DoutrinaOfensiva.TERCEIRIZACAO,
+            nome_grupo="UNC5221 / Flax Typhoon",
+            descricao="Novos grupos/ clusters chineses ativos em 2024/2025. Usam técnicas living-off-the-land, "
+                      "comprometimento de appliances de rede (Ivanti, etc) e persistencia em ambientes OT. "
+                      "Foco em pre-posicionamento e coleta de inteligencia.",
+            alvo_tipico="Dispositivos de rede, appliances empresariais, infra OT em paises ocidentais",
+            mitlagao_republicana="Atualizacao rigorosa e patching automatizado. Inventario completo de "
+                                 "dispositivos de rede. Monitoramento comportamental (anomalias em binarios nativos). "
+                                 "Uso de software soberano auditavel.",
+            gravidade=4,
+            ano_referencia="2024/2025",
         ),
         AmeacaCatalogada(
             tipo=TipoAmeaca.DDoS,
             adversario=ModeloAdversario.RUSSIA,
             doutrina=DoutrinaOfensiva.HACKTIVISMO_PATRIOTICO,
-            nome_grupo="Killnet",
-            descricao="Grupo de hackers patriotas russos. Ataques DDoS massivos "
-                      "contra paises inimigos de Moscou.",
-            alvo_tipico="Sites gov, servicos online, infraestrutura digital",
-            mitlagao_republicana="CDN distribuido. Mitigacao DDoS na borda. "
-                                  "Servicos criticos com modo offline (P4: processo "
-                                  "democratico nao pode depender de uptime).",
+            nome_grupo="NoName057(16) & Killnet",
+            descricao="Grupos hacktivistas russos intensamente ativos em 2024/2025. Ataques DDoS coordenados "
+                      "contra paises que apoiam Ucrania, combinados com operacoes de desinformacao. "
+                      "Frequentemente usados como proxy para negacao plausivel.",
+            alvo_tipico="Sites governamentais, servicos online, infraestrutura digital da OTAN e aliados",
+            mitlagao_republicana="CDN global distribuido + anycast. Capacidade de fallback offline para servicos "
+                                 "essenciais (P4). Mitigacao na borda e cultura de resiliencia.",
             gravidade=3,
+            ano_referencia="2024/2025",
         ),
         AmeacaCatalogada(
             tipo=TipoAmeaca.SUPPLY_CHAIN,
             adversario=ModeloAdversario.CHINA,
             doutrina=DoutrinaOfensiva.TERCEIRIZACAO,
-            nome_grupo="i-Soon (vazamento)",
-            descricao="Empresa privada chinesa que terceirizava ataques ciberneticos "
-                      "para o Estado. Vazamento confirmou operacoes contra governos "
-                      "estrangeiros.",
-            alvo_tipico="Governos, ONGs, dissidentes, empresas estrangeiras",
-            mitlagao_republicana="Republica nao terceiriza. Todo codigo e publico "
-                                  "(CC0) e auditavel. Software livre eliminina "
-                                  "cadeia de suprimentos opaca.",
+            nome_grupo="i-Soon (2024 leak) & Storm-1849",
+            descricao="Vazamento de i-Soon em 2024 revelou escala de terceirizacao chinesa. Storm-1849 e clusters "
+                      "relacionados representam novos atores de supply-chain attacks e espionagem industrial.",
+            alvo_tipico="Governos, empresas de tecnologia, dissidentes, infra critica via fornecedores",
+            mitlagao_republicana="Software 100% auditavel e de codigo aberto (CC0). Cadeia de suprimentos "
+                                 "transparente. Proibicao constitucional de terceirizacao opaca (P12).",
             gravidade=4,
+            ano_referencia="2024",
         ),
         AmeacaCatalogada(
             tipo=TipoAmeaca.RANSOMWARE,
             adversario=ModeloAdversario.RUSSIA,
             doutrina=DoutrinaOfensiva.COOPTACAO_CRIME,
-            nome_grupo="Conti / REvil (cooptados)",
-            descricao="Grupos ransomware cooptados pela FSB. Atacam alvos "
-                      "estrangeiros enquanto tolerados em territorio russo.",
-            alvo_tipico="Empresas, hospitais, governos estrangeiros",
-            mitlagao_republicana="Backups offline obrigatorios. Republica nao paga "
-                                  "resgate (negociacao incentiva crime). Recuperacao "
-                                  "em horas, nao dias.",
+            nome_grupo="REvil/Conti remnants & LockBit affiliates",
+            descricao="Grupos de ransomware cooptados ou tolerados pela FSB. Atividade continua em 2024/2025 "
+                      "contra alvos ocidentais enquanto operam com relativa impunidade na Russia.",
+            alvo_tipico="Empresas, hospitais, governos, infra critica",
+            mitlagao_republicana="Backups offline imutaveis e testados regularmente. Politica de nao pagamento "
+                                 "de resgate. Recuperacao rapida via cultura de backup (P7).",
             gravidade=4,
+            ano_referencia="2024/2025",
         ),
         AmeacaCatalogada(
             tipo=TipoAmeaca.DESINFORMACAO,
             adversario=ModeloAdversario.RUSSIA,
             doutrina=DoutrinaOfensiva.HACKTIVISMO_PATRIOTICO,
-            nome_grupo="IRA / Cyber Army of Russia Reborn",
-            descricao="Campanhas de desinformacao em redes sociais para polarizar "
-                      "sociedades adversarias. Conta com bots e trolis pagos.",
-            alvo_tipico="Eleicoes, debate publico, confianca institucional",
-            mitlagao_republicana="P9 (anti-polarizacao). Estado nao amplifica. "
-                                  "Midia publica com P5 (transparencia). Cidadaos "
-                                  "alfabetizados em informacao (P6+P7).",
+            nome_grupo="IRA successors & Cyber Army of Russia",
+            descricao="Campanhas de desinformacao em massa via redes sociais, bots e trolls. Intensificadas em "
+                      "2024/2025 durante ciclos eleitorais e conflitos hibridos.",
+            alvo_tipico="Eleicoes, debate publico, confianca institucional, polarizacao social",
+            mitlagao_republicana="P9 (anti-polarizacao) + P6 (alfabetizacao). Midia publica transparente (P5). "
+                                 "Cidadaos treinados em verificacao de fontes e pensamento critico (P7).",
             gravidade=4,
+            ano_referencia="2024/2025",
         ),
     ]
 
@@ -433,6 +460,7 @@ class CyberDefenseEngine:
             "proibicoes_violadas": proibicoes_violadas,
             "veredito": veredito,
             "timestamp": datetime.now().isoformat(),
+            "ameacas_relevantes": len([a for a in self.ameacas if a.gravidade >= 4]),
         }
 
     # -- auditar doutrina ---------------------------------------------------
@@ -461,17 +489,17 @@ class CyberDefenseEngine:
             "violacoes_P12": violacoes,
             "veredito": "REJEITADA" if violacoes else "CONFORME",
             "explicacao": (
-                "A Republica nao replica o modelo russo/chines. "
+                "A Republica nao replica o modelo russo/chines de 2024/2025. "
                 "Exercito cibernetico secreto = Russia com outra bandeira."
                 if violacoes else
-                "Conforme. Defesa transparente, nunca ofensiva secreta."
+                "Conforme P12. Defesa transparente, nunca ofensiva secreta. Cultura de massa (P7)."
             ),
         }
 
     # -- catalogo de ameacas -----------------------------------------------
 
     def listar_ameacas(self) -> List[Dict[str, Any]]:
-        """Lista todas as ameacas catalogadas para conhecimento."""
+        """Lista todas as ameacas catalogadas para conhecimento (atualizado 2025)."""
         return [
             {
                 "tipo": a.tipo.rotulo,
@@ -482,12 +510,13 @@ class CyberDefenseEngine:
                 "alvo": a.alvo_tipico,
                 "mitigacao": a.mitlagao_republicana,
                 "gravidade": a.gravidade,
+                "ano": a.ano_referencia,
             }
             for a in self.ameacas
         ]
 
     def ameacas_por_adversario(self, adv: ModeloAdversario) -> List[Dict[str, Any]]:
-        return [a for a in self.listar_ameacas() if adv.id in a["adversario"]]
+        return [a for a in self.listar_ameacas() if adv.id in a["adversario"].lower()]
 
     def scorecard(self) -> Dict[str, Any]:
         return {
@@ -497,7 +526,8 @@ class CyberDefenseEngine:
             "pilares_defesa": len(list(PilarDefesaRepublica)),
             "proibicoes_P12": len(list(ProibicaoP12)),
             "sistemas_avaliados": len(self.sistemas),
-            "principio": "P12 -- Defesa Cibernetica Transparente",
+            "principio": "P12 -- Defesa Cibernetica Transparente (atualizado 2025)",
+            "novos_apt_mencionados": ["UNC5221", "Storm-1849", "Flax Typhoon", "NoName057(16)"],
         }
 
 
@@ -509,19 +539,19 @@ def _demo() -> None:
     eng = CyberDefenseEngine()
 
     print("=" * 70)
-    print("OpenCyberDefense -- P12: Defesa Cibernetica Transparente")
+    print("OpenCyberDefense -- P12: Defesa Cibernetica Transparente (Atualizado 2025)")
     print("=" * 70)
 
     # --- Catalogo de ameacas ---
-    print(f"\n[CATALOGO DE AMEACAS ({len(eng.ameacas)})]")
+    print(f"\n[CATALOGO DE AMEACAS ({len(eng.ameacas)} entradas - dados 2024/2025)]")
     for a in eng.ameacas:
         sev = "*" * a.gravidade
-        print(f"\n  [{sev}] {a.nome_grupo} ({a.adversario.id})")
+        print(f"\n  [{sev}] {a.nome_grupo} ({a.adversario.id.upper()}) [{a.ano_referencia}]")
         print(f"  Tipo: {a.tipo.rotulo}")
         print(f"  Doutrina: {a.doutrina.rotulo}")
-        print(f"  Descricao: {a.descricao}")
+        print(f"  Descricao: {a.descricao[:120]}...")
         print(f"  Alvo: {a.alvo_tipico}")
-        print(f"  Republica responde: {a.mitlagao_republicana}")
+        print(f"  Republica responde: {a.mitlagao_republicana[:100]}...")
 
     # --- Os 5 NAO ---
     print("\n\n[OS 5 NAO DE P12 -- O QUE A REPUBLICA PROIBE]")
@@ -567,7 +597,7 @@ def _demo() -> None:
         print(f"\n  {res['sistema_nome']}")
         print(f"    Veredito: {res['veredito']}")
         print(f"    Score: {res['score_defesa']} | Nivel: {res['nivel_defesa']}")
-        if res["proibicoes_violadas"]:
+        if res.get("proibicoes_violadas"):
             for p in res["proibicoes_violadas"]:
                 print(f"    VIOLACAO: {p}")
 
@@ -575,11 +605,11 @@ def _demo() -> None:
     print("\n\n[AUDITORIA DE DOUTRINAS PROPOSTAS]")
 
     doutrinas = [
-        {"nome": "Esquadrão Cientifico Universitario (modelo russo)",
+        {"nome": "Esquadrão Cientifico Universitario (modelo russo/chines 2025)",
          "militariza": True, "e_secreta": True},
         {"nome": "Cooptacao de Cibercriminosos (modelo russo)",
          "coopta": True},
-        {"nome": "Empresa de Fachada para Ataques (modelo chines i-Soon)",
+        {"nome": "Empresa de Fachada para Ataques (modelo chines i-Soon/Storm-1849)",
          "financia_fachada": True, "e_ofensiva": True, "e_secreta": True},
         {"nome": "Treinamento de Cidadaos em Defesa (modelo Republica)",
          "coopta": False, "militariza": False, "financia_fachada": False,
@@ -603,34 +633,28 @@ def _demo() -> None:
 
     # --- Filosofia ---
     print("\n" + "=" * 70)
-    print("FILOSOFIA -- A Republica Nao Replica o Inimigo")
+    print("FILOSOFIA -- A Republica Nao Replica o Inimigo (2025)")
     print("=" * 70)
     print("""
-O MODELO RUSSO/CHINES:
+O MODELO RUSSO/CHINES (2024/2025):
 
-  Russia coopta criminosos: hacker preso vira funcionario do FSB.
-  China terceiriza: empresa privada i-Soon executa ataques para o Estado.
-  Ambos militarizam universitarios: esquadrões científicos, competicoes.
-  Ambos usam grupos de fachada: Killnet, Honker Union, Cyber Army.
+  Russia continua cooptando criminosos (REvil remnants) e usa hacktivistas (NoName057).
+  China expande pre-posicionamento via Volt Typhoon, Salt Typhoon, UNC5221, Flax Typhoon.
+  Ambos usam terceirizacao (i-Soon leak expôs o modelo) e living-off-the-land.
 
-  O resultado: exercito cibernetico massivo com negacao plausivel.
-  "Nao fomos nos. Foi grupo civil independente." (mas foi financiado.)
+  O resultado: capacidade massiva de pre-posicionamento e negacao plausivel.
 
 A ARMADILHA:
 
-  Se a Republica criar a MESMA estrutura, vira Russia com bandeira verde.
-  Cooptar criminosos para "defender a patria" e a MESMA coisa que a FSB faz.
-  Financiar grupo civil para atacar inimigo e a MESMA coisa que a China faz.
+  Se a Republica criar a MESMA estrutura (exercito cibernetico secreto, cooptacao,
+  grupos de fachada), vira Russia ou China com bandeira verde-amarela.
 
-  A doenca com outro nome ainda e doenca.
-  A tirania com outra bandeira ainda e tirania.
-
-A RESPOSTA DA REPUBLICA:
+A RESPOSTA DA REPUBLICA (P12):
 
   Em vez de exercito secreto: CULTURA DE MASSA.
   Cada cidadao com nmap APRENDE sobre portas.
   Cada cidadao com wireshark VE dados viajando.
-  Nao sao soldados. Sao SENSORES.
+  Nao sao soldados. Sao SENSORES da propria comunidade.
 
   A Republica nao ataca primeiro. Defender-se, sim.
   A Republica nao coopta. Cadeia ou recuperacao (P1).
@@ -639,22 +663,21 @@ A RESPOSTA DA REPUBLICA:
 
 CONHECER O INIMIGO NAO E COPIAR O INIMIGO:
 
-  O motor cataloga Volt Typhoon, Killnet, i-Soon, REvil.
-  Nao para replicar. Para SABER o que enfrentar.
-  Para cada ameaca, a Republica tem MITIGACAO DEFENSIVA.
-  Pre-posicionamento? Segmentacao OT/IT + audit continuo.
-  Ransomware? Backups offline. Nao pagamos resgate.
-  Desinformacao? P9 + cidadaos alfabetizados.
+  O motor cataloga Volt Typhoon, Salt Typhoon, UNC5221, NoName057(16), Storm-1849.
+  Nao para replicar. Para SABER o que enfrentar e construir mitigacoes defensivas.
 
-A DEFERENCA FUNDAMENTAL:
+  Pre-posicionamento? Segmentacao OT/IT rigorosa + audit continuo.
+  Living-off-the-land? Monitoramento comportamental + software soberano.
+  Ransomware? Backups offline imutaveis. Nao pagamos resgate.
+  Desinformacao? P9 + alfabetizacao digital (P6+P7).
 
-  Russia: cidadaos como ARMAS do Estado.
-  China: cidadaos como SOLDADOS do Partido.
-  Republica: cidadaos como SENSORES da propria comunidade.
+A DIFERENCA FUNDAMENTAL:
+
+  Russia/China: cidadaos como ARMAS ou SOLDADOS do Estado.
+  Republica: cidadaos como SENSORES e PROTETORES da propria comunidade.
 
   O cidadao nao serve ao Estado. O Estado serve ao cidadao.
-  O cidadao com nmap protege a PROPRIA comunidade.
-  Nao ataca inimigo do Estado. Defende o vizinho.
+  O cidadao com nmap protege o vizinho e a Republica.
 """)
 
 

@@ -201,7 +201,7 @@ def _init_cores() -> Dict[str, CorRepublica]:
             "Laranja-terracota: celular nao e requisito pra cidadania. E constituinte.",
             "principio", ["P11"],
         ),
-        "p12_defesa_cibernética": CorRepublica(
+        "p12_defesa_cibernetica": CorRepublica(
             "p12_defesa_cibernetica", "P12 Defesa Cibernetica",
             "#1D3557", (29, 53, 87), (211, 50, 23),
             "Azul-marinho profundo: defesa transparente. Nunca ataque secreto.",

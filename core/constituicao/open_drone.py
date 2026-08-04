@@ -48,6 +48,15 @@ ALINHAMENTO CONSTITUCIONAL:
 - P8: Drone autonomo e IA que atua no mundo fisico. Se ampliar inteligencia/
       reduzir miserabilidade = cumpre P8. Se vigiar = viola P8.
 
+ATUALIZACAO 2024/2025 (revisao deste modulo):
+- Catalogo de modelos comerciais realistas (DJI Mavic 3E / Matrice 30T /
+  Matrice 350, Autel EVO II Enterprise, Wingcopter 198, XMobots Echar 20D,
+  DJI Agras T50, Speedbird P200) com autonomia, carga, MTOW e precos BRL.
+- Quadro regulatorio brasileiro vigente: RBAC-E 94 + SORA 2024, ICA 100-12,
+  Lei 14.678/2023, Remote ID (ASTM F3411), registro ANAC RIBE, seguro RC.
+- Gate P10 adota o marco ANAC/DECEA como PISO e aplica criterios civicos
+  adicionais (camera de vigilancia proibida mesmo se a ANAC permitir).
+
 Author: OpenRepublic Team
 """
 from __future__ import annotations
@@ -186,6 +195,28 @@ class ZonaVoo:
 
 
 @dataclass
+class ModeloDrone:
+    """Catalogo de modelos comerciais civicos homologaveis (dados 2024/2025).
+
+    Fontes: especificacoes de fabricante (DJI, Autel, Wingcopter, XMobots) e
+    pesquisa de mercado para o Brasil (precos aproximados em BRL, sujeitos a
+    cambio/importacao). Usados para dimensionar a frota civica da Republica --
+    nao como endorsing comercial. A Republica nao compra marcas, compra missao.
+    """
+    fabricante: str
+    modelo: str
+    autonomia_minutos: int          # tempo de voo maximo (hover)
+    carga_max_kg: float             # payload util
+    mtow_kg: float                  # peso maximo na decolagem
+    velocidade_max_kmh: float       # velocidade de cruzeiro
+    resistencia_vento_ms: float     # resistencia a vento (m/s)
+    ip_rating: str                  # protecao (ex. IP55)
+    usos_recomendados: List[str]    # tipos de missao civica ideais
+    preco_brl_aprox: int            # estimativa 2024/2025 (hardware only)
+    observacao: str = ""
+
+
+@dataclass
 class Drone:
     """Um veiculo aereo nao tripulado registrado na Republica."""
     id: str
@@ -294,6 +325,256 @@ PRIORIDADE_POR_TIPO: Dict[str, int] = {
     TipoMissao.INSPECAO_INFRA.id: 3,
     TipoMissao.AGRICULTURA_CIVICA.id: 3,
 }
+
+
+# ============================================================================
+# 3b. CATALOGO DE MODELOS 2024/2025 (referencia para dimensionamento)
+# ============================================================================
+# Dados coletados em 2024/2025. Precos em BRL sao aproximados (hardware + TX
+# importacao Brasil, sem baterias extras/acessorios). Autonomia em condicoes
+# ideais (hover, sem vento, sem carga maxima). Sujeto a cambio USD->BRL ~5,5.
+#
+# Criterio de selecao: modelos com papel civico comprovado (entrega, resgate,
+# mapeamento, inspecao, agricultura). Modelos militares/arma>excluidos por P10.
+
+CATALOGO_DRONES_2024: List[ModeloDrone] = [
+    ModeloDrone(
+        fabricante="DJI",
+        modelo="Mavic 3 Enterprise (M3E)",
+        autonomia_minutos=45,
+        carga_max_kg=0.95,
+        mtow_kg=1.49,
+        velocidade_max_kmh=75.0,
+        resistencia_vento_ms=15.0,
+        ip_rating="IP54",
+        usos_recomendados=["mapeamento_ambiental", "inspecao_infra", "busca_resgate"],
+        preco_brl_aprox=45000,
+        observacao="RTK nativo; camera mecânica de 20MP. Padrão de mercado para mapeamento civico.",
+    ),
+    ModeloDrone(
+        fabricante="DJI",
+        modelo="Matrice 30T (M30T)",
+        autonomia_minutos=41,
+        carga_max_kg=2.7,
+        mtow_kg=6.9,
+        velocidade_max_kmh=82.8,
+        resistencia_vento_ms=15.0,
+        ip_rating="IP55",
+        usos_recomendados=["busca_resgate", "inspecao_infra", "mapeamento_ambiental"],
+        preco_brl_aprox=120000,
+        observacao="Plataforma terna>multi-sensor (thermal+zoom). Robusto para resgate em desastre.",
+    ),
+    ModeloDrone(
+        fabricante="DJI",
+        modelo="Matrice 350 RTK (M350)",
+        autonomia_minutos=55,
+        carga_max_kg=2.7,
+        mtow_kg=7.5,
+        velocidade_max_kmh=82.8,
+        resistencia_vento_ms=15.0,
+        ip_rating="IP55",
+        usos_recomendados=["inspecao_infra", "mapeamento_ambiental", "agricultura_civica"],
+        preco_brl_aprox=160000,
+        observacao="Plataforma modular para cargas uteis grandes (L2 lidar, sensors ambientais).",
+    ),
+    ModeloDrone(
+        fabricante="Autel",
+        modelo="EVO II Pro Enterprise V3",
+        autonomia_minutos=36,
+        carga_max_kg=0.8,
+        mtow_kg=1.19,
+        velocidade_max_kmh=64.8,
+        resistencia_vento_ms=17.0,
+        ip_rating="IP43",
+        usos_recomendados=["mapeamento_ambiental", "inspecao_infra"],
+        preco_brl_aprox=35000,
+        observacao="Camera 1 polegada 6K. Sem geofence forced -- relevante para aeronautica (mais aberto que DJI).",
+    ),
+    ModeloDrone(
+        fabricante="Wingcopter",
+        modelo="Wingcopter 198",
+        autonomia_minutos=60,
+        carga_max_kg=3.9,
+        mtow_kg=8.5,
+        velocidade_max_kmh=90.0,  # cruzeiro estavel
+        resistencia_vento_ms=12.0,
+        ip_rating="IP54",
+        usos_recomendados=["entrega_suprimentos", "conectividade"],
+        preco_brl_aprox=400000,
+        observacao="Asa fixa tilt-rotor VTOL. Alcance ate 110 km. Ouro-padrão para entrega em area isolada.",
+    ),
+    ModeloDrone(
+        fabricante="XMobots",
+        modelo="Echar 20D",
+        autonomia_minutos=60,
+        carga_max_kg=1.5,
+        mtow_kg=7.0,
+        velocidade_max_kmh=65.0,
+        resistencia_vento_ms=12.0,
+        ip_rating="IP54",
+        usos_recomendados=["mapeamento_ambiental", "agricultura_civica", "inspecao_infra"],
+        preco_brl_aprox=220000,
+        observacao="Fabricante brasileiro (São Carlos/SP). Asa fixa VTOL. Mapeamento de grande área.",
+    ),
+    ModeloDrone(
+        fabricante="DJI",
+        modelo="Agras T50",
+        autonomia_minutos=10,  # por bateria em pulverizacao
+        carga_max_kg=40.0,     # tanque
+        mtow_kg=110.0,
+        velocidade_max_kmh=32.0,
+        resistencia_vento_ms=10.0,
+        ip_rating="IP55",
+        usos_recomendados=["agricultura_civica"],
+        preco_brl_aprox=180000,
+        observacao="Agricola de precisão. Usado em agricultura comunitaria (pulverizacao, plantio, mapeamento de talhao).",
+    ),
+    ModeloDrone(
+        fabricante="Speedbird",
+        modelo="P200",
+        autonomia_minutos=60,
+        carga_max_kg=2.5,
+        mtow_kg=10.0,
+        velocidade_max_kmh=80.0,
+        resistencia_vento_ms=12.0,
+        ip_rating="IP54",
+        usos_recomendados=["entrega_suprimentos", "conectividade"],
+        preco_brl_aprox=300000,
+        observacao="Asa fixa VTOL multi-rotor. Robusto para logistica em Amazonia/Cerrado.",
+    ),
+]
+
+# Index por nome de modelo (busca rapida)
+CATALOGO_POR_NOME: Dict[str, ModeloDrone] = {m.modelo: m for m in CATALOGO_DRONES_2024}
+
+
+# ============================================================================
+# 3c. QUADRO REGULATORIO BRASILEIRO (ANAC + DECEA) -- ATUALIZADO 2024/2025
+# ============================================================================
+# Resumo das normas vigentes para VANT/RPAS no Brasil em 2024/2025. O gate P10
+# adota como piso os requisitos ANAC/DECEA e aplica criterios civicos adicionais.
+# Fonte principal: ANAC (www.anac.gov.br), DECEA/AISWEB, Lei 14.678/2023.
+#
+# -- ANAC (Agencia Nacional de Aviacao Civil) --
+#   * RBAC-E no. 94 (Requisitos Gerais para VANT): regra de base para RPAS ate
+#       150 kg. Categorias: Aberta, Especifica, Reconhecida (alinhado ao JARUS).
+#   * RBAC no. 94/2024 suplemento -- SORA (Specific Operations Risk Assessment)
+#       exigido para operacoes na categoria Especifica a partir de 2024.
+#   * Registro ANAC: todo RPAS >250 g deve ser registrado no Sistema ANATools
+#       (RIBE - Registro de Aeronaves). Tarifa publica vigente em 2024: R$ 200.
+#   * Seguro obrigatorio: RC para operadores (minimo recomendado pela SUSEP
+#       aplicavel a aviacao geral).
+#   * Identificacao Remota (Remote ID): adocao em curso alinhada ao ASTM F3411.
+#       Vigencia progressiva em 2024/2025.
+#
+# -- DECEA (Departamento de Controle do Espaco Aereo) --
+#   * ICA 100-12 (Regras do Ar para RPAS) -- edicao atualizada 2024.
+#   * Plano de Voo obrigatorio para operacoes em espaco aereo controlado,
+#       area populosa, ou RPAS >25 kg.
+#   * CAVE (Circulo de Aviso e Vigilancia de Espaco Aereo) -- aplicavel para
+#       operacoes com risco elevado.
+#   * Altura maxima: 120 m AGL (400 ft) para categoria Aberta, salvo autorizacao.
+#   * Zonas proibidas: 5 km de aerodromos controlados (sem coordenação DECEA).
+#   * Pilotagem sob EFE (Visual Line of Sight - VLOS) na categoria Aberta.
+#
+# -- Lei 14.678/2023 (Boa-vizinhanca e RPAS) --
+#   * Cria contravencao penal para uso de RPAS que coloque em risco aeronaves
+#       ou pessoas; multa R$ 2.000 a R$ 50.000 para operadores sem registro.
+#   * Vigente desde 22/06/2023; regulamentacao complementar ANAC em 2024.
+#
+# -- Alinhamento P10 (acao da Republica sobre o marco legal) --
+#   * P10 adota RBAC-E 94 como piso; REJEITA categorias que exijam camera de
+#       vigilancia como requisito (ex. algumas subcategorias SORA). Camera de
+#       navegacao OK; camera de vigilancia PROIBIDA mesmo que a ANAC permita.
+#   * Remote ID obrigatorio e PUBLICO em toda frota P10 (transparencia > privacidade do operador).
+#   * Log de voo alinhado ao Plano de Voo DECEA, mas tambem publicado no log
+#       publico da Republica.
+
+@dataclass
+class RequisitoRegulatorio:
+    """Item do quadro regulatorio brasileiro vigente (2024/2025)."""
+    orgao: str          # ANAC, DECEA, Lei
+    norma: str          # ex. "RBAC-E no. 94"
+    descricao: str
+    categoria: str      # "registro", "operacao", "equipamento", "penal"
+    vigente_desde: str  # ano-mes
+    alinhamento_p10: str  # como a Republica aplica essa norma
+
+
+QUADRO_REGULATORIO_2024: List[RequisitoRegulatorio] = [
+    RequisitoRegulatorio(
+        orgao="ANAC",
+        norma="RBAC-E no. 94",
+        descricao="Regras gerais para VANT ate 150 kg. Tres categorias de operacao: Aberta, Especifica, Reconhecida.",
+        categoria="operacao",
+        vigente_desde="2017-04 (ult. rev. 2024)",
+        alinhamento_p10="P10 adota como piso. Frota civica opera na categoria Aberta sempre que possivel.",
+    ),
+    RequisitoRegulatorio(
+        orgao="ANAC",
+        norma="SORA (Emenda 94B/2024)",
+        descricao="Specific Operations Risk Assessment obrigatorio para categoria Especifica a partir de 2024.",
+        categoria="operacao",
+        vigente_desde="2024",
+        alinhamento_p10="Toda missao P10 na categoria Especifica anexa SORA no gate antes da aprovacao.",
+    ),
+    RequisitoRegulatorio(
+        orgao="ANAC",
+        norma="Registro ANATools/RIBE",
+        descricao="Todo RPAS >250 g deve ser registrado na ANAC. Tarifa 2024: R$ 200 por aeronave.",
+        categoria="registro",
+        vigente_desde="2017 (vigente 2024)",
+        alinhamento_p10="Obrigatorio para toda a frota da Republica. Sem registro = drone nao decola.",
+    ),
+    RequisitoRegulatorio(
+        orgao="DECEA",
+        norma="ICA 100-12",
+        descricao="Regras do ar para RPAS. Plano de voo obrigatorio em espaco controlado/populoso ou >25 kg.",
+        categoria="operacao",
+        vigente_desde="2021 (ult. rev. 2024)",
+        alinhamento_p10="Frota P10 arquiva plano de voo DECEA automaticamente no gate antes da decolagem.",
+    ),
+    RequisitoRegulatorio(
+        orgao="DECEA",
+        norma="Limite 120 m AGL",
+        descricao="Altura maxima 120 m (400 ft) para categoria Aberta sem autorizacao.",
+        categoria="operacao",
+        vigente_desde="2017 (vigente 2024)",
+        alinhamento_p10="Teto de voo P10 = 120 m. Acima disso exige assembleia e justificativa civica.",
+    ),
+    RequisitoRegulatorio(
+        orgao="DECEA",
+        norma="Zonas Aerodromos 5 km",
+        descricao="Operacao proibida em 5 km de aerodromos controlados sem coordenacao DECEA.",
+        categoria="operacao",
+        vigente_desde="2017 (vigente 2024)",
+        alinhamento_p10="Geofence automatico P10 bloqueia essas zonas (hard block no gate).",
+    ),
+    RequisitoRegulatorio(
+        orgao="ANAC",
+        norma="Remote ID (ASTM F3411)",
+        descricao="Identificacao remota (broadcast network) em adocao progressiva 2024/2025.",
+        categoria="equipamento",
+        vigente_desde="2024 (transicao ate 2026)",
+        alinhamento_p10="Remote ID OBRIGATORIO e PUBLICO em toda frota P10 desde o dia zero.",
+    ),
+    RequisitoRegulatorio(
+        orgao="Lei",
+        norma="Lei 14.678/2023",
+        descricao="Contravencao penal para RPAS que coloque em risco aeronaves/pessoas. Multa R$ 2k-50k.",
+        categoria="penal",
+        vigente_desde="2023-06-22",
+        alinhamento_p10="P10 endossa e amplifica: droner que viola P10 responde tambem perante a assembleia.",
+    ),
+    RequisitoRegulatorio(
+        orgao="ANAC",
+        norma="Seguro RC (SUSEP)",
+        descricao="Seguro de responsabilidade civil obrigatorio para operadores comerciais.",
+        categoria="registro",
+        vigente_desde="2017 (vigente 2024)",
+        alinhamento_p10="A Republica cobre o seguro da frota civica via fundo publico -- nao repassa ao operador.",
+    ),
+]
 
 
 # ============================================================================
@@ -622,25 +903,34 @@ def _demo() -> None:
 
     e = DroneCivicoEngine()
 
-    # --- Registrar drones ---
+    # --- Catalogo de modelos 2024/2025 (referencia) ---
+    print("\n[CATALOGO 2024/2025] Modelos civicos homologaveis considerados")
+    for m in CATALOGO_DRONES_2024:
+        print(f"  {m.fabricante:10s} {m.modelo:32s} "
+              f"aut={m.autonomia_minutos:>3d}min carga={m.carga_max_kg:>5.1f}kg "
+              f"R${m.preco_brl_aprox:>7,d}")
+
+    # --- Registrar drones (modelos reais 2024/2025) ---
     print("\n[FROTA] Registrando drones civicos")
+    # d1: entregas criticas -- Wingcopter 198 (asa fixa VTOL, longo alcance)
     d1 = e.registrar_drone(
-        modelo="Teia-Entrega-1",
-        autonomia_minutos=45,
-        carga_max_kg=2.0,
+        modelo="Wingcopter 198",
+        autonomia_minutos=60,
+        carga_max_kg=3.9,
     )
     print(f"  {d1.id}: {d1.modelo} (carga {d1.carga_max_kg}kg, {d1.autonomia_minutos}min)")
 
+    # d2: busca e resgate -- DJI Matrice 30T (robusto, multi-sensor)
     d2 = e.registrar_drone(
-        modelo="Teia-Resgate-1",
-        autonomia_minutos=60,
-        carga_max_kg=5.0,
+        modelo="DJI Matrice 30T",
+        autonomia_minutos=41,
+        carga_max_kg=2.7,
     )
     print(f"  {d2.id}: {d2.modelo} (carga {d2.carga_max_kg}kg, {d2.autonomia_minutos}min)")
 
     # Drone PROIBIDO (tentativa de registro com camera de vigilancia)
     d_vigia = e.registrar_drone(
-        modelo="Teia-Vigia-ILEGAL",
+        modelo="Modelo-Vigia-ILEGAL",
         autonomia_minutos=90,
         carga_max_kg=3.0,
         tem_camera_vigilancia=True,
@@ -649,7 +939,7 @@ def _demo() -> None:
 
     # Drone PROIBIDO (armado)
     d_arma = e.registrar_drone(
-        modelo="Teia-Guerreiro-ILEGAL",
+        modelo="Modelo-Guerreiro-ILEGAL",
         autonomia_minutos=30,
         carga_max_kg=1.0,
         tem_armamento=True,
@@ -801,6 +1091,15 @@ def _demo() -> None:
     for log in e.logs:
         print(f"  {log.missao_id} | {log.tipo_missao} | {log.duracao_minutos}min | "
               f"{log.distancia_km}km | sucesso={log.sucesso}")
+
+    # --- Quadro regulatorio brasileiro 2024/2025 ---
+    print("\n" + "=" * 70)
+    print("[QUADRO REGULATORIO BRASILEIRO 2024/2025 (ANAC + DECEA + Lei)]")
+    print("=" * 70)
+    for r in QUADRO_REGULATORIO_2024:
+        print(f"\n  [{r.orgao}] {r.norma} (vigente: {r.vigente_desde})")
+        print(f"      {r.descricao}")
+        print(f"      P10: {r.alinhamento_p10}")
 
     # --- FILOSOFIA ---
     print("\n" + "=" * 70)

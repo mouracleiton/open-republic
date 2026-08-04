@@ -56,6 +56,22 @@ ALINHAMENTO CONSTITUCIONAL:
 - P9 (Soberania): Um canal = soberania do update. Ninguem fragmenta.
 
 Author: OpenRepublic Team
+
+BASELINE 2024/2025:
+- Linguagem fonte: Python 3.13+ (out/2024) com alvo 3.14 (out/2025).
+- Transpiladores-alvo (gerados, nunca escritos a mao):
+    * C23 (ISO/IEC 9899:2024) via GCC 14 / Clang 19 / RISC-V GCC 14
+    * Go 1.23 / 1.24 (toolchain, generics estaveis)
+    * Java 21 LTS / 25 LTS (OpenJDK, JEP 456 e 476)
+    * JavaScript ES2024 (ECMA-262 15a edicao) + TypeScript 5.6
+    * Rust 1.82+ (Edition 2024, estabilizada em out/2024)
+    * Portugol++ (saida .md legivel por humano, pseudo-codigo PT-BR)
+- Toolchains RISC-V: RV64GC (avancado/padrao) e RV32IMAC (essencial),
+  usando o backend RISC-V do LLVM 19 / GCC 14.
+- Edge AI 2024/2025: TensorFlow Lite 2.17+, Core ML 7 (iOS 18),
+  ExecuTorch 0.5+ (PyTorch Edge) e ONNX Runtime Mobile 1.20+.
+- OS minimos: Android 15+ (V), iOS 18+, Windows 11 (24H2),
+  WearOS 6 / watchOS 11, Linux embarcado 6.6 LTS.
 """
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple, Set
@@ -63,6 +79,38 @@ from enum import Enum
 from dataclasses import dataclass, field
 from collections import defaultdict
 from datetime import datetime
+import sys
+
+
+# ============================================================================
+# 0. METADADOS DE VERSAO (baseline 2024/2025)
+# ============================================================================
+
+#: Versao deste modulo -- segue o calendario de releases da Republica.
+MODULO_VERSAO: str = "2025.08.04-r1"
+
+#: Versao minima do interpretador Python considerado fonte.
+PYTHON_MINIMO: Tuple[int, int] = (3, 13)
+
+#: Versoes dos transpiladores-alvo suportadas pelo toolchain CI/CD.
+#:
+#: Chave = id de ``LinguagemAlvo``; valor = (familia, versao_minima, notas).
+TRANSPILADORES_SUPORTADOS: Dict[str, Tuple[str, str, str]] = {
+    "c":          ("C23",            "GCC 14 / Clang 19",  "ISO/IEC 9899:2024; backend RISC-V estavel"),
+    "go":         ("Go",             "1.23+",              "Generics estaveis desde 1.18; Edition padrao"),
+    "java":       ("Java",           "21 LTS / 25 LTS",    "OpenJDK; JEP 456 (unnamed vars), JEP 476 (modules)"),
+    "javascript": ("JS + TypeScript","ES2024 / TS 5.6",    "ECMA-262 15a ed.; saida TS tipada para tooling"),
+    "rust":       ("Rust",           "1.82+ (Edition 2024)","riscv64gc / riscv32imc targets tier 2"),
+    "portugol":   ("Portugol++",     "1.x (interno)",      "Saida .md em PT-BR; legivel por nao-programadores"),
+}
+
+#: Frameworks de IA na borda suportados em smartphone/tablet (2024/2025).
+EDGE_AI_FRAMEWORKS: List[str] = [
+    "TensorFlow Lite 2.17+",
+    "Core ML 7 (iOS 18+)",
+    "ExecuTorch 0.5+ (PyTorch Edge)",
+    "ONNX Runtime Mobile 1.20+",
+]
 
 
 # ============================================================================
@@ -72,12 +120,12 @@ from datetime import datetime
 class LinguagemAlvo(Enum):
     """Linguagens para as quais o codigo-fonte e transpilado."""
     PYTHON = ("python", "Python (.py) -- FONTE, nao transpilada")
-    C = ("c", "C (.c) -- transpilado")
-    GO = ("go", "Go (.go) -- transpilado")
-    JAVA = ("java", "Java (.java) -- transpilado")
-    JAVASCRIPT = ("javascript", "JavaScript (.js) -- transpilado")
-    RUST = ("rust", "Rust (.rs) -- transpilado")
-    PORTUGOL = ("portugol", "Portugol++ (.md) -- transpilado")
+    C = ("c", "C23 (.c) -- transpilado (GCC 14 / Clang 19)")
+    GO = ("go", "Go 1.23+ (.go) -- transpilado")
+    JAVA = ("java", "Java 21 LTS (.java) -- transpilado")
+    JAVASCRIPT = ("javascript", "JS ES2024 / TS 5.6 (.js) -- transpilado")
+    RUST = ("rust", "Rust 1.82+ / Edition 2024 (.rs) -- transpilado")
+    PORTUGOL = ("portugol", "Portugol++ (.md) -- transpilado (PT-BR)")
 
     @property
     def id(self) -> str:
@@ -224,84 +272,84 @@ class MatrizCompatibilidade:
 # Cada hardware tem requisitos de compilacao/execucao diferentes
 REQUISITOS_HARDWARE: Dict[str, Dict[str, str]] = {
     "risc_v_avancado": {
-        "linguagem": "Rust ou C (compilado para RISC-V RV64GC)",
-        "runtime": "Linux embarcado ou bare-metal",
+        "linguagem": "Rust 1.82+ (Edition 2024) ou C23 (RISC-V RV64GC)",
+        "runtime": "Linux embarcado 6.6 LTS ou bare-metal",
         "ram_minima": "32GB",
-        "ia_local": "Sim (NPU dedicada)",
+        "ia_local": "Sim (NPU dedicada + llama.cpp / ExecuTorch)",
         "update": "Canal unico OTA (signed)",
     },
     "risc_v_padrao": {
-        "linguagem": "C ou Rust (RISC-V RV64GC)",
-        "runtime": "Linux embarcado",
+        "linguagem": "C23 ou Rust 1.82+ (Edition 2024, RISC-V RV64GC)",
+        "runtime": "Linux embarcado 6.6 LTS",
         "ram_minima": "16GB",
-        "ia_local": "Sim (inferencia basica)",
+        "ia_local": "Sim (inferencia basica, ONNX RT / TFLite)",
         "update": "Canal unico OTA (signed)",
     },
     "risc_v_essencial": {
-        "linguagem": "C (RISC-V RV32IMAC, baixo consumo)",
+        "linguagem": "C23 (RISC-V RV32IMAC, baixo consumo)",
         "runtime": "RTOS ou bare-metal",
         "ram_minima": "4GB",
         "ia_local": "Nao",
         "update": "Canal unico OTA (signed, compactado)",
     },
     "smartphone": {
-        "linguagem": "JavaScript (React Native) ou Kotlin/Swift via ponte",
-        "runtime": "Android 13+ ou iOS 16+",
-        "ram_minima": "4GB",
-        "ia_local": "Sim (TensorFlow Lite / Core ML)",
+        "linguagem": "JavaScript (React Native 0.76+) ou Kotlin 2.0 / Swift 6 via ponte",
+        "runtime": "Android 15+ (V) ou iOS 18+",
+        "ram_minima": "6GB",
+        "ia_local": "Sim (TFLite 2.17 / Core ML 7 / ExecuTorch / ONNX RT Mobile)",
         "update": "Canal unico (App Store / Play Store / APK direto)",
     },
     "smartwatch": {
-        "linguagem": "C (RTOS) ou Swift/Kotlin (watchOS/WearOS)",
-        "runtime": "RTOS proprietario ou WearOS/watchOS",
-        "ram_minima": "512MB",
+        "linguagem": "C (RTOS) ou Swift 6 / Kotlin 2.0 (watchOS 11/WearOS 6)",
+        "runtime": "RTOS proprietario ou WearOS 6 / watchOS 11",
+        "ram_minima": "1GB",
         "ia_local": "Limitada (sensores only)",
         "update": "Canal unico (via smartphone pareado)",
     },
     "headphone_bt": {
-        "linguagem": "C (firmware MCU Bluetooth)",
+        "linguagem": "C23 (firmware MCU Bluetooth)",
         "runtime": "RTOS Bluetooth (bare-metal)",
         "ram_minima": "256KB",
         "ia_local": "Nao",
         "update": "Canal unico OTA Bluetooth (signed)",
     },
     "eye_tracker": {
-        "linguagem": "C++ (Windows) ou Rust (Linux)",
-        "runtime": "Windows 10+ ou Linux",
-        "ram_minima": "4GB",
+        "linguagem": "C++23 (Windows) ou Rust 1.82+ (Linux)",
+        "runtime": "Windows 11 (24H2) ou Linux 6.6 LTS+",
+        "ram_minima": "8GB",
         "ia_local": "Nao (processamento no PC)",
         "update": "Canal unico (driver + software)",
     },
     "braille_display": {
-        "linguagem": "C (firmware MCU + driver Bluetooth/USB)",
+        "linguagem": "C23 (firmware MCU + driver Bluetooth/USB)",
         "runtime": "Bare-metal",
         "ram_minima": "128KB",
         "ia_local": "Nao",
         "update": "Canal unico OTA (signed)",
     },
     "switch": {
-        "linguagem": "C (firmware MCU Bluetooth)",
+        "linguagem": "C23 (firmware MCU Bluetooth)",
         "runtime": "Bare-metal",
         "ram_minima": "64KB",
         "ia_local": "Nao",
         "update": "Canal unico OTA (signed)",
     },
     "tablet": {
-        "linguagem": "JavaScript (React Native) ou Swift/Kotlin",
-        "runtime": "Android/iOS",
-        "ram_minima": "4GB",
-        "ia_local": "Sim (TTS, CAA)",
+        "linguagem": "JavaScript (React Native 0.76+) ou Swift 6 / Kotlin 2.0",
+        "runtime": "Android 15+ / iOS 18+",
+        "ram_minima": "6GB",
+        "ia_local": "Sim (TTS neural, CAA com LLM na borda)",
         "update": "Canal unico (App Store / APK)",
     },
     "e_reader": {
-        "linguagem": "C++ ou Java (Linux embarcado)",
-        "runtime": "Linux embarcado",
-        "ram_minima": "512MB",
+        "linguagem": "C++23 ou Java 21 LTS (Linux embarcado)",
+        "runtime": "Linux embarcado 6.6 LTS",
+        "ram_minima": "1GB",
         "ia_local": "Limitada (TTS basico)",
         "update": "Canal unico OTA (signed)",
     },
     "gps_tracker": {
-        "linguagem": "C (firmware MCU 4G+GPS)",
+        "linguagem": "C23 (firmware MCU 4G+GPS)",
         "runtime": "Bare-metal",
         "ram_minima": "256KB",
         "ia_local": "Nao",
@@ -366,7 +414,7 @@ class UnifiedCodebaseEngine:
     def transpilar_modulo(self, mod_id: str) -> Dict[str, Any]:
         """
         Simula a transpilacao de um modulo .py para 6 linguagens.
-        No mundo real, chamaria o transpilador da Republica.
+        No mundo real, chamaria o transpilador da Republica (toolchain 2024/2025).
         """
         m = self.modulos.get(mod_id)
         if m is None:
@@ -374,15 +422,24 @@ class UnifiedCodebaseEngine:
         artefatos_ok = 0
         artefatos_falha = 0
         detalhes: List[str] = []
+        # Mapa extensao -> LinguagemAlvo (fonte unica de verdade das versoes).
+        ext_para_lang: Dict[str, LinguagemAlvo] = {
+            "c": LinguagemAlvo.C,
+            "go": LinguagemAlvo.GO,
+            "java": LinguagemAlvo.JAVA,
+            "js": LinguagemAlvo.JAVASCRIPT,
+            "rs": LinguagemAlvo.RUST,
+            "md": LinguagemAlvo.PORTUGOL,
+        }
         for artefato in m.artefatos_gerados:
             # simulacao: todos geram com sucesso
             ext = artefato.split(".")[-1]
-            linguagem = {
-                "c": "C", "go": "Go", "java": "Java",
-                "js": "JavaScript", "rs": "Rust", "md": "Portugol++",
-            }.get(ext, "?")
+            lang = ext_para_lang.get(ext)
+            # versao curta do toolchain (ex.: "C23", "Go 1.23+", "Rust 1.82+")
+            info = TRANSPILADORES_SUPORTADOS.get(lang.id) if lang else None
+            versao = info[0] if info else "?"
             artefatos_ok += 1
-            detalhes.append(f"  {linguagem:>12}: {artefato} OK")
+            detalhes.append(f"  {versao:>16}: {artefato} OK")
         m.ultima_transpilacao = datetime.now().isoformat()
         return {
             "modulo": m.nome,
@@ -547,6 +604,15 @@ def _demo() -> None:
     print("=" * 70)
     print("OpenUnifiedCodebase -- Uma Linguagem, Um Canal, Todo Hardware")
     print("=" * 70)
+
+    # --- Baseline de versao (2024/2025) ---
+    print(f"\n[BASELINE DE TOOLCHAIN]")
+    print(f"  Modulo: {MODULO_VERSAO}")
+    print(f"  Python (fonte): {sys.version.split()[0]} (minimo exigido: {PYTHON_MINIMO[0]}.{PYTHON_MINIMO[1]})")
+    print(f"  Transpiladores-alvo:")
+    for lang_id, (fam, ver, nota) in TRANSPILADORES_SUPORTADOS.items():
+        print(f"    {fam:<18} {ver:<22} {nota}")
+    print(f"  Edge AI: {', '.join(EDGE_AI_FRAMEWORKS)}")
 
     # --- O Manifesto ---
     print(f"\n{e.manifesto_unificado()}")

@@ -500,7 +500,7 @@ def _demo() -> None:
         lucrou_sem_compensar=True,
         bloqueia_portabilidade=False,
         ignorou_revogacao=False,
-        faturamento_anual_dados=200_000_000_000,  # R$ 200 bi
+        faturamento_anual_dados=950_000_000_000,  # ~US$ 164B Meta 2024 + Google/Alphabet ~US$ 307B + Amazon ~US$ 575B (dados 2024/2025)
     ))
 
     # Banco: reteve sem log

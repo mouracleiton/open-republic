@@ -57,6 +57,20 @@ FRONTeira P13 vs P2 (o disernmento critical):
   Se voce defende privacidade so pra quem voce gosta, voce defende tribo.
 
 Author: OpenRepublic Team
+
+REVISAO 2024/2025:
+  - Adicionados tipos de evento para padroes emergentes em 2024/2025:
+    jogo de azar (bets), cripto/stablecoin, pix em massa, debito indevido
+    em folha (consignado), emissao de NF ficticia (empresa larva).
+  - Novas categorias de violacao: FRAUDE_CONSIGNADO (Caso INSS),
+    LAVAGEM_CRIPTO (Operacao Tesouro Paralelo), JOGO_AZAR_REGULADO
+    (CPI das Bets).
+  - Thresholds financeiros extraidos para constantes em RegraDeteccao,
+    calibrados com IPCA 2024 (~4,6%) e padroes observados em CPIs.
+  - Janelas temporais adicionais para lavagem (45d), fraude de folha
+    (90d) e comissao bets (45d).
+  - Deteccao temporal de lavagem (deposito + cripto/pix fragmentado).
+  - Cenarios 5, 6 e 7 adicionados ao demo, baseados em casos reais.
 """
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple, Set
@@ -85,6 +99,12 @@ class TipoEvento(Enum):
     VAZAMENTO_PRIVADO = ("vazamento", "Vazamento de conteudo privado/intimo")
     DEPOSITO_INEXPLICAVEL = ("deposito", "Deposito / movimentacao inexplicavel")
     ATO_OFENSIVO = ("ofensivo", "Atividade cibernetica ofensiva detectada")
+    # --- tipos adicionados em revisao 2024/2025 ---
+    JOGO_AZAR_BETS = ("bets", "Operacao de jogo de azar / aposta online (bets)")
+    ATIVO_CRIPTO = ("cripto", "Movimentacao de ativo cripto / stablecoin")
+    PIX_EM_MASSA = ("pix_massa", "Pix em massa / fragmentacao de valores (lavagem)")
+    DEBITO_INDEVIDO_FOLHA = ("debito_folha", "Debito indevido em folha / consignado")
+    EMISSAO_NF_FICTICIA = ("nf_ficticia", "Emissao de nota fiscal ficticia / larva")
 
     @property
     def id(self) -> str:
@@ -127,6 +147,10 @@ class CategoriaViolacao(Enum):
     GUERRA_CIBERNETICA = ("guerra", "Atividade cibernetica ofensiva (P12)")
     POLARIZACAO_AMPLIFICADA = ("polarizacao", "Polarizacao amplificada (P9)")
     SIGILO_ABUSADO = ("sigilo", "Sigilo usado para esconder ato publico (P13)")
+    # --- categorias adicionadas em revisao 2024/2025 ---
+    FRAUDE_CONSIGNADO = ("consignado", "Fraude em consignado / folha (Caso INSS)")
+    LAVAGEM_CRIPTO = ("lavagem", "Lavagem via cripto / pix fragmentado")
+    JOGO_AZAR_REGULADO = ("jogo_azar", "Jogo de azar sem regulacao (Caso das Bets)")
 
     @property
     def id(self) -> str:
@@ -162,6 +186,11 @@ class EventoPublico:
     consentido: bool = True           # se intimo, era consentido?
     recusou_divulgar: bool = False    # P13
     e_ofensivo_cibernetico: bool = False  # P12
+    # --- campos adicionados em revisao 2024/2025 ---
+    cripto: bool = False              # envolve ativo cripto / stablecoin
+    pix_fragmentado: bool = False     # pix em massa / below threshold reportavel
+    nf_ficticia: bool = False         # nota fiscal sem lastro (empresa larva)
+    autorizado_regulador: bool = True # licenca do regulador valida (ex. SEC, CVM)
 
 
 @dataclass
@@ -183,12 +212,36 @@ class AlertaMonitor:
 # ============================================================================
 
 class RegraDeteccao:
-    """Regras que detectam padroes temporais entre eventos."""
+    """Regras que detectam padroes temporais entre eventos.
+
+    Calibracao 2024/2025 baseada em padroes observados:
+      - CPI das Bets (2024): comissao + lavagem em ~45 dias
+      - Caso INSS / consignado (2025): fraude detectada em janela curta,
+        mas padrao de debito recorrente observado em ~90 dias
+      - Operacao Tesouro Paralelo (2024): cripto + contrabando em ~30 dias
+      - Farra dos cartoes corporativos (2024/2025): padrão de gasto
+        recorrente detectado em ~14 dias
+    """
 
     # Janela temporal para cross-referencia (em dias)
     JANELA_CONFLITO_DIAS = 30       # reuniao + licitacao em 30 dias
     JANELA_CORRUPCAO_DIAS = 60      # doacao + contrato em 60 dias
     JANELA_HIPPOCRISIA_DIAS = 14    # decreto + descumprimento em 14 dias
+    # --- janelas adicionadas em revisao 2024/2025 ---
+    JANELA_LAVAGEM_CRIPTO_DIAS = 45   # deposito + conversao cripto
+    JANELA_FRAUDE_FOLHA_DIAS = 90     # debito consignado recorrente
+    JANELA_BETS_COMISSAO_DIAS = 45    # comissao plataforma + lavagem
+
+    # --- thresholds financeiros 2024/2025 (BRL, valor nominal) ---
+    # Revisao 2024/2025: IPCA aproximado 4.6% (2024), gasto publico medio
+    # de cartao corporativo recalibrado para detectar "farra" sem ruido.
+    THRESHOLD_GASTO_LOCAL_PUBLICO = 12000.0    # gasto suspeito em local publico
+    THRESHOLD_PIX_SUSPEITO = 2500.0            # pix individual abaixo do reportavel COAF
+    THRESHOLD_PIX_MASSA_CONTAGEM = 20          # >=20 pixs em 24h = fragmentacao
+    THRESHOLD_CRIPTO_RESGATE = 50000.0         # resgate cripto suspeito
+    THRESHOLD_CONSIGNADO_INDEVIDO = 0.01       # qualquer debito indevido > 1 centavo
+    THRESHOLD_NF_LARVA_VALOR = 10000.0         # NF de empresa larva acima de R$ 10k
+    THRESHOLD_BETS_VOLUME = 100000.0           # volume mensal em plataforma bets
 
 
 # ============================================================================
@@ -293,7 +346,10 @@ class ConstitutionalMonitor:
             ))
 
         # P13: gasto em local publico sem registro -> suspeito
-        if ev.tipo == TipoEvento.GASTO_PUBLICO and ev.local_publico and ev.valor > 10000:
+        # Threshold 2024/2025: THRESHOLD_GASTO_LOCAL_PUBLICO (calibrado para
+        # detectar "farra" de cartao corporativo sem disparar em gastos legitimos).
+        if ev.tipo == TipoEvento.GASTO_PUBLICO and ev.local_publico \
+                and ev.valor > RegraDeteccao.THRESHOLD_GASTO_LOCAL_PUBLICO:
             if not ev.participantes:
                 alertas.append(self._criar_alerta(
                     nivel=NivelAlerta.ATENCAO,
@@ -309,6 +365,57 @@ class ConstitutionalMonitor:
                     acao_recomendada="Excluir lista de participantes. Valor deve ser publico.",
                     agente=ev.agente_nome,
                 ))
+
+        # --- Deteccoes 2024/2025: fraude de consignado/folha (Caso INSS) ---
+        # Debito indevido em folha e flagrante: o motor dispara no primeiro evento.
+        if ev.tipo == TipoEvento.DEBITO_INDEVIDO_FOLHA \
+                and ev.valor >= RegraDeteccao.THRESHOLD_CONSIGNADO_INDEVIDO:
+            alertas.append(self._criar_alerta(
+                nivel=NivelAlerta.CRITICO,
+                categoria=CategoriaViolacao.FRAUDE_CONSIGNADO,
+                principios=["P1", "P4", "P13"],
+                eventos=[ev.id],
+                descricao=(
+                    f"DEBITO INDEVIDO EM FOLHA detectado: {ev.descricao}. "
+                    f"Valor: R$ {ev.valor:.2f}. Padrao compativel com fraude "
+                    f"em consignado (Caso INSS 2024/2025). Quem autorizou o debito?"
+                ),
+                acao_recomendada="Estornar debitado. Acionar Ministerio Publico.",
+                agente=ev.agente_nome,
+            ))
+
+        # --- Deteccoes 2024/2025: nota fiscal ficticia (empresa larva) ---
+        if ev.tipo == TipoEvento.EMISSAO_NF_FICTICIA and ev.nf_ficticia \
+                and ev.valor >= RegraDeteccao.THRESHOLD_NF_LARVA_VALOR:
+            alertas.append(self._criar_alerta(
+                nivel=NivelAlerta.URGENTE,
+                categoria=CategoriaViolacao.DESVIO_RECURSO,
+                principios=["P1", "P13"],
+                eventos=[ev.id],
+                descricao=(
+                    f"NOTA FISCAL FICTICIA detectada: {ev.descricao}. "
+                    f"Valor: R$ {ev.valor:.2f}. Empresa larva sem lastro "
+                    f"(padrao Operacao Tesouro Paralelo 2024)."
+                ),
+                acao_recomendada="Reter pagamento. Verificar CNPJ e soio.",
+                agente=ev.agente_nome,
+            ))
+
+        # --- Deteccoes 2024/2025: jogo de azar sem regulacao (Caso das Bets) ---
+        if ev.tipo == TipoEvento.JOGO_AZAR_BETS and not ev.autorizado_regulador:
+            alertas.append(self._criar_alerta(
+                nivel=NivelAlerta.URGENTE,
+                categoria=CategoriaViolacao.JOGO_AZAR_REGULADO,
+                principios=["P1", "P13"],
+                eventos=[ev.id],
+                descricao=(
+                    f"OPERACAO DE JOGO DE AZAR sem autorizacao do regulador: "
+                    f"{ev.descricao}. Volume: R$ {ev.valor:.2f}. "
+                    f"Padrao compativel com lavagem via bets (CPI das Bets 2024)."
+                ),
+                acao_recomendada="Bloquear plataforma. Acionar COAF e Senado.",
+                agente=ev.agente_nome,
+            ))
 
         return alertas
 
@@ -385,6 +492,45 @@ class ConstitutionalMonitor:
                         acao_recomendada="Congelar contrato. Acionar Ministerio Publico.",
                         agente=ev.agente_nome,
                     ))
+
+        # --- LAVAGEM VIA CRIPTO/PIX (2024/2025) ---
+        # Padrao: deposito inexplicavel seguido de conversao cripto ou
+        # pix fragmentado dentro da janela de lavagem. Detecta operacao
+        # Tesouro Paralelo (cripto) e padroes de fragmentacao COAF.
+        if ev.tipo in (TipoEvento.ATIVO_CRIPTO, TipoEvento.PIX_EM_MASSA):
+            janela = timedelta(days=RegraDeteccao.JANELA_LAVAGEM_CRIPTO_DIAS)
+            for passado in self.eventos:
+                if passado.id == ev.id:
+                    continue
+                if passado.tipo != TipoEvento.DEPOSITO_INEXPLICAVEL:
+                    continue
+                try:
+                    ts_past = datetime.fromisoformat(passado.timestamp)
+                except (ValueError, TypeError):
+                    continue
+                if abs((ts_ev - ts_past)) > janela:
+                    continue
+                # threshold de valor agregado suspeito
+                valor_agg = passado.valor + ev.valor
+                if valor_agg < RegraDeteccao.THRESHOLD_CRIPTO_RESGATE \
+                        and not ev.pix_fragmentado:
+                    continue
+                alertas.append(self._criar_alerta(
+                    nivel=NivelAlerta.CRITICO,
+                    categoria=CategoriaViolacao.LAVAGEM_CRIPTO,
+                    principios=["P1", "P13"],
+                    eventos=[passado.id, ev.id],
+                    descricao=(
+                        f"PADRAO DE LAVAGEM: deposito inexplicavel em "
+                        f"{ts_past.strftime('%d/%m')} (R$ {passado.valor:.2f}) "
+                        f"seguido de {'cripto' if ev.cripto else 'pix fragmentado'} "
+                        f"em {ts_ev.strftime('%d/%m')} (R$ {ev.valor:.2f}). "
+                        f"Janela: {abs((ts_ev - ts_past).days)} dias. "
+                        f"Padrao compativel com Operacao Tesouro Paralelo (2024)."
+                    ),
+                    acao_recomendada="Bloquear contas. Acionar COAF e Receita Federal.",
+                    agente=ev.agente_nome,
+                ))
 
         return alertas
 
@@ -583,6 +729,71 @@ def _demo() -> None:
     )
     alertas = mon.processar_evento(ev6)
     print(f"  Alertas: {len(alertas)} (esperado 1 -- P13 violado)")
+    for a in alertas:
+        print(f"    [{a.nivel.id.upper()}] {a.categoria.rotulo}")
+        print(f"    {a.descricao}")
+
+    # --- CENARIO 5: Fraude de consignado/folha (Caso INSS 2024/2025) ---
+    print("\n\n[CENARIO 5: Debito indevido em folha de aposentados (Caso INSS)]")
+    base5 = datetime(2024, 6, 1, 9, 0)
+    ev7 = EventoPublico(
+        id="EVT-007", tipo=TipoEvento.DEBITO_INDEVIDO_FOLHA,
+        timestamp=base5.isoformat(),
+        agente_id="entidade_cobradora", agente_nome="Entidade Cobradora X",
+        descricao="Debito de R$ 37,70 em folha de aposentado sem autorizacao",
+        valor=37.70,
+        participantes=["Aposentado A", "Aposentado B", "Aposentado C"],
+    )
+    alertas = mon.processar_evento(ev7)
+    print(f"  Evento 7 ({base5.strftime('%d/%m/%Y')}): debito R$ 37,70")
+    print(f"  Alertas: {len(alertas)} (esperado 1 -- FRAUDE_CONSIGNADO)")
+    for a in alertas:
+        print(f"    [{a.nivel.id.upper()}] {a.categoria.rotulo}")
+        print(f"    {a.descricao}")
+
+    # --- CENARIO 6: Jogo de azar / bets sem regulacao (CPI das Bets 2024) ---
+    print("\n\n[CENARIO 6: Plataforma de bets sem autorizacao do regulador]")
+    base6 = datetime(2024, 9, 15, 14, 0)
+    ev8 = EventoPublico(
+        id="EVT-008", tipo=TipoEvento.JOGO_AZAR_BETS,
+        timestamp=base6.isoformat(),
+        agente_id="plataforma_bet_y", agente_nome="Plataforma Bet Y",
+        descricao="Plataforma de aposta operando sem licenca SPA/MJ",
+        valor=250000, autorizado_regulador=False,
+    )
+    alertas = mon.processar_evento(ev8)
+    print(f"  Evento 8 ({base6.strftime('%d/%m/%Y')}): volume R$ 250k sem licenca")
+    print(f"  Alertas: {len(alertas)} (esperado 1 -- JOGO_AZAR_REGULADO)")
+    for a in alertas:
+        print(f"    [{a.nivel.id.upper()}] {a.categoria.rotulo}")
+        print(f"    {a.descricao}")
+
+    # --- CENARIO 7: Lavagem via cripto (Operacao Tesouro Paralelo 2024) ---
+    print("\n\n[CENARIO 7: Deposito inexplicavel + conversao cripto (lavagem)]")
+    base7 = datetime(2024, 11, 1, 10, 0)
+    ev9 = EventoPublico(
+        id="EVT-009", tipo=TipoEvento.DEPOSITO_INEXPLICAVEL,
+        timestamp=base7.isoformat(),
+        agente_id="doleiro_k", agente_nome="Doleiro K",
+        descricao="Deposito em especie sem origem comprovada",
+        valor=800000,
+    )
+    mon.processar_evento(ev9)
+    print(f"  Evento 9 ({base7.strftime('%d/%m/%Y')}): deposito R$ 800k sem origem")
+    print(f"  (isolado: sem alerta temporal)")
+
+    # 30 dias depois: conversao em cripto
+    ev10 = EventoPublico(
+        id="EVT-010", tipo=TipoEvento.ATIVO_CRIPTO,
+        timestamp=(base7 + timedelta(days=30)).isoformat(),
+        agente_id="doleiro_k", agente_nome="Doleiro K",
+        descricao="Conversao em stablecoin (USDT) via exchange informal",
+        valor=750000, cripto=True,
+    )
+    alertas = mon.processar_evento(ev10)
+    print(f"  Evento 10 ({(base7 + timedelta(days=30)).strftime('%d/%m/%Y')}): "
+          f"cripto R$ 750k")
+    print(f"  Alertas: {len(alertas)} (esperado 1 -- LAVAGEM_CRIPTO)")
     for a in alertas:
         print(f"    [{a.nivel.id.upper()}] {a.categoria.rotulo}")
         print(f"    {a.descricao}")

@@ -584,11 +584,12 @@ def _demo() -> None:
         print(f"      Spec imutavel: {hw.spec_imutavel} | Codigo aberto: {hw.codigo_aberto}")
 
     print(f"\n  POR QUE RISC-V:")
-    print(f"    - ISA ABERTA: ninguem 'possui' a especificacao.")
-    print(f"    - Nenhum vendor pode fechar ou alterar o padrao.")
-    print(f"    - Modelos de IA rodam LOCAL: sem nuvem, sem Big Tech, sem spyware.")
-    print(f"    - Fabricavel em qualquer foundry (TSMC, SMIC, governo brasileiro).")
-    print(f"    - Acaba com dependencia de Intel/AMD/ARM/NVIDIA.")
+    print(f"    - ISA ABERTA (RISC-V International ratified extensions 2024): ninguem 'possui' a especificacao.")
+    print(f"    - SiFive (P870, AI vector accelerators 2025), StarFive VisionFive 2 (JH7110 SoC, widely available 2024).")
+    print(f"    - JH7110: 4x U74 RV64GC cores, vector extension, ideal for local AI and dev boards in 2025.")
+    print(f"    - Modelos de IA rodam LOCAL: sem nuvem, sem Big Tech, sem spyware (RVV + NPU).")
+    print(f"    - Fabricavel em qualquer foundry (TSMC 3nm 2025, SMIC, ou fab nacional).")
+    print(f"    - Acaba com dependencia de Intel/AMD/ARM/NVIDIA. Patentes sobre base spec: zero royalties (CC0-like).")
 
     # --- Manifesto: produtos iguais ---
     print("\n" + "=" * 70)

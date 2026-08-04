@@ -143,7 +143,7 @@
       "nome": "trabalho_igual",
       "categoria": "fundamento",
       "modulo": "constitutional_engine.py",
-      "texto": "Todo trabalho tem valor base 1.0. Ninguem vale mais por cargo. Diferencas sao por IMPACTO medido (pessoas afetadas x propagacao). Maximo: 40h/semana. Limite: 50h/semana. Base: 20h/semana.",
+      "texto": "Todo trabalho tem valor base 1.0. Ninguem vale mais por cargo. Diferencas sao por IMPACTO medido (pessoas afetadas x propagacao). Jornada maxima legal: 44h/semana (CF/88 + CLT). Recomendado: maximo 40h/semana. Limite overtime: 50h/semana. Base: 20h/semana (trabalho digno).",
       "eval_mode": "all",
       "pass_note": "Conforme.",
       "recommendation": "Garantir base 1.0. Diferenca so por impacto medido.",
@@ -782,6 +782,36 @@
         "then": "critica",
         "else": "maior"
       }
+    }
+  },
+  "referencias_2025": {
+    "ano": 2025,
+    "atualizado_em": "2025-01",
+    "salario_minimo": {
+      "2024": {
+        "valor": 1412,
+        "vigencia": "2024-01-01",
+        "fonte": "Portaria MTE nº 3.832/2023"
+      },
+      "2025": {
+        "valor": 1518,
+        "vigencia": "2025-01-01",
+        "fonte": "Portaria MTE nº 3.853/2024"
+      },
+      "moeda": "BRL",
+      "unidade": "reais/mes"
+    },
+    "jornada_trabalho": {
+      "maxima_legal_semanal": 44,
+      "comum_acordo_coletivo": 40,
+      "base_digna_recomendada": 20,
+      "limite_pratica_overtime": 50,
+      "unidade": "horas/semana",
+      "fonte": "Constituicao Federal art. 7 XIII + CLT 2025"
+    },
+    "outros": {
+      "pass_threshold_default": 60,
+      "nota": "Valores de referencia para validacao de sistemas (P3 e outros). Nao substituem legislacao."
     }
   }
 }

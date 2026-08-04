@@ -22,8 +22,14 @@ Este modulo simula TODA falha possivel e define a mitigacao:
 - Software travou: watchdog reinicia em 3s
 - Hardware morreu: fallback para terminal publico + ligacao
 
-PRINCIPIO: Cada componente tem um PLANO B, PLANO C e PLAO D.
+PRINCIPIO: Cada componente tem um PLANO B, PLANO C e PLANO D.
 Nenhum ponto unico de falha. Redundancia em TUDO.
+
+Atualizado 2024/2025:
+- Precos reais de hardware backup (BRL, mercado BR)
+- Cenarios de falha modernos: eSIM, USB-C, AI model corruption, satellite, foldables, 5G
+- Kit de resiliencia com precos e recomendacoes de backup
+- Cobertura expandida: 44+ tipos de falha
 
 Integrado com:
 - OpenTelefonista (telefonista sobrevive a falhas)
@@ -33,6 +39,7 @@ Integrado com:
 - OpenSilencePolicy (silencio mesmo em emergencia)
 
 Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50)
+Dados de hardware: precos aproximados ago/2024 - ago/2025 (Mercado Livre, Amazon BR, Magazine Luiza)
 """
 
 from __future__ import annotations
@@ -112,6 +119,18 @@ class FailureType(Enum):
     OS_UPDATE_BRICK = "atualizacao_bricou"
     BOOT_LOOP = "boot_loop"
     PERMISSION_REVOKED = "permissao_revogada"   # microfone negado
+
+    # 2024/2025 MODERN HARDWARE & CONNECTIVITY (atualizado ago/2025)
+    ESIM_FAILURE = "esim_falhou"                    # perda de linha celular (sem chip fisico)
+    USB_C_PORT_FAILURE = "usb_c_queimou"            # porta USB-C danificada / oxidada
+    FOLDABLE_SCREEN_DAMAGE = "tela_dobravel_rachou" # foldables: rachadura na dobra
+    SATELLITE_LINK_LOST = "satelite_perdido"        # Starlink / emergencia satelite caiu
+    AI_MODEL_CORRUPTED = "modelo_ia_corrompido"     # modelo LLM local corrompido / quantizado errado
+    NETWORK_5G_FALLBACK = "5g_caiu_4g"              # 5G caiu, ficou em 4G lento
+    BIOMETRIC_SENSOR_DEAD = "biometria_morta"       # face ID / fingerprint queimou
+    WIRELESS_CHARGE_FAILED = "carregamento_sem_fio_falhou"
+    E_SIM_NO_SIGNAL = "esim_sem_sinal"              # sem cobertura eSIM
+    FOLDABLE_HINGE_FAILURE = "dobradica_quebrou"    # mecanismo de dobra travou
 
 
 class FailureSeverity(Enum):
@@ -511,6 +530,72 @@ MITIGATION_STRATEGIES: List[MitigationStrategy] = [
         auto_activate=True,
         recovery_time_estimate_s=5,
     ),
+
+    # === 2024/2025 NEW MITIGATIONS (eSIM, USB-C, AI, Foldable) ===
+    MitigationStrategy(
+        strategy_id="MT-018",
+        failure_type=FailureType.ESIM_FAILURE,
+        name="eSIM Caiu - Backup SMS + WiFi Calling",
+        description="Linha eSIM perdeu sinal. Sem chip fisico para trocar.",
+        fallback_chain=[
+            "Plano A: Ativar WiFi Calling + VoIP (WhatsApp/Telegram chamadas)",
+            "Plano B: SMS via app (iMessage, RCS, Signal) enquanto tem dado",
+            "Plano C: Comprar chip fisico temporario ou eSIM secundaria",
+            "Plano D: Usar terminal publico ou ligacao de terceiro",
+        ],
+        recovery_action="Reativar eSIM em operadora. Comprar chip fisico como backup.",
+        user_message="Perdi sinal da sua linha eSIM. Usando WiFi e apps para chamadas. Recomendo comprar um chip fisico como backup.",
+        auto_activate=True,
+        recovery_time_estimate_s=1800,
+    ),
+    MitigationStrategy(
+        strategy_id="MT-019",
+        failure_type=FailureType.USB_C_PORT_FAILURE,
+        name="Porta USB-C Queimada - Carregamento Alternativo",
+        description="Porta de carga USB-C danificada. Nao carrega mais por cabo.",
+        fallback_chain=[
+            "Plano A: Carregamento sem fio (se o aparelho suportar)",
+            "Plano B: Powerbank wireless + case de emergencia",
+            "Plano C: Carregar em terminal publico / PC com cabo reserva",
+            "Plano D: Trocar porta (R$ 150-350) ou comprar aparelho reserva barato",
+        ],
+        recovery_action="Carregar sem fio ou trocar a porta USB-C. Ter powerbank wireless como backup.",
+        user_message="Sua porta USB-C parou de carregar. Vou tentar carregar sem fio. Recomendo powerbank wireless e um telefone reserva.",
+        auto_activate=True,
+        recovery_time_estimate_s=7200,
+    ),
+    MitigationStrategy(
+        strategy_id="MT-020",
+        failure_type=FailureType.AI_MODEL_CORRUPTED,
+        name="Modelo IA Local Corrompido - Fallback Regras",
+        description="Modelo de IA local falhou ou esta corrompido.",
+        fallback_chain=[
+            "Plano A: Reiniciar o modelo e tentar carregar de novo",
+            "Plano B: Usar modelo menor / mais antigo que ainda funciona",
+            "Plano C: Modo regras fixas + TTS simples (sem IA)",
+            "Plano D: Desligar IA e usar sistema puramente baseado em regras",
+        ],
+        recovery_action="Rebaixar modelo, redownload, ou voltar para versao anterior.",
+        user_message="O modelo de inteligencia artificial corrompeu. Vou usar regras simples e voz basica por enquanto. Sem IA avancada ate restaurar.",
+        auto_activate=True,
+        recovery_time_estimate_s=30,
+    ),
+    MitigationStrategy(
+        strategy_id="MT-021",
+        failure_type=FailureType.FOLDABLE_SCREEN_DAMAGE,
+        name="Tela Dobravel Rachada - Fallback Tela Externa",
+        description="Smartphone dobravel rachou na dobra principal.",
+        fallback_chain=[
+            "Plano A: Usar tela externa pequena como display principal",
+            "Plano B: Espelhar para smartwatch ou monitor externo",
+            "Plano C: Modo voz + braille total (tela secundaria quebrada)",
+            "Plano D: Comprar telefone reserva simples ate consertar",
+        ],
+        recovery_action="Reparo especializado (R$ 800-2500). Ter telefone reserva.",
+        user_message="A tela dobravel rachou. Vou usar a tela externa e voz. Recomendo comprar um Android barato de reserva.",
+        auto_activate=True,
+        recovery_time_estimate_s=172800,  # ~2 dias
+    ),
 ]
 
 
@@ -640,6 +725,28 @@ class FailureSimulator:
             if "voz" in self.state.available_inputs:
                 self.state.available_inputs.remove("voz")
             self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_2)
+        # 2024/2025 new failures state updates
+        elif ft == FailureType.ESIM_FAILURE or ft == FailureType.E_SIM_NO_SIGNAL:
+            self.state.network_available = False
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.USB_C_PORT_FAILURE:
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.FOLDABLE_SCREEN_DAMAGE or ft == FailureType.FOLDABLE_HINGE_FAILURE:
+            self.state.screen_available = False
+            if "tela" in self.state.available_outputs:
+                self.state.available_outputs.remove("tela")
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_2)
+        elif ft == FailureType.SATELLITE_LINK_LOST:
+            self.state.network_available = False
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.AI_MODEL_CORRUPTED:
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.NETWORK_5G_FALLBACK:
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.BIOMETRIC_SENSOR_DEAD:
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
+        elif ft == FailureType.WIRELESS_CHARGE_FAILED:
+            self.state.level = self._escalate(self.state.level, DegradationLevel.DEGRADED_1)
 
     def _apply_mitigation(self, strategy: MitigationStrategy) -> Dict[str, Any]:
         """Aplica mitigacao e restaura capacidades quando possivel."""
@@ -1070,6 +1177,8 @@ def demo():
     simulate_software_resilience()
     simulate_multi_user_scenarios()
     simulate_full_catastrophe()
+    simulate_2025_modern_failures()
+    report_resilience_kit_costs()
 
     # Resumo final
     print(f"\n{'=' * 70}")
@@ -1090,6 +1199,135 @@ def demo():
     print(f"Nenhum ponto unico de falha.")
     print(f"Redundancia em TUDO.")
     print(f"\nO sistema PODE falhar. O usuario NAO pode ficar desamparado.")
+
+
+
+def simulate_2025_modern_failures():
+    """Cenarios com falhas modernas 2024/2025 (eSIM, foldable, AI, USB-C, satellite)."""
+    print(f"\n{'=' * 65}")
+    print("CENARIO 7: FALHAS MODERNAS 2024/2025 (eSIM / Foldable / AI / USB-C)")
+    print("=" * 65)
+
+    sim = FailureSimulator()
+
+    modern = [
+        (FailureType.ESIM_FAILURE, FailureSeverity.CRITICAL, "eSIM sem sinal - linha caiu"),
+        (FailureType.USB_C_PORT_FAILURE, FailureSeverity.MAJOR, "porta USB-C danificada"),
+        (FailureType.AI_MODEL_CORRUPTED, FailureSeverity.MAJOR, "modelo IA local corrompido"),
+        (FailureType.FOLDABLE_SCREEN_DAMAGE, FailureSeverity.CRITICAL, "tela dobravel rachou na dobra"),
+        (FailureType.SATELLITE_LINK_LOST, FailureSeverity.MAJOR, "link satelite de emergencia caiu"),
+    ]
+
+    for ft, sev, desc in modern:
+        print(f"\n[FALHA 2025: {ft.value}]")
+        event = FailureEvent(
+            event_id=f"25-{ft.value}",
+            failure_type=ft,
+            category=FailureCategory.HARDWARE,
+            severity=sev,
+            duration=FailureDuration.MEDIUM,
+            description=desc,
+        )
+        result = sim.inject_failure(event)
+        status = sim.system_status()
+        print(f"  Mitigacao: {result['mitigation']}")
+        print(f"  Nivel: {status['degradation_level']}")
+        print(f"  Mensagem: {result.get('user_message', 'N/A')[:90]}...")
+
+
+RESILIENCE_HARDWARE_KIT_2025 = {
+    "descricao": "Kit de Resiliencia OpenRepublic - Backup para usuarios com deficiencia (precos aproximados ago/2024-ago/2025, Brasil)",
+    "precos": {
+        "smartphone_reserva_basico": {
+            "modelo": "Samsung Galaxy A05 / Moto G24 / similar",
+            "preco_min": 650,
+            "preco_max": 950,
+            "uso": "Backup total caso principal morra. Android puro + acessibilidade.",
+            "prioridade": "CRITICA",
+        },
+        "powerbank_20000mah": {
+            "modelo": "Baseus / Xiaomi / Anker 20000mAh PD",
+            "preco_min": 95,
+            "preco_max": 160,
+            "uso": "Carregamento emergencia. 2-3 cargas completas.",
+            "prioridade": "CRITICA",
+        },
+        "powerbank_wireless": {
+            "modelo": "Baseus 10000mAh Wireless / similar",
+            "preco_min": 110,
+            "preco_max": 180,
+            "uso": "Carregamento sem fio (caso USB-C queime).",
+            "prioridade": "ALTA",
+        },
+        "braille_display_portatil": {
+            "modelo": "Orbit Reader 20 / Refreshabraille usado",
+            "preco_min": 2800,
+            "preco_max": 5200,
+            "uso": "Saida braille quando TTS falha ou tela quebra.",
+            "prioridade": "ALTA (para cegos)",
+        },
+        "smartwatch_backup": {
+            "modelo": "Xiaomi Smart Band 8 / Galaxy Watch FE",
+            "preco_min": 180,
+            "preco_max": 650,
+            "uso": "Biometria + notificacoes + GPS fallback.",
+            "prioridade": "MEDIA",
+        },
+        "chip_fisico_backup": {
+            "modelo": "Chip fisico TIM/Vivo/Claro pre-pago",
+            "preco_min": 10,
+            "preco_max": 25,
+            "uso": "Backup para eSIM. Nunca dependa so de eSIM.",
+            "prioridade": "CRITICA",
+        },
+        "case_protetor_foldable": {
+            "modelo": "Case + pelicula para Galaxy Z Fold/Flip",
+            "preco_min": 80,
+            "preco_max": 220,
+            "uso": "Protecao extra para dobraveis (evita rachadura na dobra).",
+            "prioridade": "ALTA (foldables)",
+        },
+        "carregador_wireless_stand": {
+            "modelo": "Carregador wireless 15W Qi + powerbank",
+            "preco_min": 70,
+            "preco_max": 140,
+            "uso": "Carregamento sem fio de emergencia.",
+            "prioridade": "MEDIA",
+        },
+        "cabo_usb_c_backup": {
+            "modelo": "Cabo USB-C 1m reforcado (2 unidades)",
+            "preco_min": 25,
+            "preco_max": 45,
+            "uso": "Cabos reserva (USB-C falha com poeira/oxidacao).",
+            "prioridade": "ALTA",
+        },
+    },
+    "custo_total_estimado_min": 4020,
+    "custo_total_estimado_max": 7570,
+    "recomendacao": "Priorize: smartphone reserva + powerbank + chip fisico. Total minimo ~R$ 800 para kit essencial.",
+}
+
+
+def report_resilience_kit_costs():
+    """Imprime tabela de precos de hardware backup atualizado 2024/2025."""
+    print(f"\n{'=' * 70}")
+    print("KIT DE RESILIENCIA - PRECOS HARDWARE BACKUP 2024/2025 (BRL)")
+    print("=" * 70)
+    kit = RESILIENCE_HARDWARE_KIT_2025
+    print(f"\n{kit['descricao']}")
+    print(f"\nCusto total kit completo: R$ {kit['custo_total_estimado_min']} - R$ {kit['custo_total_estimado_max']}")
+    print(f"Recomendacao: {kit['recomendacao']}")
+    print(f"\n{'-' * 70}")
+    for key, item in kit["precos"].items():
+        print(f"\n  {key.upper()}")
+        print(f"    Modelo: {item['modelo']}")
+        print(f"    Preco: R$ {item['preco_min']} - R$ {item['preco_max']}")
+        print(f"    Uso: {item['uso']}")
+        print(f"    Prioridade: {item['prioridade']}")
+    print(f"\n{'=' * 70}")
+    print("TODOS OS PRECOS SAO APROXIMADOS (Mercado Livre / Amazon BR / Magalu 2024-2025)")
+    print("Atualize anualmente. Precos variam com dolar e promocoes.")
+    print("=" * 70)
 
 
 if __name__ == "__main__":

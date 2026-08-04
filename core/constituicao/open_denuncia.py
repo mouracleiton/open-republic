@@ -17,11 +17,11 @@ A SOLUCAO:
   Cadeia hash (tamper-proof). Multi-canal. Verificavel.
 
 PRINCIPIOS:
-  P2  -- denunciante e anonimo. Identidade protegida.
-  P5  -- denuncia verificada e publica. Log auditavel.
+  P2  -- denunciante e anonimo. Identidade protegida (Lei 13.869/2019 e atualizações 2024).
+  P5  -- denuncia verificada e publica. Log auditavel (transparência ativa).
   P9  -- nao polariza. Fato, nao opiniao.
   P13 -- ferramenta de contravigilancia.
-  P14 -- denunciante controla o proprio dado.
+  P14 -- denunciante controla o proprio dado (LGPD + Marco Civil + proteções whistleblower 2024/2025).
 
 SEGURANCA (prioridade maxima):
   - Nenhum IP logado
@@ -33,15 +33,17 @@ SEGURANCA (prioridade maxima):
   - Cadeia hash (cada denuncia linka com a anterior, tipo blockchain)
   - Sem servidor central (distribuido, torrent-style sync)
 
-CANAIS DE ENTRADA:
-  1. App mobile (offline-first, Tor embedded)
-  2. Web (.onion + clearnet)
-  3. SMS (numero descartavel, sem retorno)
-  4. Voz (ligaçao, transcreve, deleta voz)
-  5. Correio (caixa postal fisica, escaneado)
-  6. QR code (cola na rua, foto envia)
-  7. Mesh radio (LoRa, sem internet)
-  8. Papel (boletim de ocorrencia cidadao impresso)
+CANAIS DE ENTRADA (atualizado 2025):
+  1. App mobile (offline-first, Tor embedded, Signal-like)
+  2. Web (.onion + clearnet com Cloudflare WARP)
+  3. SMS (numero descartavel via apps como TextNow, sem retorno)
+  4. Voz (ligação via VoIP anonimizado, transcreve com Whisper, deleta voz)
+  5. Correio (caixa postal fisica, escaneado com OCR seguro)
+  6. QR code (cola na rua, foto envia via app Tor)
+  7. Mesh radio (LoRa, Meshtastic, sem internet)
+  8. Papel (boletim de ocorrencia cidadao impresso ou impresso em ponto fisico)
+  9. App de mensagens seguras (Briar, Session, SimpleX)
+  10. E-mail anonimo (ProtonMail via Tor, sem metadados)
 
 Author: OpenRepublic Team
 """

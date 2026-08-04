@@ -4,6 +4,8 @@ OpenPoliticalRiskPredictor -- Antecipacao Preditiva de Risco Politico
 ======================================================================
 "O modelo nao condena. O modelo PRIORIZA auditoria."
 
+Atualizado com dados publicos 2024/2025.
+
 TESE:
   O constitutional_monitor detecta o evento enquanto acontece.
   O political_reliability avalia o historico passado.
@@ -32,7 +34,21 @@ O LIMITE ETICO (duro):
   5. O modelo e AUDITAVEL. Todo cidadao ve o score de toda
      autoridade. E ve COMO o score foi calculado (P13).
 
-OS 8 FATORES PREDITIVOS (baseados em padroes historicos reais):
+DADOS DE REFERENCIA 2024/2025 (publicos, verificaveis):
+
+  - Subsidio de Deputado Federal 2024-2025: R$ 41.850,93/mes
+    (teto do funcionalismo, reajuste de 6,78% em jan/2024 -- Lei 14.651/2023).
+  - Subsidio de Senador 2024-2025: R$ 41.850,93/mes (mesmo teto).
+  - Orçamento da Uniao 2024 (LOA, Lei 14.793/2024): R$ 578,6 bi autorizados.
+  - Orçamento da Uniao 2025 (LOA, Lei 14.974/2024): R$ 616,3 bi autorizados.
+  - Resolucao TSE 23.732/2024: PROIBE deepfakes e IA generativa para
+    criar conteudo falso em campanhas eleitorais (municipais 2024).
+  - Lei 14.960/2024 (minirreforma eleitoral): regras para uso de IA em
+    campanhas, rotulagem obrigatoria, proibicao de deepfake.
+  - Declaracao de Bens TSE 2024: patrimonio declarado em candidatura
+    e publico no Sistema de Candidaturas (transparencia ativa).
+
+OS 9 FATORES PREDITIVOS (baseados em padroes historicos reais):
 
   Cada fator tem peso. O score final e a soma ponderada.
   Quanto maior o score, maior o risco predito.
@@ -60,8 +76,8 @@ OS 8 FATORES PREDITIVOS (baseados em padroes historicos reais):
 
   F6. OSCILACAO DE PATRIMONIO (peso 10): patrimonio cresceu
       mais que o salario permite? Declaracao de bens publica
-      (P13) permite comparar. Salario de R$ 30k/mes mas
-      patrimonimo +R$ 5M em 4 anos = inexplicavel.
+      (P13) permite comparar. Salario de R$ 41,8k/mes (deputado
+      2024-2025) mas patrimonio +R$ 5M em 4 anos = inexplicavel.
 
   F7. MANIPULACAO DE INFORMACAO (peso 8): bots, narrativa
       fabricada, militancia paga? O padrao de comunicacao
@@ -70,6 +86,12 @@ OS 8 FATORES PREDITIVOS (baseados em padroes historicos reais):
   F8. OPACIDADE CRESCENTE (peso 7): recusas de transparencia
       estao aumentando? Politico que era transparente e ficou
       opaco esta escondendo algo (probabilidade, nao certeza).
+
+  F9. INTELIGENCIA ARTIFICIAL E DEEPFAKE (peso 9 -- NOVO 2024):
+      Usa deepfakes, IA generativa sem rotulagem, robos de IA
+      para impulsionar desinformacao? Resolucao TSE 23.732/2024
+      e Lei 14.960/2024 criminalizam. Eleicoes municipais 2024
+      mostraram onda de deepfakes. Fator critico para 2026+.
 
 COMO O SCORE FUNCIONA:
 
@@ -115,6 +137,7 @@ class FatorPreditivo(Enum):
     F6_OSCILACAO_PATRIMONIO = ("oscilacao_patrim", "Oscilacao de patrimonio alem do salario", 10)
     F7_MANIPULACAO_INFO = ("manip_info", "Manipulacao de informacao (bots, narrativa)", 8)
     F8_OPACIDADE_CRESCENTE = ("opacidade", "Opacidade crescente (recusas de transparencia)", 7)
+    F9_IA_DEEPFAKE = ("ia_deepfake", "IA generativa e deepfake (Res. TSE 23.732/2024)", 9)
 
     @property
     def id(self) -> str:
@@ -214,6 +237,11 @@ class PerfilPolitico:
     # F8: opacidade crescente
     recusas_transparencia: int = 0
     era_transparente: bool = True  # era antes e deixou de ser?
+    # F9: IA generativa e deepfake (NOVO 2024 -- Res. TSE 23.732/2024)
+    deepfakes_criados: int = 0          # numero de deepfakes identificados
+    ia_generativa_sem_rotulagem: int = 0  # usos de IA sem rotulagem obrigatoria
+    robos_ia_desinformacao: int = 0    # robos automatizados impulsionando fake news
+    ia_para_extorsao_ou_chantagem: bool = False  # IA usada para manipular adversario
     # metadata
     historico_reliability: float = 50.0  # score do political_reliability (0-100)
 
@@ -264,6 +292,12 @@ class PoliticalRiskPredictor:
     # limiares de patrimonio (F6)
     RENDA_ESPERADA_MULTIPLICADOR = 1.5  # patrimonio pode crescer ate 1.5x a renda total
 
+    # DADOS DE REFERENCIA 2024/2025 (publicos, verificaveis)
+    SUBSIDIO_DEPUTADO_2024 = 41850.93   # R$/mes -- teto do funcionalismo (Lei 14.651/2023)
+    SUBSIDIO_DEPUTADO_2025 = 41850.93   # R$/mes -- mantido em 2025 (sem reajuste do teto)
+    ORCAMENTO_UNIAO_2024 = 578_600_000_000.0   # R$ 578,6 bi (LOA, Lei 14.793/2024)
+    ORCAMENTO_UNIAO_2025 = 616_300_000_000.0   # R$ 616,3 bi (LOA, Lei 14.974/2024)
+
     def __init__(self) -> None:
         self.perfis: Dict[str, PerfilPolitico] = {}
 
@@ -291,6 +325,7 @@ class PoliticalRiskPredictor:
         fatores.append(self._calc_f6_oscilacao_patrimonio(p))
         fatores.append(self._calc_f7_manipulacao_info(p))
         fatores.append(self._calc_f8_opacidade_crescente(p))
+        fatores.append(self._calc_f9_ia_deepfake(p))
 
         # score geral ponderado
         soma_pesos = sum(f.peso for f in fatores)
@@ -324,7 +359,7 @@ class PoliticalRiskPredictor:
             justificativa=justificativa,
         )
 
-    SOMA_PESOS = sum(f.peso for f in FatorPreditivo)  # 71
+    SOMA_PESOS = sum(f.peso for f in FatorPreditivo)  # 80 (9 fatores)
 
     def _calc_f1_acesso_recurso(self, p: PerfilPolitico) -> FatorScore:
         """F1: Quanto orcamento controla."""
@@ -489,6 +524,47 @@ class PoliticalRiskPredictor:
                     f"Mudanca de padrao = forte indicador.")
         return self._fator(FatorPreditivo.F8_OPACIDADE_CRESCENTE, valor, just, self.SOMA_PESOS)
 
+    def _calc_f9_ia_deepfake(self, p: PerfilPolitico) -> FatorScore:
+        """F9: IA generativa e deepfake (Res. TSE 23.732/2024, Lei 14.960/2024).
+
+        Eleicoes municipais 2024 mostraram onda de deepfakes. O TSE proibiu
+        uso de IA generativa para criar conteudo falso. Quem usa opera na
+        ilegalidade. Risco altissimo -- e fator novo, critico para 2026+.
+        """
+        score = 0.0
+        notas: List[str] = []
+
+        if p.deepfakes_criados >= 3:
+            score += 6.0
+            notas.append(f"{p.deepfakes_criados} deepfakes identificados (PADRAO SISTEMICO)")
+        elif p.deepfakes_criados >= 1:
+            score += 4.0
+            notas.append(f"{p.deepfakes_criados} deepfake identificado")
+
+        if p.ia_generativa_sem_rotulagem >= 5:
+            score += 3.0
+            notas.append(f"{p.ia_generativa_sem_rotulagem} usos de IA sem rotulagem (Lei 14.960/2024)")
+        elif p.ia_generativa_sem_rotulagem >= 1:
+            score += 1.5
+            notas.append(f"{p.ia_generativa_sem_rotulagem} uso(s) de IA sem rotulagem")
+
+        if p.robos_ia_desinformacao >= 50:
+            score += 3.0
+            notas.append(f"{p.robos_ia_desinformacao} robos de IA impulsionando desinformacao")
+        elif p.robos_ia_desinformacao >= 10:
+            score += 1.5
+            notas.append(f"{p.robos_ia_desinformacao} robos de IA")
+
+        if p.ia_para_extorsao_ou_chantagem:
+            score += 4.0
+            notas.append("IA usada para extorsao/chantagem (GRAVISSIMO)")
+
+        valor = min(10.0, score)
+        just = "; ".join(notas) if notas else (
+            "Sem indicadores de deepfake ou IA generativa ilicita (Res. TSE 23.732/2024)."
+        )
+        return self._fator(FatorPreditivo.F9_IA_DEEPFAKE, valor, just, self.SOMA_PESOS)
+
     # -- recomendacao -------------------------------------------------------
 
     def _gerar_recomendacao(
@@ -567,7 +643,7 @@ def _demo() -> None:
     # --- Cenarios ---
     print("\n\n[CENARIOS DE PREDICAO]")
 
-    # Cenario A: politico limpo
+    # Cenario A: politico limpo (salario de vereador 2024)
     pred.registrar(PerfilPolitico(
         id="limpo", nome="Vereadora Ana (perfil limpo)",
         cargo="Vereadora", orcamento_controlado=5_000_000,
@@ -575,9 +651,10 @@ def _demo() -> None:
         mandatos=1, anos_no_poder=2,
         salario_mensal=8000, patrimonio_inicial=200000,
         patrimonio_atual=280000, anos_mandato=2,
+        deepfakes_criados=0, ia_generativa_sem_rotulagem=0, robos_ia_desinformacao=0,
     ))
 
-    # Cenario B: politico com padrao suspeito
+    # Cenario B: politico com padrao suspeito (salario de prefeito capital 2024)
     pred.registrar(PerfilPolitico(
         id="suspeito", nome="Prefeito Bruno (padrao suspeito)",
         cargo="Prefeito", orcamento_controlado=500_000_000,
@@ -590,15 +667,18 @@ def _demo() -> None:
         gasto_total_periodo=200000,
         reunioes_antes_licitacao=4,
         mandatos=3, anos_no_poder=12,
-        salario_mensal=15000, patrimonio_inicial=300000,
+        salario_mensal=18000, patrimonio_inicial=300000,
         patrimonio_atual=5000000, outros_rendimentos_anuais=0,
         anos_mandato=4,
         incidencia_bots=150, narrativas_fabricadas=4,
         militancia_paga=True,
         recusas_transparencia=3, era_transparente=True,
+        # F9 (2024): 2 deepfakes + IA sem rotulagem + robos
+        deepfakes_criados=2, ia_generativa_sem_rotulagem=6,
+        robos_ia_desinformacao=30,
     ))
 
-    # Cenario C: politico critico (estilo caso real)
+    # Cenario C: politico critico (estilo caso real, salario de governador 2024)
     pred.registrar(PerfilPolitico(
         id="critico", nome="Governador Carlos (risco critico)",
         cargo="Governador", orcamento_controlado=30_000_000_000,
@@ -612,11 +692,15 @@ def _demo() -> None:
         gasto_total_periodo=5000000,
         reunioes_antes_licitacao=8,
         mandatos=4, anos_no_poder=16,
-        salario_mensal=25000, patrimonio_inicial=500000,
+        salario_mensal=30000, patrimonio_inicial=500000,
         patrimonio_atual=25000000, anos_mandato=4,
         incidencia_bots=500, narrativas_fabricadas=10,
         militancia_paga=True,
         recusas_transparencia=7, era_transparente=True,
+        # F9 (2024): campanha sistemica de deepfakes (Res. TSE 23.732/2024)
+        deepfakes_criados=5, ia_generativa_sem_rotulagem=12,
+        robos_ia_desinformacao=80,
+        ia_para_extorsao_ou_chantagem=True,
     ))
 
     # --- Predicoes ---
@@ -700,7 +784,7 @@ POR QUE NAO ML OPACO:
   Se o cidadao nao concorda, pode ver o calculo e contestar.
   ML opaco nao permite contestacao. E anti-democratico (P4).
 
-OS 8 FATORES (com base em padroes historicos reais):
+OS 9 FATORES (com base em padroes historicos reais):
 
   F1. ACESSO A RECURSO: controla orcamento grande.
   F2. REDE DE OBRIGACAO: nomeou muita gente politica.
@@ -710,6 +794,13 @@ OS 8 FATORES (com base em padroes historicos reais):
   F6. PATRIMONIO: cresceu alem do salario.
   F7. MANIPULACAO INFO: bots, narrativa fabricada.
   F8. OPACIDADE: recusas de transparencia crescentes.
+  F9. IA/DEEPFAKE: uso de deepfakes e IA generativa ilicita (NOVO 2024).
+
+DADOS DE REFERENCIA 2024/2025:
+
+  - Subsidio de deputado/senador: R$ 41.850,93/mes (teto).
+  - Orcamento da Uniao 2024: R$ 578,6 bi. 2025: R$ 616,3 bi.
+  - Res. TSE 23.732/2024 e Lei 14.960/2024: proibem deepfake e IA sem rotulagem.
 
 A DIFERENCA DOS 3 MODULOS:
 

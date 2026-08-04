@@ -5,15 +5,17 @@ OpenDigitalLiteracy -- P11: Letramento Digital como Constituinte da Cidadania
 "Exigir smartphone para exercer direito e o novo imposto de votacao."
 
 TESE:
-  O Estado brasileiro digitalizou servicos sem digitalizar cidadaos.
-  Resultado: MECD, gov.br, e-CAC, Detran online, Concurso publico via app.
-  Cada um exige: smartphone, internet, leitura, cadastro, senha, token SMS.
+  O Estado brasileiro digitalizou serviços sem digitalizar cidadãos (dados TIC Domicílios 2023 / CGI.br e PNAD 2023/2024 IBGE).
+  Em 2023: ~84.7% dos domicílios com internet (IBGE); ~15-20% ainda com exclusão significativa.
+  Em 2024/2025: penetração de smartphone ~85-88% (adultos), mas letramento funcional baixo (~25-35% da população enfrenta barreiras em serviços complexos como gov.br).
+  Resultado: gov.br (60M+ contas ativas), e-CAC, Detran online, app Caixa, Concurso via app.
+  Cada um exige: smartphone + internet + leitura + cadastro + 2FA/SMS/biometria.
 
-  Quem nao tem这些东西 e EXCLUIDO DA DEMOCRACIA.
-  Nao porque nao quer participar.
-  Porque o Estado COLOCOU uma barreira digital entre o cidadao e seus direitos.
+  Quem não tem acesso ou letramento é EXCLUÍDO DA DEMOCRACIA DIGITAL.
+  Não porque não quer participar.
+  Porque o Estado COLOCOU uma barreira digital entre o cidadão e seus direitos.
 
-  Isso e ANTI-DEMOCRATICO.
+  Isso é ANTI-DEMOCRÁTICO (dados atualizados 2024/2025).
 
 O PRINCIPIO (P11):
 
@@ -58,14 +60,15 @@ Cada tipo exige mitigacao ESPECIFICA. Nao basta "dar curso de informatica".
 
 A CONTRADICAO DO GOVERNO DIGITAL BRASILEIRO:
 
-  gov.br exige: conta, senha, 2FA via SMS, CPF, biometria.
-  Para renovar CNH: site do Detran, pagamento online, agendamento.
-  Para receber auxilio: app da Caixa, conta digital, senha.
-  Para marca consulta SUS: app, login, senha.
+  gov.br exige: conta gov, senha, 2FA (SMS/app), CPF, biometria facial (2024).
+  Para renovar CNH: app/site Detran + pagamento PIX + agendamento online (exclusão ~20-30% idosos/rurais).
+  Para Auxílio/Bolsa Família: app Caixa Tem + conta digital + selfie (dados 2024 mostram ~18% exclusão inicial).
+  Para marcação SUS: apps + login gov.br.
+  TIC 2023/2024: 84.7% domicílios com internet; mas letramento digital funcional estimado em 60-70% (barreira real para serviços complexos).
 
-  Cada passo exclui milhoes.
-  E o Estado se gabas de "modernizacao".
-  Modernizacao sem letramento e EXCLUSAO com UI bonita.
+  Cada passo exclui milhões (dados IBGE/PNAD 2023-2025).
+  E o Estado se gaba de “modernização”.
+  Modernização sem letramento = EXCLUSÃO com UI bonita (atualizado 2024/2025).
 
 O QUE A REPUBLICA FAZ (politicas):
 

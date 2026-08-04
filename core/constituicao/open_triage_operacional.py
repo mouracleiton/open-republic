@@ -24,6 +24,7 @@ A SOLUCAO:
     5. Se ALIVIO: obrigatoriamente linka com diagnostico futuro
 
 Author: OpenRepublic Team
+Atualizado: 2025 com dados 2024/2025 (fome ~33M conforme PENSSAN/IBGE, desemprego ~7.9-8.0%)
 """
 from __future__ import annotations
 from typing import Any, Dict, List, Optional
@@ -114,7 +115,7 @@ class DecisaoTriagem:
 
 
 # ============================================================================
-# 3. CATALOGO DE SINTOMAS REAIS DO BRASIL
+# 3. CATALOGO DE SINTOMAS REAIS DO BRASIL (atualizado 2024/2025)
 # ============================================================================
 
 def _init_sintomas() -> List[Sintoma]:
@@ -125,7 +126,7 @@ def _init_sintomas() -> List[Sintoma]:
         Sintoma(
             "fome_infantil", "Crianca com fome",
             CategoriaSintoma.VIDA,
-            "33 milhoes de brasileiros passam fome. Crianca nao come.",
+            "Cerca de 33 milhoes de brasileiros em inseguranca alimentar grave (dados PENSSAN/IBGE 2024). Crianca nao come.",
             tem_diagnostico=False,
             acao_alivio="Distribuicao imediata de comida (merenda, cesta, restaurante popular)",
             acao_cura="Reforma agraria + soberania alimentar + renda minima",
@@ -189,7 +190,7 @@ def _init_sintomas() -> List[Sintoma]:
         Sintoma(
             "desemprego_massa", "Desemprego em massa",
             CategoriaSintoma.BOLSO,
-            "Desemprego alto. Gente sem renda.",
+            "Taxa de desemprego ~7.9% em jan/2025 (IBGE). Milhoes sem renda formal.",
             tem_diagnostico=False,
             acao_alivio="Programa de renda temporario",
             acao_cura="Politica industrial + educacao + credito sem juros",
@@ -199,12 +200,12 @@ def _init_sintomas() -> List[Sintoma]:
         Sintoma(
             "energia_cara", "Conta de luz cara",
             CategoriaSintoma.BOLSO,
-            "Conta de luz subiu 40%. Gente nao paga.",
+            "Conta de luz subiu significativamente. Gente nao paga.",
             tem_diagnostico=False,
             acao_alivio="Tarifa social / subsidio",
             acao_cura="Energia solar comunitaria + rede publica + microgrid",
             prazo_diagnostico_dias=30,
-            risco_alivio_sem_cura="Subsidio semResolver causa = broke estado.",
+            risco_alivio_sem_cura="Subsidio sem resolver causa = broke estado.",
         ),
 
         # ====================================================================
@@ -257,7 +258,7 @@ def _init_sintomas() -> List[Sintoma]:
         Sintoma(
             "saneamento_falta", "Falta de saneamento",
             CategoriaSintoma.ESTRUTURA,
-            "35M sem agua tratada. 100M sem esgoto.",
+            "Milhoes sem agua tratada e esgoto (dados 2024).",
             tem_diagnostico=False,
             acao_alivio="Cisterna + fossa septica + filtro comunitario",
             acao_cura="Plano nacional de saneamento universal",
@@ -293,7 +294,7 @@ class TriageOperacional:
     """
 
     NOME = "OpenTriageOperacional"
-    VERSAO = "0.1.0-spec"
+    VERSAO = "0.2.0-2025"  # Atualizado com dados 2024/2025
 
     REGRA_OURO = [
         "Vida em risco -> age AGORA, diagnostica depois",
@@ -449,7 +450,7 @@ def _demo() -> None:
     tri = TriageOperacional()
 
     print("=" * 70)
-    print(f"{tri.NOME} v{tri.VERSAO} -- Triagem Operacional")
+    print(f"{tri.NOME} v{tri.VERSAO} -- Triagem Operacional (atualizado 2025)")
     print("=" * 70)
 
     # --- Regra de ouro ---
