@@ -24,7 +24,7 @@ SCORES_DETALHADOS = {
     # Senadores (herdados do modulo anterior)
     "Camilo Santana": (0.89, 1.0, 1.0, "Governador CE 2x. IDEB subiu. Vacinacao 95%.", {"educacao": 0.9, "saude": 0.7, "violencia": 0.4}),
     "Sergio Moro": (0.63, 0.4, 0.6, "Lava Jato. Lei Anticrime. Prefeito Maringa.", {"violencia": 0.5, "drogas": 0.2}),
-    "Marina Silva": (0.94, 0.80, 0.80, "Reduziu desmatamento 80%. Cisternas. PAA.", {"ambiente": 1.0, "agua": 0.9, "alimentacao": 0.9, "agropecuaria": 0.8, "seguranca_alimentar": 0.9}),
+    "Marina Silva": (0.844, 0.80, 0.80, "Reduziu desmatamento 80%. Cisternas. PAA.", {"ambiente": 1.0, "agua": 0.9, "alimentacao": 0.9, "agropecuaria": 0.8, "seguranca_alimentar": 0.9}),
     "Rodrigo Pacheco": (0.58, 0.6, 0.6, "Presidente do Senado. Advogado.", {}),
     "Randolfe Rodrigues": (0.55, 0.4, 0.7, "Senador AP. Ambientalista.", {"ambiente": 0.6, "indigena": 0.5}),
     "Hamilton Mourão": (0.58, 0.6, 0.5, "General. Vice-presidente.", {"violencia": 0.2, "transporte": 0.2}),
