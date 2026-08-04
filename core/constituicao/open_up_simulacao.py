@@ -251,7 +251,7 @@ def _demo():
     propostas = _init_propostas()
 
     print("=" * 85)
-    print("SIMULACAO: PROGRAMA DA UNIDADE POPULAR (Samara Martins) vs GATE WO")
+    print("SIMULACAO: PROGRAMA DE SAMARA MARTINS (UP) vs GATE WO")
     print("25 propostas reais de unidadepopular.org.br/programa")
     print("=" * 85)
 
@@ -304,25 +304,25 @@ def _demo():
     Execucao:    0/25 detalhadas (0%)
 
   O QUE ISSO SIGNIFICA:
-    A UP entende TODOS os problemas do Brasil.
-    A UP aponta TODAS as direcoes corretas.
+    Samara entende TODOS os problemas do Brasil.
+    Samara aponta TODAS as direcoes corretas.
     Mas NAO detalha COMO executar nada.
     
   O vies: quem nao tem acesso a dados/equipe tecnica nao detalha execucao.
   O novo metodo nao pune isso. Mede separado.
 
-  Score UP (3 camadas): {score_medio:.2f}/5.0
+  Score Samara (3 camadas): {score_medio:.2f}/5.0
     = 100% diagnostico + 100% direcao + 0% execucao
     = (1.0*2 + 1.0*2 + 0.0*1) / 5 * 5 = 4.0/5.0
 
   COMPARACAO:
     Marina (Gate tradicional): 3.00/5.0 (3 aprovadas de 5)
     Marina (3 camadas):        ~4.5/5.0 (diag ok + dire ok + exec ok em 3)
-    UP (Gate tradicional):     0.00/5.0 (0 aprovadas de 25)
-    UP (3 camadas):            4.00/5.0 (diag 100% + dire 100% + exec 0%)
+    Samara (Gate tradicional): 0.00/5.0 (0 aprovadas de 25)
+    Samara (3 camadas):        4.00/5.0 (diag 100% + dire 100% + exec 0%)
     
-  A diferenca: Marina detalha execucao porque tem dados. UP nao detalha
-  porque nao tem. Mas o diagnostico e a direcao da UP sao coerentes.
+  A diferenca: Marina detalha execucao porque tem dados. Samara nao detalha
+  porque nao tem. Mas o diagnostico e a direcao de Samara sao coerentes.
 """)
 
 
