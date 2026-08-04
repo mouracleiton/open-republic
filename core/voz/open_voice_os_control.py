@@ -754,14 +754,14 @@ class VoiceOSControlEngine:
         return resultado
 
     def _calcular_confianca(self, texto: str, padrao: str, cmd: ComandoVoz, match: re.Match) -> float:
-        """Heuristica de confianca no reconhecimento."""
-        # match exato (todo o texto casou) = alta confianca
+        """Heuristica de confianca no reconhecimento. (2025: specificity bias to break ties on generics)"""
         matched_text = match.group(0)
         cobertura = len(matched_text) / len(texto) if texto else 0
-        score = cobertura  # base: quanto do texto foi reconhecido
-        # bonus se o comando e do dominio esperado da sessao
-        # (simplificado: sem contexto de sessao por enquanto)
-        return round(min(1.0, score), 3)
+        # base coverage + small bias for longer/more-specific patterns (apps, codigo, etc)
+        # prevents AMBIGUO on "abrir vscode" vs generic "abrir (.+)"
+        specificity = min(0.12, len(padrao) / 280.0)
+        score = min(1.0, cobertura + specificity)
+        return round(score, 3)
 
     def _classificar_confianca(self, score: float) -> NivelConfianca:
         for n in NivelConfianca:
