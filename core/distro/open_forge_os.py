@@ -253,7 +253,7 @@ class ForgeOS:
 
     NOME = "ForgeOS"
     VERSAO = "0.1.0-spec"
-    BASE = "NixOS 24.05"
+    BASE = "NixOS 25.05"
     LICENCA = "GPL-3.0 + MIT (componentes)"
 
     def __init__(self) -> None:
@@ -360,7 +360,7 @@ class ForgeOS:
   # Bluetooth (controle sem fio)
   hardware.bluetooth.enable = true;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }}
 """
 

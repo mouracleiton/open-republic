@@ -485,7 +485,7 @@ class HTMLPage:
         </div>
         <div class="comparison-item">
             <span>Juros pagos por cada brasileiro (total):</span>
-            <span class="comparison-lost">R$ {total_int * 1e12 / 215e6:,.0f}</span>
+            <span class="comparison-lost">R$ {total_int * 1e12 / (204e6):,.0f}</span>
         </div>
     </div>
 """
@@ -703,7 +703,7 @@ class Infographic:
         lines.append(f"Juros pagos em {len(projections)} anos:")
         lines.append(f"R$ {total_interest:.1f} trilhoes")
         lines.append(f"= {total_interest/p0.debt_brl*1e12/1e12:.1f}x a divida inicial")
-        lines.append(f"= R$ {total_interest*1e12/215e6:,.0f} por brasileiro")
+        lines.append(f"= R$ {total_interest*1e12/(204e6):,.0f} por brasileiro")
         lines.append(f"= {total_interest*1e12/5e6:,.0f} escolas")
         lines.append(f"= {total_interest*1e12/50e6:,.0f} hospitais")
         lines.append(f"= {total_interest*1e12/80e3:,.0f} casas populares")

@@ -156,7 +156,7 @@ class ItemClipboard:
 class ConfigClipboardIntel:
     """Configuracao do sistema de clipboard inteligente."""
     ativo: bool = True
-    llm_modelo: str = "llama-3.2-3b-instruct"  # modelo local
+    llm_modelo: str = "qwen2.5-3b-instruct"  # 2025: Qwen2.5-3B (melhor qualidade local leve)
     llm_host: str = "localhost:8080"  # llama.cpp server
     auto_preview: bool = True  # mostrar preview automaticamente
     max_tokens_expansao: int = 500
@@ -344,7 +344,7 @@ class ExpansorLLM:
 
         contexto_sistema = (
             f"\n-- Contexto --\n"
-            f"Python: 3.11 | OS: RepublicaOS (Kali/Debian) | Kernel: Linux 6.x\n"
+            f"Python: 3.13 | OS: RepublicaOS (Kali/Debian) | Kernel: Linux 6.12\n"
         )
 
         if destino in (ContextoDestino.ISSUE, ContextoDestino.CHAT):

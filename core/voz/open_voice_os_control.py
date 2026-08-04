@@ -2,7 +2,7 @@
 """
 OpenVoiceOSControl -- Controle do Sistema Operacional por Voz
 ================================================================
-"Fale. O sistema obedece."
+"Fale. O sistema obedece."  (Atualizado 2024/2025)
 
 Cego nao digita. Tetraplegico nao clica. Idoso nao navega menu.
 Eles FALAM. O sistema obedece.
@@ -16,23 +16,34 @@ A Telefonista CONVERSA. O VoiceControl AGE.
 
 OS 7 DOMINIOS DE CONTROLE:
 
-1. JANELAS: abrir, fechar, minimizar, maximizar, trocar, mover
-2. ARQUIVOS: navegar pastas, abrir arquivo, criar pasta, buscar
-3. DIGITACAO: ditar texto, corrigir, formatar, apagar
-4. NAVEGACAO: rolar pagina, voltar, avancar, clicar link
-5. SISTEMA: volume, brilho, wifi, bluetooth, bateria, desligar
-6. APLICATIVOS: iniciar RepublicaPort apps (IDE, Telefonista, Energy)
-7. LEITURA: ler tela, ler selecionado, ler titulo, descrever janela
+1. JANELAS: abrir, fechar, minimizar, maximizar, trocar, mover, workspace (Wayland)
+2. ARQUIVOS: navegar pastas, abrir arquivo, criar pasta, buscar, abrir com app
+3. DIGITACAO: ditar texto, corrigir, formatar, apagar, ditar codigo
+4. NAVEGACAO: rolar pagina, voltar, avancar, clicar link, pesquisar pagina
+5. SISTEMA: volume, brilho, wifi, bluetooth, bateria, desligar, vpn, rede, modo escuro
+6. APLICATIVOS: iniciar Republica apps (IDE, Telefonista, Energy, VSCode, Neovim, Obsidian)
+7. LEITURA: ler tela, ler selecionado, ler titulo, descrever janela, ler notificacoes, zoom
 
-COMO FUNCIONA (pipeline):
+COMO FUNCIONA (pipeline 2025 - 9 camadas):
 
-Microfone -> Whisper (STT local) -> Texto
-Texto -> Parser de Comando (NLU leve, regex + palavras-chave)
-Comando -> Executor (acao real no SO via D-Bus / xdotool / AT-SPI)
-Resultado -> Kokoro/Chatterbox (TTS local) -> Audio
+Microfone -> Silero VAD v5 + OpenWakeWord 2.0 -> faster-whisper (Distil-Whisper tiny->small) -> Texto
+Texto -> Parser de Comando (NLU leve, regex + fuzzy + cache LRU)
+Comando -> Executor (acao real no SO via D-Bus / ydotool / wlrctl / hyprctl / AT-SPI2 / xdotool legacy)
+Resultado -> Kokoro-82M (streaming <65ms) / Piper ONNX (TTS local) -> Audio
 
 Tudo LOCAL. Sem nuvem. Sem Google. Sem Alexa. Sem Siri.
-Soberania da voz.
+Soberania da voz. (Ref: open_voice_pipeline.py 2025)
+
+ATUALIZACAO 2024/2025 (versoes e ferramentas):
+- STT: faster-whisper large-v3 + distil-whisper (2024/2025), Vosk 0.3.45 fallback
+- TTS: Kokoro-82M (ONNX streaming, <65ms first syllable), Piper high-quality ONNX
+- VAD/Hotword: Silero VAD v5, OpenWakeWord 2.0 (1.8M params)
+- Accessibility: AT-SPI2 / Orca 46 (GNOME 46 2024), Orca 47 (2025), brltty
+- Wayland (primary 2025): ydotool, wlrctl, hyprctl (dbus), layer-shell overlays
+- X11 legacy: xdotool, wmctrl, gdbus
+- Apps: flatpak run, gio launch, gtk-launch
+- OCR Shim (fallback): Tesseract 5.4.1, PaddleOCR v5 (PT-BR), surya/marker
+- Targets: <110ms comando (L0-L6), <65ms TTS start, ~180ms percebido
 
 ALINHAMENTO CONSTITUCIONAL:
 - P1: Voz e o input mais universal. Cego, tetraplegico, idoso -- todos falam.

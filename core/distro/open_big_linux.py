@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """
-OpenBigLinux -- Distro Base da Republica (Kali + Acessibilidade + IA Local)
+OpenBigLinux -- Distro Base da Republica (Kali 2025.1 hardened + Acessibilidade + IA Local)
 =============================================================================
 "Todos saibam melhorar a seguranca de sistemas dentro da Republica."
 
-A Republica usa Kali Linux como BASE da sua distro. Nao por ser "hacker".
-Porque SEGURANCA E CULTURA, nao especialidade.
+A Republica usa Kali Linux 2025.1 como BASE da sua distro (lançado fevereiro 2025).
+Nao por ser "hacker". Porque SEGURANCA E CULTURA, nao especialidade.
+
+VERSAO BASE ATUALIZADA (2025):
+- Kali Linux 2025.1 (base Debian 12 Bookworm, kernel 6.12+)
+- BigLinux 3.2+ elementos de UI/UX (tema, menus, acessibilidade integrada)
+- Hardening Republica: AppArmor, ufw, fail2ban, auditd, kernel lockdown
+- Stack de acessibilidade completa (Orca 46+, espeak-ng, brltty 6.7+)
+- IA Local: whisper.cpp 1.7+, piper-tts 1.2+, llama.cpp b3882+, vosk-api 0.3.45
 
 POR QUE KALI (e nao Ubuntu/Fedora/BigLinux puro):
 
@@ -466,7 +473,7 @@ class BigLinuxEngine:
             depends.append(pkg_name)
         return {
             "pacote": f"republica-{perfil.nome.lower().replace('republica', '')}",
-            "versao": "2026.07.26-1",
+            "versao": "2025.02-1",
             "dependencias": depends,
             "descricao": perfil.descricao,
             "hardening": perfil.nivel_hardening.id,

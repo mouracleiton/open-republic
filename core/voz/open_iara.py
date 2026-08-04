@@ -4,6 +4,21 @@ OpenIara -- A IA da Republica com Corpo Visual no Terminal
 ============================================================
 "Iara conversa. Jarvis executa. Ambas habitam o terminal transparente."
 
+STACK DE IA LOCAL (atualizado 2024/2025):
+- LLM (raciocinio/conversa): llama.cpp + GGUF quantizado.
+  * Essencial/MCU: Qwen2.5-0.5B / Llama-3.2-1B (Q4_K_M, ~1-2 tok/s em RV32+RVV).
+  * Padrao: Qwen2.5-3B / Llama-3.2-3B / Phi-3.5-mini (Q4_K_M, 8-15 tok/s em RV64).
+  * Avancado/GPU: Llama-3.1-8B / Qwen2.5-7B / DeepSeek-R1-Distill-Qwen-7B
+    (Q4_K_M, 30-60 tok/s com NPU/GPU ou Apple M-series).
+  * 2025: trend e modelos de raciocinio (DeepSeek-R1, QwQ) destilados
+    em 7B-14B para rodar local em hardware RepublicaPort.
+- STT (fala->texto): OpenAI Whisper via faster-whisper + Distil-Whisper.
+  * large-v3-turbo (809M) e o SOTA 2024/2025 (~300ms GPU, multilingue).
+  * tiny/base rodando em cascata no Essencial/Padrao (ver open_voice_pipeline).
+- TTS (texto->fala): Kokoro-82M (2024, som naturalista em CPU) + Piper (ONNX).
+  * Chatterbox / XTTSv2 para voz humanizada com emocao em GPU/NPU.
+  * espeak-ng para voz robotica Jarvis (zero latencia, universal).
+
 OpenIara e a UNIFICACAO de:
 - Telefonista (conversa humanizada)
 - VoiceOSControl (executa comandos)

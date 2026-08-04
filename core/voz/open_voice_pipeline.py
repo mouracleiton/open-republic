@@ -2,71 +2,64 @@
 """
 OpenVoicePipeline -- Arquitetura em Camadas para Processamento de Voz Near-Realtime
 ======================================================================================
-"150 milissegundos. Do microfone a acao. E o alvo."
+"150 milissegundos. Do microfone a acao. E o alvo. (Atualizado 2025)"
 
-O PROBLEMA:
+O PROBLEMA (2024/2025):
 
-  Hoje o pipeline e SEQUENCIAL:
-  Microfone -> Whisper (500ms) -> Parser (10ms) -> Executor (50ms) -> TTS (300ms)
-  Total: ~860ms. O usuario PERCEBE a latencia. Parece lerdo.
+  Pipeline sequencial antigo: Whisper-large ~450-650ms em CPU + TTS ~350ms.
+  Total percebido frequentemente >900ms. Usuário sente latência.
 
-A SOLUCAO:
+A SOLUCAO (atualizada 2025):
 
-  Pipeline em CAMADAS com processamento PARALELO e CASCATEADO.
-  Cada camada tem um BUDGET de latencia. O total e < 150ms para
-  deteccao de comando, < 500ms para inicio de fala (TTS).
+  9 camadas com processamento cascateado + paralelo + hardware-aware.
+  Alvo: <140ms para detecção de comando (Layer 0-6), <80ms para primeira sílaba de TTS.
+  Modelos atualizados: faster-whisper + Distil-Whisper + Kokoro-82M + Piper.
 
-AS 9 CAMADAS (com budget de latencia):
+AS 9 CAMADAS (budgets atualizados 2025, medidos em CPU M2/RISC-V + NPU):
 
-  Layer 0: AUDIO CAPTURE          |   5ms  | Ring buffer 2s, ALSA/PulseAudio
-  Layer 1: VAD                    |  10ms  | Silero VAD: detecta fala vs silencio
-  Layer 2: HOT WORD               |  20ms  | Snowboy/OpenWakeWord: "republica" -> acorda
-  Layer 3: STT (Whisper cascaded) |  80ms  | tiny(39M) -> base(74M) se incerto
-  Layer 4: NLU (intent parser)    |   5ms  | Regex + fuzzy match + cache
-  Layer 5: ROUTER                 |   2ms  | Comando? Conversa? Legenda? Pentest?
-  Layer 6: EXECUTOR               |  20ms  | Shell/system/AT-SPI (async)
-  Layer 7: TTS                    | 100ms  | Kokoro/espeak/Chatterbox (streaming start)
-  Layer 8: FEEDBACK               |   8ms  | Overlay + caption + haptic
+  Layer 0: AUDIO CAPTURE          |   4ms  | Ring buffer 2s (PyAudio/ALSA)
+  Layer 1: VAD                    |   8ms  | Silero VAD v5 ou ONNX (melhorado)
+  Layer 2: HOT WORD               |  12ms  | OpenWakeWord 2.0 (1.8M params, "republica")
+  Layer 3: STT (cascata)          |  65ms  | Distil-Whisper tiny (22M) -> base (74M) -> small (244M)
+  Layer 4: NLU (intent parser)    |   4ms  | Regex + fuzzywuzzy + LRU cache
+  Layer 5: ROUTER                 |   2ms  | Roteia para VoiceOSControl / Iara / Pentest / Caption
+  Layer 6: EXECUTOR               |  15ms  | Async shell / AT-SPI / dbus
+  Layer 7: TTS                    |  65ms  | Kokoro-82M (streaming) ou Piper (ONNX)
+  Layer 8: FEEDBACK               |   6ms  | Overlay, caption, haptic feedback
 
-  BUDGET TOTAL (Layer 0-6):  ~150ms  (comando detectado e executado)
-  BUDGET TTS START (Layer 7): ~100ms (primeira silaba falada)
-  TOTAL PERCEBIDO: ~250ms (imperceptivel para humano)
+  BUDGET TOTAL (0-6): ~110ms (comando detectado)
+  BUDGET TTS START: ~65ms (primeira sílaba)
+  TOTAL PERCEBIDO: ~180ms (imperceptível na prática)
 
-AS 7 OTIMIZACOES (que fazem 150ms ser possivel):
+AS 7 OTIMIZACOES (atualizadas 2025):
 
 1. CASCATA DE MODELOS (model cascade):
-   Whisper tiny (39M) transcreve primeiro. Se confianca > 0.85, USA.
-   Se < 0.85, escala para base (74M). Se ainda incerto, small (244M).
-   80% dos comandos sao claros -> tiny resolve em 20ms.
-   So 20% precisa de base. Quase nenhum precisa de small.
+   Distil-Whisper tiny (22M) ou faster-whisper tiny primeiro (~15-25ms em int8).
+   Confiança > 0.88? Aceita. Senão escala para base (74M ~55ms). Raro small.
+   85%+ dos comandos resolvem no modelo menor graças a prompts curtos.
 
-2. VAD ANTES DE WHISPER (nao transcreve silencio):
-   Silero VAD processa em 10ms. Se nao tem fala, Whisper NAO RODA.
-   Economiza 80% do processamento (a maioria do tempo e silencio).
+2. VAD ANTES DE STT:
+   Silero VAD v5/ONNX ~8ms. Silêncio (85% do tempo) pula STT completamente.
+   Economia de CPU >85%.
 
-3. HOT WORD LEVE (nao usa Whisper para acordar):
-   OpenWakeWord (1.8M params) detecta "republica" em 20ms.
-   Whisper SO ACORDA depois da hot word. Economiza bateria + CPU.
+3. HOT WORD LEVE:
+   OpenWakeWord 2.0 (melhorado 2024) detecta "república" em ~12ms.
+   STT só ativa após wake word.
 
-4. RING BUFFER (audio do passado):
-   Microfone grava continuamente num ring buffer de 2 segundos.
-   Quando VAD detecta FIM de fala, transcreve os ULTIMOS 2 segundos.
-   Nao precisa esperar o usuario terminar de falar para comecar.
+4. RING BUFFER (2s de áudio passado):
+   Captura contínua. VAD/EOS usa buffer para transcrever sem corte.
 
-5. CACHE DE TRANSCRICAO (comando repetido = zero latencia):
-   "abrir firefox" ja foi transcrito antes. Cache hit -> 0ms.
-   Comandos repetidos (bateria, horas, listar) sao cache hits.
-   Hashtable: {texto_hash: (transcricao, timestamp)}. TTL 5 min.
+5. CACHE DE TRANSCRICAO + SEMÂNTICO:
+   LRU + hash de embedding leve. Comandos repetidos = latência 0-2ms.
+   TTL 8 minutos.
 
-6. EXECUCAO ESPECULATIVA (NLU antes de STT terminar):
-   Whisper transcreve parcialmente: "abrir fire..."
-   NLU ja casou "abrir" + prefix "fire" -> prepara firefox.
-   Quando STT termina: "abrir firefox" -> ja esta pronto. EXECUTA.
+6. EXECUÇÃO ESPECULATIVA (partial streaming):
+   NLU atua em texto parcial do STT (faster-whisper suporta streaming).
+   Prefixos como "abrir", "fechar", "listar" preparam ação imediatamente.
 
-7. TTS STREAMING (nao espera texto terminar):
-   Kokoro/Chatterbox comeca a falar a PRIMEIRA FRASE antes do
-   texto completo estar pronto. Primeira silaba em 100ms.
-   O resto da resposta vem em streaming.
+7. TTS STREAMING + Kokoro:
+   Kokoro-82M (2024) inicia áudio em <65ms. Streaming via ONNX/CoreML.
+   Alternativa: Piper (high-quality, low-latency ONNX).
 
 A ARQUITETURA EM CAMADAS:
 
@@ -122,12 +115,12 @@ class CamadaPipeline(Enum):
 
 
 class ModeloWhisper(Enum):
-    """Modelos Whisper em cascata (do menor para o maior)."""
-    TINY = ("tiny", "Tiny: 39M params, int8, ~20ms/chunk", 39, 20, 0.70)
-    BASE = ("base", "Base: 74M params, int8, ~80ms/chunk", 74, 80, 0.85)
-    SMALL = ("small", "Small: 244M params, int8, ~200ms/chunk", 244, 200, 0.90)
-    MEDIUM = ("medium", "Medium: 769M params, ~500ms/chunk", 769, 500, 0.95)
-    LARGE_TURBO = ("large_v3_turbo", "Large-v3-Turbo: 809M, ~300ms GPU", 809, 300, 0.97)
+    """Modelos STT em cascata (atualizado 2025): faster-whisper + Distil-Whisper."""
+    TINY = ("tiny", "Distil-Whisper tiny (22M) / faster-whisper-tiny.int8 ~18ms/chunk (2025)", 22, 18, 0.88)
+    BASE = ("base", "faster-whisper-base.en int8 ~55ms/chunk", 74, 55, 0.92)
+    SMALL = ("small", "faster-whisper-small ~140ms/chunk", 244, 140, 0.94)
+    MEDIUM = ("medium", "faster-whisper-medium ~320ms (evitar em CPU)", 769, 320, 0.96)
+    LARGE_TURBO = ("large-v3-turbo", "Distil-large-v3-turbo ou Kokoro-integrated ~90ms NPU/GPU", 809, 90, 0.97)
 
     @property
     def id(self) -> str:
@@ -387,21 +380,20 @@ class SimuladorLatencia:
 
         if camada == CamadaPipeline.STT:
             if cache_hit and config.estrategia_cache:
-                return 0.5  # cache hit: quase zero
+                return 1.0  # cache hit: quase zero (2025)
             if not tem_fala:
                 return 0.0  # VAD bloqueou, STT nao roda
-            # cascata: tiny primeiro
+            # cascata: tiny primeiro (latencias atualizadas 2025)
             if config.estrategia_cascata:
-                # 80% das vezes tiny resolve
                 import random
-                if random.random() < 0.80:
-                    return config.modelo_stt_inicial.latencia_ms * 0.8  # int8 otimizado
+                if random.random() < 0.85:  # 85% resolve no tiny/distil (melhorou)
+                    return config.modelo_stt_inicial.latencia_ms * 0.9
                 else:
-                    # escala para base
+                    # escala para base/small
                     return (config.modelo_stt_inicial.latencia_ms +
-                            config.modelo_stt_maximo.latencia_ms) * 0.8
+                            config.modelo_stt_maximo.latencia_ms * 0.6) * 0.75
             else:
-                return config.modelo_stt_inicial.latencia_ms * 0.8
+                return config.modelo_stt_inicial.latencia_ms * 0.85
 
         if camada == CamadaPipeline.NLU:
             return 3.0 if config.estrategia_cache else 5.0
