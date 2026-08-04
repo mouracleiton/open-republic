@@ -1,7 +1,11 @@
 # OpenRepublic
 
-Republica Aberta: 130+ modulos de politicas publicas para o Brasil.
-Baseada em 116 sistemas, 91.729 linhas de codigo, transpilada para 7 linguagens.
+Republica Aberta: repositorio de especificacoes de politicas publicas e
+sistemas para o Brasil.
+
+Cada modulo e uma ESPECIFICACAO executavel: o codigo Python (.py) e a
+fonte canonica, e o .md e a documentacao human-readable. Nao ha
+transpilados -- as especificacoes vivem em uma unica linguagem.
 
 Licenca: CC0 Universal
 
@@ -9,33 +13,27 @@ Licenca: CC0 Universal
 
 ```
 open-republic/
-├── politicas/                      Politicas publicas
-│   ├── propostas/                  Documentos de proposta (POLITICAS_PUBLICAS_BRASIL*.md)
-│   ├── execucao/                   43 planos de execucao detalhados (P01-P43)
-│   ├── polyglot/                   POLITICAS_PUBLICAS_BRASIL em 7 linguagens
-│   └── dashboard.html              Visualizador HTML dos planos
-├── core/                           116 modulos do sistema (7 linguagens cada)
-│                                   open_health, open_credit, open_democracy, ...
+├── core/                           Modulos do sistema (spec .py + doc .md)
+│                                   open_health, open_credit, open_democracy,
 │                                   teia_*, open_*, constitutional_*, ...
-├── ferramentas/
-│   ├── converter.py                Conversor Python -> Portugol
-│   └── howto/                      HOWTO_COMPLETO em 7 linguagens
-├── teia-terminal/                  TEIA Terminal (main em 7 linguagens)
+├── ferramentas/                    Ferramentas (converter.py + howto)
+├── teia-terminal/                  TEIA Terminal
+├── politicas/                      Politicas publicas
+│   ├── propostas/                  Documentos de proposta
+│   ├── execucao/                   Planos de execucao (P01-P43)
+│   └── polyglot/                   POLITICAS_PUBLICAS_BRASIL em varias linguagens
 ├── visualizacoes/                  Visualizacoes da divida publica
 └── docs/                           Documentacao tecnica
-    └── hermes-agent/               Engenharia reversa do Hermes Agent
 ```
 
-## Linguagens
+## Especificacoes
 
-Cada modulo existe em 7 implementacoes:
-- Python (.py)
-- C (.c)
-- Go (.go)
-- Rust (.rs)
-- JavaScript (.js)
-- Java (.java)
-- Markdown (.md) — documentacao do modulo
+Cada modulo tem 2 arquivos:
+- `.py` -- especificacao canonica (codigo executavel que define enums,
+  dataclasses e engine do sistema)
+- `.md` -- documentacao do modulo
+
+O .py e a VERDADE. O .md e o RESUMO.
 
 ## As 43 Politicas
 
@@ -49,3 +47,12 @@ Cada modulo existe em 7 implementacoes:
 | Transicao | P43 |
 
 Ver `politicas/execucao/` para planos detalhados de cada uma.
+
+## Principios Constitucionais (P1-P10)
+
+- P1: Miseria e crime do sistema, nao falha individual
+- P2: Autonomia do corpo
+- P6: Acesso universal ao conhecimento
+- P8: IA como instrumento, nao substituto humano
+- P9: Anti-polarizacao do Estado
+- P10: OpenDrone (soberania do espaco aereo civico)
