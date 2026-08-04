@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic — Raio X do Brasil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/map/js/brazil.js"></script>
+<style>
+  :root {
+    --verde: #1A5E3F;
+    --azul: #0A2540;
+    --preto: #1A1A1A;
+    --branco: #F5F5F0;
+    --vermelho: #8B1A1A;
+    --amarelo: #D4A017;
+    --terra: #8B5E3C;
+    --ciano: #00B4D8;
+    --lilas: #C77DFF;
+    --laranja: #E76F51;
+  }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+  }
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #484f58; }
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .pulse-emergency {
+    animation: pulse-red 2s infinite;
+  }
+  @keyframes pulse-red {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(214,40,40,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(214,40,40,0); }
+  }
+  .tab-active {
+    border-bottom: 3px solid var(--ciano);
+    color: var(--ciano);
+  }
+  .progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: #21262d;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0d1117; }
+  ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #484f58; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HEADER -->
+<header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg" style="background: linear-gradient(135deg, #1A5E3F, #0A2540);">R</div>
+      <div>
+        <h1 class="text-lg font-bold">Raio X do Brasil</h1>
+        <p class="text-xs text-[#8b949e]">OpenRepublic · Diagnóstico Nacional</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 text-sm">
+      <span class="pill" style="background: rgba(0,180,216,0.15); color: #00B4D8;">v0.2.0-2025</span>
+      <span class="text-[#8b949e] hidden md:inline">Dados pré-compilados · Censo 2022</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO METRICS -->
+<section class="max-w-7xl mx-auto px-4 py-6">
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+    <div class="card p-4">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Exames</p>
+      <p class="stat-number text-[#00B4D8]">18</p>
+      <p class="text-xs text-[#8b949e] mt-1">domínios mapeados</p>
+    </div>
+    <div class="card p-4 pulse-emergency">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Emergências</p>
+      <p class="stat-number" style="color:#D62828;">3</p>
+      <p class="text-xs text-[#8b949e] mt-1">vidas em risco</p>
+    </div>
+    <div class="card p-4">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Invisíveis</p>
+      <p class="stat-number" style="color:var(--amarelo);">37.6M</p>
+      <p class="text-xs text-[#8b949e] mt-1">IBGE não conta</p>
+    </div>
+    <div class="card p-4">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Automação</p>
+      <p class="stat-number" style="color:#52B788;">63%</p>
+      <p class="text-xs text-[#8b949e] mt-1">OSINT + sensor</p>
+    </div>
+    <div class="card p-4">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Custo/Ano</p>
+      <p class="stat-number" style="color:var(--terra);">R$85M</p>
+      <p class="text-xs text-[#8b949e] mt-1">3% do Censo IBGE</p>
+    </div>
+    <div class="card p-4">
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Por Pessoa</p>
+      <p class="stat-number text-[#8b949e]">R$0.42</p>
+      <p class="text-xs text-[#8b949e] mt-1">por habitante/ano</p>
+    </div>
+  </div>
+</section>
+
+<!-- TABS -->
+<section class="max-w-7xl mx-auto px-4">
+  <div class="flex gap-6 border-b border-[#30363d] mb-6">
+    <button onclick="showTab('overview')" id="tab-overview" class="pb-3 text-sm font-semibold tab-active">Visão Geral</button>
+    <button onclick="showTab('triage')" id="tab-triage" class="pb-3 text-sm font-semibold text-[#8b949e]">Triagem</button>
+    <button onclick="showTab('exames')" id="tab-exames" class="pb-3 text-sm font-semibold text-[#8b949e]">Exames Detalhados</button>
+    <button onclick="showTab('invisivel')" id="tab-invisivel" class="pb-3 text-sm font-semibold text-[#8b949e]">População Invisível</button>
+    <button onclick="showTab('custos')" id="tab-custos" class="pb-3 text-sm font-semibold text-[#8b949e]">Custos</button>
+  </div>
+</section>
+
+<!-- TAB: OVERVIEW -->
+<div id="content-overview" class="max-w-7xl mx-auto px-4 pb-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Urgência por Domínio</h3>
+      <div id="chart-urgencia" style="height: 320px;"></div>
+    </div>
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Automação vs Humano</h3>
+      <div id="chart-automacao" style="height: 320px;"></div>
+    </div>
+  </div>
+  <div class="card p-6">
+    <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Frequência de Coleta por Domínio</h3>
+    <div id="chart-frequencia" style="height: 360px;"></div>
+  </div>
+</div>
+
+<!-- TAB: TRIAGE -->
+<div id="content-triage" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="card p-4 text-center">
+      <p class="stat-number" style="color:#D62828;">5</p>
+      <p class="text-xs text-[#8b949e] mt-1">AGIR AGORA</p>
+    </div>
+    <div class="card p-4 text-center">
+      <p class="stat-number" style="color:#E76F51;">3</p>
+      <p class="text-xs text-[#8b949e] mt-1">DIAGNOSTICAR</p>
+    </div>
+    <div class="card p-4 text-center">
+      <p class="stat-number" style="color:#F4A261;">3</p>
+      <p class="text-xs text-[#8b949e] mt-1">COM RESSALVA</p>
+    </div>
+    <div class="card p-4 text-center">
+      <p class="stat-number" style="color:#8B1A1A;">3</p>
+      <p class="text-xs text-[#8b949e] mt-1">BLOQUEADOS (P9)</p>
+    </div>
+  </div>
+  <div id="triage-list" class="space-y-3"></div>
+</div>
+
+<!-- TAB: EXAMES -->
+<div id="content-exames" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+  <div id="exames-list" class="space-y-4"></div>
+</div>
+
+<!-- TAB: INVISIVEL -->
+<div id="content-invisivel" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+  <div class="card p-6 mb-6">
+    <h3 class="text-lg font-bold mb-2">População Invisível do IBGE</h3>
+    <p class="text-[#8b949e] text-sm mb-4">~37.570.000 brasileiros que o Censo IBGE NÃO conta</p>
+    <div id="chart-invisivel" style="height: 400px;"></div>
+  </div>
+  <div id="invisivel-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+</div>
+
+<!-- TAB: CUSTOS -->
+<div id="content-custos" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+  <div class="card p-6 mb-6">
+    <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Custo por Exame (R$ milhões/ano)</h3>
+    <div id="chart-custos" style="height: 400px;"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Custo Total Anual</h3>
+      <p class="text-4xl font-bold mb-2" style="color:var(--terra);">R$ 85M</p>
+      <p class="text-sm text-[#8b949e]">R$ 0.42 por brasileiro por ano</p>
+    </div>
+    <div class="card p-6">
+      <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Comparativo</h3>
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span>Censo IBGE 2022</span><span class="font-bold">R$ 2.400M</span></div>
+        <div class="flex justify-between"><span>Bolsa Família/ano</span><span class="font-bold">R$ 36.000M</span></div>
+        <div class="flex justify-between"><span>36 Caças Gripen</span><span class="font-bold">R$ 36.000M</span></div>
+        <div class="flex justify-between" style="color:var(--ciano);"><span class="font-bold">Raio X República</span><span class="font-bold">R$ 85M</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#30363d] mt-12 py-6 text-center text-xs text-[#484f58]">
+  <p>OpenRepublic · github.com/mouracleiton/open-republic</p>
+  <p class="mt-1">Dados pré-compilados de 64 módulos · CC0 Universal</p>
+</footer>
+
+<script type="application/json" id="embedded-data">
+{"exames": [{"dominio": "violencia", "exame": "toxico", "exame_rotulo": "Toxicologico: violencia, drogas, crime", "urgencia": "u1", "urgencia_rotulo": "Emergencia: vidas em risco AGORA", "automacao": "medio", "automacao_pct": 50, "indicadores": ["homicidios (tempo real)", "tiroteio (localizacao)", "violencia domestica (denuncia)", "violencia policial", "faccao/territorio", "desaparecidos"], "freq": "tempo real", "custo": "R$ 6M/ano (infra + app)", "gap": "Nao sabemos onde tiroteio acontece em tempo real. SINESP tem 6-12h de atraso."}, {"dominio": "saude", "exame": "sangue", "exame_rotulo": "Exame de Sangue: amostra profunda (sensor + medicao)", "urgencia": "u1", "urgencia_rotulo": "Emergencia: vidas em risco AGORA", "automacao": "medio", "automacao_pct": 50, "indicadores": ["mortalidade infantil (tempo real)", "mortalidade materna", "fila SUS", "medicamento disponivel", "postos funcionando", "doencas endemicas (dengue, malaria)", "saude mental", "desnutricao infantil"], "freq": "semanal", "custo": "R$ 12M/ano", "gap": "Mortalidade infantil real e subnotificada. Dengue 2024: >6M casos, 4.000+ mortes. Fila SUS nao existe como metrica."}, {"dominio": "alimentacao", "exame": "checkup", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "u1", "urgencia_rotulo": "Emergencia: vidas em risco AGORA", "automacao": "baixo", "automacao_pct": 25, "indicadores": ["fome real (0 refeicoes/dia)", "inseguranca alimentar", "merenda escolar (verificar entrega)", "cesta basica por bairro"], "freq": "mensal", "custo": "R$ 4M/ano", "gap": "2o VIGISAN (2022): 33M com fome, 125M em IA. IBGE mede bienal. Fome muda em dias."}, {"dominio": "agua", "exame": "urina", "exame_rotulo": "Exame de Urina: o que o sistema excreta (agua, esgoto)", "urgencia": "u2", "urgencia_rotulo": "Urgente: deteriorando rapido", "automacao": "medio", "automacao_pct": 50, "indicadores": ["quem tem agua potavel (medido)", "quantos dias/semana chega", "cloro residual (medido)", "esgoto: rede/fossa/nada", "qualidade do rio (PH, turbidez, coliformes)"], "freq": "semanal", "custo": "R$ 9M/ano (sensores + campo)", "gap": "35M sem agua tratada (PNAD 2022). SNIS e auto-relato da empresa. Esgoto: <55% de cobertura."}, {"dominio": "ambiente", "exame": "biopsia", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "u2", "urgencia_rotulo": "Urgente: deteriorando rapido", "automacao": "total", "automacao_pct": 100, "indicadores": ["queimada (foco, area)", "desmatamento", "qualidade do ar (PM2.5)", "rio (PH, turbidez, mercurio)", "lixo (destino real)"], "freq": "semanal", "custo": "R$ 2M/ano (maioria OSINT gratis)", "gap": "Sabe onde queima. Nao sabe quem queima. 2024: pior seca+queimada em 2 decadas. Falta cruzar com CAR."}, {"dominio": "educacao", "exame": "ressonancia", "exame_rotulo": "Ressonancia: como pensa (educacao, letramento)", "urgencia": "u2", "urgencia_rotulo": "Urgente: deteriorando rapido", "automacao": "alto", "automacao_pct": 75, "indicadores": ["ver open_censo_escolar.py", "analfabetismo funcional real", "evasao", "professor presente (verificado)", "escola com agua/luz/internet"], "freq": "semestral", "custo": "R$ 16M/ano", "gap": "INEP diz 6 salas. Realidade: 3. Ninguem foi verificar. SAEB 2021: 70% nao sabem matematica basica."}, {"dominio": "indigena", "exame": "biometria", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "u2", "urgencia_rotulo": "Urgente: deteriorando rapido", "automacao": "alto", "automacao_pct": 75, "indicadores": ["populacao por etnia", "terra demarcada vs invadida", "malario/desnutricao", "garimpo ilegal (mercurio)", "madeireira ilegal", "escola/saude indigena"], "freq": "semestral", "custo": "R$ 4M/ano", "gap": "Censo 2022: 1.7M indigenas (27% fora terras). Garimpo Yanomami cresce sem ninguem ver."}, {"dominio": "emprego", "exame": "eletro", "exame_rotulo": "Eletrocardiograma: coracao (economia, emprego)", "urgencia": "u3", "urgencia_rotulo": "Alta: precisa saber quanto antes", "automacao": "medio", "automacao_pct": 50, "indicadores": ["ocupacao formal vs informal", "salario real (nao carteira)", "trabalho infantil", "trabalho escravo", "app-worker (Uber/iFood)", "desemprego real"], "freq": "mensal", "custo": "R$ 3M/ano", "gap": "Informal e 40% da forca de trabalho. PNAD estima por amostra. Desemprego PNAD 2024: ~6.5%."}, {"dominio": "inflacao", "exame": "pressao", "exame_rotulo": "Pressao Arterial: inflacao, custo de vida", "urgencia": "u3", "urgencia_rotulo": "Alta: precisa saber quanto antes", "automacao": "alto", "automacao_pct": 75, "indicadores": ["preco arroz/feijao/oleo/leite por bairro", "gas/onibus/luz/remedio", "cesta basica por cidade", "IPCA periferia"], "freq": "diario", "custo": "R$ 2M/ano", "gap": "IPCA mede 16 capitais. Periferia e interior: invisivel. IPCA 2024 acumulado ~4.5%."}, {"dominio": "energia", "exame": "checkup", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "u3", "urgencia_rotulo": "Alta: precisa saber quanto antes", "automacao": "alto", "automacao_pct": 75, "indicadores": ["quem tem luz", "quantas horas/dia", "qualidade (pisca?)", "preco da conta", "quem tem geladeira", "energia solar comunitaria", "gato (roubo energia)"], "freq": "trimestral", "custo": "R$ 4M/ano", "gap": "PNAD 2022: 1.8M sem energia. Amazonia: 600 mil sem luz. Qualidade nunca medida."}, {"dominio": "habitacao", "exame": "raio_x", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "u4", "urgencia_rotulo": "Rotina: verificar periodicamente", "automacao": "medio", "automacao_pct": 50, "indicadores": ["tipo de construcao", "material", "favela vs formal", "sem-teto (contagem real)", "despejo"], "freq": "trimestral", "custo": "R$ 3M/ano", "gap": "Sem-teto nao existe no IBGE. Favela: 17.9M (Censo 2022). Cresce sem medicao."}, {"dominio": "transporte", "exame": "esforco", "exame_rotulo": "Teste de Esforco: mobilidade (transporte)", "urgencia": "u4", "urgencia_rotulo": "Rotina: verificar periodicamente", "automacao": "alto", "automacao_pct": 75, "indicadores": ["tempo casa->trabalho", "frequencia onibus", "lotacao", "bicicleta como transporte", "estrada: asfalto/terra/rio"], "freq": "trimestral", "custo": "R$ 2M/ano", "gap": "Tempo de deslocamento periferia->centro nunca medido. IBGE mobility: >1h/dia media metropole."}, {"dominio": "agro", "exame": "biopsia", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "u4", "urgencia_rotulo": "Rotina: verificar periodicamente", "automacao": "total", "automacao_pct": 100, "indicadores": ["area plantada", "producao", "familiar vs agronegocio", "agrotoxico no rio", "trabalho escravo rural"], "freq": "semestral", "custo": "R$ 2M/ano", "gap": "Censo agro e decadal (2017 foi o ultimo completo). Agronegocio muda em meses."}, {"dominio": "quilombola", "exame": "biometria", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "u4", "urgencia_rotulo": "Rotina: verificar periodicamente", "automacao": "alto", "automacao_pct": 75, "indicadores": ["populacao", "territorio certificado vs ameacado", "saude/escola/agua/luz", "ameaca (grileiro)"], "freq": "semestral", "custo": "R$ 2M/ano", "gap": "Censo 2022: 1.3M quilombolas. Titulacao: <15% dos territorios."}, {"dominio": "ribeirinha", "exame": "biometria", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "u4", "urgencia_rotulo": "Rotina: verificar periodicamente", "automacao": "baixo", "automacao_pct": 25, "indicadores": ["populacao por comunidade", "acesso (barco, dias ate cidade)", "saude (malario?)", "energia (solar?)", "agua (rio? potavel?)"], "freq": "semestral", "custo": "R$ 5M/ano (logistica)", "gap": "500.000+ invisiveis. IBGE nao chega. So de barco."}, {"dominio": "populacao", "exame": "biometria", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "u5", "urgencia_rotulo": "Baseline: referencia pra comparar", "automacao": "medio", "automacao_pct": 50, "indicadores": ["contagem populacional", "faixa etaria", "genero", "raca/cor", "migracao"], "freq": "anual", "custo": "R$ 5M/ano", "gap": "Censo 2022 (divulgado 2023): 203.1M. Base legal: censo decenal. 4.5M subnotificados/n cobertos."}, {"dominio": "registro", "exame": "genetico", "exame_rotulo": "Genetico: raca, origem, migracao (sem juizo)", "urgencia": "u5", "urgencia_rotulo": "Baseline: referencia pra comparar", "automacao": "medio", "automacao_pct": 50, "indicadores": ["nascimento (certidao digital)", "obito (causa real)", "casamento", "SEM cartorio (indigena/ribeirinho)"], "freq": "tempo real", "custo": "R$ 3M/ano", "gap": "Indigena sem certidao. Obito sem causa. Ribeirinho sem cartorio. Sub-registro civil ~10%."}, {"dominio": "geografia", "exame": "raio_x", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "u5", "urgencia_rotulo": "Baseline: referencia pra comparar", "automacao": "total", "automacao_pct": 100, "indicadores": ["mapa atualizado", "rua aberta vs fechada", "ponte existe vs caida", "limite municipal"], "freq": "anual", "custo": "R$ 1M/ano", "gap": "Mapa IBGE desatualizado. Rua nova nao aparece. OSM melhor mas com gaps no rural."}], "metricas": {"total_exames": 18, "emergencia": 3, "urgente": 4, "automatizaveis_total": 9, "manuais_puros": 2, "hibridos": 7, "pct_automatizavel_medio": 63}, "custo": {"total_anual_milhoes": "R$ 85 milhoes", "comparativo_ibge_censo": "4% do Censo IBGE 2022 (R$ 2.4bi)", "comparativo_bolsa_familia": "0.0% do Bolsa Familia 2024 (R$ 36bi/ano)", "comparativo_gripen": "0.00% dos 36 cacas Gripen (R$ 36bi)", "custo_por_habitante": "R$ 0.42/pessoa/ano (Censo 2022: 203.1M)"}, "scorecard": {"total_exames": 18, "emergencia": 3, "urgente": 4, "automatizaveis_total": 9, "manuais_puros": 2, "hibridos": 7, "pct_automatizavel_medio": 63, "sistema": "OpenRaioXBrasil", "versao": "0.2.0-2025"}, "invisivel": [{"grupo": "Indigena em terra remota", "estimativa": "100.000+", "motivo": "IBGE nao chega. Sem estrada, sem barco, sem heli. (FUNAI/IBGE subcontagem)"}, {"grupo": "Ribeirinho amazônico", "estimativa": "500.000+", "motivo": "Acesso so por barco (dias). IBGE nao vai."}, {"grupo": "Quilombola nao-certificado", "estimativa": "200.000+", "motivo": "Sem certificado Palmares = invisivel pro IBGE."}, {"grupo": "Sem-teto", "estimativa": "200.000+", "motivo": "IBGE conta domicilio. Sem domicilio = sem conta."}, {"grupo": "Crianca em trabalho infantil", "estimativa": "1.800.000", "motivo": "Nao declarado. IBGE estima por amostra. (dados 2023-2024)"}, {"grupo": "Trabalho escravo contemporaneo", "estimativa": "370.000", "motivo": "Invisivel. So aparece em operacao de fiscalizacao."}, {"grupo": "Refugiado/imigrante informal", "estimativa": "600.000+", "motivo": "Haitiano, venezuelano, africano sem documento."}, {"grupo": "Encarcerado", "estimativa": "800.000", "motivo": "IBGE nao conta como populacao ativa."}, {"grupo": "Inseguranca alimentar grave (fome)", "estimativa": "33.000.000", "motivo": "PENSSAN/IBGE 2024. Fome muda rapido. Nao so invisivel, submedido."}], "invisivel_total": 37570000, "triage": [{"sintoma": "fome_infantil", "nome": "Crianca com fome", "categoria": "vida", "status": "agir", "acao": "alivio", "prazo": 30}, {"sintoma": "sem_agua_escola", "nome": "Escola sem agua", "categoria": "vida", "status": "agir", "acao": "alivio", "prazo": 15}, {"sintoma": "violencia_ativa", "nome": "Tiroteio/violencia em andamento", "categoria": "vida", "status": "agir", "acao": "alivio", "prazo": 1}, {"sintoma": "surto_doenca", "nome": "Surto de doenca (dengue, malaria)", "categoria": "vida", "status": "agir", "acao": "alivio", "prazo": 7}, {"sintoma": "desnutricao_indigena", "nome": "Desnutricao indigena", "categoria": "vida", "status": "agir", "acao": "alivio", "prazo": 7}, {"sintoma": "inflacao_alta", "nome": "Inflacao alta", "categoria": "bolso", "status": "diagnosticar", "acao": "diagnostico", "prazo": 15}, {"sintoma": "desemprego_massa", "nome": "Desemprego em massa", "categoria": "bolso", "status": "diagnosticar", "acao": "diagnostico", "prazo": 30}, {"sintoma": "energia_cara", "nome": "Conta de luz cara", "categoria": "bolso", "status": "diagnosticar", "acao": "diagnostico", "prazo": 30}, {"sintoma": "seguranca_publica", "nome": "Seguranca publica", "categoria": "voto", "status": "bloquear", "acao": "diagnostico", "prazo": 90}, {"sintoma": "reforma_politica", "nome": "Reforma politica", "categoria": "voto", "status": "bloquear", "acao": "diagnostico", "prazo": 180}, {"sintoma": "imigracao", "nome": "Imigracao / refugiado", "categoria": "voto", "status": "bloquear", "acao": "diagnostico", "prazo": 60}, {"sintoma": "educacao_ruim", "nome": "Educacao de baixa qualidade", "categoria": "estrutura", "status": "ressalva", "acao": "paliativo", "prazo": 90}, {"sintoma": "saneamento_falta", "nome": "Falta de saneamento", "categoria": "estrutura", "status": "ressalva", "acao": "paliativo", "prazo": 60}, {"sintoma": "habitacao_precaria", "nome": "Habitação precaria", "categoria": "estrutura", "status": "ressalva", "acao": "paliativo", "prazo": 90}], "cores": {"verde_republica": {"hex": "#1A5E3F", "nome": "Verde Republica"}, "azul_povo": {"hex": "#0A2540", "nome": "Azul Povo"}, "preto_ancestral": {"hex": "#1A1A1A", "nome": "Preto Ancestral"}, "branco_transparencia": {"hex": "#F5F5F0", "nome": "Branco Transparencia"}, "vermelho_luta": {"hex": "#8B1A1A", "nome": "Vermelho Luta"}, "amarelo_conhecimento": {"hex": "#D4A017", "nome": "Amarelo Conhecimento"}, "terra_brasilis": {"hex": "#8B5E3C", "nome": "Terra Brasilis"}, "p1_anti_elitismo": {"hex": "#2D6A4F", "nome": "P1 Anti-Elitismo"}, "p2_autonomia_corporal": {"hex": "#7B2D8B", "nome": "P2 Autonomia Corporal"}, "p3_trabalho_igual": {"hex": "#52796F", "nome": "P3 Trabalho Igual"}, "p4_processo_democratico": {"hex": "#3D5A80", "nome": "P4 Processo Democratico"}, "p5_transparencia_radical": {"hex": "#E8E8E0", "nome": "P5 Transparencia Radical"}, "p6_acesso_universal": {"hex": "#D4A017", "nome": "P6 Acesso Universal"}, "p7_seguranca_cultura": {"hex": "#4A4E69", "nome": "P7 Seguranca Cultura"}, "p8_ia_instrumento": {"hex": "#6A4C93", "nome": "P8 IA Instrumento"}, "p9_anti_polarizacao": {"hex": "#264653", "nome": "P9 Anti-Polarizacao"}, "p10_soberania_aerea": {"hex": "#2A9D8F", "nome": "P10 Soberania Aerea"}, "p11_letramento_constituinte": {"hex": "#E76F51", "nome": "P11 Letramento Constituinte"}, "p12_defesa_cibernetica": {"hex": "#1D3557", "nome": "P12 Defesa Cibernetica"}, "p13_contravigilancia": {"hex": "#C77DFF", "nome": "P13 Contravigilancia"}, "p14_soberania_dados": {"hex": "#00B4D8", "nome": "P14 Soberania Dados"}, "status_conforme": {"hex": "#52B788", "nome": "Status: Conforme"}, "status_revisao": {"hex": "#F4A261", "nome": "Status: Revisao"}, "status_suspenso": {"hex": "#E76F51", "nome": "Status: Suspenso"}, "status_banido": {"hex": "#D62828", "nome": "Status: Banido"}, "alerta_info": {"hex": "#48CAE4", "nome": "Alerta: Info"}, "alerta_atencao": {"hex": "#FFB703", "nome": "Alerta: Atencao"}, "alerta_importante": {"hex": "#FB8500", "nome": "Alerta: Importante"}, "alerta_urgente": {"hex": "#DC2F02", "nome": "Alerta: Urgente"}, "alerta_critico": {"hex": "#9D0208", "nome": "Alerta: Critico"}, "equipe_constituicao": {"hex": "#264653", "nome": "Equipe Constituicao"}, "equipe_economia": {"hex": "#40916C", "nome": "Equipe Economia"}, "equipe_acessibilidade": {"hex": "#7B2CBF", "nome": "Equipe Acessibilidade"}, "equipe_voz": {"hex": "#F77F00", "nome": "Equipe Voz"}, "equipe_distro": {"hex": "#6C757D", "nome": "Equipe Distro"}, "cultura_cordel": {"hex": "#BC6C25", "nome": "Cultura: Cordel"}, "cultura_capoeira": {"hex": "#606C38", "nome": "Cultura: Capoeira"}, "cultura_samba": {"hex": "#9D4EDD", "nome": "Cultura: Samba"}, "cultura_antropofagia": {"hex": "#F4A261", "nome": "Cultura: Antropofagia"}, "cultura_cinema_novo": {"hex": "#1B263B", "nome": "Cultura: Cinema Novo"}, "cultura_roda": {"hex": "#E0A458", "nome": "Cultura: Roda"}}}
+</script>
+<script>
+// === EMBEDDED DATA ===
+var __jsonData = document.getElementById('embedded-data').textContent;
+window.__DATA__ = JSON.parse(__jsonData);
+
+// === COLORS ===
+const C = {
+  verde: '#1A5E3F', azul: '#0A2540', preto: '#1A1A1A', branco: '#F5F5F0',
+  vermelho: '#D62828', amarelo: '#D4A017', terra: '#8B5E3C',
+  ciano: '#00B4D8', lilas: '#C77DFF', laranja: '#E76F51',
+  verdeClaro: '#52B788', chumbo: '#264653', turquesa: '#2A9D8F',
+};
+
+const URGENCIA_COLOR = {
+  u1: '#D62828', u2: '#E76F51', u3: '#F4A261', u4: '#52B788', u5: '#48CAE4'
+};
+const URGENCIA_LABEL = {
+  u1: 'Emergência', u2: 'Urgente', u3: 'Alta', u4: 'Rotina', u5: 'Baseline'
+};
+
+// === TAB SWITCHING ===
+function showTab(name) {
+  ['overview','triage','exames','invisivel','custos'].forEach(t => {
+    document.getElementById('content-'+t).classList.add('hidden');
+    document.getElementById('tab-'+t).classList.remove('tab-active');
+    document.getElementById('tab-'+t).classList.add('text-[#8b949e]');
+  });
+  document.getElementById('content-'+name).classList.remove('hidden');
+  document.getElementById('tab-'+name).classList.add('tab-active');
+  document.getElementById('tab-'+name).classList.remove('text-[#8b949e]');
+  // Re-render charts on tab switch
+  setTimeout(() => {
+    if (name === 'overview') renderOverview();
+    if (name === 'invisivel') renderInvisivel();
+    if (name === 'custos') renderCustos();
+  }, 100);
+}
+
+// === CHARTS ===
+function renderOverview() {
+  // Urgency by domain (bar)
+  const urg = echarts.init(document.getElementById('chart-urgencia'));
+  const urgData = __DATA__.exames.map(e => ({
+    value: 1, itemStyle: { color: URGENCIA_COLOR[e.urgencia] }, name: e.dominio
+  }));
+  urg.setOption({
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    grid: { left: '3%', right: '4%', bottom: '15%', top: '10%' },
+    xAxis: {
+      type: 'category',
+      data: __DATA__.exames.map(e => e.dominio),
+      axisLabel: { rotate: 45, color: '#8b949e', fontSize: 10 }
+    },
+    yAxis: { type: 'value', show: false },
+    series: [{
+      type: 'bar', data: urgData, barWidth: '60%',
+      label: { show: true, position: 'top', formatter: d => URGENCIA_LABEL[__DATA__.exames[d.dataIndex].urgencia].charAt(0), fontSize: 9, color: '#8b949e' }
+    }]
+  });
+
+  // Automation pie
+  const aut = echarts.init(document.getElementById('chart-automacao'));
+  const autoLevels = {};
+  __DATA__.exames.forEach(e => {
+    const key = e.automacao_pct === 100 ? '100% (OSINT)' :
+                e.automacao_pct >= 75 ? '75% (Alto)' :
+                e.automacao_pct >= 50 ? '50% (Médio)' :
+                e.automacao_pct >= 25 ? '25% (Baixo)' : '0% (Manual)';
+    autoLevels[key] = (autoLevels[key] || 0) + 1;
+  });
+  const autoColors = ['#52B788','#2A9D8F','#F4A261','#E76F51','#D62828'];
+  aut.setOption({
+    tooltip: { trigger: 'item' },
+    legend: { bottom: 0, textStyle: { color: '#8b949e', fontSize: 11 } },
+    series: [{
+      type: 'pie', radius: ['40%','70%'],
+      data: Object.entries(autoLevels).map(([k,v],i) => ({ value: v, name: k, itemStyle: { color: autoColors[i] } })),
+      label: { color: '#e6edf3', fontSize: 12 }
+    }]
+  });
+
+  // Frequency chart
+  const freq = echarts.init(document.getElementById('chart-frequencia'));
+  const freqOrder = ['tempo real','diario','semanal','mensal','trimestral','semestral','anual'];
+  const freqData = freqOrder.map(f => {
+    const items = __DATA__.exames.filter(e => e.freq.includes(f.split(' ')[1] || f));
+    return { value: items.length, name: f };
+  }).filter(d => d.value > 0);
+  freq.setOption({
+    tooltip: { trigger: 'axis' },
+    grid: { left: '10%', right: '5%', bottom: '10%', top: '5%' },
+    xAxis: { type: 'category', data: freqData.map(d => d.name), axisLabel: { color: '#8b949e' } },
+    yAxis: { type: 'value', axisLabel: { color: '#8b949e' } },
+    series: [{
+      type: 'bar', data: freqData.map((d,i) => ({ value: d.value, itemStyle: { color: ['#D62828','#E76F51','#F4A261','#F4A261','#52B788','#48CAE4','#264653'][i] || '#00B4D8' } })),
+      barWidth: '50%',
+      label: { show: true, position: 'top', color: '#e6edf3' }
+    }]
+  });
+}
+
+function renderInvisivel() {
+  const chart = echarts.init(document.getElementById('chart-invisivel'));
+  const groups = __DATA__.invisivel.map(p => p.grupo);
+  const values = __DATA__.invisivel.map(p => parseInt(p.estimativa.replace(/[^0-9]/g,'')));
+  chart.setOption({
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+    grid: { left: '25%', right: '5%', bottom: '5%', top: '5%' },
+    xAxis: { type: 'value', axisLabel: { color: '#8b949e', formatter: v => (v/1000)+'k' } },
+    yAxis: { type: 'category', data: groups, axisLabel: { color: '#8b949e', fontSize: 10 } },
+    series: [{
+      type: 'bar',
+      data: values.map((v,i) => ({ value: v, itemStyle: { color: ['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF'][i] || '#00B4D8' } })),
+      label: { show: true, position: 'right', formatter: d => d.value.toLocaleString('pt-BR'), color: '#8b949e', fontSize: 10 }
+    }]
+  });
+}
+
+function renderCustos() {
+  const chart = echarts.init(document.getElementById('chart-custos'));
+  const custoData = __DATA__.exames.map(e => {
+    const m = e.custo.match(/R\$\s*(\d+)/);
+    return { dominio: e.dominio, custo: m ? parseInt(m[1]) : 0 };
+  }).sort((a,b) => b.custo - a.custo);
+  chart.setOption({
+    tooltip: { trigger: 'axis', formatter: p => `${p[0].name}<br/>R$ ${p[0].value}M/ano` },
+    grid: { left: '3%', right: '8%', bottom: '20%', top: '5%' },
+    xAxis: { type: 'category', data: custoData.map(d => d.dominio), axisLabel: { rotate: 45, color: '#8b949e', fontSize: 10 } },
+    yAxis: { type: 'value', name: 'R$ Milhões', nameTextStyle: { color: '#8b949e' }, axisLabel: { color: '#8b949e' } },
+    series: [{
+      type: 'bar',
+      data: custoData.map(d => ({ value: d.custo, itemStyle: {
+        color: d.custo >= 10 ? '#D4A017' : d.custo >= 5 ? '#E76F51' : '#2A9D8F'
+      }})),
+      barWidth: '50%',
+      label: { show: true, position: 'top', formatter: function(d) { return 'R$' + d.value + 'M'; }, color: '#8b949e', fontSize: 9 }
+    }]
+  });
+}
+
+// === TRIAGE LIST ===
+function renderTriage() {
+  const STATUS_COLOR = { agir: '#D62828', diagnosticar: '#E76F51', ressalva: '#F4A261', bloquear: '#8B1A1A', monitorar: '#484f58' };
+  const STATUS_LABEL = { agir: 'AGIR AGORA', diagnosticar: 'DIAGNOSTICAR', ressalva: 'COM RESSALVA', bloquear: 'BLOQUEADO', monitorar: 'MONITORAR' };
+  const CAT_COLOR = { vida: '#D62828', bolso: '#D4A017', voto: '#264653', estrutura: '#2A9D8F' };
+
+  const container = document.getElementById('triage-list');
+  const sorted = [...__DATA__.triage].sort((a,b) => {
+    const order = { agir: 0, diagnosticar: 1, ressalva: 2, bloquear: 3, monitorar: 4 };
+    return (order[a.status]||5) - (order[b.status]||5);
+  });
+
+  container.innerHTML = sorted.map(t => `
+    <div class="card p-4 flex items-center gap-4" style="border-left: 4px solid ${STATUS_COLOR[t.status]};">
+      <div class="flex-shrink-0">
+        <span class="pill" style="background:${STATUS_COLOR[t.status]}22; color:${STATUS_COLOR[t.status]};">${STATUS_LABEL[t.status]}</span>
+      </div>
+      <div class="flex-1">
+        <p class="font-semibold text-sm">${t.nome}</p>
+        <div class="flex gap-2 mt-1">
+          <span class="pill" style="background:${CAT_COLOR[t.categoria]}22; color:${CAT_COLOR[t.categoria]};">${t.categoria.toUpperCase()}</span>
+          <span class="text-xs text-[#8b949e]">${t.acao}</span>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-[#8b949e]">Prazo diag.</p>
+        <p class="font-bold text-sm" style="color:${t.prazo <= 7 ? '#D62828' : t.prazo <= 30 ? '#E76F51' : '#52B788'};">${t.prazo}d</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// === EXAMES LIST ===
+function renderExames() {
+  const container = document.getElementById('exames-list');
+  container.innerHTML = __DATA__.exames.map(e => `
+    <div class="card p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="pill" style="background:${URGENCIA_COLOR[e.urgencia]}22; color:${URGENCIA_COLOR[e.urgencia]};">${URGENCIA_LABEL[e.urgencia]}</span>
+            <span class="pill" style="background:#00B4D822; color:#00B4D8;">${e.exame}</span>
+            <span class="text-xs text-[#8b949e]">${e.freq}</span>
+          </div>
+          <h3 class="font-bold text-lg">${e.dominio}</h3>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-[#8b949e]">Automação</p>
+          <p class="font-bold text-xl" style="color:${e.automacao_pct === 100 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828'};">${e.automacao_pct}%</p>
+        </div>
+      </div>
+      <div class="progress-bar mb-3">
+        <div class="progress-fill" style="width:${e.automacao_pct}%; background:${e.automacao_pct === 100 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828'};"></div>
+      </div>
+      <details class="text-sm">
+        <summary class="cursor-pointer text-[#00B4D8] hover:underline">Indicadores (${e.indicadores.length})</summary>
+        <ul class="mt-2 space-y-1 text-[#8b949e]">
+          ${e.indicadores.map(i => `<li>• ${i}</li>`).join('')}
+        </ul>
+        <div class="mt-3 p-3 rounded-lg bg-[#0d1117] border border-[#30363d]">
+          <p class="text-xs text-[#D4A017] font-semibold mb-1">GAP PRINCIPAL:</p>
+          <p class="text-xs text-[#8b949e]">${e.gap}</p>
+        </div>
+        <p class="text-xs text-[#8b949e] mt-2">Custo: ${e.custo}</p>
+      </details>
+    </div>
+  `).join('');
+}
+
+// === INVISIVEL LIST ===
+function renderInvisivelList() {
+  const container = document.getElementById('invisivel-list');
+  container.innerHTML = __DATA__.invisivel.map((p,i) => `
+    <div class="card p-4" style="border-left: 4px solid ${['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF'][i] || '#00B4D8'};">
+      <div class="flex justify-between items-start mb-2">
+        <h4 class="font-bold text-sm">${p.grupo}</h4>
+        <span class="font-bold text-lg" style="color:var(--amarelo);">~${p.estimativa}</span>
+      </div>
+      <p class="text-xs text-[#8b949e]">${p.motivo}</p>
+    </div>
+  `).join('');
+}
+
+// === INIT ===
+window.addEventListener('load', () => {
+  renderOverview();
+  renderTriage();
+  renderExames();
+  renderInvisivelList();
+});
+
+// Resize charts on window resize
+window.addEventListener('resize', () => {
+  document.querySelectorAll('[id^="chart-"]').forEach(el => {
+    const inst = echarts.getInstanceByDom(el);
+    if (inst) inst.resize();
+  });
+});
+</script>
+</body>
+</html>
