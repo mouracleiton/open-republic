@@ -1507,6 +1507,38 @@ def scenario_epilepsy_warning():
     print(t.sense_body(heart_rate=115, skin_temp=37.5, movement="normal"))
 
 
+def scenario_voice_stt_tts():
+    """Cenario: turno completo de conversa por voz (STT 2024 + TTS 2024).
+
+    Demonstra a camada VoiceEngine com modelos SOTA 2024/2025.
+    Roda sem dependencias pesadas instaladas (fallback mock).
+    """
+    print("\n" + "=" * 60)
+    print("CENARIO: Conversa por voz (STT/TTS 2024-2025)")
+    print("=" * 60)
+
+    config = TelefonistaConfig(
+        name="Iara",
+        stt_config=STTConfig(model=STTModel.WHISPER_LARGE_V3_TURBO),
+        tts_config=TTSConfig(model=TTSModel.KOKORO_82M, voice_id="pf_dora"),
+    )
+    t = Telefonista(config)
+    t.user_name = "Cleiton"
+    print(t.greet("Cleiton", "manha"))
+
+    info = t.voice_engine.describe()
+    print(f"\n[Modelos de voz 2024/2025]")
+    print(f"  STT: {info['stt_model']} ({info['stt_language']})")
+    print(f"  TTS: {info['tts_model']} voz={info['tts_voice']}")
+
+    # Turno STT -> resposta -> TTS (fallback mock se sem deps)
+    dummy_audio = "/tmp/open_telefonista_input.wav"
+    print(f"\n[STT transcrevendo {dummy_audio}]")
+    texto, audio_out = t.converse(dummy_audio)
+    print(f"  Resposta: {texto}")
+    print(f"  Audio sintetizado em: {audio_out}")
+
+
 # ============================================================================
 # 10. DEMONSTRACAO COMPLETA
 # ============================================================================
@@ -1522,6 +1554,8 @@ def demo():
     print(f"Modos de conversa: {len(ConversationMode)}")
     print(f"Tipos de sensor: {len(SensorType)}")
     print(f"Percepcoes do mundo: {len(WorldPerception)}")
+    print(f"Modelos STT (2024/2025): {len(STTModel)}")
+    print(f"Modelos TTS (2024/2025): {len(TTSModel)}")
 
     # Cenarios do mundo real
     scenario_blind_walking()

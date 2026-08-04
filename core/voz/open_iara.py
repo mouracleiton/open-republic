@@ -1118,6 +1118,50 @@ class IaraEngine:
             "    border none, opacity 0.85, sticky enable\n"
         )
 
+    # -- catalogos de IA e hardware (2024/2025) -----------------------------
+
+    def recomendar_modelos(self, tier: HardwareTier) -> Dict[str, Any]:
+        """
+        Retorna os modelos LLM/STT/TTS recomendados para um tier de hardware.
+        Inclui observacao sobre o que e possivel rodar.
+        """
+        rec = _modelos_por_tier(tier)
+        return {
+            "hardware_tier": tier.id,
+            "hardware_rotulo": tier.rotulo,
+            "llm": rec["llm"].id,
+            "llm_rotulo": rec["llm"].rotulo,
+            "llm_params_b": rec["llm"].params_b,
+            "llm_ram_gb_q4": rec["llm"].ram_gb_q4,
+            "stt": rec["stt"].id,
+            "stt_rotulo": rec["stt"].rotulo,
+            "stt_latencia_ms": rec["stt"].latencia_ms,
+            "tts": rec["tts"].id,
+            "tts_rotulo": rec["tts"].rotulo,
+            "tts_latencia_ms": rec["tts"].latencia_ms,
+            "observacao": rec["observacao"],
+        }
+
+    def catalogo_hardware_info(self) -> List[Dict[str, Any]]:
+        """Retorna o catalogo de hardware RepublicaPort com precos 2024/2025."""
+        return [
+            {
+                "nome": hw.nome,
+                "tier": hw.tier.id,
+                "arquitetura": hw.arquitetura,
+                "ram_gb": hw.ram_gb,
+                "armazenamento_gb": hw.armazenamento_gb,
+                "consumo_watts": hw.consumo_watts,
+                "tem_gpu": hw.tem_gpu,
+                "tem_npu": hw.tem_npu,
+                "custo_usd": hw.custo_usd,
+                "custo_brl": hw.custo_brl,
+                "ia_local": hw.capacidade_ia_local,
+                "modelos_recomendados": self.recomendar_modelos(hw.tier),
+            }
+            for hw in self.catalogo_hardware
+        ]
+
     # -- scorecard ----------------------------------------------------------
 
     def scorecard(self) -> Dict[str, Any]:
@@ -1129,9 +1173,17 @@ class IaraEngine:
             "estados_visuais": len(list(EstadoVisual)),
             "tipos_voz": len(list(TipoVoz)),
             "wms_suportados": len(list(TilingWM)),
+            "tiers_hardware": len(list(HardwareTier)),
+            "modelos_llm": len(list(ModeloLLM)),
+            "modelos_stt": len(list(ModeloSTT)),
+            "modelos_tts": len(list(ModeloTTS)),
+            "hardware_cadastrados": len(self.catalogo_hardware),
             "sessao_ativa": self.sessao is not None,
             "overlays_gerados": len(self.sessao.overlays) if self.sessao else 0,
             "comandos_executados": self.sessao.comandos_executados if self.sessao else 0,
+            "llm_ativo": self.sessao.modelo_llm.id if self.sessao else None,
+            "stt_ativo": self.sessao.modelo_stt.id if self.sessao else None,
+            "tts_ativo": self.sessao.modelo_tts.id if self.sessao else None,
         }
 
 
@@ -1208,6 +1260,39 @@ def _demo() -> None:
         estrelas = "★" * lic.nivel_dificuldade + "☆" * (5 - lic.nivel_dificuldade)
         print(f"\n  [{estrelas}] {lic.titulo}")
         print(f"    Exercicio: {lic.exercicio}")
+
+    # --- Catalogo de Hardware + Modelos de IA (2024/2025) ---
+    print("\n" + "=" * 70)
+    print("[HARDWARE + MODELOS DE IA -- Catalogo 2024/2025]")
+    print("=" * 70)
+    print(f"\n  {len(e.catalogo_hardware)} dispositivos RepublicaPort:")
+    for hw in e.catalogo_hardware:
+        ia = "IA-LOCAL" if hw.capacidade_ia_local else "basico"
+        gpu = "+GPU" if hw.tem_gpu else ("+NPU" if hw.tem_npu else "CPU-only")
+        print(f"\n    {hw.nome} [{ia} / {gpu}]")
+        print(f"      {hw.arquitetura}")
+        print(f"      RAM: {hw.ram_gb}GB | Storage: {hw.armazenamento_gb}GB | {hw.consumo_watts}W")
+        print(f"      Custo: US$ {hw.custo_usd} / R$ {hw.custo_brl}")
+        rec = e.recomendar_modelos(hw.tier)
+        print(f"      LLM: {rec['llm_rotulo']}")
+        print(f"      STT: {rec['stt_rotulo']}")
+        print(f"      TTS: {rec['tts_rotulo']}")
+        print(f"      >> {rec['observacao']}")
+
+    print(f"\n  Modelos LLM suportados ({len(list(ModeloLLM))}):")
+    for m in ModeloLLM:
+        flag = " [raciocinio]" if m.raciocinio else ""
+        print(f"    {m.rotulo}{flag}  ({m.params_b}B, ~{m.ram_gb_q4}GB RAM Q4)")
+
+    print(f"\n  Modelos STT suportados ({len(list(ModeloSTT))}):")
+    for m in ModeloSTT:
+        gpu_tag = " [GPU]" if m.requer_gpu else ""
+        print(f"    {m.rotulo}{gpu_tag}  ({m.params_m}M, ~{m.latencia_ms}ms)")
+
+    print(f"\n  Modelos TTS suportados ({len(list(ModeloTTS))}):")
+    for m in ModeloTTS:
+        gpu_tag = " [GPU]" if m.requer_gpu else ""
+        print(f"    {m.rotulo}{gpu_tag}  (~{m.latencia_ms}ms)")
 
     # --- Config i3 ---
     print("\n[CONFIG i3 PADRAO DA REPUBLICA]")
