@@ -77,8 +77,9 @@ class Candidato:
     c3_obra_publica: bool
     c3_coerencia: bool
 
-    # Ministerios adequados (score manual de fit 0-1)
-    fits: Dict[str, float] = field(default_factory=dict)
+    # Alinhamento com Raio X (0-1): o que fez atendeu necessidade REAL?
+    alinhamento_raiox: Dict[str, float] = field(default_factory=dict)
+    # Ex: {"alimentacao": 1.0, "ambiente": 1.0, "educacao": 0.8}
 
     # Dados de realidade
     feito_real: str = ""        # maior conquista verificavel
@@ -103,9 +104,22 @@ class Candidato:
     def score_total_val(self) -> float:
         return score_total(self.score_c1, self.score_c2, self.score_c3)
 
+    def score_alinhado(self, dominio: str) -> float:
+        """Score ponderado pelo alinhamento com o dominio do Raio X."""
+        alinhamento = self.alinhamento_raiox.get(dominio, 0)
+        return self.score_total_val * alinhamento
+
     @property
     def veredito(self) -> str:
         s = self.score_total_val
+        if s >= 4.0:
+            return "APROVADO"
+        else:
+            return "WO"
+
+    def veredito_dominio(self, dominio: str) -> str:
+        """Veredito para um dominio especifico (capacidade x alinhamento)."""
+        s = self.score_alinhado(dominio)
         if s >= 4.0:
             return "APROVADO"
         else:
@@ -153,8 +167,11 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.9, liderou=0.9, escalou=0.9, sob_pressao=0.8, repetiu=0.5),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Meio_Ambiente": 1.0, "Agraria_Familiar": 0.9, "Educacao": 0.7, "Saude": 0.6,
-                  "Desenvolvimento_Social": 0.8, "Cultura": 0.5, "Cidades": 0.4},
+            alinhamento_raiox={"ambiente": 1.0, "agua": 0.9, "alimentacao": 0.9,
+                  "agropecuaria": 0.8, "saude": 0.3, "educacao": 0.2,
+                  "indigena": 0.5, "drogas": 0.0, "violencia": 0.1,
+                  "energia": 0.2, "comunicacao": 0.1, "saneamento": 0.2,
+                  "seguranca_alimentar": 0.9},
             feito_real="Reduziu desmatamento 80% (2004-2012). Criou Programa Cisternas e PAA.",
             falha_real="3 candidaturas presidenciais perdidas. Demitida por conflito politico.",
             controversia="Evangelica: posicao sobre drogas e direitos LGBT gera tensoes.",
@@ -167,8 +184,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.8, liderou=0.9, escalou=0.8, sob_pressao=0.7, repetiu=0.8),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Fazenda": 0.9, "Educacao": 0.9, "Planejamento": 0.8, "Casa_Civil": 0.7,
-                  "Cidades": 0.7, "Ciencia_Tecnologia": 0.5},
+            alinhamento_raiox={"educacao": 0.8, "inflacao": 0.5, "transporte": 0.3,
+                  "saude": 0.1, "violencia": 0.0, "alimentacao": 0.1,
+                  "ambiente": 0.1, "energia": 0.1, "comunicacao": 0.1,
+                  "agua": 0.0, "saneamento": 0.1, "drogas": 0.0,
+                  "indigena": 0.0, "agropecuaria": 0.1, "emprego": 0.2,
+                  "cultura": 0.2, "habitacao": 0.3, "seguranca_alimentar": 0.1},
             feito_real="PROUNIexpandido, ENEM modernizado, Reuni. Prefeito SP: ciclovias, Lei Cidade Limpa origem.",
             falha_real="Perdeu eleicao SP para Doria. Gestao Fazenda sob criticas fiscais.",
             controversia="Confronto com mercado financeiro sobre arcabouco fiscal.",
@@ -181,7 +202,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.7, liderou=0.7, escalou=0.6, sob_pressao=0.8, repetiu=0.5),
             c2_gestao=True, c2_orcamento=False, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=False, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Justica_Seguranca": 0.9, "CGU": 0.7, "Defesa": 0.5, "Direitos_Humanos": 0.2},
+            alinhamento_raiox={"violencia": 0.5, "drogas": 0.2, "saude": 0.0,
+                  "alimentacao": 0.0, "agua": 0.0, "educacao": 0.0,
+                  "ambiente": 0.0, "inflacao": 0.1, "emprego": 0.0,
+                  "comunicacao": 0.0, "energia": 0.0, "saneamento": 0.0,
+                  "indigena": 0.0, "agropecuaria": 0.0, "transporte": 0.0,
+                  "cultura": 0.0, "habitacao": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Operacao Lava Jato. Lei Anticrime (parcial). Prefeito de cidade media.",
             falha_real="Decisoes judiciais revertidas (STF). Renuncia ministerial.",
             controversia="Vazamento de mensagens. Parcialidade questionada (STF: 11x3).",
@@ -194,8 +220,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.7, liderou=0.8, escalou=0.8, sob_pressao=0.6, repetiu=0.6),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=False,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=True, c3_aceita_medido=False, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Transportes": 0.9, "Portos_Aeroportos": 0.9, "Cidades": 0.7, "Defesa": 0.8,
-                  "Integracao_Regional": 0.6, "Minas_Energia": 0.5},
+            alinhamento_raiox={"transporte": 0.7, "energia": 0.3, "habitacao": 0.2,
+                  "violencia": 0.1, "saude": 0.1, "alimentacao": 0.0,
+                  "agua": 0.0, "educacao": 0.1, "ambiente": 0.1,
+                  "drogas": 0.0, "inflacao": 0.1, "emprego": 0.1,
+                  "comunicacao": 0.1, "saneamento": 0.1, "indigena": 0.0,
+                  "agropecuaria": 0.1, "cultura": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Concessoes de rodovias, aeroportos regionais. PAC mobilidade. Governador do maior estado.",
             falha_real="Concessoes questionadas (TCU). Obras atrasadas.",
             controversia="Ligacao com Bolsonaro e centro evangelico.",
@@ -208,8 +238,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.7, liderou=0.8, escalou=0.7, sob_pressao=0.7, repetiu=0.7),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Fazenda": 0.7, "Integracao_Regional": 0.9, "Educacao": 0.6, "Saude": 0.5,
-                  "Planejamento": 0.7, "Cidades": 0.6},
+            alinhamento_raiox={"saude": 0.6, "educacao": 0.6, "agua": 0.5,
+                  "violencia": 0.4, "inflacao": 0.5, "emprego": 0.4,
+                  "alimentacao": 0.2, "ambiente": 0.2, "energia": 0.3,
+                  "transporte": 0.3, "saneamento": 0.3, "drogas": 0.1,
+                  "indigena": 0.1, "agropecuaria": 0.2, "comunicacao": 0.2,
+                  "cultura": 0.2, "habitacao": 0.3, "seguranca_alimentar": 0.2},
             feito_real="Ceara: vacinacao 95%, solidez fiscal. Ministerio: transposicao Sao Francisco.",
             falha_real="3 candidaturas perdidas. Confrontos com aliados.",
             controversia="Temporamento explosivo. Discursos polamicos.",
@@ -222,8 +256,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.5, liderou=0.7, escalou=0.5, sob_pressao=0.8, repetiu=0.6),
             c2_gestao=False, c2_orcamento=False, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Cidades": 0.8, "Desenvolvimento_Social": 0.8, "Habitação": 0.9, "Direitos_Humanos": 0.7,
-                  "Trabalho": 0.6, "Saude": 0.4},
+            alinhamento_raiox={"habitacao": 0.8, "violencia": 0.3, "saude": 0.2,
+                  "alimentacao": 0.3, "agua": 0.1, "educacao": 0.1,
+                  "ambiente": 0.2, "inflacao": 0.2, "emprego": 0.3,
+                  "transporte": 0.2, "saneamento": 0.1, "drogas": 0.2,
+                  "indigena": 0.1, "agropecuaria": 0.0, "comunicacao": 0.1,
+                  "energia": 0.1, "cultura": 0.1, "seguranca_alimentar": 0.2},
             feito_real="MTST: ocupacoes que resultaram em moradia. Deputado: protagonismo legislative popular.",
             falha_real="Nunca administrou orgao publico executivo.",
             controversia="Ocupacao de terrenos. Polaridade extrema.",
@@ -236,8 +274,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.5, liderou=0.7, escalou=0.4, sob_pressao=0.9, repetiu=0.5),
             c2_gestao=True, c2_orcamento=False, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Indigenas": 1.0, "Meio_Ambiente": 0.8, "Igualdade_Racial": 0.7,
-                  "Direitos_Humanos": 0.7, "Cultura": 0.6},
+            alinhamento_raiox={"indigena": 1.0, "ambiente": 0.8, "saude": 0.3,
+                  "violencia": 0.2, "alimentacao": 0.2, "agua": 0.2,
+                  "educacao": 0.1, "drogas": 0.0, "inflacao": 0.0,
+                  "emprego": 0.1, "transporte": 0.0, "saneamento": 0.1,
+                  "energia": 0.1, "agropecuaria": 0.1, "comunicacao": 0.1,
+                  "cultura": 0.3, "habitacao": 0.1, "seguranca_alimentar": 0.2},
             feito_real="APIB (Articulacao Povos Indigenas Brasil). Ministerio criado e liderado.",
             falha_real="Demarcacoes paralisadas (Marco Temporal).",
             controversia="Tensao com setor ruralista e evangelico.",
@@ -250,8 +292,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.8, liderou=0.9, escalou=0.7, sob_pressao=0.7, repetiu=0.8),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Justica_Seguranca": 0.9, "Casa_Civil": 0.7, "CGU": 0.6, "Defesa": 0.5,
-                  "Educacao": 0.6, "Saude": 0.5},
+            alinhamento_raiox={"violencia": 0.8, "educacao": 0.5, "saude": 0.4,
+                  "drogas": 0.3, "alimentacao": 0.1, "agua": 0.1,
+                  "ambiente": 0.1, "inflacao": 0.2, "emprego": 0.2,
+                  "transporte": 0.1, "saneamento": 0.1, "indigena": 0.1,
+                  "agropecuaria": 0.1, "comunicacao": 0.1, "energia": 0.1,
+                  "cultura": 0.2, "habitacao": 0.2, "seguranca_alimentar": 0.1},
             feito_real="MA: reducao homicidios, ampliacao Universidade Estadual, transparencia fiscal.",
             falha_real="Indicacao ao STF vista como politica.",
             controversia="Centralizacao de poder no Maranhao (dinastia).",
@@ -264,8 +310,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.8, liderou=0.9, escalou=0.7, sob_pressao=0.7, repetiu=0.8),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Educacao": 0.9, "Saude": 0.6, "Casa_Civil": 0.7, "Planejamento": 0.7,
-                  "Cidades": 0.6},
+            alinhamento_raiox={"educacao": 0.9, "saude": 0.7, "violencia": 0.4,
+                  "alimentacao": 0.2, "agua": 0.3, "ambiente": 0.1,
+                  "inflacao": 0.2, "emprego": 0.2, "drogas": 0.1,
+                  "transporte": 0.2, "saneamento": 0.2, "indigena": 0.1,
+                  "agropecuaria": 0.1, "comunicacao": 0.1, "energia": 0.1,
+                  "cultura": 0.1, "habitacao": 0.2, "seguranca_alimentar": 0.2},
             feito_real="CE: IDEB subiu, universidade estadual expandiu, vacinacao 95%.",
             falha_real="Indicacoes politicas questionadas.",
             controversia="Continuismo politico no CE.",
@@ -278,8 +328,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.7, liderou=0.8, escalou=0.6, sob_pressao=0.8, repetiu=0.7),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Educacao": 0.7, "Saude": 0.6, "Cidades": 0.7, "Planejamento": 0.6,
-                  "Cultura": 0.5, "Agricultura": 0.6},
+            alinhamento_raiox={"educacao": 0.6, "saude": 0.5, "agropecuaria": 0.5,
+                  "ambiente": 0.3, "alimentacao": 0.2, "agua": 0.1,
+                  "violencia": 0.2, "inflacao": 0.2, "emprego": 0.2,
+                  "transporte": 0.2, "saneamento": 0.2, "drogas": 0.1,
+                  "indigena": 0.1, "comunicacao": 0.2, "energia": 0.2,
+                  "cultura": 0.3, "habitacao": 0.2, "seguranca_alimentar": 0.1},
             feito_real="RS: gestao crise enchentes 2024, programa RS Mais, transparencia.",
             falha_real="Gestao pre-enchentes criticada. Renuncia para candidatura presidencial.",
             controversia="Abertamente gay em partido conservador. Tensao com bolsonarismo.",
@@ -292,8 +346,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.9, liderou=0.7, escalou=0.9, sob_pressao=0.9, repetiu=0.5),
             c2_gestao=True, c2_orcamento=True, c2_dados=True, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Fazenda": 0.9, "Planejamento": 0.9, "Desenvolvimento_Industrial": 0.7,
-                  "Casa_Civil": 0.6},
+            alinhamento_raiox={"inflacao": 0.9, "emprego": 0.5, "saude": 0.0,
+                  "alimentacao": 0.1, "agua": 0.0, "educacao": 0.0,
+                  "violencia": 0.0, "ambiente": 0.1, "drogas": 0.0,
+                  "transporte": 0.1, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.1, "comunicacao": 0.0, "energia": 0.1,
+                  "cultura": 0.0, "habitacao": 0.0, "seguranca_alimentar": 0.1},
             feito_real="Plano Real (1994). Estabilizacao economica mais bem-sucedida do Brasil.",
             falha_real="Nunca administrou orgao publico executivo.",
             controversia="Critico de politica fiscal atual.",
@@ -306,7 +364,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.6, liderou=0.7, escalou=0.5, sob_pressao=0.5, repetiu=0.7),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=True, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Relacoes_Exteriores": 0.8, "Casa_Civil": 0.6, "Planejamento": 0.6},
+            alinhamento_raiox={"inflacao": 0.2, "emprego": 0.1, "saude": 0.0,
+                  "alimentacao": 0.0, "agua": 0.0, "educacao": 0.0,
+                  "violencia": 0.0, "ambiente": 0.1, "drogas": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.0, "comunicacao": 0.1, "energia": 0.0,
+                  "cultura": 0.1, "habitacao": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Itamaraty: diplomacia tradicional. Experiencia institucional ampla.",
             falha_real="Gestao apagada. Sem reforma estrutural.",
             controversia="Sem controversias maiores.",
@@ -319,7 +382,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.5, liderou=0.5, escalou=0.4, sob_pressao=0.6, repetiu=0.5),
             c2_gestao=False, c2_orcamento=False, c2_dados=False, c2_liderou=True, c2_publicou=False,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=True, c3_aceita_medido=False, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Mulheres": 0.6, "Comunicacoes": 0.5, "Cultura": 0.4},
+            alinhamento_raiox={"violencia": 0.2, "saude": 0.1, "alimentacao": 0.1,
+                  "agua": 0.0, "educacao": 0.1, "ambiente": 0.1,
+                  "drogas": 0.0, "inflacao": 0.1, "emprego": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.1,
+                  "agropecuaria": 0.0, "comunicacao": 0.2, "energia": 0.0,
+                  "cultura": 0.1, "habitacao": 0.0, "seguranca_alimentar": 0.1},
             feito_real="Comunicacao institucional. Engajamento em causas femininas.",
             falha_real="Nunca administrou orgao publico.",
             controversia="Posicionamentos publicos polamicos.",
@@ -331,7 +399,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.3, liderou=0.4, escalou=0.3, sob_pressao=0.5, repetiu=0.4),
             c2_gestao=False, c2_orcamento=False, c2_dados=False, c2_liderou=False, c2_publicou=False,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=True, c3_aceita_medido=False, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Justica_Seguranca": 0.3, "Comunicacoes": 0.4},
+            alinhamento_raiox={"violencia": 0.1, "saude": 0.0, "alimentacao": 0.0,
+                  "agua": 0.0, "educacao": 0.0, "ambiente": 0.0,
+                  "drogas": 0.1, "inflacao": 0.0, "emprego": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.0, "comunicacao": 0.1, "energia": 0.0,
+                  "cultura": 0.0, "habitacao": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Deputado mais votado. Canal YouTube com milhoes de views.",
             falha_real="Nenhuma gestao publica. Zero projetos executados.",
             controversia="Discurso polarizador. Jovem sem experiencia executiva.",
@@ -343,7 +416,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.4, liderou=0.6, escalou=0.4, sob_pressao=0.6, repetiu=0.5),
             c2_gestao=True, c2_orcamento=False, c2_dados=False, c2_liderou=True, c2_publicou=False,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=False, c3_aceita_medido=False, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Mulheres": 0.5, "Direitos_Humanos": 0.3},
+            alinhamento_raiox={"violencia": 0.1, "saude": 0.1, "alimentacao": 0.0,
+                  "agua": 0.0, "educacao": 0.0, "ambiente": 0.0,
+                  "drogas": 0.1, "inflacao": 0.0, "emprego": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.0, "comunicacao": 0.1, "energia": 0.0,
+                  "cultura": 0.1, "habitacao": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Ministerio da Mulher criado/formado.",
             falha_real="Controversias sobre dados falsos. Denuncia de assedio no ministerio.",
             controversia="Discurso conservador. Dados fabricados.",
@@ -355,7 +433,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.4, liderou=0.5, escalou=0.4, sob_pressao=0.8, repetiu=0.4),
             c2_gestao=False, c2_orcamento=False, c2_dados=False, c2_liderou=False, c2_publicou=False,
             c3_falhou_reconstruiu=False, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Direitos_Humanos": 0.7, "Mulheres": 0.5, "Igualdade_Racial": 0.5},
+            alinhamento_raiox={"violencia": 0.3, "saude": 0.0, "alimentacao": 0.0,
+                  "agua": 0.0, "educacao": 0.1, "ambiente": 0.1,
+                  "drogas": 0.1, "inflacao": 0.0, "emprego": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.0, "comunicacao": 0.1, "energia": 0.0,
+                  "cultura": 0.1, "habitacao": 0.1, "seguranca_alimentar": 0.0},
             feito_real="Visibilidade LGBTQ+ no legislativo.",
             falha_real="Nenhuma gestao executiva.",
             controversia="Polarizadora. Ataques constantes.",
@@ -367,8 +450,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.8, liderou=0.9, escalou=0.7, sob_pressao=0.7, repetiu=0.8),
             c2_gestao=True, c2_orcamento=True, c2_dados=False, c2_liderou=True, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=True, c3_aceita_medido=True, c3_obra_publica=True, c3_coerencia=True,
-            fits={"Casa_Civil": 0.9, "Saude": 0.6, "Cidades": 0.7, "Integracao_Regional": 0.7,
-                  "Planejamento": 0.6},
+            alinhamento_raiox={"saude": 0.6, "educacao": 0.5, "violencia": 0.4,
+                  "alimentacao": 0.2, "agua": 0.2, "ambiente": 0.1,
+                  "inflacao": 0.2, "emprego": 0.2, "drogas": 0.1,
+                  "transporte": 0.2, "saneamento": 0.2, "indigena": 0.1,
+                  "agropecuaria": 0.1, "comunicacao": 0.1, "energia": 0.2,
+                  "cultura": 0.2, "habitacao": 0.3, "seguranca_alimentar": 0.2},
             feito_real="BA: gestao COVID elogiada. Investimento em interior. FIHB.",
             falha_real="Gestao fiscal questionada (divida BA).",
             controversia="Maquina politica baiana.",
@@ -380,7 +467,12 @@ def _init_candidatos() -> List[Candidato]:
             c1=ScoreCamada(fez_funcionar=0.3, liderou=0.3, escalou=0.2, sob_pressao=0.5, repetiu=0.5),
             c2_gestao=False, c2_orcamento=False, c2_dados=False, c2_liderou=False, c2_publicou=True,
             c3_falhou_reconstruiu=True, c3_entrega_rapida=False, c3_aceita_medido=False, c3_obra_publica=False, c3_coerencia=True,
-            fits={"Comunicacoes": 0.3, "Cultura": 0.2},
+            alinhamento_raiox={"violencia": 0.0, "saude": 0.0, "alimentacao": 0.0,
+                  "agua": 0.0, "educacao": 0.0, "ambiente": 0.0,
+                  "drogas": 0.0, "inflacao": 0.0, "emprego": 0.0,
+                  "transporte": 0.0, "saneamento": 0.0, "indigena": 0.0,
+                  "agropecuaria": 0.0, "comunicacao": 0.1, "energia": 0.0,
+                  "cultura": 0.1, "habitacao": 0.0, "seguranca_alimentar": 0.0},
             feito_real="Imagem publica de Lula. Documentacao fotografica.",
             falha_real="Nenhuma gestao executiva. Zero obra publica.",
             controversia="Fotografo em cargo de comunicacao.",
@@ -396,37 +488,55 @@ class CandidatoScoreSistema:
     def __init__(self):
         self.candidatos = _init_candidatos()
 
-    def ranking_por_ministerio(self) -> Dict[str, List[Tuple[Candidato, float]]]:
-        """Para cada ministerio, ranqueia os candidatos por score ponderado."""
+    def ranking_por_dominio(self) -> Dict[str, List[Tuple[Candidato, float]]]:
+        """Para cada dominio do Raio X, ranqueia candidatos por score alinhado."""
+        dominios_raiox = [
+            "violencia", "saude", "alimentacao", "agua", "saneamento",
+            "educacao", "emprego", "inflacao", "agropecuaria", "energia",
+            "transporte", "habitacao", "comunicacao", "ambiente",
+            "indigena", "drogas", "cultura", "seguranca_alimentar",
+        ]
         resultado = {}
-        for minist in MINISTERIOS:
+        for dom in dominios_raiox:
             scores = []
             for c in self.candidatos:
-                if minist in c.fits:
-                    score = c.score_total_val * c.fits[minist]
-                    scores.append((c, score))
+                if dom in c.alinhamento_raiox and c.alinhamento_raiox[dom] > 0:
+                    score = c.score_alinhado(dom)
+                    scores.append((c, score, c.alinhamento_raiox[dom]))
             scores.sort(key=lambda x: x[1], reverse=True)
-            resultado[minist] = scores
+            resultado[dom] = scores
         return resultado
 
-    def melhor_por_ministerio(self) -> Dict[str, Dict[str, Any]]:
-        """Melhor candidato para cada ministerio."""
-        ranking = self.ranking_por_ministerio()
+    def melhor_por_dominio(self) -> Dict[str, Dict[str, Any]]:
+        """Melhor candidato para cada dominio do Raio X."""
+        ranking = self.ranking_por_dominio()
         resultado = {}
-        for minist, scores in ranking.items():
-            if scores:
-                melhor = scores[0]
-                resultado[minist] = {
+        for dom, scores in ranking.items():
+            aprovados = [s for s in scores if s[1] >= 4.0]
+            if aprovados:
+                melhor = aprovados[0]
+                resultado[dom] = {
                     "candidato": melhor[0].nome,
                     "partido": melhor[0].partido,
-                    "score": round(melhor[1], 2),
+                    "score_alinhado": round(melhor[1], 2),
                     "score_base": round(melhor[0].score_total_val, 2),
-                    "fit": melhor[0].fits.get(minist, 0),
-                    "veredito": melhor[0].veredito,
+                    "alinhamento": melhor[2],
+                    "veredito": "APROVADO",
+                    "feito": melhor[0].feito_real,
+                }
+            elif scores:
+                melhor = scores[0]
+                resultado[dom] = {
+                    "candidato": melhor[0].nome,
+                    "partido": melhor[0].partido,
+                    "score_alinhado": round(melhor[1], 2),
+                    "score_base": round(melhor[0].score_total_val, 2),
+                    "alinhamento": melhor[2],
+                    "veredito": "WO (abaixo de 4.0)",
                     "feito": melhor[0].feito_real,
                 }
             else:
-                resultado[minist] = {"candidato": "SEM CANDIDATO", "score": 0, "veredito": "WO"}
+                resultado[dom] = {"candidato": "SEM CANDIDATO", "score_alinhado": 0, "veredito": "WO"}
         return resultado
 
     def ranking_candidatos(self) -> List[Dict[str, Any]]:
@@ -440,7 +550,7 @@ class CandidatoScoreSistema:
             "veredito": c.veredito,
             "feito": c.feito_real,
             "falha": c.falha_real,
-            "n_ministerios": len(c.fits),
+            "n_ministerios": len(c.alinhamento_raiox),
         } for c in self.candidatos], key=lambda x: x["score_total"], reverse=True)
 
     def scorecard(self) -> Dict[str, Any]:
@@ -468,7 +578,7 @@ def _demo():
     sis = CandidatoScoreSistema()
     sc = sis.scorecard()
     ranking = sis.ranking_candidatos()
-    melhores = sis.melhor_por_ministerio()
+    melhores = sis.melhor_por_dominio()
 
     print("=" * 75)
     print("CANDIDATO SCORE -- Mensuracao Estatistica por Ministerio")
@@ -491,17 +601,24 @@ def _demo():
             print(f"     FALHA: {c['falha'][:70]}")
 
     print(f"\n{'='*75}")
-    print("MELHOR CANDIDATO POR MINISTERIO")
+    print("MELHOR CANDIDATO POR DOMINIO DO RAIO X")
     print(f"{'='*75}")
-    for minist in MINISTERIOS:
-        m = melhores.get(minist, {})
+    dominios_raiox = [
+        "violencia", "saude", "alimentacao", "agua", "saneamento",
+        "educacao", "emprego", "inflacao", "agropecuaria", "energia",
+        "transporte", "habitacao", "comunicacao", "ambiente",
+        "indigena", "drogas", "cultura", "seguranca_alimentar",
+    ]
+    for dom in dominios_raiox:
+        m = melhores.get(dom, {})
         nome = m.get("candidato", "---")
-        score = m.get("score", 0)
+        score = m.get("score_alinhado", 0)
+        alinh = m.get("alinhamento", 0)
         vered = m.get("veredito", "---")
         if nome != "SEM CANDIDATO":
-            print(f"  {minist:<30} {nome:<30} score={score:.1f} [{vered}]")
+            print(f"  {dom:<25} {nome:<30} score={score:.1f} align={alinh:.1f} [{vered}]")
         else:
-            print(f"  {minist:<30} --- SEM CANDIDATO ---")
+            print(f"  {dom:<25} --- SEM CANDIDATO ---")
 
 
 if __name__ == "__main__":
