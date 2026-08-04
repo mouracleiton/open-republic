@@ -121,9 +121,9 @@ class EstadoVisual(Enum):
 
 
 class TipoVoz(Enum):
-    """Tipos de voz da Iara."""
+    """Tipos de voz da Iara (atualizado 2024/2025). Ver ModeloTTS para detalhes."""
     ROBOTICA_ESPEAK = ("robotica", "Robotica (espeak-ng): estilo Jarvis, zero latencia")
-    KOKORO_LEVE = ("kokoro", "Kokoro-82M: voz natural leve, todo hardware")
+    KOKORO_LEVE = ("kokoro", "Kokoro-82M: voz naturalista leve, todo hardware (2024)")
     CHATTERBOX_HUMANO = ("chatterbox", "Chatterbox: voz humanizada com emocao, GPU/NPU")
 
     @property
@@ -133,6 +133,16 @@ class TipoVoz(Enum):
     @property
     def rotulo(self) -> str:
         return self.value[1]
+
+    @property
+    def modelo_tts(self) -> "ModeloTTS":
+        """Mapeia o TipoVoz legado para o enum ModeloTTS (2024/2025)."""
+        mapping = {
+            "robotica": ModeloTTS.ESPEAK_NG,
+            "kokoro": ModeloTTS.KOKORO,
+            "chatterbox": ModeloTTS.CHATTERBOX,
+        }
+        return mapping[self.value[0]]
 
 
 class TilingWM(Enum):
@@ -186,6 +196,244 @@ class TipoAtalhoCLI(Enum):
         return self.value[1]
 
 
+# ----------------------------------------------------------------------------
+# Enums de IA / Hardware -- atualizados para 2024/2025
+# ----------------------------------------------------------------------------
+
+class HardwareTier(Enum):
+    """
+    Tiers de hardware que definem quais modelos de IA rodam localmente.
+    Precos em USD (MSRP/producao 2024-2025), RAM e VRAM determinam o teto.
+    Mantido em sinergia com open_voice_pipeline.HardwareTier.
+    """
+    # tier_id, rotulo, ram_min_gb, vram_min_gb, tem_npu, preco_usd_min, preco_usd_max
+    MCU = (
+        "mcu",
+        "Essencial: RISC-V RV32 (RepublicaPort Essencial), so STT tiny + TTS robotico",
+        4, 0, False, 80, 150,
+    )
+    CPU_BASICO = (
+        "cpu_basico",
+        "Basico: Raspberry Pi 5 8GB / RepublicaPort Padrao (RV64), LLM 1-3B",
+        8, 0, False, 120, 250,
+    )
+    CPU_PADRAO = (
+        "cpu_padrao",
+        "Padrao: RepublicaPort Padrao 16GB / Mini-PC x86, LLM 3-8B + STT cascata",
+        16, 0, False, 300, 600,
+    )
+    GPU_NPU = (
+        "gpu_npu",
+        "Avancado: RepublicaPort Avancado 32GB+ com NPU/GPU, LLM 8-14B",
+        32, 8, True, 800, 1500,
+    )
+    WORKSTATION = (
+        "workstation",
+        "Workstation: Mac Mini M4 Pro / RTX 4060+ / NPU dedicada, LLM 14-70B",
+        64, 16, True, 1500, 4000,
+    )
+    BROWSER = (
+        "browser",
+        "Browser: WebGPU (tablet/smartphone), STT tiny + LLM 0.5-1B via transformers.js",
+        4, 0, False, 0, 0,
+    )
+
+    @property
+    def id(self) -> str:
+        return self.value[0]
+
+    @property
+    def rotulo(self) -> str:
+        return self.value[1]
+
+    @property
+    def ram_min_gb(self) -> int:
+        return self.value[2]
+
+    @property
+    def vram_min_gb(self) -> int:
+        return self.value[3]
+
+    @property
+    def tem_npu(self) -> bool:
+        return self.value[4]
+
+    @property
+    def preco_usd(self) -> Tuple[int, int]:
+        """Faixa de preco (min, max) em USD, 2024-2025."""
+        return (self.value[5], self.value[6])
+
+    @property
+    def preco_brl(self) -> Tuple[int, int]:
+        """Faixa de preco em BRL (cambio ~5.5 USD->BRL, 2025)."""
+        lo, hi = self.preco_usd
+        return (int(lo * 5.5), int(hi * 5.5))
+
+
+class ModeloLLM(Enum):
+    """
+    Modelos de linguagem locais (llama.cpp + GGUF) recomendados pela Republica.
+    Dados de 2024/2025: params, quantizacao, RAM estimada (Q4_K_M) e contexto.
+    """
+    # id, rotulo, params_b, ram_gb_q4, context_tokens, raciocinio, langs
+    QWEN25_05B = (
+        "qwen2.5-0.5b", "Qwen2.5-0.5B-Instruct (Q4_K_M) -- MCU/mobile",
+        0.5, 1.0, 32768, False,
+    )
+    LLAMA32_1B = (
+        "llama-3.2-1b", "Llama-3.2-1B-Instruct (Q4_K_M) -- MCU/edge",
+        1.0, 1.5, 131072, False,
+    )
+    QWEN25_3B = (
+        "qwen2.5-3b", "Qwen2.5-3B-Instruct (Q4_K_M) -- CPU basico",
+        3.0, 3.0, 32768, False,
+    )
+    PHI35_MINI = (
+        "phi-3.5-mini", "Phi-3.5-mini (3.8B, Q4_K_M) -- CPU padrao",
+        3.8, 3.5, 131072, False,
+    )
+    LLAMA32_3B = (
+        "llama-3.2-3b", "Llama-3.2-3B-Instruct (Q4_K_M) -- CPU padrao",
+        3.0, 3.0, 131072, False,
+    )
+    GEMMA2_9B = (
+        "gemma-2-9b", "Gemma-2-9B-it (Q4_K_M) -- GPU/NPU",
+        9.0, 7.0, 8192, False,
+    )
+    LLAMA31_8B = (
+        "llama-3.1-8b", "Llama-3.1-8B-Instruct (Q4_K_M) -- GPU/NPU",
+        8.0, 6.5, 131072, False,
+    )
+    QWEN25_7B = (
+        "qwen2.5-7b", "Qwen2.5-7B-Instruct (Q4_K_M) -- GPU/NPU",
+        7.0, 6.0, 131072, False,
+    )
+    DEEPSEEK_R1_DISTILL_7B = (
+        "deepseek-r1-distill-qwen-7b",
+        "DeepSeek-R1-Distill-Qwen-7B (Q4_K_M) -- raciocinio em GPU/NPU",
+        7.0, 6.0, 131072, True,
+    )
+    QWEN25_14B = (
+        "qwen2.5-14b", "Qwen2.5-14B-Instruct (Q4_K_M) -- workstation",
+        14.0, 11.0, 131072, False,
+    )
+    DEEPSEEK_R1_DISTILL_14B = (
+        "deepseek-r1-distill-qwen-14b",
+        "DeepSeek-R1-Distill-Qwen-14B (Q4_K_M) -- raciocinio workstation",
+        14.0, 11.0, 131072, True,
+    )
+
+    @property
+    def id(self) -> str:
+        return self.value[0]
+
+    @property
+    def rotulo(self) -> str:
+        return self.value[1]
+
+    @property
+    def params_b(self) -> float:
+        return self.value[2]
+
+    @property
+    def ram_gb_q4(self) -> float:
+        """RAM aproximada (GB) para o modelo em Q4_K_M + overhead."""
+        return self.value[3]
+
+    @property
+    def context_tokens(self) -> int:
+        return self.value[4]
+
+    @property
+    def raciocinio(self) -> bool:
+        """Modelo de raciocinio (reasoning/CoT destilado de R1/QwQ)?"""
+        return self.value[5]
+
+
+class ModeloSTT(Enum):
+    """
+    Modelos de speech-to-text (fala -> texto) suportados.
+    faster-whisper (CTranslate2) + Distil-Whisper para CPU;
+    Whisper.cpp / large-v3-turbo para GPU/NPU.
+    SOTA 2024/2025: Whisper large-v3-turbo (809M, multilingue, ~300ms em GPU).
+    """
+    # id, rotulo, params_m, latencia_ms, confianca, requer_gpu
+    TINY = ("tiny", "Whisper-tiny (39M) -- MCU/edge, int8", 39, 20, 0.70, False)
+    BASE = ("base", "Whisper-base (74M) -- CPU basico, int8", 74, 80, 0.85, False)
+    SMALL = ("small", "Whisper-small (244M) -- CPU padrao, int8", 244, 200, 0.90, False)
+    DISTIL_SMALL = (
+        "distil-small", "Distil-Whisper-small (166M) -- CPU padrao, 2x mais rapido",
+        166, 100, 0.89, False,
+    )
+    MEDIUM = ("medium", "Whisper-medium (769M) -- GPU opcional", 769, 500, 0.95, False)
+    DISTIL_LARGE_V3 = (
+        "distil-large-v3", "Distil-Whisper-large-v3 (756M) -- GPU, Ingles otimizado",
+        756, 250, 0.95, True,
+    )
+    LARGE_V3_TURBO = (
+        "large-v3-turbo", "Whisper-large-v3-turbo (809M) -- SOTA 2024/2025, GPU/NPU",
+        809, 300, 0.97, True,
+    )
+
+    @property
+    def id(self) -> str:
+        return self.value[0]
+
+    @property
+    def rotulo(self) -> str:
+        return self.value[1]
+
+    @property
+    def params_m(self) -> int:
+        return self.value[2]
+
+    @property
+    def latencia_ms(self) -> int:
+        return self.value[3]
+
+    @property
+    def confianca(self) -> float:
+        return self.value[4]
+
+    @property
+    def requer_gpu(self) -> bool:
+        return self.value[5]
+
+
+class ModeloTTS(Enum):
+    """
+    Modelos de text-to-speech (texto -> fala) suportados (2024/2025).
+    Kokoro-82M e o padrao CPU (voz naturalista, <65ms primeira silaba).
+    Piper (ONNX) como alternativa leve. Chatterbox/XTTSv2 para emocao em GPU.
+    """
+    # id, rotulo, params_m, latencia_ms, requer_gpu
+    ESPEAK_NG = ("espeak-ng", "espeak-ng: voz robotica Jarvis, zero latencia", 0, 5, False)
+    PIPER = ("piper", "Piper (ONNX): voz natural leve, Raspberry Pi 5", 20, 50, False)
+    KOKORO = ("kokoro-82m", "Kokoro-82M: voz naturalista, padrao CPU (2024)", 82, 65, False)
+    XTTS_V2 = ("xtts-v2", "XTTSv2: voz clonada multilingue, GPU", 467, 200, True)
+    CHATTERBOX = ("chatterbox", "Chatterbox: voz humanizada com emocao, GPU/NPU", 500, 150, True)
+
+    @property
+    def id(self) -> str:
+        return self.value[0]
+
+    @property
+    def rotulo(self) -> str:
+        return self.value[1]
+
+    @property
+    def params_m(self) -> int:
+        return self.value[2]
+
+    @property
+    def latencia_ms(self) -> int:
+        return self.value[3]
+
+    @property
+    def requer_gpu(self) -> bool:
+        return self.value[4]
+
+
 # ============================================================================
 # 2. DATACLASSES
 # ============================================================================
@@ -226,6 +474,22 @@ class OverlayFrame:
 
 
 @dataclass
+class HardwareSpec:
+    """Especificacao de hardware RepublicaPort (2024/2025)."""
+    nome: str
+    tier: HardwareTier
+    arquitetura: str
+    ram_gb: int
+    armazenamento_gb: int
+    consumo_watts: float
+    tem_gpu: bool = False
+    tem_npu: bool = False
+    custo_usd: int = 0
+    custo_brl: int = 0
+    capacidade_ia_local: bool = True
+
+
+@dataclass
 class SessaoIara:
     """Sessao ativa da Iara (overlay + voz + tutor + comandos)."""
     id: str
@@ -234,6 +498,11 @@ class SessaoIara:
     voz_padrao: TipoVoz = TipoVoz.KOKORO_LEVE
     wm: TilingWM = TilingWM.I3
     nivel_tutor: NivelTutorial = NivelTutorial.ATIVO
+    # hardware e modelos de IA (2024/2025)
+    hardware_tier: HardwareTier = HardwareTier.CPU_PADRAO
+    modelo_llm: ModeloLLM = ModeloLLM.QWEN25_3B
+    modelo_stt: ModeloSTT = ModeloSTT.BASE
+    modelo_tts: ModeloTTS = ModeloTTS.KOKORO
     # perfil do usuario
     usuario: str = ""
     cego: bool = False

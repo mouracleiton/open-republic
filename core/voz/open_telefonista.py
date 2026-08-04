@@ -38,6 +38,18 @@ Integrado com:
 - OpenBodilyAutonomy (usuario controla tudo)
 - OpenFocus (nao distrai)
 
+Modelos STT/TTS 2024/2025 (camada de voz atualizada):
+- STT (Speech-to-Text): Whisper large-v3-turbo (OpenAI, Nov 2024),
+  distil-large-v3, NVIDIA NeMo Canary-1B / Parakeet TDT 0.6b-v2
+  (SOTA open-source ASR 2024), Moonshine (edge/mobile, 2024),
+  WhisperX (diarizacao + VAD), faster-whisper (backend CTranslate2).
+- TTS (Text-to-Speech): Kokoro-82M (Apache-2.0, leve, alta qualidade),
+  F5-TTS (flow-matching, clonagem zero-shot), Coqui XTTS v2 (multilingue),
+  Piper (edge/onnx), MeloTTS (MIT), StyleTTS 2, OpenVoice v2.
+  Cloud de baixa latencia: OpenAI gpt-4o-mini-tts (2025),
+  ElevenLabs Multilingual v2 / Turbo v2 / Flash v2.5,
+  Google Gemini Live TTS (Gemini 2.0), PlayHT 3.0.
+
 Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50)
 """
 
@@ -52,6 +64,318 @@ import time
 
 # ============================================================================
 # 1. PERSONALIDADE DA TELEFONISTA
+# ============================================================================
+
+# ============================================================================
+# 1b. CAMADA DE VOZ -- Modelos STT/TTS 2024/2025
+# ============================================================================
+
+class STTModel(Enum):
+    """Modelos de Speech-to-Text (STT / ASR) atualizados para 2024/2025.
+
+    Curadoria SOTA open-source + edge + cloud (Nov 2024 / 2025).
+    Selecao por latencia x acuracia x privacidade (on-device x cloud).
+    """
+    # --- OpenAI Whisper family (família 2024) ---
+    WHISPER_LARGE_V3 = "whisper-large-v3"              # referencia, ~3GB
+    WHISPER_LARGE_V3_TURBO = "whisper-large-v3-turbo"  # OpenAI Nov 2024, 8x mais rapido
+    WHISPER_DISTIL_LARGE_V3 = "distil-large-v3"        # ~756MB, queda minima de acuracia
+    FASTER_WHISPER_LARGE_V3 = "faster-whisper-large-v3"  # backend CTranslate2, 4x mais rapido
+    WHISPERX = "whisperx"                               # + VAD + diarizacao (falantes)
+    # --- NVIDIA NeMo (SOTA open-source ASR 2024) ---
+    NEMO_CANARY_1B = "nvidia/canary-1b"                 # multilingue + traducao, 1B params
+    NEMO_PARAKEET_TDT_06B_V2 = "nvidia/parakeet-tdt-0.6b-v2"  # SOTA EN, TDT decoder, 2024
+    # --- Edge / mobile ---
+    MOONSHINE_BASE = "moonshine-base"   # Useful Sensors, 27M, on-device 2024
+    MOONSHINE_TINY = "moonshine-tiny"   # 27M menor latencia
+    PIPER_STT = "piper-stt"             # ONNX, CPU raspi (placeholder STT)
+    # --- Cloud de baixa latencia ---
+    OPENAI_GPT4O_TRANSCRIBE = "gpt-4o-transcribe"       # OpenAI 2024/2025
+    OPENAI_GPT4O_MINI_TRANSCRIBE = "gpt-4o-mini-transcribe"
+    GOOGLE_GEMINI_LIVE_STT = "gemini-2.0-live-stt"      # streaming bidirecional
+    ASSEMBLYAI_UNIVERSAL_2 = "assemblyai-universal-2"   # SOTA cloud 2024
+    DEEPGRAM_NOVA_3 = "deepgram-nova-3"                 #低 latencia cloud
+
+
+class TTSModel(Enum):
+    """Modelos de Text-to-Speech (TTS) atualizados para 2024/2025.
+
+    Prioridade em vozes naturais em PT-BR, latencia baixa e licencas
+    permissivas (Apache/MIT) para soberania do usuario.
+    """
+    # --- Open-source / on-device ---
+    KOKORO_82M = "kokoro-82m"          # Apache-2.0, 82M, alta qualidade 2024-2025
+    F5_TTS = "f5-tts"                  # flow-matching, clonagem zero-shot
+    XTTS_V2 = "xtts-v2"                # Coqui, multilingue (incl. PT-BR), clonagem
+    PIPER = "piper"                    # ONNX, edge/CPU, vozes PT-BR comunitarias
+    MELOTTS = "melotts"               # MIT, multilingue, CPU-friendly
+    STYLE_TTS_2 = "styletts-2"         # alta expressividade
+    OPENVOICE_V2 = "openvoice-v2"      # clonagem rapida multi-falante
+    # --- Cloud de baixa latencia / comercial ---
+    OPENAI_GPT4O_MINI_TTS = "gpt-4o-mini-tts"   # OpenAI 2025, 11 vozes
+    ELEVENLABS_MULTILINGUAL_V2 = "eleven-multilingual-v2"
+    ELEVENLABS_TURBO_V2 = "eleven-turbo-v2"
+    ELEVENLABS_FLASH_V2_5 = "eleven-flash-v2-5"  # baixissima latencia 2024
+    GOOGLE_GEMINI_LIVE_TTS = "gemini-2.0-live-tts"
+    PLAYHT_3 = "playht-3"
+
+
+@dataclass
+class STTConfig:
+    """Configuracao do motor STT (transcricao de voz -> texto)."""
+    model: STTModel = STTModel.WHISPER_LARGE_V3_TURBO  # padrao 2024/2025
+    language: str = "pt"                # codigo ISO 639-1
+    enable_diarization: bool = True     # separar falantes (WhisperX/NeMo)
+    enable_vad: bool = True             # Voice Activity Detection
+    enable_punctuation: bool = True     # pontuacao automatica
+    enable_casing: bool = True          # capitalizacao automatica
+    beam_size: int = 5                  # equilibrio velocidade x acuracia
+    sample_rate: int = 16000            # 16 kHz ( Whisper / NeMo )
+    device: str = "auto"                # auto / cpu / cuda / metal
+    compute_type: str = "int8"          # int8 (rapido) / float16 / float32
+    cloud_api_key: Optional[str] = None  # só para modelos cloud
+    streaming: bool = False             # transcricao em streaming
+
+
+@dataclass
+class TTSConfig:
+    """Configuracao do motor TTS (texto -> voz)."""
+    model: TTSModel = TTSModel.KOKORO_82M  # padrao 2024/2025 (Apache-2.0)
+    voice_id: str = "pf_dora"             # voz Kokoro PT-BR "Dora" (2024)
+    language: str = "pt-br"
+    speed: float = 1.0                    # 0.5 (lento) ate 2.0 (rapido)
+    sample_rate: int = 24000              # 24 kHz Kokoro / XTTS
+    enable_cloning: bool = False          # clonar voz do usuario
+    clone_reference_audio: Optional[str] = None  # path wav de referencia
+    streaming: bool = True                # streaming de audio (baixa latencia)
+    device: str = "auto"                  # auto / cpu / cuda / metal
+    cloud_api_key: Optional[str] = None   # só para modelos cloud
+    output_format: str = "wav"            # wav / mp3 / pcm_raw
+
+
+class VoiceEngine:
+    """
+    Orquestra STT + TTS usando modelos SOTA 2024/2025.
+
+    IMPORTANTE: a carga pesada (torch, faster-whisper, TTS) e feita LAZY,
+    dentro dos metodos, para que este modulo continue importavel sem
+    dependencias pesadas instaladas. Assim `python3 -m py_compile` e a
+    importacao pura (sem deps) seguem funcionando.
+
+    Cada backend tenta importar sua biblioteca; se ausente, cai para um
+    mock que devolve/mostra o texto -- util para desenvolvimento e testes.
+    """
+
+    # Mapas modelo -> backend (para documentacao e fallback)
+    WHISPER_BACKENDS = {
+        STTModel.WHISPER_LARGE_V3, STTModel.WHISPER_LARGE_V3_TURBO,
+        STTModel.WHISPER_DISTIL_LARGE_V3, STTModel.FASTER_WHISPER_LARGE_V3,
+    }
+
+    def __init__(self, stt_config: Optional[STTConfig] = None,
+                 tts_config: Optional[TTSConfig] = None):
+        self.stt_config = stt_config or STTConfig()
+        self.tts_config = tts_config or TTSConfig()
+        self._stt_backend: Optional[Any] = None
+        self._tts_backend: Optional[Any] = None
+
+    # ---------------------- STT ----------------------
+
+    def transcribe(self, audio_path: str) -> Dict[str, Any]:
+        """Transcreve um arquivo de audio para texto.
+
+        Retorna dict com: text, language, segments (opcional), speakers.
+        """
+        try:
+            if self.stt_config.model in self.WHISPER_BACKENDS:
+                return self._transcribe_whisper(audio_path)
+            if self.stt_config.model.value.startswith("nvidia/"):
+                return self._transcribe_nemo(audio_path)
+            if self.stt_config.model.value.startswith("moonshine"):
+                return self._transcribe_moonshine(audio_path)
+            if self.stt_config.model.value.startswith(("gpt-4o", "gemini",
+                                                       "assemblyai", "deepgram")):
+                return self._transcribe_cloud(audio_path)
+        except ImportError:
+            pass
+        # Fallback mock (sem dependencias)
+        return self._transcribe_mock(audio_path)
+
+    def _transcribe_whisper(self, audio_path: str) -> Dict[str, Any]:
+        # faster-whisper (CTranslate2) ou openai-whisper
+        try:
+            from faster_whisper import WhisperModel  # type: ignore
+            backend = self._get_stt_backend_whisper()
+            segments, info = backend.transcribe(
+                audio_path,
+                language=self.stt_config.language,
+                beam_size=self.stt_config.beam_size,
+                vad_filter=self.stt_config.enable_vad,
+            )
+            text = " ".join(s.text for s in segments)
+            return {"text": text.strip(), "language": info.language,
+                    "backend": "faster-whisper",
+                    "model": self.stt_config.model.value}
+        except ImportError:
+            import whisper  # type: ignore
+            backend = self._get_stt_backend_whisper(openai=True)
+            result = backend.transcribe(
+                audio_path,
+                language=self.stt_config.language,
+                beam_size=self.stt_config.beam_size,
+            )
+            return {"text": result["text"].strip(),
+                    "language": result.get("language", self.stt_config.language),
+                    "backend": "openai-whisper",
+                    "model": self.stt_config.model.value}
+
+    def _transcribe_nemo(self, audio_path: str) -> Dict[str, Any]:
+        import nemo.collections.asr as nemo_asr  # type: ignore
+        if self._stt_backend is None:
+            self._stt_backend = nemo_asr.models.ASRModel.from_pretrained(
+                self.stt_config.model.value
+            )
+        text = " ".join(self._stt_backend.transcribe([audio_path]))
+        return {"text": text.strip(), "language": self.stt_config.language,
+                "backend": "nemo", "model": self.stt_config.model.value}
+
+    def _transcribe_moonshine(self, audio_path: str) -> Dict[str, Any]:
+        from moonshine import Moonshine  # type: ignore
+        if self._stt_backend is None:
+            self._stt_backend = Moonshine.load_model(
+                "tiny" if "tiny" in self.stt_config.model.value else "base"
+            )
+        text = self._stt_backend.transcribe(audio_path)
+        return {"text": text.strip(), "language": "en",
+                "backend": "moonshine",
+                "model": self.stt_config.model.value}
+
+    def _transcribe_cloud(self, audio_path: str) -> Dict[str, Any]:
+        # Placeholder para APIs cloud (OpenAI / Gemini / Deepgram / AssemblyAI)
+        # Em producao: HTTP multipart para o endpoint do provedor.
+        return {"text": f"[cloud:{self.stt_config.model.value}] transcription placeholder",
+                "language": self.stt_config.language,
+                "backend": "cloud", "model": self.stt_config.model.value}
+
+    def _transcribe_mock(self, audio_path: str) -> Dict[str, Any]:
+        return {"text": f"[mock] audio em {audio_path} transcrito",
+                "language": self.stt_config.language,
+                "backend": "mock", "model": self.stt_config.model.value}
+
+    def _get_stt_backend_whisper(self, openai: bool = False) -> Any:
+        if self._stt_backend is None:
+            if openai:
+                import whisper  # type: ignore
+                self._stt_backend = whisper.load_model(
+                    self.stt_config.model.value.replace("faster-whisper-", "")
+                )
+            else:
+                from faster_whisper import WhisperModel  # type: ignore
+                self._stt_backend = WhisperModel(
+                    self.stt_config.model.value.replace("faster-whisper-", ""),
+                    device=self.stt_config.device,
+                    compute_type=self.stt_config.compute_type,
+                )
+        return self._stt_backend
+
+    # ---------------------- TTS ----------------------
+
+    def synthesize(self, text: str, out_path: Optional[str] = None) -> str:
+        """Sintetiza fala a partir de texto. Retorna caminho do arquivo wav."""
+        if out_path is None:
+            out_path = f"/tmp/open_telefonista_tts_{int(time.time()*1000)}.wav"
+        try:
+            m = self.tts_config.model
+            if m == TTSModel.KOKORO_82M:
+                return self._synthesize_kokoro(text, out_path)
+            if m == TTSModel.PIPER:
+                return self._synthesize_piper(text, out_path)
+            if m == TTSModel.XTTS_V2:
+                return self._synthesize_xtts(text, out_path)
+            if m == TTSModel.MELOTTS:
+                return self._synthesize_melotts(text, out_path)
+            if m.value.startswith(("gpt-4o", "eleven", "gemini", "playht")):
+                return self._synthesize_cloud(text, out_path)
+            # F5-TTS, StyleTTS-2, OpenVoice-v2 -> backend generico Coqui/TTStqdm
+            return self._synthesize_coqui_generic(text, out_path)
+        except ImportError:
+            return self._synthesize_mock(text, out_path)
+
+    def _synthesize_kokoro(self, text: str, out_path: str) -> str:
+        # Kokoro-82M: pipelinephonemizer -> KokoroGAN (Apache-2.0)
+        from kokoro import KokoroTTS  # type: ignore
+        if self._tts_backend is None:
+            self._tts_backend = KokoroTTS(device=self.tts_config.device)
+        self._tts_backend.synthesize(
+            text, voice=self.tts_config.voice_id, out_path=out_path,
+            speed=self.tts_config.speed,
+        )
+        return out_path
+
+    def _synthesize_piper(self, text: str, out_path: str) -> str:
+        import piper  # type: ignore
+        if self._tts_backend is None:
+            self._tts_backend = piper.PiperVoice.load(self.tts_config.voice_id)
+        import wave
+        with wave.open(out_path, "wb") as wav_file:
+            self._tts_backend.synthesize(text, wav_file,
+                                         length_scale=1.0 / self.tts_config.speed)
+        return out_path
+
+    def _synthesize_xtts(self, text: str, out_path: str) -> str:
+        from TTS.api import TTS as CoquiTTS  # type: ignore
+        if self._tts_backend is None:
+            self._tts_backend = CoquiTTS("tts_models/multilingual/multi-dataset/xtts_v2")
+        speaker = self.tts_config.clone_reference_audio or self.tts_config.voice_id
+        self._tts_backend.tts_to_file(text=text, language=self.tts_config.language,
+                                       speaker_wav=speaker, file_path=out_path)
+        return out_path
+
+    def _synthesize_melotts(self, text: str, out_path: str) -> str:
+        from melotts import MeloTTS  # type: ignore
+        if self._tts_backend is None:
+            self._tts_backend = MeloTTS(language=self.tts_config.language)
+        self._tts_backend.synthesize(text, out_path, speed=self.tts_config.speed)
+        return out_path
+
+    def _synthesize_coqui_generic(self, text: str, out_path: str) -> str:
+        from TTS.api import TTS as CoquiTTS  # type: ignore
+        if self._tts_backend is None:
+            self._tts_backend = CoquiTTS(self.tts_config.model.value)
+        self._tts_backend.tts_to_file(text=text, file_path=out_path)
+        return out_path
+
+    def _synthesize_cloud(self, text: str, out_path: str) -> str:
+        # Placeholder: em producao chama OpenAI / ElevenLabs / Gemini / PlayHT.
+        return self._synthesize_mock(text, out_path)
+
+    def _synthesize_mock(self, text: str, out_path: str) -> str:
+        # Fallback sem deps: grava um wav silencioso valido para o pipeline.
+        import wave
+        import struct
+        sr = self.tts_config.sample_rate
+        dur = max(0.5, len(text) * 0.07 / max(self.tts_config.speed, 0.1))
+        with wave.open(out_path, "w") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(struct.pack("<" + "h" * int(sr * dur),
+                                      *([0] * int(sr * dur))))
+        return out_path
+
+    # ---------------------- helpers ----------------------
+
+    def describe(self) -> Dict[str, str]:
+        return {
+            "stt_model": self.stt_config.model.value,
+            "stt_language": self.stt_config.language,
+            "tts_model": self.tts_config.model.value,
+            "tts_voice": self.tts_config.voice_id,
+        }
+
+
+# ============================================================================
+# 2. PERSONALIDADE DA TELEFONISTA
 # ============================================================================
 
 class TelefonistaPersonality(Enum):
@@ -97,7 +421,9 @@ class TelefonistaConfig:
     """Configuracao da personalidade da telefonista."""
     name: str = "Iara"             # nome da telefonista
     personality: TelefonistaPersonality = TelefonistaPersonality.GENTLE
-    voice_id: str = "pt-BR-FemaleA"  # voz TTS
+    voice_id: str = "pf_dora"  # voz TTS (Kokoro PT-BR "Dora", 2024-2025)
+    stt_config: Optional[STTConfig] = None  # motor STT 2024/2025 (lazy)
+    tts_config: Optional[TTSConfig] = None  # motor TTS 2024/2025 (lazy)
     speech_rate: float = 1.0       # velocidade da fala
     formality: float = 0.3         # 0=informal, 1=formal
     verbosity: float = 0.5         # 0=curto, 1=detalhado
