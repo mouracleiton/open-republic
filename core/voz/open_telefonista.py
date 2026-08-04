@@ -231,21 +231,25 @@ class VoiceEngine:
 
     def _transcribe_nemo(self, audio_path: str) -> Dict[str, Any]:
         import nemo.collections.asr as nemo_asr  # type: ignore
-        if self._stt_backend is None:
-            self._stt_backend = nemo_asr.models.ASRModel.from_pretrained(
+        backend = self._stt_backend
+        if backend is None:
+            backend = nemo_asr.models.ASRModel.from_pretrained(
                 self.stt_config.model.value
             )
-        text = " ".join(self._stt_backend.transcribe([audio_path]))
+            self._stt_backend = backend
+        text = " ".join(backend.transcribe([audio_path]))
         return {"text": text.strip(), "language": self.stt_config.language,
                 "backend": "nemo", "model": self.stt_config.model.value}
 
     def _transcribe_moonshine(self, audio_path: str) -> Dict[str, Any]:
         from moonshine import Moonshine  # type: ignore
-        if self._stt_backend is None:
-            self._stt_backend = Moonshine.load_model(
+        backend = self._stt_backend
+        if backend is None:
+            backend = Moonshine.load_model(
                 "tiny" if "tiny" in self.stt_config.model.value else "base"
             )
-        text = self._stt_backend.transcribe(audio_path)
+            self._stt_backend = backend
+        text = backend.transcribe(audio_path)
         return {"text": text.strip(), "language": "en",
                 "backend": "moonshine",
                 "model": self.stt_config.model.value}
@@ -304,9 +308,11 @@ class VoiceEngine:
     def _synthesize_kokoro(self, text: str, out_path: str) -> str:
         # Kokoro-82M: pipelinephonemizer -> KokoroGAN (Apache-2.0)
         from kokoro import KokoroTTS  # type: ignore
-        if self._tts_backend is None:
-            self._tts_backend = KokoroTTS(device=self.tts_config.device)
-        self._tts_backend.synthesize(
+        backend = self._tts_backend
+        if backend is None:
+            backend = KokoroTTS(device=self.tts_config.device)
+            self._tts_backend = backend
+        backend.synthesize(
             text, voice=self.tts_config.voice_id, out_path=out_path,
             speed=self.tts_config.speed,
         )
@@ -314,35 +320,43 @@ class VoiceEngine:
 
     def _synthesize_piper(self, text: str, out_path: str) -> str:
         import piper  # type: ignore
-        if self._tts_backend is None:
-            self._tts_backend = piper.PiperVoice.load(self.tts_config.voice_id)
+        backend = self._tts_backend
+        if backend is None:
+            backend = piper.PiperVoice.load(self.tts_config.voice_id)
+            self._tts_backend = backend
         import wave
         with wave.open(out_path, "wb") as wav_file:
-            self._tts_backend.synthesize(text, wav_file,
-                                         length_scale=1.0 / self.tts_config.speed)
+            backend.synthesize(text, wav_file,
+                               length_scale=1.0 / self.tts_config.speed)
         return out_path
 
     def _synthesize_xtts(self, text: str, out_path: str) -> str:
         from TTS.api import TTS as CoquiTTS  # type: ignore
-        if self._tts_backend is None:
-            self._tts_backend = CoquiTTS("tts_models/multilingual/multi-dataset/xtts_v2")
+        backend = self._tts_backend
+        if backend is None:
+            backend = CoquiTTS("tts_models/multilingual/multi-dataset/xtts_v2")
+            self._tts_backend = backend
         speaker = self.tts_config.clone_reference_audio or self.tts_config.voice_id
-        self._tts_backend.tts_to_file(text=text, language=self.tts_config.language,
-                                       speaker_wav=speaker, file_path=out_path)
+        backend.tts_to_file(text=text, language=self.tts_config.language,
+                            speaker_wav=speaker, file_path=out_path)
         return out_path
 
     def _synthesize_melotts(self, text: str, out_path: str) -> str:
         from melotts import MeloTTS  # type: ignore
-        if self._tts_backend is None:
-            self._tts_backend = MeloTTS(language=self.tts_config.language)
-        self._tts_backend.synthesize(text, out_path, speed=self.tts_config.speed)
+        backend = self._tts_backend
+        if backend is None:
+            backend = MeloTTS(language=self.tts_config.language)
+            self._tts_backend = backend
+        backend.synthesize(text, out_path, speed=self.tts_config.speed)
         return out_path
 
     def _synthesize_coqui_generic(self, text: str, out_path: str) -> str:
         from TTS.api import TTS as CoquiTTS  # type: ignore
-        if self._tts_backend is None:
-            self._tts_backend = CoquiTTS(self.tts_config.model.value)
-        self._tts_backend.tts_to_file(text=text, file_path=out_path)
+        backend = self._tts_backend
+        if backend is None:
+            backend = CoquiTTS(self.tts_config.model.value)
+            self._tts_backend = backend
+        backend.tts_to_file(text=text, file_path=out_path)
         return out_path
 
     def _synthesize_cloud(self, text: str, out_path: str) -> str:
@@ -940,6 +954,15 @@ class Telefonista:
         self.audio_engine = AudioPerceptionEngine()
         self.geo_engine = GeoLocationEngine()
         self.bio_engine = BiometricEngine()
+        # VoiceEngine 2024/2025 (STT + TTS). Defaults sobrescreviveis via config.
+        self.voice_engine = VoiceEngine(
+            stt_config=config.stt_config,
+            tts_config=config.tts_config or TTSConfig(
+                voice_id=config.voice_id,
+                speed=config.speech_rate,
+                language=config.language.lower(),
+            ),
+        )
 
         self.conversation_history: deque = deque(maxlen=500)
         self.user_emotion: EmotionalState = EmotionalState.NEUTRAL
@@ -1015,6 +1038,41 @@ class Telefonista:
         narration = self.audio_engine.narrate_sounds(readings)
         self._record(narration, "telefonista")
         return narration
+
+    # ------------------ Camada de Voz 2024/2025 ------------------
+
+    def listen(self, audio_path: str) -> str:
+        """STT: transcreve fala do usuario (microfone) usando modelo 2024/2025.
+
+        Usa VoiceEngine (Whisper large-v3-turbo por padrao) e repassa o
+        texto ao pipeline de conversa.
+        """
+        result = self.voice_engine.transcribe(audio_path)
+        text = result.get("text", "")
+        if text:
+            return self.listen_and_respond(text)
+        return "Nao consegui ouvir direito. Pode repetir?"
+
+    def speak(self, text: str, out_path: Optional[str] = None) -> str:
+        """TTS: sintetiza a resposta da telefonista em audio (modelo 2024/2025).
+
+        Usa Kokoro-82M (Apache-2.0) por padrao. Velocidade/voz herdadas da
+        TelefonistaConfig e adaptadas ao estado emocional do usuario.
+        """
+        # Sincroniza velocidade emocional para o TTS
+        self.voice_engine.tts_config.speed = self.config.speech_rate
+        path = self.voice_engine.synthesize(text, out_path)
+        self._record(text, "telefonista")
+        return path
+
+    def converse(self, audio_path: str) -> Tuple[str, str]:
+        """Turno completo de conversa por voz: STT -> resposta -> TTS.
+
+        Retorna (texto_resposta, caminho_audio_sintetizado).
+        """
+        response_text = self.listen(audio_path)
+        audio_out = self.speak(response_text)
+        return response_text, audio_out
 
     def sense_body(self, heart_rate: int = 75, movement: str = "normal",
                    spo2: int = 98, skin_temp: float = 36.5) -> str:

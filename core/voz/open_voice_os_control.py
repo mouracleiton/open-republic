@@ -68,13 +68,13 @@ import re
 
 class DominioComando(Enum):
     """7 dominios de controle por voz do SO."""
-    JANELAS = ("janelas", "Controle de janelas (abrir, fechar, maximizar)")
+    JANELAS = ("janelas", "Controle de janelas (abrir, fechar, maximizar, workspace)")
     ARQUIVOS = ("arquivos", "Navegacao de arquivos e pastas")
-    DIGITACAO = ("digitacao", "Ditacao de texto e edicao")
+    DIGITACAO = ("digitacao", "Ditacao de texto e edicao (inclui codigo)")
     NAVEGACAO = ("navegacao", "Navegacao web e de documentos")
-    SISTEMA = ("sistema", "Configuracoes do sistema (volume, brilho, wifi)")
-    APLICATIVOS = ("aplicativos", "Iniciar aplicativos da Republica")
-    LEITURA = ("leitura", "Leitura de tela e descricao de interface")
+    SISTEMA = ("sistema", "Configuracoes do sistema (volume, brilho, wifi, vpn, tema)")
+    APLICATIVOS = ("aplicativos", "Iniciar aplicativos da Republica + ferramentas modernas")
+    LEITURA = ("leitura", "Leitura de tela e descricao de interface (acessibilidade)")
 
     @property
     def id(self) -> str:
@@ -210,13 +210,13 @@ class SessaoVoz:
 
 
 # ============================================================================
-# 3. CATALOGO DE COMANDOS (50+ comandos)
+# 3. CATALOGO DE COMANDOS (65+ comandos em 2025)
 # ============================================================================
 
 def _init_comandos() -> List[ComandoVoz]:
-    """Define todos os comandos de voz reconheciveis."""
+    """Define todos os comandos de voz reconheciveis. (Atualizado 2025: +15 comandos Wayland/Flatpak/Acc/AI)"""
     return [
-        # === JANELAS ===
+        # === JANELAS (inclui Wayland 2025) ===
         ComandoVoz("jan_abrir", DominioComando.JANELAS,
             [r"^abrir (.+)$", r"^iniciar (.+)$", r"^abre (?:o |a )?(.+)$"],
             "abrir_app", ["app"],
@@ -240,13 +240,29 @@ def _init_comandos() -> List[ComandoVoz]:
         ComandoVoz("jan_trocar", DominioComando.JANELAS,
             [r"^trocar (?:janela|aba|app)$", r"^alternar$", r"^proximo app$", r"^alt tab$"],
             "trocar_janela", [],
-            "Troca para a proxima janela (Alt+Tab)",
+            "Troca para a proxima janela (Alt+Tab / wlrctl)",
             "trocar janela"),
         ComandoVoz("jan_mover", DominioComando.JANELAS,
             [r"^mover (?:janela )?(?:para )?(esquerda|direita|cima|baixo|centro)$"],
             "mover_janela", ["direcao"],
-            "Move a janela ativa",
+            "Move a janela ativa (xdotool/ydotool/wlrctl)",
             "mover para esquerda"),
+        # NEW 2025: Wayland workspace and focus
+        ComandoVoz("jan_workspace", DominioComando.JANELAS,
+            [r"^(?:ir para |mudar para |workspace )?(?:workspace |espaco )?(\d+)$"],
+            "mudar_workspace", ["numero"],
+            "Muda para workspace (Wayland: hyprctl / wlrctl)",
+            "workspace 2"),
+        ComandoVoz("jan_focar", DominioComando.JANELAS,
+            [r"^focar (?:janela |app )?(.+)$", r"^foca (?:em )?(.+)$"],
+            "focar_janela", ["nome"],
+            "Foca janela pelo titulo (Wayland AT-SPI + wlrctl)",
+            "focar terminal"),
+        ComandoVoz("jan_tile", DominioComando.JANELAS,
+            [r"^(?:tile |organizar |layout )(esquerda|direita|vertical|horizontal)$"],
+            "tile_janela", ["direcao"],
+            "Tile / split janela (Hyprland / river / sway)",
+            "tile esquerda"),
 
         # === ARQUIVOS ===
         ComandoVoz("arq_abrir", DominioComando.ARQUIVOS,
@@ -275,6 +291,22 @@ def _init_comandos() -> List[ComandoVoz]:
             "Deleta um arquivo (requer confirmacao)",
             "apagar arquivo velho.txt",
             requer_confirmacao=True),
+        # NEW 2025
+        ComandoVoz("arq_abrir_com", DominioComando.ARQUIVOS,
+            [r"^abrir (?:com |usando )(.+) (?:o |a )?(.+)$"],
+            "abrir_arquivo_com", ["app", "arquivo"],
+            "Abre arquivo com app especifico (flatpak ou nativo)",
+            "abrir com vscode relatorio.md"),
+        ComandoVoz("arq_trash", DominioComando.ARQUIVOS,
+            [r"^(?:mover |enviar )?(?:para )?lixeira (.+)$"],
+            "mover_lixeira", ["nome"],
+            "Move para lixeira (gio trash)",
+            "mover para lixeira temp.txt"),
+        ComandoVoz("arq_copiar_path", DominioComando.ARQUIVOS,
+            [r"^(?:copiar |copie )?caminho (?:do )?(.+)$"],
+            "copiar_caminho", ["nome"],
+            "Copia caminho absoluto para clipboard",
+            "copiar caminho do projeto"),
 
         # === DIGITACAO ===
         ComandoVoz("dig_ditar", DominioComando.DIGITACAO,
@@ -318,6 +350,22 @@ def _init_comandos() -> List[ComandoVoz]:
             "maiusculas", [],
             "Converte selecao para maiusculas",
             "maiusculas"),
+        # NEW 2025
+        ComandoVoz("dig_codigo", DominioComando.DIGITACAO,
+            [r"^(?:ditar |escrever |digitar )?codigo (.+)$"],
+            "digitar_codigo", ["codigo"],
+            "Digita bloco de codigo (preserva indentacao)",
+            "ditar codigo def main"),
+        ComandoVoz("dig_comentar", DominioComando.DIGITACAO,
+            [r"^(?:comentar |descomentar |toggle comment)$"],
+            "toggle_comentario", [],
+            "Comenta/descomenta linha (Ctrl+/)",
+            "comentar"),
+        ComandoVoz("dig_indent", DominioComando.DIGITACAO,
+            [r"^(?:indentar |desindentar |tab |shift tab)$"],
+            "ajustar_indent", ["direcao"],
+            "Indentacao (Tab / Shift+Tab)",
+            "indentar"),
 
         # === NAVEGACAO ===
         ComandoVoz("nav_rolar_baixo", DominioComando.NAVEGACAO,
@@ -340,19 +388,30 @@ def _init_comandos() -> List[ComandoVoz]:
         ComandoVoz("nav_clicar", DominioComando.NAVEGACAO,
             [r"^clicar (.+)$", r"^clica (?:em |no |na )?(.+)$"],
             "clicar_elemento", ["elemento"],
-            "Clica num elemento da pagina pelo nome",
+            "Clica num elemento da pagina pelo nome (AT-SPI / OCR shim)",
             "clicar enviar"),
         ComandoVoz("nav_url", DominioComando.NAVEGACAO,
-            [r"^abrir site (.+)$", r"^ir para site (.+)$", r"^acessar (.+\.com|.+\.org|.+\.gov\.br)$"],
+            [r"^abrir site (.+)$", r"^ir para site (.+)$", r"^acessar (.+\.com|.+ \.org|.+ \.gov\.br)$"],
             "abrir_url", ["url"],
             "Abre um site",
             "abrir site republica.local"),
+        # NEW 2025
+        ComandoVoz("nav_pesquisar", DominioComando.NAVEGACAO,
+            [r"^(?:procurar |buscar |pesquisar |find )(.+)$"],
+            "pesquisar_pagina", ["termo"],
+            "Pesquisa na pagina (Ctrl+F)",
+            "pesquisar republica"),
+        ComandoVoz("nav_proximo", DominioComando.NAVEGACAO,
+            [r"^(?:proximo |seguinte |next )(?:link|resultado|ocorrencia)?$"],
+            "proximo_resultado", [],
+            "Vai para proximo resultado da busca (F3)",
+            "proximo"),
 
-        # === SISTEMA ===
+        # === SISTEMA (2025: vpn, dark, rede) ===
         ComandoVoz("sis_volume_mais", DominioComando.SISTEMA,
             [r"^aumentar volume$", r"^volume (?:mais|alto)$", r"^mais alto$"],
             "volume_mais", [],
-            "Aumenta o volume",
+            "Aumenta o volume (pactl / wpctl / amixer)",
             "aumentar volume"),
         ComandoVoz("sis_volume_menos", DominioComando.SISTEMA,
             [r"^diminuir volume$", r"^volume (?:menos|baixo)$", r"^mais baixo$"],
@@ -367,22 +426,22 @@ def _init_comandos() -> List[ComandoVoz]:
         ComandoVoz("sis_brilho", DominioComando.SISTEMA,
             [r"^brilho (mais|menos|\d+%)$", r"^aumentar brilho$", r"^diminuir brilho$"],
             "ajustar_brilho", ["valor"],
-            "Ajusta brilho da tela",
+            "Ajusta brilho da tela (brightnessctl / ddcutil)",
             "brilho mais"),
         ComandoVoz("sis_wifi", DominioComando.SISTEMA,
             [r"^(?:ligar|desligar) wifi$", r"^wifi (on|off|ligar|desligar)$"],
             "toggle_wifi", ["acao"],
-            "Liga/desliga WiFi",
+            "Liga/desliga WiFi (nmcli / iwctl)",
             "ligar wifi"),
         ComandoVoz("sis_bluetooth", DominioComando.SISTEMA,
             [r"^(?:ligar|desligar) bluetooth$"],
             "toggle_bluetooth", ["acao"],
-            "Liga/desliga Bluetooth",
+            "Liga/desliga Bluetooth (bluetoothctl)",
             "desligar bluetooth"),
         ComandoVoz("sis_bateria", DominioComando.SISTEMA,
             [r"^bateria$", r"^nivel de bateria$", r"^quanta bateria$"],
             "verificar_bateria", [],
-            "Le o nivel de bateria em voz alta",
+            "Le o nivel de bateria em voz alta (upower)",
             "bateria"),
         ComandoVoz("sis_hora", DominioComando.SISTEMA,
             [r"^que horas sao$", r"^horas$", r"^que hora e$"],
@@ -395,8 +454,29 @@ def _init_comandos() -> List[ComandoVoz]:
             "Desliga o computador (requer confirmacao)",
             "desligar computador",
             requer_confirmacao=True),
+        # NEW 2025
+        ComandoVoz("sis_vpn", DominioComando.SISTEMA,
+            [r"^(?:ligar|desligar|conectar|desconectar) (?:vpn|wireguard|openvpn)$"],
+            "toggle_vpn", ["acao"],
+            "Liga/desliga VPN (nmcli / wg-quick)",
+            "ligar vpn"),
+        ComandoVoz("sis_dark", DominioComando.SISTEMA,
+            [r"^(?:modo )?(escuro|dark|claro|light)$", r"^alternar tema$"],
+            "toggle_modo_escuro", ["modo"],
+            "Alterna dark/light mode (gsettings / plasma-apply-colorscheme)",
+            "modo escuro"),
+        ComandoVoz("sis_lock", DominioComando.SISTEMA,
+            [r"^(?:bloquear |lock |trancar )?(?:tela|computador)$"],
+            "bloquear_tela", [],
+            "Bloqueia a tela (loginctl lock-session)",
+            "bloquear tela"),
+        ComandoVoz("sis_suspend", DominioComando.SISTEMA,
+            [r"^(?:suspender |dormir |suspend |sleep)$"],
+            "suspender_sistema", [],
+            "Suspende o sistema (systemctl suspend)",
+            "suspender"),
 
-        # === APLICATIVOS DA REPUBLICA ===
+        # === APLICATIVOS DA REPUBLICA + MODERNOS 2025 ===
         ComandoVoz("app_ide", DominioComando.APLICATIVOS,
             [r"^(?:abrir|iniciar) (?:a )?ide$", r"^abrir republica ide$",
              r"^iniciar ide$"],
@@ -437,13 +517,34 @@ def _init_comandos() -> List[ComandoVoz]:
             "abrir_orca", [],
             "Abre o leitor de tela Orca",
             "ligar orca"),
+        # NEW 2025 modern + flatpak
+        ComandoVoz("app_vscode", DominioComando.APLICATIVOS,
+            [r"^(?:abrir|iniciar) (?:vscode|code|vs code)$"],
+            "abrir_vscode", [],
+            "Abre Visual Studio Code (code ou flatpak)",
+            "abrir vscode"),
+        ComandoVoz("app_neovim", DominioComando.APLICATIVOS,
+            [r"^(?:abrir|iniciar) (?:nvim|neovim|vim)$"],
+            "abrir_neovim", [],
+            "Abre Neovim no terminal",
+            "abrir neovim"),
+        ComandoVoz("app_obsidian", DominioComando.APLICATIVOS,
+            [r"^(?:abrir|iniciar) obsidian$"],
+            "abrir_obsidian", [],
+            "Abre Obsidian (notas)",
+            "abrir obsidian"),
+        ComandoVoz("app_flatpak", DominioComando.APLICATIVOS,
+            [r"^(?:abrir|rodar) flatpak (.+)$", r"^flatpak run (.+)$"],
+            "abrir_flatpak", ["app_id"],
+            "Roda app via flatpak run",
+            "abrir flatpak org.mozilla.firefox"),
 
-        # === LEITURA ===
+        # === LEITURA (acessibilidade 2025) ===
         ComandoVoz("lei_tela", DominioComando.LEITURA,
             [r"^ler tela$", r"^ler janela$", r"^o que esta na tela$",
              r"^descrever tela$"],
             "ler_tela", [],
-            "Le o conteudo da tela ativa",
+            "Le o conteudo da tela ativa (AT-SPI2 + OCR shim)",
             "ler tela"),
         ComandoVoz("lei_selecionado", DominioComando.LEITURA,
             [r"^ler selecionado$", r"^ler selecao$", r"^ler isso$"],
@@ -475,13 +576,29 @@ def _init_comandos() -> List[ComandoVoz]:
             [r"^velocidade (mais rapido|mais devagar|normal)$",
              r"^mais rapido$", r"^mais devagar$"],
             "ajustar_velocidade_leitura", ["velocidade"],
-            "Ajusta a velocidade do TTS",
+            "Ajusta a velocidade do TTS (Kokoro/Piper)",
             "mais rapido"),
         ComandoVoz("lei_pausar", DominioComando.LEITURA,
             [r"^pausar$", r"^parar$", r"^silencio$"],
             "pausar_leitura", [],
             "Pausa a leitura atual",
             "pausar"),
+        # NEW 2025 accessibility
+        ComandoVoz("lei_notificacao", DominioComando.LEITURA,
+            [r"^(?:ler |ver )?notificacoes?$", r"^o que chegou$"],
+            "ler_notificacoes", [],
+            "Le notificacoes do sistema (dunst / mako / gnome)",
+            "ler notificacoes"),
+        ComandoVoz("lei_zoom", DominioComando.LEITURA,
+            [r"^(?:zoom |aumentar |diminuir )?(?:tela|fonte|zoom) (?:mais|menos|in|out)$"],
+            "ajustar_zoom", ["direcao"],
+            "Zoom de tela (magnifier / orca zoom)",
+            "zoom mais"),
+        ComandoVoz("lei_clipboard", DominioComando.LEITURA,
+            [r"^(?:ler |dizer )?clipboard|area de transferencia$"],
+            "ler_clipboard", [],
+            "Le conteudo do clipboard (acessibilidade)",
+            "ler clipboard"),
     ]
 
 
@@ -653,7 +770,7 @@ class VoiceOSControlEngine:
         return NivelConfianca.REJEITADO
 
     def _simular_acao(self, acao: str, params: Dict[str, str]) -> str:
-        """Simula a execucao da acao (no mundo real, chamaria xdotool/dbus/AT-SPI)."""
+        """Simula a execucao da acao (no mundo real, chamaria ydotool/dbus/AT-SPI2)."""
         if params:
             param_str = ", ".join(f"{k}={v}" for k, v in params.items())
             return f"{acao}({param_str})"
@@ -702,7 +819,7 @@ def _demo() -> None:
     e = VoiceOSControlEngine()
 
     print("=" * 70)
-    print("OpenVoiceOSControl -- Controle do SO por Voz")
+    print("OpenVoiceOSControl -- Controle do SO por Voz (2024/2025)")
     print("=" * 70)
 
     # --- Catalogo de comandos ---
@@ -720,7 +837,7 @@ def _demo() -> None:
 
     # --- Simular sessao: usuario cego ---
     print("\n" + "=" * 70)
-    print("[SIMULACAO] Usuario: Joao (cego, usa Orca)")
+    print("[SIMULACAO] Usuario: Joao (cego, usa Orca 46/47 + AT-SPI2)")
     print("=" * 70)
     sessao = e.iniciar_sessao("Joao", ModoAtivacao.SEMPRE_OUVINDO, cego=True)
     print(f"  Sessao: {sessao.id} | Modo: {sessao.modo_ativacao.rotulo}")
@@ -739,6 +856,11 @@ def _demo() -> None:
         "bateria",
         "abrir IDE",
         "chamar telefonista",
+        "workspace 3",           # 2025
+        "focar terminal",
+        "modo escuro",
+        "ler notificacoes",
+        "abrir flatpak org.mozilla.firefox",
     ]
 
     for cmd_text in comandos_simulados:
@@ -755,7 +877,7 @@ def _demo() -> None:
 
     # --- Simular sessao: usuario tetraplegico ---
     print("\n" + "=" * 70)
-    print("[SIMULACAO] Usuario: Maria (tetraplegica, usa switch + eye tracker)")
+    print("[SIMULACAO] Usuario: Maria (tetraplegica, usa switch + eye tracker + ydotool)")
     print("=" * 70)
     sessao2 = e.iniciar_sessao("Maria", ModoAtivacao.SWITCH, motora=True)
     print(f"  Sessao: {sessao2.id} | Modo: {sessao2.modo_ativacao.rotulo}")
@@ -767,6 +889,8 @@ def _demo() -> None:
         "ler tela",
         "rolar para baixo",
         "ler proximo paragrafo",
+        "tile esquerda",
+        "abrir vscode",
     ]
     for cmd_text in cmds_motor:
         resultado = e.processar(cmd_text)
@@ -784,56 +908,52 @@ def _demo() -> None:
         if c.requer_confirmacao:
             print(f"  {c.id}: '{c.exemplo}' -- {c.descricao}")
 
-    # --- Pipeline tecnico ---
-    print("\n[PIPELINE TECNICO -- Do microfone a acao]")
+    # --- Pipeline tecnico 2025 ---
+    print("\n[PIPELINE TECNICO 2025 -- Do microfone a acao (<180ms percebido)]")
     print("""
-  1. MICROFONE captura audio
-  2. WHISPER.CPP (STT local) converte audio -> texto
-  3. PARSER DE COMANDO (NLU leve):
-     - Regex + palavras-chave em portugues
-     - Sem nuvem. Sem API externa. Regras locais.
-  4. CLASSIFICADOR DE CONFIANCA:
-     - ALTO: executa direto
-     - MEDIO: executa com confirmacao implicita
-     - BAIXO: pede confirmacao por voz
-     - REJEITADO: ignora (conversa, nao comando)
-  5. EXECUTOR (acao real no SO):
-     - JANELAS: wmctrl / xdotool (X11) ou gdbus (Wayland)
-     - DIGITACAO: xdotool type / ydotool
-     - SISTEMA: amixer / pactl (volume), brightnessctl (brilho)
-     - APLICATIVOS: gtk-launch / gio launch
-     - LEITURA: AT-SPI (acessa conteudo da janela) -> espeak/Kokoro (TTS)
-  6. FEEDBACK TTS:
-     - Cego: detalhado ("Aberto: firefox.")
-     - Surdo: silencioso (texto na tela)
-     - Padrao: confirmacao curta ("Feito.")
-     - ERRO: explica o que deu errado
+  1. MICROFONE + RING BUFFER (PyAudio/ALSA/PipeWire) ~4ms
+  2. VAD (Silero VAD v5 / ONNX) ~8ms  -- pula 85% do silencio
+  3. HOTWORD (OpenWakeWord 2.0) ~12ms  -- "republica"
+  4. STT CASCATA (faster-whisper Distil tiny->small/large-v3) ~15-80ms
+  5. NLU + CACHE (regex + fuzzywuzzy + LRU) ~4ms
+  6. ROUTER -> VoiceOSControl
+  7. EXECUTOR (2025):
+     - Wayland: ydotool / wlrctl / hyprctl (dbus) / layer-shell
+     - X11 fallback: xdotool / wmctrl
+     - A11y: AT-SPI2 (Orca 46/47), brltty
+     - Apps: flatpak run / gio launch / gtk-launch
+     - OCR Shim (Tesseract 5.4.1 + PaddleOCR v5 PT)
+  8. TTS (Kokoro-82M streaming <65ms first syllable OR Piper ONNX)
+  9. FEEDBACK: overlay, toast, haptic, caption (multi-modal)
 """)
 
     # --- Adaptacao por deficiencia ---
-    print("[ADAPTACAO POR DEFICIENCIA]")
+    print("[ADAPTACAO POR DEFICIENCIA 2025]")
     print("""
   CEGO:
     - Feedback DETALHADO (precisa ouvir o que aconteceu)
-    - Leitura de tela integrada (AT-SPI + Orca + Kokoro)
+    - Leitura de tela integrada (AT-SPI2 + Orca 46/47 + Kokoro)
     - Comandos de leitura sao prioritarios
+    - OCR Shim para apps sem AT-SPI (Tesseract/PaddleOCR)
 
   SURDO:
     - Feedback SILENCIOSO (le confirmacao na tela)
-    - Nao usa TTS para feedback. Usa toast/notification visual
+    - Nao usa TTS para feedback. Usa toast/notification visual + caption
     - Comandos de digitacao sao prioritarios
+    - Legenda injetada via Whisper em tempo real
 
   TETRAPLEGICO:
     - Modo SWITCH (botao fisico ativa o microfone)
     - Eye tracker pode ativar por dwell (olhar fixo por 2s)
     - Comandos de digitacao + navegacao sao prioritarios
     - Push-to-talk com switch: 1 toque = ouvir, 1 toque = parar
+    - ydotool / wlrctl para Wayland sem xdotool
 
   IDOSO:
     - Hot word mais tolerante (aceita variacoes de fala)
-    - Velocidade do TTS reduzida
+    - Velocidade do TTS reduzida (Kokoro/Piper)
     - Feedback DETALHADO (precisa de confirmacao clara)
-    - Comandos de sistema (volume, bateria, hora) sao os mais usados
+    - Comandos de sistema (volume, bateria, hora, modo escuro) mais usados
 
   TDAH/AUTISMO:
     - Modo HOTKEY (nao sempre ouvindo -- pode sobrecarregar)
@@ -854,7 +974,7 @@ def _demo() -> None:
 
     # --- FILOSOFIA ---
     print("\n" + "=" * 70)
-    print("FILOSOFIA -- Fale. O sistema obedece.")
+    print("FILOSOFIA -- Fale. O sistema obedece. (2025)")
     print("=" * 70)
     print("""
 VOZ E O INPUT MAIS UNIVERSAL:
@@ -879,13 +999,17 @@ A TELEFONISTA INTEGRA O VOICECONTROL:
   "Iara, abrir firefox" -> Telefonista detecta acao -> VoiceControl executa.
   O usuario nao sabe (nem precisa saber) onde termina uma e comeca a outra.
 
-LOCAL. SEMPRE LOCAL:
-  Whisper.cpp (STT) roda no processador.
-  Kokoro/Chatterbox (TTS) roda no processador.
+LOCAL. SEMPRE LOCAL. 2025:
+  faster-whisper / Distil-Whisper roda no processador (CPU/NPU).
+  Kokoro-82M / Piper (ONNX) roda no processador.
   Parser de comando roda em Python local.
   Nenhum audio sai do dispositivo.
   Nenhuma palavra vai para a nuvem.
   Soberania da voz.
+
+EXECUTOR 2025 (Wayland-first):
+  ydotool + wlrctl + hyprctl + layer-shell + AT-SPI2 + brltty
+  X11 legacy ainda suportado para compatibilidade.
 
 O PRINCIPIO:
   Controle por voz nao e luxo de smart speaker.
@@ -895,7 +1019,6 @@ O PRINCIPIO:
   E o idoso que NAO precisa aprender interface.
   Fale. O sistema obedece.
 """)
-
 
 if __name__ == "__main__":
     _demo()

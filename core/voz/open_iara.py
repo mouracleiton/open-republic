@@ -523,6 +523,90 @@ class SessaoIara:
 # 3. DADOS: ATALHOS E LICOES
 # ============================================================================
 
+def _init_catalogo_hardware() -> List[HardwareSpec]:
+    """Catalogo de hardware RepublicaPort com precos 2024/2025."""
+    return [
+        HardwareSpec(
+            nome="RepublicaPort Essencial",
+            tier=HardwareTier.MCU,
+            arquitetura="RISC-V RV32IMAC (32-bit, baixo consumo)",
+            ram_gb=4, armazenamento_gb=64, consumo_watts=5.0,
+            custo_usd=150, custo_brl=825, capacidade_ia_local=False,
+        ),
+        HardwareSpec(
+            nome="RepublicaPort Basico (Pi 5)",
+            tier=HardwareTier.CPU_BASICO,
+            arquitetura="Raspberry Pi 5 / RISC-V RV64GC (64-bit)",
+            ram_gb=8, armazenamento_gb=128, consumo_watts=12.0,
+            custo_usd=200, custo_brl=1100,
+        ),
+        HardwareSpec(
+            nome="RepublicaPort Padrao",
+            tier=HardwareTier.CPU_PADRAO,
+            arquitetura="RISC-V RV64GC / x86-64 Mini-PC",
+            ram_gb=16, armazenamento_gb=256, consumo_watts=35.0,
+            custo_usd=500, custo_brl=2750,
+        ),
+        HardwareSpec(
+            nome="RepublicaPort Avancado",
+            tier=HardwareTier.GPU_NPU,
+            arquitetura="RISC-V 64-bit + NPU dedicada / GPU",
+            ram_gb=32, armazenamento_gb=512, consumo_watts=65.0,
+            tem_npu=True, custo_usd=1200, custo_brl=6600,
+        ),
+        HardwareSpec(
+            nome="RepublicaWorkstation (M4 Pro / RTX 4060)",
+            tier=HardwareTier.WORKSTATION,
+            arquitetura="Apple M4 Pro / NVIDIA RTX 4060+ / NPU dedicada",
+            ram_gb=64, armazenamento_gb=1024, consumo_watts=120.0,
+            tem_gpu=True, tem_npu=True, custo_usd=2500, custo_brl=13750,
+        ),
+    ]
+
+
+def _modelos_por_tier(tier: HardwareTier) -> Dict[str, Any]:
+    """Recomenda modelos LLM/STT/TTS otimos para cada tier de hardware (2024/2025)."""
+    recomendacoes = {
+        HardwareTier.MCU: {
+            "llm": ModeloLLM.QWEN25_05B,
+            "stt": ModeloSTT.TINY,
+            "tts": ModeloTTS.ESPEAK_NG,
+            "observacao": "Sem GPU: LLM so comandos simples, STT tiny, voz robotica.",
+        },
+        HardwareTier.CPU_BASICO: {
+            "llm": ModeloLLM.LLAMA32_1B,
+            "stt": ModeloSTT.TINY,
+            "tts": ModeloTTS.PIPER,
+            "observacao": "CPU basica: LLM 1-3B, STT tiny->base em cascata, Piper.",
+        },
+        HardwareTier.CPU_PADRAO: {
+            "llm": ModeloLLM.QWEN25_3B,
+            "stt": ModeloSTT.BASE,
+            "tts": ModeloTTS.KOKORO,
+            "observacao": "CPU padrao: LLM 3-8B (Q4_K_M), STT base->small, Kokoro-82M.",
+        },
+        HardwareTier.GPU_NPU: {
+            "llm": ModeloLLM.QWEN25_7B,
+            "stt": ModeloSTT.SMALL,
+            "tts": ModeloTTS.KOKORO,
+            "observacao": "NPU/GPU: LLM 7-14B, STT small->large-v3-turbo, Kokoro ou Chatterbox.",
+        },
+        HardwareTier.WORKSTATION: {
+            "llm": ModeloLLM.DEEPSEEK_R1_DISTILL_14B,
+            "stt": ModeloSTT.LARGE_V3_TURBO,
+            "tts": ModeloTTS.CHATTERBOX,
+            "observacao": "Workstation: LLM 14B+ com raciocinio (R1-distill), Whisper large-v3-turbo SOTA.",
+        },
+        HardwareTier.BROWSER: {
+            "llm": ModeloLLM.QWEN25_05B,
+            "stt": ModeloSTT.TINY,
+            "tts": ModeloTTS.ESPEAK_NG,
+            "observacao": "WebGPU/WASM: modelos leves via transformers.js, sem GPU dedicada.",
+        },
+    }
+    return recomendacoes.get(tier, recomendacoes[HardwareTier.CPU_PADRAO])
+
+
 def _init_atalhos() -> List[AtalhoCLI]:
     """Define os atalhos que o tutor ensina."""
     return [
@@ -700,6 +784,7 @@ class IaraEngine:
     def __init__(self) -> None:
         self.atalhos: List[AtalhoCLI] = _init_atalhos()
         self.licoes: List[LicaoCLI] = _init_licoes()
+        self.catalogo_hardware: List[HardwareSpec] = _init_catalogo_hardware()
         self.sessao: Optional[SessaoIara] = None
         self._frame_counter = 0
 
@@ -714,6 +799,7 @@ class IaraEngine:
         motora: bool = False,
         tdah: bool = False,
         idoso: bool = False,
+        hardware_tier: HardwareTier = HardwareTier.CPU_PADRAO,
     ) -> SessaoIara:
         """Acorda a Iara. Ela comeca a existir no sistema."""
         # decidir modo inicial por perfil
@@ -741,12 +827,30 @@ class IaraEngine:
         else:
             tutor = NivelTutorial.ATIVO
 
+        # modelos de IA recomendados para o hardware (2024/2025)
+        rec = _modelos_por_tier(hardware_tier)
+        modelo_llm: ModeloLLM = rec["llm"]
+        modelo_stt: ModeloSTT = rec["stt"]
+        modelo_tts: ModeloTTS = rec["tts"]
+        # voz legada derivada do TTS recomendado (exceto ajustes de acessibilidade)
+        if cego and modelo_tts == ModeloTTS.ESPEAK_NG:
+            modelo_tts = ModeloTTS.PIPER  # cego precisa de voz inteligivel
+        voz = TipoVoz.KOKORO_LEVE if modelo_tts == ModeloTTS.KOKORO else voz
+        if modelo_tts == ModeloTTS.ESPEAK_NG:
+            voz = TipoVoz.ROBOTICA_ESPEAK
+        elif modelo_tts == ModeloTTS.CHATTERBOX:
+            voz = TipoVoz.CHATTERBOX_HUMANO
+
         self.sessao = SessaoIara(
             id=f"IARA-{datetime.now().strftime('%H%M%S')}",
             modo_atual=modo,
             voz_padrao=voz,
             wm=wm,
             nivel_tutor=tutor,
+            hardware_tier=hardware_tier,
+            modelo_llm=modelo_llm,
+            modelo_stt=modelo_stt,
+            modelo_tts=modelo_tts,
             usuario=usuario,
             cego=cego, surdo=surdo, motora=motora, tdah=tdah, idoso=idoso,
         )
