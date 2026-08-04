@@ -108,8 +108,6 @@ class Candidato:
         s = self.score_total_val
         if s >= 4.0:
             return "APROVADO"
-        elif s >= 2.5:
-            return "JEQUERI"
         else:
             return "WO"
 
@@ -461,7 +459,7 @@ class CandidatoScoreSistema:
             "wo": wo,
             "score_medio": round(score_medio, 2),
             "metodologia": "3 camadas: fez (3x), correlato (2x), predicao (1x). Max 5.0.",
-            "corte": ">=4.0 APROVADO, 2.5-3.9 JEQUERI, <2.5 WO",
+            "corte": ">=4.0 APROVADO, <4.0 WO (eliminado). Sem jequeri.",
             "limitacao": "Base de conhecimento pre-2025. Nao inclui todos os pre-candidatos. Web search indisponivel.",
         }
 
