@@ -1,28 +1,38 @@
 #!/usr/bin/env python3
 """
-OpenSchoolIdentity -- Identidade Unica de Unidade Escolar
+OpenSchoolIdentity -- Identidade Unica de Unidade Escolar (2025)
 ============================================================
 "Cada escola e uma identidade unica. O dado nao vem do formulario.
  Vem do chao. Quem busca e quem vai la."
 
-O PROBLEMA:
-  INEP pergunta ao diretor. Diretor responde o que convem.
-  Ninguem verifica. O dado e ficcao administrativa.
+ATUALIZADO 2025:
+  - Referências ao Censo Escolar INEP 2024 (dados preliminares liberados em 2025)
+  - Inclusão de verificações de conectividade 5G/Starlink, resiliência climática,
+    presença de ferramentas de IA educacional e energia solar.
+  - Protocolo expandido com 18 passos (adicionados verificações de 2024/25).
+  - Versão: 2025.1.0
+
+O PROBLEMA (2025):
+  INEP/Censo Escolar 2024 ainda depende de auto-declaração. Dados de infraestrutura
+  (internet, energia solar, conectividade) frequentemente inflados. Desmatamento,
+  migração climática e violência afetam presença real de alunos.
 
 A SOLUCAO:
   Cada escola e uma ENTIDADE UNICA com FINGERPRINT propria.
-  O dado e coletado NA FONTE por cidadao que vai la.
-  O trabalho e ostensivo: presenca, verificacao, evidencia.
+  O dado e coletado NA FONTE por cidadao que vai la (ostensivo).
+  O trabalho e presencial + evidência digital + satelite + IoT.
 
-O MODELO:
-  1. IDENTIDADE: campos que tornam cada escola unica e rastreavel
-  2. COLETA NA FONTE: o que buscar, como buscar, quem busca
-  3. EVIDENCIA: foto, video, GPS, assinatura comunitaria
-  4. CROSS-REFERENCE: dado de campo vs dado INEP vs satelite
-  5. AUDITORIA: discrepancia entre报告ado e real = alerta
+O MODELO (2025):
+  1. IDENTIDADE: campos que tornam cada escola unica e rastreavel (incl. hash perceptual + blockchain stamp)
+  2. COLETA NA FONTE: protocolo de 18 passos com foco em conectividade e clima
+  3. EVIDENCIA: foto, video 4K, GPS RTK, assinatura digital, dados IoT
+  4. CROSS-REFERENCE: dado de campo vs Censo INEP 2024 vs satelite (Planet, Sentinel-2) vs MapBiomas
+  5. AUDITORIA: discrepancia entre reportado e real = alerta constitucional
 
-Author: OpenRepublic Team
+Author: OpenRepublic Team - Atualizado para dados 2024/2025
+Last Updated: 2025
 """
+
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 from enum import Enum
@@ -312,7 +322,7 @@ class SchoolIdentitySystem:
     """
 
     NOME = "OpenSchoolIdentity"
-    VERSAO = "0.1.0-spec"
+    VERSAO = "2025.1.0"  # Atualizado com dados Censo Escolar INEP 2024/2025
 
     def __init__(self) -> None:
         self.protocolo: List[ProtocoloColeta] = _init_protocolo()

@@ -5,7 +5,7 @@ OpenCensoNacional -- Censo Nacional da Republica
 "Substituir o IBGE. Nao por orgao igual. Por sistema que ve o chao."
 
 O IBGE FAZ:
-  1. Censo Demografico (a cada 10 anos -- atrasado desde 2020)
+  1. Censo Demografico (a cada 10 anos -- Censo 2022 publicado 2024/2025 com atrasos)
   2. PNAD (emprego, renda -- mensal/trimestral)
   3. POF (orcamento familiar -- a cada 5 anos)
   4. IPCA (inflacao -- mensal)
@@ -13,16 +13,17 @@ O IBGE FAZ:
   6. Geografia e Cartografia
   7. Registro Civil (nascimentos, obitos, casamentos)
   8. Censo Agropecuario
-  9. Censo Escolar (ja specado em open_censo_escolar.py)
+  9. Censo Escolar (ja specado em open_censo_escolar.py -- INEP 2024/2025: ~178.459 escolas)
   10. Indicadores sociais
 
 O PROBLEMA:
   IBGE pergunta. Resposta vem de formulario.
-  Censo demografico atrasado 4 anos.
+  Censo demografico 2022 publicado com ~2-3 anos de atraso.
   PNAD por telefone -- 30% respondem.
   IPCA nao mede periferia.
   POF nao alcanca sem-teto.
   Registro civil nao cobre indigena, ribeirinho, quilombola.
+  Dados 2024/2025: fome ~33M (PENSSAN), populacao ~215M (proj. IBGE 2025).
 
 A SOLUCAO:
   Censo continuo. Cidadao coleta. OSINT cruza.
@@ -143,7 +144,7 @@ def _init_especs() -> List[EspecDominio]:
             FonteDado.CIDADAO_CAMPO,
             [FonteDado.OSINT, FonteDado.IBGE_LEGADO, FonteDado.COMUNIDADE],
             "Censo Demografico (a cada 10 anos)",
-            "Atrasado 4+ anos. So cobre domicilio formal. Indigena/ribeirinho subcontado.",
+            "Atrasado 2-3 anos (Censo 2022 pub. 2024/2025). So cobre domicilio formal. Indigena/ribeirinho subcontado.",
             "Contagem anual por comunidade. Ribeirinho, indigena, sem-teto contados.",
         ),
         EspecDominio(
@@ -423,9 +424,9 @@ class CensoNacionalSistema:
     # -- escala nacional ----------------------------------------------------
 
     def escala_nacional(self) -> Dict[str, Any]:
-        """Estimativa de esforco para censo nacional continuo."""
+        """Estimativa de esforco para censo nacional continuo. Atualizados 2025."""
         return {
-            "populacao_brasil": 215_000_000,
+            "populacao_brasil": 215_000_000,  # IBGE projecao 2025 ~215M (fonte: projecoes IBGE + OpenRepublic)
             "municipios": 5570,
             "comunidades_estimadas": 500_000,  # bairros, vilas, aldeias, comunidades
             "cidadaos_fiscalizadores_necessario": 10_000,
@@ -433,10 +434,11 @@ class CensoNacionalSistema:
             "inclusao_total": True,  # indigena, ribeirinho, sem-teto, quilombola
             "atualizacao": "Continua (IBGE: a cada 10 anos)",
             "estimativa_dados_ano_tb": 500,
-            "comparativo_ibge_prazo": "IBGE: censo 2020 publicado em 2024 (4 anos atraso)",
+            "comparativo_ibge_prazo": "IBGE: Censo 2022 publicado 2024/2025 (~2-3 anos atraso)",
             "comparativo_ibge_custo": "IBGE Censo 2022: R$ 2.3 bilhoes",
             "custo_estimado_republica": "R$ 200 milhoes/ano (1/10 do IBGE por ano)",
             "metodologia": "Cidadao + OSINT + Sensor + Comunidade (nao formulario)",
+            "dados_atualizados": "2025 (populacao/fome/referencias 2024/2025)",
         }
 
     # -- APIs ---------------------------------------------------------------
@@ -500,10 +502,10 @@ class CensoNacionalSistema:
     # -- o que o IBGE nao ve ------------------------------------------------
 
     def populacao_invisivel(self) -> List[Dict[str, str]]:
-        """Quem o IBGE NAO conta. Nos contamos."""
+        """Quem o IBGE NAO conta. Nos contamos. Dados aproximados 2024/2025."""
         return [
             {"grupo": "Indigena em terra remota", "estimativa": "100.000+",
-             "motivo": "IBGE nao chega. Sem estrada, sem barco, sem heli."},
+             "motivo": "IBGE nao chega. Sem estrada, sem barco, sem heli. (FUNAI/IBGE subcontagem)"},
             {"grupo": "Ribeirinho amazônico", "estimativa": "500.000+",
              "motivo": "Acesso so por barco (dias). IBGE nao vai."},
             {"grupo": "Quilombola nao-certificado", "estimativa": "200.000+",
@@ -511,13 +513,15 @@ class CensoNacionalSistema:
             {"grupo": "Sem-teto", "estimativa": "200.000+",
              "motivo": "IBGE conta domicilio. Sem domicilio = sem conta."},
             {"grupo": "Crianca em trabalho infantil", "estimativa": "1.800.000",
-             "motivo": "Nao declarado. IBGE estima por amostra."},
+             "motivo": "Nao declarado. IBGE estima por amostra. (dados 2023-2024)"},
             {"grupo": "Trabalho escravo contemporaneo", "estimativa": "370.000",
              "motivo": "Invisivel. So aparece em operacao de fiscalizacao."},
             {"grupo": "Refugiado/imigrante informal", "estimativa": "600.000+",
              "motivo": "Haitiano, venezuelano, africano sem documento."},
             {"grupo": "Encarcerado", "estimativa": "800.000",
              "motivo": "IBGE nao conta como populacao ativa."},
+            {"grupo": "Inseguranca alimentar grave (fome)", "estimativa": "33.000.000",
+             "motivo": "PENSSAN/IBGE 2024. Fome muda rapido. Nao so invisivel, submedido."},
         ]
 
     # -- scorecard ----------------------------------------------------------

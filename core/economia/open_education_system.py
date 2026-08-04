@@ -5,8 +5,10 @@ OpenEducationSystem -- L4: Sistema de Educacao Nacional
 Spec de educacao publica redesenhada. Do.zero.
 
 O PROBLEMA:
-  Brasil gasta 6% do PIB em educacao (acima da media OCDE).
-  Resultado: PISA 2018: matematica 384 (media OCDE 489).
+  Brasil gasta ~6% do PIB em educacao (acima da media OCDE).
+  Resultado: PISA 2022 (divulgado dez/2023): matematica 393 (OCDE 472),
+             leitura 410 (OCDE 476), ciencias 403 (OCDE 485).
+  PISA e trienal; nao houve PISA 2024 (proximo ciclo: PISA 2025).
   Dinheiro nao falta. Falta ESTRUTURA.
 
 OS DADOS (idea_validator):
@@ -330,7 +332,7 @@ class EducationSystem:
     """
 
     NOME = "OpenEducation"
-    VERSAO = "0.1.0-spec"
+    VERSAO = "0.2.0-spec"   # 0.2: dados PISA 2022 + custo/aluno atualizado (2024)
 
     PRINCIPIOS_PEDAGOGICOS = [
         "Aprender fazendo, nao ouvindo",
@@ -444,20 +446,65 @@ class EducationSystem:
     # -- custo estimado ------------------------------------------------------
 
     def custo_por_aluno_ano(self) -> Dict[str, Any]:
-        """Custo estimado por aluno/ano (referencia Finlandia)."""
+        """Custo estimado por aluno/ano (dados OCDE/INEP 2022-2023)."""
         return {
-            "finlandia_usd": 12000,
-            "finlandia_brl": 60000,
+            # Fonte: OECD "Education at a Glance 2023" (ref. 2022)
+            "finlandia_usd": 12900,      # ensino fundamental, USD PPP
+            "finlandia_brl": 64500,      # ~5.0 BRL/USD (2023)
+            # Fonte: INEP/SIOPE -- custo medio educacao basica BR ~R$ 5.5k
             "brasil_hoje_brl": 5500,
+            "brasil_hoje_usd": 1100,     # ~5.0 BRL/USD
+            # OCDE Education at a Glance 2023: gasto/aluno BR ~USD 4.1k (todas etapas)
+            "brasil_ocde_usd_todas_etapas": 4100,
             "republica_alvo_brl": 18000,
             "republica_vs_brasil": "3.3x do atual",
-            "republica_vs_finlandia": "30% da Finlandia",
+            "republica_vs_finlandia": "28% da Finlandia",
+            "fonte_finlandia": "OECD Education at a Glance 2023 (ref. 2022)",
+            "fonte_brasil": "INEP/SIOPE 2022; OECD EAG 2023",
             "justificativa": (
-                "R$ 18k/aluno/ano. Brasil investe R$ 5.5k. "
+                "R$ 18k/aluno/ano. Brasil investe ~R$ 5.5k na basica. "
                 "A diferenca e R$ 12.5k/aluno/ano. "
-                "40 milhoes de alunos = R$ 500 bi/ano adicional. "
-                "Parece muito? E 1/3 do que se evadiu em impostos (R$ 1.5 tri/ano)."
+                "~40 milhoes de alunos na basica = R$ 500 bi/ano adicional. "
+                "Parece muito? E ~1/3 do que se evadiu em impostos (R$ 1.5 tri/ano)."
             ),
+        }
+
+    def pisa_resultados(self) -> Dict[str, Any]:
+        """
+        Resultados PISA do Brasil vs OCDE.
+
+        PISA e trienal (2000, 2003, ... 2018, 2022). Nao houve edicao 2024.
+        Ultimo ciclo disponivel: PISA 2022 (resultados divulgados em dez/2023).
+        Proximo ciclo: PISA 2025 (coleta em 2025, resultados previstos para 2026).
+        """
+        return {
+            "ciclo_mais_recente": "PISA 2022",
+            "divulgacao": "dezembro/2023",
+            "proximo_ciclo": "PISA 2025 (resultados em 2026)",
+            "nota": "PISA e trienal -- nao existe PISA 2024",
+            "brasil_2022": {
+                "matematica": 393,
+                "leitura": 410,
+                "ciencias": 403,
+            },
+            "brasil_2018": {
+                "matematica": 384,
+                "leitura": 413,
+                "ciencias": 404,
+            },
+            "ocde_2022": {
+                "matematica": 472,
+                "leitura": 476,
+                "ciencias": 485,
+            },
+            "gap_matematica_2022": 79,   # 472 - 393
+            "gap_leitura_2022": 66,      # 476 - 410
+            "gap_ciencias_2022": 82,     # 485 - 403
+            "tendencia": (
+                "Brasil oscilou: matematica subiu 384->393 (2018->2022), "
+                "mas segue ~80 pontos (~3 anos de escola) abaixo da OCDE."
+            ),
+            "fonte": "OECD/PISA 2022 (Divulgacao INEP dez/2023)",
         }
 
     # -- scorecard ----------------------------------------------------------
@@ -533,9 +580,30 @@ def _demo() -> None:
         print(f"  {c['aspecto']:<30} {c['finlandia']:<25} {c['brasil_hoje']:<25} {c['republica']}")
 
     # --- Custo ---
-    print("\n\n[CUSTO POR ALUNO/ANO]\n")
+    print("\n\n[CUSTO POR ALUNO/ANO]")
     for k, v in edu.custo_por_aluno_ano().items():
         print(f"  {k}: {v}")
+
+    # --- PISA ---
+    print("\n\n[PISA -- RESULTADOS BRASIL vs OCDE]")
+    pisa = edu.pisa_resultados()
+    print(f"  Ciclo mais recente: {pisa['ciclo_mais_recente']} (divulgado {pisa['divulgacao']})")
+    print(f"  Nota: {pisa['nota']}")
+    print(f"  Proximo ciclo: {pisa['proximo_ciclo']}")
+    print()
+    print(f"  {'AREA':<12} {'BR 2022':>8} {'BR 2018':>8} {'OCDE 2022':>10} {'GAP':>6}")
+    print(f"  {'-'*48}")
+    print(f"  {'Matematica':<12} {pisa['brasil_2022']['matematica']:>8} "
+          f"{pisa['brasil_2018']['matematica']:>8} {pisa['ocde_2022']['matematica']:>10} "
+          f"{pisa['gap_matematica_2022']:>6}")
+    print(f"  {'Leitura':<12} {pisa['brasil_2022']['leitura']:>8} "
+          f"{pisa['brasil_2018']['leitura']:>8} {pisa['ocde_2022']['leitura']:>10} "
+          f"{pisa['gap_leitura_2022']:>6}")
+    print(f"  {'Ciencias':<12} {pisa['brasil_2022']['ciencias']:>8} "
+          f"{pisa['brasil_2018']['ciencias']:>8} {pisa['ocde_2022']['ciencias']:>10} "
+          f"{pisa['gap_ciencias_2022']:>6}")
+    print(f"\n  Tendencia: {pisa['tendencia']}")
+    print(f"  Fonte: {pisa['fonte']}")
 
     # --- Scorecard ---
     print("\n\n[SCORECARD]")

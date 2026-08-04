@@ -12,7 +12,7 @@ ALINHAMENTO CONSTITUCIONAL:
   terra = concentrar vida. A Republica extingue a raiz da desigualdade rural.
 - P2 (Autonomia corporal): Quem trabalha a terra tem direito ao fruto do
   trabalho. Ninguem morre de fome cercando terra que nao cultiva.
-- P3 (Trabalho igual): Crislto vem de IMPACTO (alimentar gente), nao de
+- P3 (Trabalho igual): Credito vem de IMPACTO (alimentar gente), nao de
   aluguel de terra. Latifundio improdutivo = roubo sistêmico.
 - P4 (Democracia radical): Assembleia local decide o uso da terra. Nao
   existe "dono". Existe GUARDIAO com mandato revogavel.
@@ -25,6 +25,7 @@ OS 5 PILARES DA REVOLUCAO AGRARIA:
 5. AGROLOGIA (agricultura que regenera o solo, nao que o exaure)
 
 Author: OpenRepublic Team
+Updated: 2026 with INCRA data references 2024/2025 (painel de reforma agrária, concentração fundiária persistente ~0.85 Gini rural, ~1.1M famílias assentadas até 2025, latifúndios ainda controlam >45% da área produtiva em vários biomas).
 """
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple, Set
@@ -32,6 +33,68 @@ from enum import Enum
 from dataclasses import dataclass, field
 from collections import defaultdict
 from datetime import datetime
+
+
+# ============================================================================
+# 0. DADOS DE REFERENCIA -- INCRA / Censo Agropecuario 2024-2025
+# ============================================================================
+# Snapshot epidemiologico da concentracao fundiaria brasileira que JUSTIFICA
+# a revolucao agraria. Numeros publicos (INCRA, Censo Agropecuario IBGE 2017/2023).
+# Atualizado em 2026 com os ultimos paineis INCRA 2024-2025.
+#
+# CONCENTRACAO FUNDIARIA (Gini rural ~0.85) -- praticamente inalterada desde 1985.
+#   - 1% dos imoveis rurais detem ~46% da area cadastrada (INCRA/SNCI 2024).
+#   - Latifundios (>15 modulos fiscais ou ociosos): ~45-50% da area util em varios biomas.
+#   - Area media de um latifundio no Cerrado/Amazonia: ~2.500-5.000 ha.
+#
+# ASSENTAMENTOS DA REFORMA AGRARIA (acumulado INCRA ate 2025):
+#   - ~9.400 projetos de assentamento criados desde 1985.
+#   - ~1,1 milhao de familias assentadas (acumulado nacional).
+#   - Area total destinada a assentamentos: ~88 milhoes de hectares.
+#   - 2024/2025: ritmo de novas desapropriacoes praticamente estagnado (<5 mil
+#     familias/ano); INCRA prioriza titulacao, regularizacao quilombola e credito.
+#
+# REGULARIZACAO QUILOMBOLA (INCRA/DQ, 2024-2025):
+#   - ~3.500 comunidades certificadas pela Fundacao Palmares.
+#   - <300 tituladas ate 2025 -- gargalo juridico/politico severo.
+#
+# TRABALHO ANALOGO A ESCRAVIDAO (dados MTE/InPASTO 2023-2024):
+#   - ~3.000 trabalhadores resgatados/ano em areas rurais (estimativa conservadora).
+#   - Latifundios agropecuarios respondem pela maioria dos resgates.
+#
+# CONFLITOS NO CAMPO (CPT -- Comissao Pastoral da Terra, 2024):
+#   - ~1.800 conflitos agrarios/ano, ~150.000 familias envolvidas.
+#   - ~30-40 assassinatos ligados a conflito de terra por ano (subnotificado).
+#
+# IMPLICACAO PARA A REPUBLICA:
+#   A "reforma agraria" classica (INCRA) falhou em desmontar a concentracao.
+#   40 anos depois do Estatuto da Terra (1964) e da CF/88 (1985/1988), o Gini
+#   rural baixou de ~0.86 para ~0.85. A Republica portanto NAO REFORMA:
+#   ABOLI a categoria "propriedade privada da terra".
+
+DADOS_REFERENCIA_INCRA_2024_2025: Dict[str, Any] = {
+    "ano_referencia": "2024-2025",
+    "indice_gini_rural_brasil": 0.85,
+    "pct_area_topo_1pct_imoveis": 46.0,
+    "pct_area_latifundios_estimado": 47.0,
+    "projetos_assentamento_total": 9400,
+    "familias_assentadas_acumulado": 1_100_000,
+    "area_assentamentos_hectares": 88_000_000,
+    "novas_familias_ano_2024": 5000,  # ritmo anual atual (estagnado)
+    "comunidades_quilombolas_certificadas": 3500,
+    "comunidades_quilombolas_tituladas": 300,
+    "trabalhadores_resgatados_ano": 3000,
+    "conflitos_agrarios_ano": 1800,
+    "familias_em_conflito_ano": 150_000,
+    "assassinatos_conflito_terra_ano": 35,
+    "fontes": [
+        "Painel Reforma Agraria INCRA (gov.br/incra/painel) -- 2024-2025",
+        "Censo Agropecuario IBGE 2017 (atualizacoes parciais 2023)",
+        "Comissao Pastoral da Terra (CPT) -- Conflitos no Campo 2024",
+        "InPASTO/MTE -- Trabalho analogo a escravidao 2023-2024",
+        "Fundacao Palmares / INCRA-DQ -- Regularizacao quilombola 2024",
+    ],
+}
 
 
 # ============================================================================
@@ -610,6 +673,36 @@ class ReformaAgrariaEngine:
             "consolidados": sum(1 for im in self.imoveis.values() if im.status == StatusReforma.CONSOLIDADO),
         }
 
+    def comparar_com_incra(self) -> Dict[str, Any]:
+        """Compara a concentracao fundiaria do territorio cadastrado com o Brasil real (INCRA 2024-2025).
+
+        Justifica POR QUE a Republica precisa ir alem da reforma agraria classica.
+        """
+        gini_local = self.indice_gini_areas()
+        gini_brasil = DADOS_REFERENCIA_INCRA_2024_2025["indice_gini_rural_brasil"]
+        pct_local = (
+            self.area_ociosa() / self.area_total() * 100
+            if self.area_total() else 0.0
+        )
+        pct_brasil = DADOS_REFERENCIA_INCRA_2024_2025["pct_area_latifundios_estimado"]
+        return {
+            "gini_local": round(gini_local, 3),
+            "gini_brasil_2024": gini_brasil,
+            "gini_veredito": (
+                "Territorio mais concentrado que a media brasileira" if gini_local > gini_brasil
+                else "Territorio menos concentrado que a media brasileira"
+            ),
+            "pct_area_improdutiva_local": round(pct_local, 1),
+            "pct_area_improdutiva_brasil": pct_brasil,
+            "familias_assentadas_brasil_acumulado": DADOS_REFERENCIA_INCRA_2024_2025["familias_assentadas_acumulado"],
+            "ritmo_incra_2024_familias_ano": DADOS_REFERENCIA_INCRA_2024_2025["novas_familias_ano_2024"],
+            "avaliacao": (
+                "A reforma agraria classica (INCRA) estagnou: ~5 mil familias/ano vs. "
+                "milhoes sem-terra. A Republica ABOLI a propriedade da terra porque a "
+                "reforma provou ser insuficiente para desmontar o Gini rural ~0.85."
+            ),
+        }
+
 
 # ============================================================================
 # 4. DEMO
@@ -746,6 +839,14 @@ def _demo() -> None:
     sc = e.scorecard()
     for k, v in sc.items():
         print(f"  {k:.<28} {v}")
+
+    # --- Comparativo com Brasil real (INCRA 2024-2025) ---
+    print("\n" + "=" * 70)
+    print("[COMPARATIVO COM BRASIL REAL -- INCRA 2024/2025]")
+    print("=" * 70)
+    comp = e.comparar_com_incra()
+    for k, v in comp.items():
+        print(f"  {k:.<32} {v}")
 
     # --- Conflitos ordenados por gravidade ---
     print("\n[CONFLITOS POR GRAVIDADE]")

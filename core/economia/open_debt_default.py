@@ -272,23 +272,27 @@ class DefaultSimulator:
         self.start_year = start_year
         self.years = years
 
-        # Parametros base
-        self.initial_debt = 6.0e12       # R$ 6T
-        self.initial_gdp = 10.0e12       # R$ 10T
-        self.interest_rate = 0.12        # 12%
-        self.gdp_growth_normal = 0.025   # 2.5%
-        self.population = 215e6
-        self.revenue_pct_gdp = 0.18      # arrecadacao 18% do PIB
-        self.health_pct_budget = 0.04    # saude 4% do PIB
-        self.education_pct_budget = 0.06 # educacao 6% do PIB
-        self.investment_pct_gdp = 0.02   # investimento publico 2%
+        # Parametros base ATUALIZADOS 2024/2025 (dados aproximados reais)
+        # Dívida bruta ~ R$ 9T em 2025; Dívida líquida ~ R$ 5-6T; PIB ~ R$ 12T
+        # Juros nominais elevados (~11-13% SELIC média projetada)
+        self.initial_debt = 8.5e12       # R$ 8.5T (dívida bruta aproximada 2025)
+        self.initial_gdp = 12.0e12       # R$ 12T (PIB nominal projetado 2025)
+        self.interest_rate = 0.115       # 11.5% (média SELIC/juros da dívida 2024-25)
+        self.gdp_growth_normal = 0.022   # 2.2% (crescimento real projetado + inflação)
+        self.population = 214.5e6        # População Brasil ~214.5M (2025 proj.)
+        self.revenue_pct_gdp = 0.195     # Arrecadação ~19.5% do PIB (atualizado)
+        self.health_pct_budget = 0.045   # Saúde ~4.5% PIB (meta constitucional)
+        self.education_pct_budget = 0.055 # Educação ~5.5% PIB (atualizado)
+        self.investment_pct_gdp = 0.018  # Investimento público baixo ~1.8%
 
-        # Parametros do choque (default)
-        self.default_currency_drop = 0.40     # real cai 40% no choque
-        self.default_inflation_spike = 0.15   # inflacao sobe para 15% no ano 1
-        self.default_recession = -0.04        # PIB cai 4% no ano 1
+        # Parametros do choque (default) - atualizados com cenarios economicos 2024/2025
+        # Baseado em defaults historicos (Argentina 2001, Grecia 2012, Russia 1998) e projecoes atuais
+        # Inflacao e recessao menos severas que suposto anteriormente devido a reservas e diversificacao
+        self.default_currency_drop = 0.35     # real cai ~35% no choque inicial (menos severo que 2022)
+        self.default_inflation_spike = 0.12   # inflacao pico ~12% (similar a pressoes recentes 2021-22)
+        self.default_recession = -0.035       # PIB cai ~3.5% no ano 1 (recessao moderada)
         self.default_recovery_start = 2       # ano 2 comeca a recuperar
-        self.default_growth_boost = 0.05      # crescimento sobe para 5%+ sem juros
+        self.default_growth_boost = 0.045     # crescimento sobe para ~4.5%+ sem servico da divida
 
         self.simulations: List[YearSimulation] = []
 

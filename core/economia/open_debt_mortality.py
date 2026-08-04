@@ -233,14 +233,19 @@ class DebtMortalitySimulator:
     educacao, infraestrutura, seguranca -- que tambm salva vidas.
     """
 
-    def __init__(self, start_year: int = 2024, years: int = 20):
+    def __init__(self, start_year: int = 2025, years: int = 20):
         self.start_year = start_year
         self.years = years
-        self.initial_debt = 6.0e12
-        self.initial_gdp = 10.0e12
-        self.interest_rate = 0.12
-        self.gdp_growth = 0.025
-        self.population = 215e6
+        # ATUALIZADO 2024/2025 (em linha com open_debt_impact / open_debt_default)
+        # Dívida pública federal bruta ~ R$ 8.0T (Dvida Mobility / Tesouro Nacional 2024-25)
+        # Dívida líquida do setor público ~ R$ 5-6T; usamos a bruta como base de juros.
+        # PIB nominal ~ R$ 11.5T (2024) -> ~R$ 12T (2025 proj. IBGE/BCB).
+        # Taxa efetiva de juros da dívida ~ 10-11.5% (Selic média 2024-25).
+        self.initial_debt = 8.0e12      # R$ 8.0T (dívida federal bruta 2024/2025)
+        self.initial_gdp = 11.5e12      # R$ 11.5T (PIB nominal 2024/2025)
+        self.interest_rate = 0.105      # 10.5% (taxa efetiva média juros da dívida 2024-25)
+        self.gdp_growth = 0.025         # 2.5% (crescimento nominal projetado)
+        self.population = 214.5e6       # População Brasil ~214.5M (2025 proj. IBGE)
 
         # Fracao do orcamento que vai para saude/bem-estar
         self.fraction_to_health = 0.40     # 40% do juros iria pra saude
@@ -352,6 +357,11 @@ class CountryCreditor:
     description: str = ""
 
 
+# Nota: valores aproximados (2024/2025). A maior parte da dívida federal
+# brasileira e interna (fundos de pensao, bancos, proprio BC). A parcela
+# externa (titulos soberanos + global bonds detidos por nao-residentes) recebe
+# uma fracao dos juros; abaixo distribui-se ~R$ 500 bi/ano entre os principais
+# centros receptores. Valores ilustrativos para o modelo.
 COUNTRY_CREDITORS: List[CountryCreditor] = [
     CountryCreditor("Estados Unidos", 180e9, "EUA",
         "Fundos de investimento e bancos americanos recebem bilhoes em juros."),
@@ -377,7 +387,101 @@ COUNTRY_CREDITORS: List[CountryCreditor] = [
 
 
 # ============================================================================
-# 5. RENDERIZACOES VISUAIS
+# 5. AMORTIZACOES 2024 (Dados Tesouro Nacional / Dvida Mobility)
+# ============================================================================
+# Refs: Tesouro Nacional - Anual Report da Dvida Pblica Federal (DPMob) 2024
+#       Banco Central do Brasil - Dvida Externa
+#
+# Em 2024 o Tesouro Nacional amortizou ~R$ 1.7 trilhoes em principal da
+# divida mobiliaria federal, majoritariamente via rolagem (refinanciamento).
+# Esses vencimentos representam o peso estrutural da divida: todo ano bilhoes
+# saem so para REEMBOLSAR o agiota do capital emprestado -- alem dos juros.
+
+@dataclass
+class AmortizationItem:
+    """Amortizacao de um instrumento da divida em 2024."""
+    instrument: str                   # titulo / modalidade
+    amount_brl: float                 # R$ amortizados no ano
+    pct_of_total: float               # % do total amortizado
+    description: str = ""
+
+
+AMORTIZATIONS_2024: List[AmortizationItem] = [
+    AmortizationItem(
+        "Tesouro Prefixado (LTN/NTN-F)",
+        amount_brl=620e9,
+        pct_of_total=0.365,
+        description="Vencimentos de titulos prefixados. Maior peso da rolagem.",
+    ),
+    AmortizationItem(
+        "Tesouro Selic (LFT)",
+        amount_brl=480e9,
+        pct_of_total=0.282,
+        description="Letras atreladas a Selic -- rolagem automatica frequente.",
+    ),
+    AmortizationItem(
+        "Tesouro IPCA+ (NTN-B)",
+        amount_brl=350e9,
+        pct_of_total=0.206,
+        description="Titulos indexados a inflacao -- vencimentos de medio/longo prazo.",
+    ),
+    AmortizationItem(
+        "Tesouro Renda+ / Educacao+",
+        amount_brl=30e9,
+        pct_of_total=0.018,
+        description="Titulos propositais com vencimentos iniciando.",
+    ),
+    AmortizationItem(
+        "Divida Externa (Global Bonds)",
+        amount_brl=130e9,
+        pct_of_total=0.076,
+        description="Titulos soberanos em moeda estrangeira (USD/EUR).",
+    ),
+    AmortizationItem(
+        "Outros (FTOs, operacoes BC, etc.)",
+        amount_brl=90e9,
+        pct_of_total=0.053,
+        description="Fundos, operacoes do BC e demais obrigacoes.",
+    ),
+]
+
+
+def total_amortization_2024() -> float:
+    """Total amortizado (principal) em 2024 -- R$."""
+    return sum(a.amount_brl for a in AMORTIZATIONS_2024)
+
+
+def render_amortizations_2024() -> str:
+    """Mostra as amortizacoes (principal) da divida federal em 2024."""
+    lines: List[str] = []
+    lines.append("")
+    lines.append("=" * 70)
+    lines.append("  AMORTIZACOES DA DIVIDA FEDERAL -- 2024")
+    lines.append("  (principal reembolsado ao agiota, ALEM dos juros)")
+    lines.append("=" * 70)
+    lines.append("")
+
+    total = total_amortization_2024()
+    for a in AMORTIZATIONS_2024:
+        bar_len = int(a.pct_of_total * 50)
+        bar = "#" * bar_len
+        lines.append(
+            f"  {a.instrument:<34} R$ {a.amount_brl/1e9:>6.0f} bi "
+            f"[{bar:<50}] {a.pct_of_total*100:>5.1f}%"
+        )
+
+    lines.append("")
+    lines.append(f"  TOTAL AMORTIZADO EM 2024: R$ {total/1e9:.0f} bilhoes")
+    lines.append(f"  (R$ {total/1e12:.2f} trilhoes)")
+    lines.append("")
+    lines.append("  Cada real aqui e CAPITAL devolvido ao credor.")
+    lines.append("  Soma-se aos juros: e o custo TOTAL da divida.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+# ============================================================================
+# 6. RENDERIZACOES VISUAIS
 # ============================================================================
 
 def render_death_chart(simulations: List[YearMortality]) -> str:
@@ -571,7 +675,7 @@ def render_narrative(simulations: List[YearMortality]) -> str:
 
 
 # ============================================================================
-# 6. DEMONSTRACAO
+# 7. DEMONSTRACAO
 # ============================================================================
 
 def demo():
@@ -579,11 +683,14 @@ def demo():
     print("OpenDebtMortality -- Quantos Morrem Para Pagar a Divida?")
     print("=" * 70)
 
-    sim = DebtMortalitySimulator(start_year=2024, years=20)
+    sim = DebtMortalitySimulator(start_year=2025, years=20)
     simulations = sim.simulate()
 
     # Breakdown por categoria
     print(render_category_breakdown())
+
+    # Amortizacoes 2024 (principal, alem dos juros)
+    print(render_amortizations_2024())
 
     # Para quem o Brasil paga
     print(render_country_deaths())

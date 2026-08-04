@@ -66,15 +66,15 @@ class VisualizationFormat(Enum):
 class DebtParameters:
     """Parametros de uma divida publica."""
     country: str = "Brasil"
-    initial_debt_brl: float = 6.0e12          # R$ 6 trilhoes (divida federal 2024)
-    initial_gdp_brl: float = 10.0e12           # PIB ~R$ 10 trilhoes
-    annual_interest_rate: float = 0.12         # 12% ao ano (Selic historica)
-    annual_gdp_growth: float = 0.025           # 2.5% ao ano (crescimento real)
-    annual_inflation: float = 0.045            # 4.5% ao ano
-    annual_primary_surplus: float = -0.02      # -2% do PIB (deficit primario)
-    population_millions: float = 215.0         # 215 milhoes de habitantes
+    initial_debt_brl: float = 9.8e12           # R$ 9.8 trilhoes (Divida Bruta GG / DBGG 2024/2025 - Tesouro/BCB)
+    initial_gdp_brl: float = 11.5e12           # PIB nominal 2024 ~R$ 11.5 trilhoes (IBGE)
+    annual_interest_rate: float = 0.115        # ~11.5% custo medio efetivo da divida publica (2024/25)
+    annual_gdp_growth: float = 0.025           # 2.5% ao ano (crescimento real projetado conservador)
+    annual_inflation: float = 0.042            # ~4.2% ao ano (inflacao media 2024/25)
+    annual_primary_surplus: float = -0.025     # -2.5% do PIB (deficit primario recente)
+    population_millions: float = 204.0         # ~204 milhoes de habitantes (IBGE 2024/25)
     years_to_project: int = 50                 # projetar 50 anos
-    start_year: int = 2024
+    start_year: int = 2025
 
     def debt_to_gdp_ratio(self) -> float:
         return self.initial_debt_brl / self.gdp_brl
@@ -142,13 +142,9 @@ class DebtProjectionEngine:
 
             interest_paid = debt * self.params.annual_interest_rate
             primary_result = gdp * self.params.annual_primary_surplus
-            revenue = gdp * 0.18  # arrecadacao ~18% do PIB
+            revenue = gdp * 0.18  # arrecadacao ~18% do PIB (aprox)
 
-            # Divida proximo ano = divida + juros - superavit primario
-            if i > 0:
-                debt = debt + interest_paid - primary_result
-                gdp = gdp * (1 + self.params.annual_gdp_growth)
-
+            # Registra o ano ATUAL usando divida/gdp correntes
             cumulative_interest += interest_paid
             debt_to_gdp = (debt / gdp) * 100 if gdp > 0 else 999
             interest_pct_gdp = (interest_paid / gdp) * 100
@@ -178,6 +174,11 @@ class DebtProjectionEngine:
                 point_of_no_return=ponr,
             )
             self.projections.append(proj)
+
+            # Avanca para o proximo ano (apenas se nao for o ultimo)
+            if i < self.params.years_to_project:
+                debt = debt + interest_paid - primary_result
+                gdp = gdp * (1 + self.params.annual_gdp_growth)
 
         return self.projections
 

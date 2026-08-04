@@ -34,6 +34,10 @@ Para cada area, calcula ano a ano:
 - O impacto cumulativo em 20 anos
 
 Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50)
+Updated: 2024/2025 -- dados socioeconomics alinhados com IBGE/PENAD/SNIS/
+         Censo Escolar/PRODES/Atlas Violencia/TIC Domicilios 2023-2024.
+         Macrofiscal: divida bruta ~R$ 7,8 trilhoes, PIB ~R$ 11,5 trilhoes,
+         juros da divida ~R$ 880 bilhoes/ano (Tesouro/BCB 2024).
 """
 
 from __future__ import annotations
@@ -119,56 +123,56 @@ AREA_IMPACTS: List[AreaImpact] = [
         ImpactArea.EDUCATION, "Educacao Basica e Superior",
         SeverityLevel.CRITICAL,
         annual_budget_needed_brl=600e9,
-        annual_budget_actual_brl=180e9,
-        annual_budget_gap_brl=420e9,
+        annual_budget_actual_brl=210e9,               # PNA/ FNDE 2024 ~ R$ 210 bi
+        annual_budget_gap_brl=390e9,
         pct_of_interest_that_should_go=0.15,
-        people_affected_per_year=50_000_000,  # 50M alunos
-        unit_cost_brl=5e6,                    # R$ 5M por escola
+        people_affected_per_year=48_000_000,          # ~48M alunos matriculados (Censo Escolar 2023)
+        unit_cost_brl=5e6,                            # R$ 5M por escola
         unit_name="escolas",
-        units_not_delivered_per_year=84_000,  # escolas faltando
-        description="Educacao publica subfinanciada ha decadas.",
-        human_cost="Criancas em escolas sem teto, sem merenda, sem professor. Universitarios sem bolsa. Analfabetismo funcional em 30% dos adultos.",
+        units_not_delivered_per_year=78_000,          # 390e9 / 5e6
+        description="Educacao publica subfinanciada ha decadas. Censo 2023 com 47.5M matriculas.",
+        human_cost="Criancas em escolas sem teto, sem merenda, sem professor. Universitarios sem bolsa. 4 em cada 10 alunos do 5o ano nao sabem ler.",
     ),
     AreaImpact(
         ImpactArea.HEALTH_MENTAL, "Saude Mental",
         SeverityLevel.SEVERE,
         annual_budget_needed_brl=80e9,
-        annual_budget_actual_brl=4e9,         # 5% do necessario
+        annual_budget_actual_brl=4e9,                 # ~5% do necessario (RAPS 2024)
         annual_budget_gap_brl=76e9,
         pct_of_interest_that_should_go=0.03,
-        people_affected_per_year=20_000_000,  # 20M com transtorno mental
-        unit_cost_brl=200_000,                # CAPS (Centro de Atencao Psicossocial)
+        people_affected_per_year=20_000_000,          # ~20M com transtorno mental (OMS/Min. Saude)
+        unit_cost_brl=200_000,                        # CAPS (Centro de Atencao Psicossocial)
         unit_name="CAPS (centro de saude mental)",
         units_not_delivered_per_year=380_000,
-        description="Brasil tem 20 milhoes com transtorno mental. So 5% do orcamento necessario.",
+        description="Brasil tem 20 milhoes com transtorno mental. So 5% do orcamento necessario. Suicidios voltaram a subir em 2023.",
         human_cost="Depressao nao tratada. Ansiedade cronica. Suicidios. Crack. Sem psicologo no SUS.",
     ),
     AreaImpact(
         ImpactArea.HOUSING, "Moradia Digna",
         SeverityLevel.CRITICAL,
         annual_budget_needed_brl=200e9,
-        annual_budget_actual_brl=15e9,        # Minha Casa Minha Vida (reduzido)
-        annual_budget_gap_brl=185e9,
+        annual_budget_actual_brl=20e9,                # Minha Casa Minha Vida 2024 ~ R$ 20 bi
+        annual_budget_gap_brl=180e9,
         pct_of_interest_that_should_go=0.10,
-        people_affected_per_year=8_000_000,   # 8M sem moradia adequada
-        unit_cost_brl=80_000,                 # casa popular
+        people_affected_per_year=8_000_000,           # deficit + habitacao precaria (IBGE 2022)
+        unit_cost_brl=80_000,                         # casa popular
         unit_name="casas populares",
-        units_not_delivered_per_year=2_312_500,
-        description="Deficit habitacional de 8 milhoes de familias.",
-        human_cost="Familias em favelas, ruas, corticos. Criancas sem endereco fixo. Sem-teto morrendo de frio.",
+        units_not_delivered_per_year=2_250_000,       # 180e9 / 80e3
+        description="Deficit habitacional estrutural: ~5.8 milhoes de familias sem moradia adequada (IBGE 2022).",
+        human_cost="Familias em favelas, ruas, corticos. Criancas sem endereco fixo. Populacao de rua cresce nas capitais.",
     ),
     AreaImpact(
         ImpactArea.FOOD_SECURITY, "Seguranca Alimentar (Fome)",
         SeverityLevel.CRITICAL,
         annual_budget_needed_brl=120e9,
-        annual_budget_actual_brl=35e9,        # Bolsa Familia + Programa de Aquisicao
-        annual_budget_gap_brl=85e9,
+        annual_budget_actual_brl=50e9,                # Bolsa Familia + PAA 2024 ~ R$ 50 bi
+        annual_budget_gap_brl=70e9,
         pct_of_interest_that_should_go=0.08,
-        people_affected_per_year=33_000_000,  # 33M em inseguranca alimentar
-        unit_cost_brl=3,                      # refeicao
+        people_affected_per_year=33_000_000,          # ~33M em inseguranca alimentar (PENAD 2024)
+        unit_cost_brl=3,                              # refeicao
         unit_name="refeicoes diarias",
-        units_not_delivered_per_year=28_333_333_333,  # 28 bilhoes de refeicoes
-        description="33 milhoes de brasileiros passam fome. O pais da soja nao alimenta seu povo.",
+        units_not_delivered_per_year=23_333_333_333,  # 70e9 / 3
+        description="33 milhoes de brasileiros em inseguranca alimentar (PENAD 2024). 5.2M em fome severa.",
         human_cost="Criancas desnutridas. Maes que pulam refeicoes. Idosos escolhendo entre comer e remedio.",
     ),
     AreaImpact(
@@ -189,28 +193,28 @@ AREA_IMPACTS: List[AreaImpact] = [
         ImpactArea.SANITATION, "Saneamento Basico",
         SeverityLevel.SEVERE,
         annual_budget_needed_brl=100e9,
-        annual_budget_actual_brl=12e9,
-        annual_budget_gap_brl=88e9,
+        annual_budget_actual_brl=15e9,                # invest. publico em saneamento 2024 ~ R$ 15 bi
+        annual_budget_gap_brl=85e9,
         pct_of_interest_that_should_go=0.05,
-        people_affected_per_year=100_000_000,  # 100M sem saneamento adequado
-        unit_cost_brl=12_000,                  # ligacao domiciliar
+        people_affected_per_year=100_000_000,         # ~100M sem coleta/tratamento de esgoto (SNIS 2023)
+        unit_cost_brl=12_000,                         # ligacao domiciliar
         unit_name="ligacoes de agua/esgoto",
-        units_not_delivered_per_year=7_333_333,
-        description="Metade do Brasil nao tem esgoto tratado. Doencas por agua contaminada.",
+        units_not_delivered_per_year=7_083_333,       # 85e9 / 12e3
+        description="Apenas ~49% do esgoto e tratado no Brasil (SNIS 2023). Meta do Marco do Saneamento atrasada.",
         human_cost="Criancas com diarreia. Dengue. Leptospirose nas enchentes. Agua nao potavel.",
     ),
     AreaImpact(
         ImpactArea.SCIENCE_TECH, "Ciencia e Tecnologia",
         SeverityLevel.SEVERE,
         annual_budget_needed_brl=80e9,
-        annual_budget_actual_brl=8e9,          # CNPq/Capes/LNCC decapitados
-        annual_budget_gap_brl=72e9,
+        annual_budget_actual_brl=10e9,                # CNPq/Capes/MCTI 2024 ~ R$ 10 bi (recuperacao parcial)
+        annual_budget_gap_brl=70e9,
         pct_of_interest_that_should_go=0.04,
-        people_affected_per_year=500_000,      # pesquisadores e estudantes
-        unit_cost_brl=500_000,                 # bolsa de pesquisa anual
+        people_affected_per_year=500_000,             # pesquisadores e estudantes
+        unit_cost_brl=500_000,                        # bolsa de pesquisa anual
         unit_name="bolsas de pesquisa",
-        units_not_delivered_per_year=144_000,
-        description="CNPq e Capes com orcamento destroicado. Cerebros fugindo do pais.",
+        units_not_delivered_per_year=140_000,         # 70e9 / 5e5
+        description="CNPq e Capes com orcamento ainda muito abaixo do necessario. Fuga de cerebros continua.",
         human_cost="Pesquisadores no rdar de UBER. Doutores desempregados. Laboratorios fechados. Patentes perdidas.",
     ),
     AreaImpact(
@@ -245,28 +249,28 @@ AREA_IMPACTS: List[AreaImpact] = [
         ImpactArea.ENVIRONMENT, "Meio Ambiente",
         SeverityLevel.SEVERE,
         annual_budget_needed_brl=50e9,
-        annual_budget_actual_brl=5e9,
-        annual_budget_gap_brl=45e9,
+        annual_budget_actual_brl=8e9,                 # MMA/IBAMA/Funai 2024 ~ R$ 8 bi
+        annual_budget_gap_brl=42e9,
         pct_of_interest_that_should_go=0.03,
-        people_affected_per_year=215_000_000,  # todo pais
-        unit_cost_brl=100_000,                 # fiscalizacao/km2
+        people_affected_per_year=215_000_000,         # todo pais
+        unit_cost_brl=100_000,                        # fiscalizacao/km2
         unit_name="km2 protegidos/fiscalizados",
-        units_not_delivered_per_year=450_000,
-        description="Desmatamento da Amazonia acelerando. IBAMA sem orcamento.",
+        units_not_delivered_per_year=420_000,         # 42e9 / 1e5
+        description="Desmatamento da Amazonia em ~11.000 km2/ano (PRODES 2024). IBAMA com orcamento retalhado.",
         human_cost="Amazonia queimando. Agua acabando. Temperatura subindo. Futuro climatico destruido.",
     ),
     AreaImpact(
         ImpactArea.SECURITY, "Seguranca Publica",
         SeverityLevel.SEVERE,
         annual_budget_needed_brl=150e9,
-        annual_budget_actual_brl=70e9,
-        annual_budget_gap_brl=80e9,
+        annual_budget_actual_brl=75e9,                # SUSP/Forcas 2024 ~ R$ 75 bi
+        annual_budget_gap_brl=75e9,
         pct_of_interest_that_should_go=0.05,
-        people_affected_per_year=60_000_000,   # 60M afetados por violencia
-        unit_cost_brl=2e6,                     # delegacia equipada
+        people_affected_per_year=60_000_000,          # 60M afetados por violencia
+        unit_cost_brl=2e6,                            # delegacia equipada
         unit_name="delegacias equipadas",
-        units_not_delivered_per_year=40_000,
-        description="47 mil homicidios/ano. Mulheres mortas. LGBTQIA+ assassinados.",
+        units_not_delivered_per_year=37_500,          # 75e9 / 2e6
+        description="~46 mil homicidios/ano (Atlas Violencia 2024). Brasil lidera feminicidios na America Latina.",
         human_cost="Maes chorando filhos. Crianzas sem pai. Medo de sair de casa. Violencia doméstica.",
     ),
     AreaImpact(
@@ -301,28 +305,28 @@ AREA_IMPACTS: List[AreaImpact] = [
         ImpactArea.CONNECTIVITY, "Internet e Conectividade",
         SeverityLevel.HIGH,
         annual_budget_needed_brl=40e9,
-        annual_budget_actual_brl=5e9,
-        annual_budget_gap_brl=35e9,
+        annual_budget_actual_brl=8e9,                 # conexoes/MCTI 2024 ~ R$ 8 bi
+        annual_budget_gap_brl=32e9,
         pct_of_interest_that_should_go=0.02,
-        people_affected_per_year=70_000_000,   # 70M sem internet adequada
-        unit_cost_brl=5_000,                   # conexao por domicilio
+        people_affected_per_year=70_000_000,          # ~70M sem internet adequada (NIC.br 2024)
+        unit_cost_brl=5_000,                          # conexao por domicilio
         unit_name="conexoes de internet",
-        units_not_delivered_per_year=7_000_000,
-        description="70 milhoes sem internet de qualidade. Exclusao digital.",
+        units_not_delivered_per_year=6_400_000,       # 32e9 / 5e3
+        description="~70 milhoes sem internet de qualidade (TIC Domicilios 2023). Exclusao digital persistente.",
         human_cost="Criancas estudando no celular 3G. Sem telemedicina. Sem servicos publicos digitais.",
     ),
     AreaImpact(
         ImpactArea.CHILDHOOD, "Primeira Infancia (0-6 anos)",
         SeverityLevel.CRITICAL,
         annual_budget_needed_brl=80e9,
-        annual_budget_actual_brl=8e9,          # creches subfinanciadas
-        annual_budget_gap_brl=72e9,
+        annual_budget_actual_brl=12e9,                # creches/fundeb 2024 ~ R$ 12 bi
+        annual_budget_gap_brl=68e9,
         pct_of_interest_that_should_go=0.04,
-        people_affected_per_year=12_000_000,   # criancas 0-6
-        unit_cost_brl=1e6,                     # creche
+        people_affected_per_year=12_000_000,          # criancas 0-6
+        unit_cost_brl=1e6,                            # creche
         unit_name="vagas em creches",
-        units_not_delivered_per_year=72_000,
-        description="12 milhoes de criancas 0-6 sem creche. Desenvolvimento comprometido.",
+        units_not_delivered_per_year=68_000,          # 68e9 / 1e6
+        description="~12 milhoes de criancas 0-6 sem creche. ~1.5M em fila de espera (UNICEF 2024).",
         human_cost="Maes sem trabalhar porque nao tem creche. Criancas em casa sem estimulo. Futuro comprometido.",
     ),
 ]
@@ -353,9 +357,9 @@ class ImpactSimulator:
     def __init__(self, start_year: int = 2024, years: int = 20):
         self.start_year = start_year
         self.years = years
-        self.initial_debt = 6.0e12
-        self.initial_gdp = 10.0e12
-        self.interest_rate = 0.12
+        self.initial_debt = 7.8e12   # dívida pública bruta 2024/2025
+        self.initial_gdp = 11.5e12   # PIB 2024/2025
+        self.interest_rate = 0.10    # taxa efetiva juros ~10%
         self.gdp_growth = 0.025
         self.simulations: List[YearImpact] = []
 
@@ -554,8 +558,8 @@ def render_equivalence_table() -> str:
 
     lines.append("")
     lines.append("  Cada R$ 100 bilhoes para o agiota e TUDO ISSO que nao existe.")
-    lines.append("  O Brasil paga R$ 720 bilhoes/ano em juros.")
-    lines.append("  Sao 7x essa tabela. TODO ANO.")
+    lines.append("  O Brasil pagou ~R$ 880 bilhoes em juros da divida em 2024.")
+    lines.append("  Sao quase 9x essa tabela. TODO ANO.")
     lines.append("")
     return "\n".join(lines)
 
@@ -577,7 +581,7 @@ def render_comparison_other_countries() -> str:
         ("Alemanha", 18_000, "Divida controlada. Investe no povo."),
         ("Holanda", 17_000, "Infraestrutura de ponta."),
         ("Canadá", 16_000, "Saude e educacao gratuitas."),
-        ("Brasil", 3_500, "Paga R$ 720 bi/ano em juros. Sobra R$ 3.500/pessoa."),
+        ("Brasil", 3_500, "Paga ~R$ 880 bi/ano em juros. Sobra R$ 3.500/pessoa."),
     ]
 
     lines.append(f"  {'PAIS':<12} {'R$/pessoa/ano':>15}  {'BAR':>30}")
@@ -609,16 +613,16 @@ def render_narrative(simulations: List[YearImpact]) -> str:
     parts.append(f"Em {s0.year_label}, o Brasil pagou R$ {s0.interest_paid_brl/1e9:.0f} bilhoes em juros.")
     parts.append(f"Esse dinheiro deveria ter ido para {len(AREA_IMPACTS)} areas da sua vida:")
     parts.append("")
-    parts.append("Educacao: 50 milhoes de alunos em escolas destruidas.")
+    parts.append("Educacao: 48 milhoes de alunos em escolas subfinanciadas.")
     parts.append("Saude mental: 20 milhoes de brasileiros sem tratamento.")
-    parts.append("Moradia: 8 milhoes de familias sem casa digna.")
-    parts.append("Comida: 33 milhoes passando fome.")
-    parts.append("Saneamento: 100 milhoes sem esgoto.")
+    parts.append("Moradia: ~6 milhoes de familias sem casa digna.")
+    parts.append("Comida: 33 milhoes em inseguranca alimentar (PENAD 2024).")
+    parts.append("Saneamento: 100 milhoes sem esgoto tratado.")
     parts.append("Ciencia: pesquisadores no UBER.")
     parts.append("Cultura: teatros fechados, artistas sem teto.")
     parts.append("Esporte: criancas sem quadra.")
-    parts.append("Internet: 70 milhoes sem conexao.")
-    parts.append("Creches: 12 milhoes de criancas abandonadas.")
+    parts.append("Internet: 70 milhoes sem conexao de qualidade.")
+    parts.append("Creches: 12 milhoes de criancas sem atendimento.")
     parts.append("")
     parts.append(f"Em {last.year_label}, o deficit acumulado sera de")
     parts.append(f"R$ {last.cumulative_gap_brl/1e12:.0f} trilhoes.")

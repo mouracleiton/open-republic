@@ -38,6 +38,12 @@ AUTOMACAO vs FORCA TAREFA:
   ~30% forca tarefa (cidadao vai la)
   ~10% especializado (medicao fisica, pericia)
 
+REVISAO 2024/2025:
+  Numeros atualizados com Censo IBGE 2022 (divulgado 2023,
+  populacao 203.1M), 2o VIGISAN (fome), epidemic de dengue 2024,
+  orcamento federal 2024 (Bolsa Familia R$ 36bi), e custos
+  reajustados pela inflacao acumulada 2022-2024 (~10%).
+
 Author: OpenRepublic Team
 """
 from __future__ import annotations
@@ -151,7 +157,7 @@ def _init_exames() -> List[ExameNacional]:
              "sensor: deteccao acustica de tiro"],
             ["denuncia cidadao", "comunidade assina", "depoimento"],
             "tempo real",
-            "R$ 5M/ano (infra + app)",
+            "R$ 6M/ano (infra + app)",
             "Nao sabemos onde tiroteio acontece em tempo real. SINESP tem 6-12h de atraso.",
         ),
         ExameNacional(
@@ -167,8 +173,8 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao visita posto", "comunidade relata",
              "medicao: peso/altura crianca"],
             "semanal",
-            "R$ 10M/ano",
-            "Mortalidade infantil real e subnotificada. FILA nao existe como metrica.",
+            "R$ 12M/ano",
+            "Mortalidade infantil real e subnotificada. Dengue 2024: >6M casos, 4.000+ mortes. Fila SUS nao existe como metrica.",
         ),
         ExameNacional(
             "alimentacao", TipoExame.CHECKUP,
@@ -180,8 +186,8 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao relata fome", "comunidade assina",
              "verificacao merenda (censo escolar)"],
             "mensal",
-            "R$ 3M/ano",
-            "33 milhoes passam fome. IBGE mede bienal. Fome muda em dias.",
+            "R$ 4M/ano",
+            "2o VIGISAN (2022): 33M com fome, 125M em IA. IBGE mede bienal. Fome muda em dias.",
         ),
 
         # ====================================================================
@@ -198,8 +204,8 @@ def _init_exames() -> List[ExameNacional]:
              "OSINT: SNIS (cruzamento)"],
             ["cidadao mede agua", "amostra de rio", "comunidade relata"],
             "semanal",
-            "R$ 8M/ano (sensores + campo)",
-            "35 milhoes sem agua tratada. SNIS e auto-relato da empresa.",
+            "R$ 9M/ano (sensores + campo)",
+            "35M sem agua tratada (PNAD 2022). SNIS e auto-relato da empresa. Esgoto: <55% de cobertura.",
         ),
         ExameNacional(
             "ambiente", TipoExame.BIOPSIA,
@@ -213,7 +219,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao fotografa lixo no rio", "denuncia garimpo"],
             "semanal",
             "R$ 2M/ano (maioria OSINT gratis)",
-            "Sabe onde queima. Nao sabe quem queima. Falta cruzar com CAR.",
+            "Sabe onde queima. Nao sabe quem queima. 2024: pior seca+queimada em 2 decadas. Falta cruzar com CAR.",
         ),
         ExameNacional(
             "educacao", TipoExame.RESSONANCIA,
@@ -226,8 +232,8 @@ def _init_exames() -> List[ExameNacional]:
              "API INEP (cruzamento)", "satelite: predio existe?"],
             ["cidadao vai escola (16 passos)", "comunidade assina"],
             "semestral",
-            "R$ 15M/ano",
-            "INEP diz 6 salas. Realidade: 3. Ninguem foi verificar.",
+            "R$ 16M/ano",
+            "INEP diz 6 salas. Realidade: 3. Ninguem foi verificar. SAEB 2021: 70% nao sabem matematica basica.",
         ),
         ExameNacional(
             "indigena", TipoExame.BIOMETRIA,
@@ -241,7 +247,7 @@ def _init_exames() -> List[ExameNacional]:
             ["lider indigena coleta (app offline)", "denuncia garimpo"],
             "semestral",
             "R$ 4M/ano",
-            "100.000+ indigenas invisiveis. Garimpo cresce sem ninguem ver.",
+            "Censo 2022: 1.7M indigenas (27% fora terras). Garimpo Yanomami cresce sem ninguem ver.",
         ),
 
         # ====================================================================
@@ -259,7 +265,7 @@ def _init_exames() -> List[ExameNacional]:
              "denuncia trabalho escravo"],
             "mensal",
             "R$ 3M/ano",
-            "Informal e 40% da forca de trabalho. PNAD estima por amostra.",
+            "Informal e 40% da forca de trabalho. PNAD estima por amostra. Desemprego PNAD 2024: ~6.5%.",
         ),
         ExameNacional(
             "inflacao", TipoExame.PRESSAO,
@@ -273,7 +279,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao fotografa precinho", "feira: preco de produtor"],
             "diario",
             "R$ 2M/ano",
-            "IPCA mede 16 capitais. Periferia e interior: invisivel.",
+            "IPCA mede 16 capitais. Periferia e interior: invisivel. IPCA 2024 acumulado ~4.5%.",
         ),
         ExameNacional(
             "energia", TipoExame.CHECKUP,
@@ -287,7 +293,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao relata", "comunidade assina"],
             "trimestral",
             "R$ 4M/ano",
-            "1.8M sem energia eletrica. Qualidade nunca medida.",
+            "PNAD 2022: 1.8M sem energia. Amazonia: 600 mil sem luz. Qualidade nunca medida.",
         ),
 
         # ====================================================================
@@ -304,7 +310,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao conta sem-teto", "comunidade relata despejo"],
             "trimestral",
             "R$ 3M/ano",
-            "Sem-teto nao existe no IBGE. Favela cresce sem medicao.",
+            "Sem-teto nao existe no IBGE. Favela: 17.9M (Censo 2022). Cresce sem medicao.",
         ),
         ExameNacional(
             "transporte", TipoExame.TESTE_ESFORCO,
@@ -317,7 +323,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao relata", "comunidade: estrada cortada?"],
             "trimestral",
             "R$ 2M/ano",
-            "Tempo de deslocamento periferia->centro nunca medido.",
+            "Tempo de deslocamento periferia->centro nunca medido. IBGE mobility: >1h/dia media metropole.",
         ),
         ExameNacional(
             "agro", TipoExame.BIOPSIA,
@@ -330,7 +336,7 @@ def _init_exames() -> List[ExameNacional]:
             ["denuncia trabalho escravo", "cidadao: quem planta?"],
             "semestral",
             "R$ 2M/ano",
-            "Censo agro e decadal. Agronegocio muda em meses.",
+            "Censo agro e decadal (2017 foi o ultimo completo). Agronegocio muda em meses.",
         ),
         ExameNacional(
             "quilombola", TipoExame.BIOMETRIA,
@@ -342,7 +348,7 @@ def _init_exames() -> List[ExameNacional]:
             ["lider quilombola coleta", "denuncia grilo"],
             "semestral",
             "R$ 2M/ano",
-            "200.000+ invisiveis. Titulacao parada ha anos.",
+            "Censo 2022: 1.3M quilombolas. Titulacao: <15% dos territorios.",
         ),
         ExameNacional(
             "ribeirinha", TipoExame.BIOMETRIA,
@@ -371,7 +377,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao: contagem comunitaria", "registro civil"],
             "anual",
             "R$ 5M/ano",
-            "Censo demografico 4 anos atrasado. 4.5M invisiveis.",
+            "Censo 2022 (divulgado 2023): 203.1M. Base legal: censo decenal. 4.5M subnotificados/n cobertos.",
         ),
         ExameNacional(
             "registro", TipoExame.GENETICO,
@@ -383,7 +389,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao: registro comunitario", "app: certidao digital"],
             "tempo real",
             "R$ 3M/ano",
-            "Indigena sem certidao. Obito sem causa. Ribeirinho sem cartorio.",
+            "Indigena sem certidao. Obito sem causa. Ribeirinho sem cartorio. Sub-registro civil ~10%.",
         ),
         ExameNacional(
             "geografia", TipoExame.RAIO_X,
@@ -396,7 +402,7 @@ def _init_exames() -> List[ExameNacional]:
             ["cidadao edita OSM", "comunidade: nova rua"],
             "anual",
             "R$ 1M/ano",
-            "Mapa IBGE desatualizado. Rua nova nao aparece.",
+            "Mapa IBGE desatualizado. Rua nova nao aparece. OSM melhor mas com gaps no rural.",
         ),
     ]
 
@@ -447,7 +453,7 @@ class RaioXBrasil:
     """
 
     NOME = "OpenRaioXBrasil"
-    VERSAO = "0.1.0-spec"
+    VERSAO = "0.2.0-2025"
 
     def __init__(self) -> None:
         self.exames: List[ExameNacional] = _init_exames()
@@ -500,10 +506,10 @@ class RaioXBrasil:
         total = self.pipeline.custo_total(self.exames)
         return {
             "total_anual_milhoes": f"R$ {total} milhoes",
-            "comparativo_ibge_censo": f"{total / 2300:.0%} do Censo IBGE 2022 (R$ 2.3bi)",
-            "comparativo_bolsa_familia": f"{total / 35000:.1f}% do Bolsa Familia (R$ 35bi/ano)",
-            "comparativo_gripen": f"{total / 36000:.2f}% dos 36 cacas (R$ 36bi)",
-            "custo_por_habitante": f"R$ {total * 1_000_000 / 215_000_000:.2f}/pessoa/ano",
+            "comparativo_ibge_censo": f"{total / 2400:.0%} do Censo IBGE 2022 (R$ 2.4bi)",
+            "comparativo_bolsa_familia": f"{total / 36000:.1f}% do Bolsa Familia 2024 (R$ 36bi/ano)",
+            "comparativo_gripen": f"{total / 36000:.2f}% dos 36 cacas Gripen (R$ 36bi)",
+            "custo_por_habitante": f"R$ {total * 1_000_000 / 203_100_000:.2f}/pessoa/ano (Censo 2022: 203.1M)",
         }
 
     # -- metricas -----------------------------------------------------------

@@ -386,7 +386,7 @@ class CensoEscolarSistema:
 
     def escala_nacional(self) -> Dict[str, Any]:
         """Estimativa de esforco para censo nacional completo."""
-        total_escolas = 179534
+        total_escolas = 178459  # INEP Censo Escolar 2024 (atualizado 2025)
 
         # Por nivel
         tempo_comunitario = 120  # min
