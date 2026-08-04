@@ -1,0 +1,787 @@
+{
+  "$schema": "openrepublic-constitutional-v1",
+  "description": "Estrutura de dados do motor constitucional. Logica em constitutional_engine.py.",
+  "pass_threshold": 60,
+  "status_thresholds": {
+    "banido_severidade": 4,
+    "suspenso_severidade": 3,
+    "revisao_severidade": 2
+  },
+  "severidades": {
+    "nenhuma": {
+      "peso": 0,
+      "rotulo": "Conformidade total"
+    },
+    "consultiva": {
+      "peso": 1,
+      "rotulo": "Recomendacao, nao violacao"
+    },
+    "menor": {
+      "peso": 2,
+      "rotulo": "Violacao corrigivel"
+    },
+    "maior": {
+      "peso": 3,
+      "rotulo": "Sistema suspenso ate correcao"
+    },
+    "critica": {
+      "peso": 4,
+      "rotulo": "Sistema BANIDO"
+    }
+  },
+  "status": {
+    "conforme": {
+      "rotulo": "Conforme com todos os principios"
+    },
+    "revisao": {
+      "rotulo": "Precisa de revisao (violacoes menores)"
+    },
+    "suspenso": {
+      "rotulo": "Suspenso ate correcao (violacao maior)"
+    },
+    "banido": {
+      "rotulo": "Banido (violacao critica)"
+    }
+  },
+  "principios": {
+    "P1": {
+      "nome": "anti_elitismo",
+      "categoria": "fundamento",
+      "modulo": "constitutional_engine.py",
+      "texto": "Nenhuma ideia, projeto, sistema ou mudanca entra na Republica por decreto de uma unica pessoa. Nem do lider. Nem do fundador. Tudo passa pelo coletivo ou nao passa.",
+      "eval_mode": "all",
+      "pass_note": "Conforme.",
+      "recommendation": "Distribuir conhecimento. Treinar sucessor. Documentar.",
+      "rules": [
+        {
+          "when": {
+            "field": "ponto_unico_falha",
+            "is": true
+          },
+          "subtract": 40,
+          "note": "Depende de uma so pessoa (bus_factor=1). Elitismo."
+        },
+        {
+          "when": {
+            "field": "tem_sucessor",
+            "is": false
+          },
+          "subtract": 25,
+          "note": "Sem sucessor treinado. Conhecimento nao distribuido."
+        },
+        {
+          "when": {
+            "field": "docs_publicos",
+            "is": false
+          },
+          "subtract": 20,
+          "note": "Documentacao nao publica. Conhecimento trancado."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "criado_por",
+                "ne": "comunidade"
+              },
+              {
+                "field": "aprovado_por_votacao",
+                "is": false
+              }
+            ]
+          },
+          "subtract": 30,
+          "note": "Criado por '{criado_por}' sem votacao. Decreto."
+        }
+      ],
+      "fail_severity": {
+        "if": {
+          "field": "ponto_unico_falha",
+          "is": true
+        },
+        "then": "maior",
+        "else": "menor"
+      }
+    },
+    "P2": {
+      "nome": "autonomia_corporal",
+      "categoria": "fundamento",
+      "modulo": "constitutional_engine.py",
+      "texto": "O corpo de cada cidadao e DELA. Inegociavelmente. A Republica JAMAI pode solicitar, exigir ou incentivar com pressao que uma pessoa fecunde, gere ou nao gere vida. Nenhum sistema toca no corpo sem consentimento continuo.",
+      "eval_mode": "chain",
+      "pass_note": "Nao afeta corpos. Conforme.",
+      "recommendation": "Implementar consentimento continuo e explicito.",
+      "rules": [
+        {
+          "when": {
+            "all": [
+              {
+                "field": "afeta_corpos",
+                "is": true
+              },
+              {
+                "field": "exige_consentimento_corporal",
+                "is": false
+              }
+            ]
+          },
+          "set": 0,
+          "note": "Toca no corpo SEM consentimento. VIOLACAO CRITICA."
+        },
+        {
+          "when": {
+            "field": "afeta_corpos",
+            "is": true
+          },
+          "set": 80,
+          "note": "Afeta corpos mas exige consentimento. Monitorar."
+        }
+      ],
+      "fail_severity": "critica"
+    },
+    "P3": {
+      "nome": "trabalho_igual",
+      "categoria": "fundamento",
+      "modulo": "constitutional_engine.py",
+      "texto": "Todo trabalho tem valor base 1.0. Ninguem vale mais por cargo. Diferencas sao por IMPACTO medido (pessoas afetadas x propagacao). Maximo: 40h/semana. Limite: 50h/semana. Base: 20h/semana.",
+      "eval_mode": "all",
+      "pass_note": "Conforme.",
+      "recommendation": "Garantir base 1.0. Diferenca so por impacto medido.",
+      "rules": [
+        {
+          "when": {
+            "field": "base_trabalho_respeitada",
+            "is": false
+          },
+          "subtract": 50,
+          "note": "Valor base 1.0 nao respeitado. Alguem vale mais por cargo."
+        }
+      ],
+      "fail_severity": "menor"
+    },
+    "P4": {
+      "nome": "processo_democratico",
+      "categoria": "fundamento",
+      "modulo": "constitutional_engine.py",
+      "texto": "Toda decisao passa por proposta -> debate -> votacao -> implementacao. Transparencia radical. 1 pessoa = 1 voto. Nenhuma decisao opaca sobre cidadaos.",
+      "eval_mode": "chain",
+      "pass_note": "Conforme.",
+      "recommendation": "Submeter a votacao. Eliminar caixas-pretas.",
+      "rules": [
+        {
+          "when": {
+            "field": "decisoes_opacas",
+            "is": true
+          },
+          "set": 0,
+          "note": "Toma decisoes opacas sobre cidadaos. CRITICA."
+        },
+        {
+          "when": {
+            "field": "aprovado_por_votacao",
+            "is": false
+          },
+          "subtract": 30,
+          "note": "Nao foi aprovado por votacao publica."
+        }
+      ],
+      "fail_severity": {
+        "if": {
+          "field": "decisoes_opacas",
+          "is": true
+        },
+        "then": "critica",
+        "else": "maior"
+      }
+    },
+    "P5": {
+      "nome": "transparencia_radical",
+      "categoria": "operacional",
+      "modulo": "constitutional_engine.py",
+      "texto": "Todo log, toda decisao, todo dado (nao pessoal) e publico. Caixas-pretas sao inaceitaveis. O cidadao pode AUDITAR tudo que o Estado faz em seu nome. Privacidade e do cidadao; transparencia e do Estado.",
+      "eval_mode": "all",
+      "pass_note": "Conforme.",
+      "recommendation": "Tornar logs publicos. Eliminar caixas-pretas.",
+      "rules": [
+        {
+          "when": {
+            "field": "caixa_preta",
+            "is": true
+          },
+          "subtract": 60,
+          "note": "Tem caixa-preta. Decisoes nao auditaveis."
+        },
+        {
+          "when": {
+            "field": "logs_publicos",
+            "is": false
+          },
+          "subtract": 30,
+          "note": "Logs nao sao publicos. Transparencia insuficiente."
+        }
+      ],
+      "fail_severity": "maior"
+    },
+    "P6": {
+      "nome": "acesso_universal",
+      "categoria": "operacional",
+      "modulo": "constitutional_engine.py",
+      "texto": "Conhecimento, documentacao, educacao, saude e tecnologia basica sao DIREITO, nao privilegio. Ninguem e excluido por dinheiro, deficiencia, idioma ou localizacao. man pages excluem; tldr inclui.",
+      "eval_mode": "all",
+      "pass_note": "Conforme.",
+      "recommendation": "Garantir acesso a todos, sem exclusao.",
+      "rules": [
+        {
+          "when": {
+            "field": "exclui_por_dinheiro",
+            "is": true
+          },
+          "subtract": 60,
+          "note": "Exclui cidadaos por dinheiro. P6 violado."
+        },
+        {
+          "when": {
+            "field": "exclui_por_deficiencia",
+            "is": true
+          },
+          "set": 0,
+          "note": "Exclui cidadaos por deficiencia. CRITICA."
+        }
+      ],
+      "fail_severity": {
+        "if": {
+          "field": "exclui_por_deficiencia",
+          "is": true
+        },
+        "then": "critica",
+        "else": "maior"
+      }
+    },
+    "P7": {
+      "nome": "seguranca_cultura",
+      "categoria": "operacional",
+      "modulo": "constitutional_engine.py",
+      "texto": "Seguranca nao e especialidade de hacker. E CULTURA do cidadao. Quem tem nmap instalado APRENDE sobre portas. Quem tem wireshark VE dados viajando. Ferramentas de seguranca sao ferramentas de alfabetizacao, nao armas de elite.",
+      "eval_mode": "all",
+      "pass_note": "Conforme.",
+      "recommendation": "Tornar ferramentas de seguranca acessiveis e documentadas.",
+      "rules": [
+        {
+          "when": {
+            "field": "seguranca_acessivel",
+            "is": false
+          },
+          "subtract": 30,
+          "note": "Seguranca nao e acessivel ao cidadao comum."
+        }
+      ],
+      "fail_severity": "menor"
+    },
+    "P8": {
+      "nome": "ia_instrumento",
+      "categoria": "operacional",
+      "modulo": "constitutional_engine.py",
+      "texto": "IA existe para AMPLIAR inteligencia humana, nao substituir. O humano decide; a IA executa. O humano cria; a IA assiste. Engagement por furia (algoritmos de retencao) e ANTI-P8. IA que decide sobre cidadaos sem humano no loop e ANTI-P8.",
+      "eval_mode": "chain",
+      "pass_note": "Nao usa IA. Conforme.",
+      "recommendation": "Colocar humano no loop. Eliminar engagement por furia.",
+      "rules": [
+        {
+          "when": {
+            "all": [
+              {
+                "field": "usa_ia",
+                "is": true
+              },
+              {
+                "field": "engagement_por_furia",
+                "is": true
+              }
+            ]
+          },
+          "set": 0,
+          "note": "IA que amplifica furia. ANTI-P8 critica."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "usa_ia",
+                "is": true
+              },
+              {
+                "field": "humano_no_loop",
+                "is": false
+              }
+            ]
+          },
+          "subtract": 50,
+          "note": "IA decide sem humano no loop. ANTI-P8."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "usa_ia",
+                "is": true
+              },
+              {
+                "field": "humano_no_loop",
+                "is": true
+              }
+            ]
+          },
+          "set": 90,
+          "note": "Usa IA com humano no loop. Conforme."
+        }
+      ],
+      "fail_severity": {
+        "if": {
+          "field": "engagement_por_furia",
+          "is": true
+        },
+        "then": "critica",
+        "else": "maior"
+      }
+    },
+    "P9": {
+      "nome": "anti_polarizacao",
+      "categoria": "operacional",
+      "modulo": "open_anti_polarization.py",
+      "texto": "O Estado nao pode produzir, amplificar ou se beneficiar de divisao identitaria. Toda politica publica e avaliada pelo seu potencial polarizante antes da votacao. E um GATE (como WCAG), nao censura. Diversidade de opiniao e DIREITO; polarizacao e doenca sistemica.",
+      "eval_mode": "all",
+      "pass_note": "Nao polariza. (Gate detalhado em open_anti_polarization.py)",
+      "recommendation": "Redesenhar para nao polarizar. Ver open_anti_polarization.py.",
+      "rules": [
+        {
+          "when": {
+            "field": "polariza_identidade",
+            "is": true
+          },
+          "set": 0,
+          "note": "Produz/amplifica divisao identitaria. ANTI-P9."
+        }
+      ],
+      "fail_severity": "critica"
+    },
+    "P10": {
+      "nome": "soberania_aerea",
+      "categoria": "operacional",
+      "modulo": "open_drone.py",
+      "texto": "Drones (VANTs) sao infraestrutura civica, nao arma, nao comercio. Tres proibicoes: NAO VIGIA, NAO MATA, NAO ESPIONA. Camera so para navegacao. O ceu e bem comum.",
+      "skip_if": {
+        "field": "e_drone",
+        "is": false
+      },
+      "skip_note": "Nao e sistema de drone. N/A.",
+      "eval_mode": "all",
+      "pass_note": "Drone civico conforme. (Gate em open_drone.py)",
+      "recommendation": "Drone deve: NAO vigiar, NAO matar, NAO espiar.",
+      "rules": [
+        {
+          "when": {
+            "field": "drone_vigia",
+            "is": true
+          },
+          "set": 0,
+          "note": "Drone com camera de vigilancia. PROIBIDO."
+        },
+        {
+          "when": {
+            "field": "drone_arma",
+            "is": true
+          },
+          "set": 0,
+          "note": "Drone armado. PROIBIDO."
+        },
+        {
+          "when": {
+            "field": "drone_espiona",
+            "is": true
+          },
+          "set": 0,
+          "note": "Drone espiona. PROIBIDO."
+        }
+      ],
+      "fail_severity": "critica"
+    },
+    "P11": {
+      "nome": "letramento_constituinte",
+      "categoria": "operacional",
+      "modulo": "open_digital_literacy.py",
+      "texto": "Letramento digital nao e REQUISITO para cidadania. E CONSTITUINTE da cidadania. Se o Estado digitaliza um servico, DEVE fornecer letramento, canal analogico, hardware publico e conectividade como PARTE do direito. Exigir smartphone para exercer direito e o novo imposto de votacao.",
+      "skip_if": {
+        "field": "e_servico_digital",
+        "is": false
+      },
+      "skip_note": "Nao e servico digital governamental. N/A.",
+      "eval_mode": "all",
+      "pass_note": "Conforme. (Gate detalhado em open_digital_literacy.py)",
+      "recommendation": "Manter canal analogico. Ensinar dentro. Assistente humana.",
+      "rules": [
+        {
+          "when": {
+            "any": [
+              {
+                "field": "exige_smartphone",
+                "is": true
+              },
+              {
+                "field": "exige_internet",
+                "is": true
+              }
+            ],
+            "and": [
+              {
+                "field": "tem_canal_analogico",
+                "is": false
+              }
+            ]
+          },
+          "set": 0,
+          "note": "Servico 100% digital sem canal analogico. NOVO IMPOSTO DE VOTACAO."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "exige_leitura",
+                "is": true
+              },
+              {
+                "field": "ensina_dentro",
+                "is": false
+              }
+            ]
+          },
+          "subtract": 30,
+          "note": "Exige leitura sem letramento embedded. Exclui analfabetos."
+        },
+        {
+          "when": {
+            "field": "tem_assistente_humana",
+            "is": false
+          },
+          "subtract": 20,
+          "note": "Sem assistente humana que ensina. Exclui quem nao sabe."
+        },
+        {
+          "when": {
+            "field": "pct_exclusao_digital",
+            "gt": 30
+          },
+          "set": 0,
+          "note": "Exclui {pct_exclusao_digital:.0f}% do publico. BANIDO."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "pct_exclusao_digital",
+                "gt": 10
+              },
+              {
+                "field": "pct_exclusao_digital",
+                "lte": 30
+              }
+            ]
+          },
+          "subtract": 40,
+          "note": "Exclui {pct_exclusao_digital:.0f}% do publico. SUSPENSO."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "pct_exclusao_digital",
+                "gt": 5
+              },
+              {
+                "field": "pct_exclusao_digital",
+                "lte": 10
+              }
+            ]
+          },
+          "subtract": 20,
+          "note": "Exclui {pct_exclusao_digital:.0f}% do publico. Revisao."
+        }
+      ],
+      "fail_severity": {
+        "if_any": [
+          {
+            "field": "pct_exclusao_digital",
+            "gt": 30
+          },
+          {
+            "all": [
+              {
+                "any": [
+                  {
+                    "field": "exige_smartphone",
+                    "is": true
+                  },
+                  {
+                    "field": "exige_internet",
+                    "is": true
+                  }
+                ]
+              },
+              {
+                "field": "tem_canal_analogico",
+                "is": false
+              }
+            ]
+          }
+        ],
+        "then": "critica",
+        "else": "maior"
+      }
+    },
+    "P12": {
+      "nome": "defesa_cibernetica_transparente",
+      "categoria": "operacional",
+      "modulo": "open_cyber_defense.py",
+      "texto": "A Republica mantem defesa cibernetica TRANSPARENTE e DEFENSIVA. Nenhum sistema de ataque ofensivo secreto e permitido. A Republica nao coopta cibercriminosos, nao militariza civis, nao financia grupos de fachada, nao terceiriza operacoes ofensivas, nao ataca primeiro. Todo cidadao e treinado em seguranca digital como CULTURA (P7), nao como guerra. Conhecer o inimigo nao e copiar.",
+      "skip_if": {
+        "field": "e_sistema_cibernetico",
+        "is": false
+      },
+      "skip_note": "Nao e sistema cibernetico defensivo. N/A.",
+      "eval_mode": "all",
+      "pass_note": "Conforme. Defesa transparente. (Gate em open_cyber_defense.py)",
+      "recommendation": "Remover componentes ofensivos. Tornar publico. Implementar cultura defensiva (P7).",
+      "rules": [
+        {
+          "when": {
+            "field": "coopta_criminosos",
+            "is": true
+          },
+          "set": 0,
+          "note": "Coopta cibercriminosos. PROIBIDO (modelo FSB/Russia)."
+        },
+        {
+          "when": {
+            "field": "militariza_civis",
+            "is": true
+          },
+          "set": 0,
+          "note": "Militariza civis para guerra. PROIBIDO (esquadrao cientifico)."
+        },
+        {
+          "when": {
+            "field": "financia_fachada",
+            "is": true
+          },
+          "set": 0,
+          "note": "Financia grupo de fachada. PROIBIDO (modelo Killnet/i-Soon)."
+        },
+        {
+          "when": {
+            "field": "e_ofensivo",
+            "is": true
+          },
+          "set": 0,
+          "note": "Ataque ofensivo. PROIBIDO. A Republica nao ataca primeiro."
+        },
+        {
+          "when": {
+            "field": "e_secreto",
+            "is": true
+          },
+          "set": 0,
+          "note": "Operacao secreta. PROIBIDO (P5 transparencia radical)."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "infraestrutura_critica",
+                "is": true
+              },
+              {
+                "field": "tem_ids",
+                "is": false
+              }
+            ]
+          },
+          "subtract": 40,
+          "note": "Infraestrutura critica sem IDS. Vulneravel a pre-posicionamento."
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "field": "infraestrutura_critica",
+                "is": true
+              },
+              {
+                "field": "cidadaos_treinados",
+                "is": false
+              }
+            ]
+          },
+          "subtract": 20,
+          "note": "Infraestrutura critica sem cultura cidadaa (P7)."
+        }
+      ],
+      "fail_severity": {
+        "if_any": [
+          {
+            "field": "coopta_criminosos",
+            "is": true
+          },
+          {
+            "field": "militariza_civis",
+            "is": true
+          },
+          {
+            "field": "financia_fachada",
+            "is": true
+          },
+          {
+            "field": "e_ofensivo",
+            "is": true
+          },
+          {
+            "field": "e_secreto",
+            "is": true
+          }
+        ],
+        "then": "critica",
+        "else": "menor"
+      }
+    },
+    "P13": {
+      "nome": "contravigilancia_reciproca",
+      "categoria": "operacional",
+      "modulo": "open_citizen_oversight.py",
+      "texto": "Quem exerce poder publico PERDE privacidade PROPORCIONAL ao poder exercido. Cidadao comum tem privacidade total (P2). Servidor divulga bens e gastos. Autoridade eleita tem vida publica 24/7 no cargo. Presidente: ate o ovo do cafe da manha e publico. O Estado ja vigia o cidadao. P13 garante que o cidadao vigia o Estado de volta, proporcionalmente. Sigilo nao e cortina para corrupcao. Aceitar cargo publico = aceitar clausula de transparencia.",
+      "skip_if": {
+        "field": "e_agente_publico",
+        "is": false
+      },
+      "skip_note": "Nao e agente publico. Privacidade total (P2). N/A.",
+      "eval_mode": "all",
+      "pass_note": "Conforme. Transparencia proporcional ao poder. (Gate em open_citizen_oversight.py)",
+      "recommendation": "Divulgar todos os dados exigidos pelo tier. Sigilo nao e cortina para corrupcao.",
+      "rules": [
+        {
+          "when": {
+            "field": "usou_sigilo_para_esconder",
+            "is": true
+          },
+          "set": 0,
+          "note": "Usou sigilo para esconder ato publico. BANIDO do cargo."
+        },
+        {
+          "when": {
+            "field": "comunicacao_secreta_com_lobby",
+            "is": true
+          },
+          "set": 0,
+          "note": "Comunicacao secreta com lobby/empresario. PROIBIDO. Toda comunicacao no cargo e PUBLICA."
+        },
+        {
+          "when": {
+            "field": "recusou_divulgar",
+            "is": true
+          },
+          "set": 0,
+          "note": "Recusou divulgar dados exigidos pelo cargo. SUSPENSAO."
+        }
+      ],
+      "fail_severity": {
+        "if_any": [
+          {
+            "field": "usou_sigilo_para_esconder",
+            "is": true
+          },
+          {
+            "field": "comunicacao_secreta_com_lobby",
+            "is": true
+          }
+        ],
+        "then": "critica",
+        "else": "maior"
+      }
+    },
+    "P14": {
+      "nome": "soberania_de_dados",
+      "categoria": "operacional",
+      "modulo": "open_data_sovereignty.py",
+      "texto": "Dados pessoais sao PRODUTOS do cidadao. Nao propriedade de quem coletou. Quem coleta (Estado, empresa, app) e CUSTODIANTE TEMPORARIO REVOGAVEL. O cidadao e o DONO. Sempre. 6 direitos: copia, portabilidade, revogacao, log de uso, auditoria, compensacao. Coletar sem devolver copia e CRIME. Lucrar com dado sem compensar e CRIME. Ignorar revogacao e CRIME. P14 e o combustivel de P13: sem dados, o cidadao nao vigia nada.",
+      "skip_if": {
+        "field": "e_custodiante_dados",
+        "is": false
+      },
+      "skip_note": "Nao e custodiante de dados pessoais. N/A.",
+      "eval_mode": "all",
+      "pass_note": "Conforme. Cumpre os 6 direitos de custodia. (Gate em open_data_sovereignty.py)",
+      "recommendation": "Devolver copia. Logar acesso. Permitir revogacao absoluta. Compensar lucro. Onus da prova e do custodiante.",
+      "rules": [
+        {
+          "when": {
+            "field": "coletou_sem_copia",
+            "is": true
+          },
+          "set": 0,
+          "note": "Coletou sem devolver copia ao cidadao. CRIME."
+        },
+        {
+          "when": {
+            "field": "reteve_sem_log",
+            "is": true
+          },
+          "set": 0,
+          "note": "Reteve dado sem logar acesso. CRIME."
+        },
+        {
+          "when": {
+            "field": "ignorou_revogacao",
+            "is": true
+          },
+          "set": 0,
+          "note": "Cidadao revogou, custodiante reteve. CRIME."
+        },
+        {
+          "when": {
+            "field": "bloqueia_portabilidade",
+            "is": true
+          },
+          "set": 0,
+          "note": "Impediu portabilidade (lock-in). CRIME."
+        },
+        {
+          "when": {
+            "field": "lucrou_sem_compensar",
+            "is": true
+          },
+          "subtract": 50,
+          "note": "Lucrou com dado do cidadao sem compensar."
+        }
+      ],
+      "fail_severity": {
+        "if_any": [
+          {
+            "field": "coletou_sem_copia",
+            "is": true
+          },
+          {
+            "field": "reteve_sem_log",
+            "is": true
+          },
+          {
+            "field": "ignorou_revogacao",
+            "is": true
+          },
+          {
+            "field": "bloqueia_portabilidade",
+            "is": true
+          }
+        ],
+        "then": "critica",
+        "else": "maior"
+      }
+    }
+  }
+}
