@@ -442,8 +442,12 @@ document.getElementById('sucessos-list').innerHTML = sucessos.map(function(p, i)
 }).join('');
 
 // === CHARTS ===
-window.addEventListener('load', function() {
-
+function renderCharts() {
+  if (typeof echarts === 'undefined') {
+    renderFallbackCharts();
+    return;
+  }
+  try {
   // Eficiencia
   var ef = echarts.init(document.getElementById('chart-eficiencia'));
   var efData = [
@@ -541,7 +545,94 @@ window.addEventListener('load', function() {
       '<span class="pill" style="background:'+color+'22; color:'+color+';">' + v + '</span>' +
     '</div>';
   }).join('');
-});
+  } catch(e) {
+    console.error('Chart error:', e);
+    renderFallbackCharts();
+  }
+}
+
+// === FALLBACK CHARTS (HTML puro, sem ECharts) ===
+function renderFallbackCharts() {
+  // Eficiencia
+  var efEl = document.getElementById('chart-eficiencia');
+  if (efEl) {
+    var efTotal = sc.eficiencia.alta + sc.eficiencia.media + sc.eficiencia.baixa + sc.eficiencia.nula;
+    var efBars = [
+      {label: 'Alta', value: sc.eficiencia.alta, color: '#52B788'},
+      {label: 'Média', value: sc.eficiencia.media, color: '#F4A261'},
+      {label: 'Baixa', value: sc.eficiencia.baixa, color: '#E76F51'},
+      {label: 'Nula', value: sc.eficiencia.nula, color: '#D62828'},
+    ];
+    efEl.innerHTML = '<div style="padding:12px">' + efBars.map(function(b) {
+      var pct = efTotal > 0 ? Math.round(b.value / efTotal * 100) : 0;
+      return '<div style="margin-bottom:10px">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.8rem;color:#8b949e">' +
+        '<span>' + b.label + '</span><span style="color:' + b.color + ';font-weight:bold">' + b.value + ' (' + pct + '%)</span></div>' +
+        '<div style="height:14px;background:#21262d;border-radius:7px;overflow:hidden">' +
+        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:7px"></div></div></div>';
+    }).join('') + '</div>';
+  }
+
+  // Eficacia
+  var efcEl = document.getElementById('chart-eficacia');
+  if (efcEl) {
+    var efcTotal = sc.eficacia.resolve + sc.eficacia.parcial + sc.eficacia.minima + sc.eficacia.nao_resolve;
+    var efcBars = [
+      {label: 'Resolve', value: sc.eficacia.resolve, color: '#52B788'},
+      {label: 'Parcial', value: sc.eficacia.parcial, color: '#F4A261'},
+      {label: 'Impacto mínimo', value: sc.eficacia.minima, color: '#E76F51'},
+      {label: 'Não resolve', value: sc.eficacia.nao_resolve, color: '#D62828'},
+    ];
+    efcEl.innerHTML = '<div style="padding:12px">' + efcBars.map(function(b) {
+      var pct = efcTotal > 0 ? Math.round(b.value / efcTotal * 100) : 0;
+      return '<div style="margin-bottom:10px">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:0.8rem;color:#8b949e">' +
+        '<span>' + b.label + '</span><span style="color:' + b.color + ';font-weight:bold">' + b.value + ' (' + pct + '%)</span></div>' +
+        '<div style="height:14px;background:#21262d;border-radius:7px;overflow:hidden">' +
+        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:7px"></div></div></div>';
+    }).join('') + '</div>';
+  }
+
+  // Veredito por dominio (lista HTML)
+  var verbEl = document.getElementById('chart-veredito');
+  if (verbEl) {
+    var verb = sc.veredito_por_dominio || {};
+    var html = '<div style="padding:8px">';
+    Object.keys(verb).sort().forEach(function(d) {
+      var v = verb[d];
+      var color = v.startsWith('RESOLVE') ? '#52B788' : v.startsWith('PARCIAL') ? '#F4A261' : v.startsWith('FALHOU') ? '#D62828' : '#484f58';
+      html += '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #21262d">' +
+        '<span style="width:8px;height:8px;border-radius:50%;background:' + color + ';flex-shrink:0"></span>' +
+        '<span style="font-size:0.8rem;color:#8b949e;flex:1">' + d.toUpperCase() + '</span>' +
+        '<span style="font-size:0.7rem;font-weight:bold;color:' + color + '">' + v + '</span></div>';
+    });
+    verbEl.innerHTML = html + '</div>';
+  }
+
+  // Dominio bar (fallback lista)
+  var domEl = document.getElementById('chart-dominio-bar');
+  if (domEl) {
+    var domCounts = {};
+    pols.forEach(function(p) { domCounts[p.dominio] = (domCounts[p.dominio] || 0) + 1; });
+    var domSorted = Object.entries(domCounts).sort(function(a,b) { return b[1] - a[1]; });
+    var maxCount = domSorted.length > 0 ? domSorted[0][1] : 1;
+    domEl.innerHTML = '<div style="padding:12px">' + domSorted.map(function(d) {
+      var pct = Math.round(d[1] / maxCount * 100);
+      return '<div style="margin-bottom:8px">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:0.75rem;color:#8b949e">' +
+        '<span>' + d[0] + '</span><span style="color:#00B4D8;font-weight:bold">' + d[1] + '</span></div>' +
+        '<div style="height:10px;background:#21262d;border-radius:5px;overflow:hidden">' +
+        '<div style="height:100%;width:' + pct + '%;background:#00B4D8;border-radius:5px"></div></div></div>';
+    }).join('') + '</div>';
+  }
+}
+
+// === INIT: run immediately, don't wait for 'load' ===
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderCharts);
+} else {
+  renderCharts();
+}
 
 window.addEventListener('resize', function() {
   document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
