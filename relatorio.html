@@ -17,87 +17,128 @@
     --laranja: #E76F51;
     --terra: #8B5E3C;
   }
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: #0d1117;
     color: #e6edf3;
     line-height: 1.6;
+    overflow-x: hidden;
+    padding-bottom: 70px; /* bottom nav space */
   }
   .card {
     background: #161b22;
     border: 1px solid #30363d;
-    border-radius: 12px;
+    border-radius: 10px;
   }
   .stat-number {
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
     font-weight: 900;
     line-height: 1;
   }
   .info-box {
     background: rgba(0,180,216,0.06);
     border-left: 3px solid #00B4D8;
-    padding: 14px 18px;
+    padding: 12px 14px;
     border-radius: 0 8px 8px 0;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #8b949e;
-    line-height: 1.6;
+    line-height: 1.55;
   }
   .danger-box {
     background: rgba(214,40,40,0.06);
     border-left: 3px solid #D62828;
-    padding: 14px 18px;
+    padding: 12px 14px;
     border-radius: 0 8px 8px 0;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: #8b949e;
-    line-height: 1.6;
+    line-height: 1.55;
   }
   .pill {
     display: inline-block;
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 16px;
+    font-size: 0.62rem;
     font-weight: 700;
     text-transform: uppercase;
+    white-space: nowrap;
   }
-  .fracasso-card {
-    border-left: 4px solid #D62828;
-  }
-  .sucesso-card {
-    border-left: 4px solid #52B788;
-  }
+  .fracasso-card { border-left: 4px solid #D62828; }
+  .sucesso-card { border-left: 4px solid #52B788; }
   .section-title {
-    font-size: 1.3rem;
+    font-size: clamp(1.05rem, 5vw, 1.3rem);
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .section-sub {
     color: #8b949e;
-    font-size: 0.85rem;
-    margin-bottom: 20px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
   }
   .legend-dot {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    margin-right: 6px;
+    margin-right: 4px;
     vertical-align: middle;
   }
   .toc-item {
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #21262d;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
-  .toc-item a {
-    color: #00B4D8;
+  .toc-item a { color: #00B4D8; text-decoration: none; }
+  .toc-item a:hover { text-decoration: underline; }
+  .toc-item a:active { text-decoration: underline; }
+
+  /* BOTTOM NAV (mobile-first) */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: #161b22;
+    border-top: 1px solid #30363d;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.6rem;
+    color: #8b949e;
     text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: color 0.15s;
   }
-  .toc-item a:hover {
-    text-decoration: underline;
+  .bottom-nav a:active { color: #00B4D8; }
+  .bottom-nav .nav-icon { font-size: 1.2rem; line-height: 1; }
+  @media (min-width: 768px) {
+    .bottom-nav { display: none; }
+    body { padding-bottom: 0; }
   }
+
+  /* Chart heights responsivo */
+  .chart-mobile { height: 260px !important; }
+  @media (min-width: 768px) { .chart-mobile { height: 300px !important; } }
+
+  /* Details sem outline no mobile */
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ' ▼'; font-size: 0.7rem; opacity: 0.5; }
+  details[open] summary::after { content: ' ▲'; }
+
   @media print {
-    body { background: white; color: black; }
+    body { background: white; color: black; padding-bottom: 0; }
     .card { border: 1px solid #ccc; }
+    .bottom-nav { display: none; }
   }
 </style>
 </head>
@@ -105,19 +146,19 @@
 
 <!-- HEADER -->
 <header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
-  <div class="max-w-4xl mx-auto px-4 py-4">
+  <div class="max-w-4xl mx-auto px-4 py-3">
     <div class="flex items-center gap-3 mb-1">
-      <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-lg" style="background: linear-gradient(135deg, #1A5E3F, #0A2540);">R</div>
-      <div>
-        <h1 class="text-xl font-black">Relatório: Ineficiência das Políticas Públicas do Brasil</h1>
-        <p class="text-xs text-[#8b949e]">OpenRepublic · Dados pré-compilados · 33 políticas avaliadas · 2024/2025</p>
+      <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center font-bold text-white text-base md:text-lg flex-shrink-0" style="background: linear-gradient(135deg, #1A5E3F, #0A2540);">R</div>
+      <div class="min-w-0">
+        <h1 class="text-base md:text-xl font-black leading-tight">Relatório: Ineficiência das Políticas Públicas</h1>
+        <p class="text-xs text-[#8b949e] hidden md:block">OpenRepublic · Dados pré-compilados · 33 políticas · 2024/2025</p>
       </div>
     </div>
   </div>
 </header>
 
 <!-- SUMÁRIO EXECUTIVO -->
-<section class="max-w-4xl mx-auto px-4 py-8">
+<section class="max-w-4xl mx-auto px-4 py-6">
   <div class="info-box mb-8">
     <strong>SUMÁRIO EXECUTIVO.</strong> Este relatório analisa <strong>33 políticas públicas brasileiras</strong>
     mapeadas aos 18 domínios do Raio X do Brasil. Cada política foi avaliada em duas dimensões:
@@ -127,26 +168,26 @@
   </div>
 
   <!-- HERO METRICS -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-    <div class="card p-5 text-center" style="border-top: 3px solid #52B788;">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+    <div class="card p-3 md:p-5 text-center" style="border-top: 3px solid #52B788;">
       <p class="stat-number" style="color:#52B788;">6%</p>
       <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">RESOLVEM</p>
-      <p class="text-xs text-[#8b949e] mt-1">2 de 33 políticas</p>
+      <p class="text-xs text-[#8b949e] mt-1 hidden md:block">2 de 33 políticas</p>
     </div>
-    <div class="card p-5 text-center" style="border-top: 3px solid #D62828;">
+    <div class="card p-3 md:p-5 text-center" style="border-top: 3px solid #D62828;">
       <p class="stat-number" style="color:#D62828;">33%</p>
       <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">NÃO RESOLVEM</p>
-      <p class="text-xs text-[#8b949e] mt-1">11 de 33 políticas</p>
+      <p class="text-xs text-[#8b949e] mt-1 hidden md:block">11 de 33 políticas</p>
     </div>
-    <div class="card p-5 text-center" style="border-top: 3px solid #E76F51;">
+    <div class="card p-3 md:p-5 text-center" style="border-top: 3px solid #E76F51;">
       <p class="stat-number" style="color:#E76F51;">12</p>
-      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">BAIXA EFICIÊNCIA</p>
-      <p class="text-xs text-[#8b949e] mt-1">caro e sem resultado</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">BAIXA EFIC.</p>
+      <p class="text-xs text-[#8b949e] mt-1 hidden md:block">caro e sem resultado</p>
     </div>
-    <div class="card p-5 text-center" style="border-top: 3px solid #D4A017;">
+    <div class="card p-3 md:p-5 text-center" style="border-top: 3px solid #D4A017;">
       <p class="stat-number" style="color:#D4A017;">R$500bi+</p>
       <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">ORÇAMENTO/ANO</p>
-      <p class="text-xs text-[#8b949e] mt-1">gasto nas 33 políticas</p>
+      <p class="text-xs text-[#8b949e] mt-1 hidden md:block">gasto nas 33 políticas</p>
     </div>
   </div>
 
@@ -159,7 +200,7 @@
   </div>
 
   <!-- TABLE OF CONTENTS -->
-  <div class="card p-6 mb-8">
+  <div class="card p-4 mb-6">
     <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Índice</h3>
     <div class="toc-item"><a href="#fracassos">1. Os 11 Maiores Fracassos (não resolvem ou impacto mínimo)</a></div>
     <div class="toc-item"><a href="#sucessos">2. As 2 Únicas Políticas que Funcionam</a></div>
@@ -171,73 +212,73 @@
 </section>
 
 <!-- 1. FRACASSOS -->
-<section id="fracassos" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="fracassos" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#D62828;">1. Os 11 Maiores Fracassos</h2>
   <p class="section-sub">Políticas com impacto mínimo ou nulo. Dinheiro público gasto sem resultado observável no problema.</p>
   <div id="fracassos-list" class="space-y-4"></div>
 </section>
 
 <!-- 2. SUCESSOS -->
-<section id="sucessos" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="sucessos" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#52B788;">2. As 2 Únicas Políticas que Funcionam</h2>
   <p class="section-sub">Exceções que confirmam a regra. Ambas medem -- nenhuma age diretamente.</p>
   <div id="sucessos-list" class="space-y-4"></div>
 </section>
 
 <!-- 3. CHARTS -->
-<section id="charts" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="charts" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#00B4D8;">3. Análise Gráfica</h2>
   <p class="section-sub">Eficiência (custo vs resultado) e Eficácia (resolve?) das 33 políticas mapeadas.</p>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <div class="card p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="card p-4">
       <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficiência: o dinheiro é bem gasto?</h3>
-      <div id="chart-eficiencia" style="height: 300px;"></div>
+      <div id="chart-eficiencia" class="chart-mobile"></div>
     </div>
-    <div class="card p-6">
+    <div class="card p-4">
       <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficácia: o problema foi resolvido?</h3>
-      <div id="chart-eficacia" style="height: 300px;"></div>
+      <div id="chart-eficacia" class="chart-mobile"></div>
     </div>
   </div>
 
-  <div class="card p-6">
+  <div class="card p-4">
     <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Veredito por Domínio (18 áreas do Raio X)</h3>
-    <div id="chart-veredito" style="height: 450px;"></div>
+    <div id="chart-veredito" style="height: 400px;"></div>
   </div>
 </section>
 
 <!-- 4. CAUSAS RAIZ -->
-<section id="causas" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="causas" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#D4A017;">4. Por Que Falham? 6 Causas Raiz</h2>
   <p class="section-sub">Padrões que se repetem nas políticas que não funcionam. Não é caso isolado -- é sistêmico.</p>
 
   <div class="space-y-4">
-    <div class="card p-5" style="border-left: 4px solid #D62828;">
+    <div class="card p-4" style="border-left: 4px solid #D62828;">
       <h3 class="font-bold text-base mb-2">CAUSA 1: "O dinheiro chega, o resultado não"</h3>
       <p class="text-sm text-[#8b949e]">O governo transfere recursos mas nunca mede se o problema diminuiu. Exemplo: o Bolsa Família transfere R$ 36 bilhões/ano e a fome <strong>continua em 33 milhões</strong> (VIGISAN 2022). Ninguém verifica se o dinheiro virou comida no prato. 17% das famílias beneficiárias continuam passando fome.</p>
     </div>
 
-    <div class="card p-5" style="border-left: 4px solid #E76F51;">
+    <div class="card p-4" style="border-left: 4px solid #E76F51;">
       <h3 class="font-bold text-base mb-2">CAUSA 2: "Política de gaveta -- criada, não executada"</h3>
       <p class="text-sm text-[#8b949e]">Leis, marcos regulatórios e planos que existem no papel mas nunca saem do papel. O Novo Marco do Saneamento (Lei 14.026/2020) promete 99% de água até 2033. Ritmo atual: 0,5%/ano. Vai chegar lá em 2050. O PNBL (Programa Nacional de Banda Larga) foi criado em 2010 e <strong>extinto em 2019 sem cumprir a meta</strong>. 70% da zona rural segue sem internet.</p>
     </div>
 
-    <div class="card p-5" style="border-left: 4px solid #F4A261;">
+    <div class="card p-4" style="border-left: 4px solid #F4A261;">
       <h3 class="font-bold text-base mb-2">CAUSA 3: "Cobertura parcial vendida como universal"</h3>
       <p class="text-sm text-[#8b949e]">Políticas que atendem uma fração do público-alvo mas são apresentadas como solução nacional. O SUS atende 75% da população -- mas com cobertura vacinal em queda livre (95% em 2015 para 68% em 2023). A Lei Maria da Penha emitiu 1,8 milhão de medidas protetivas -- mas só 198 abrigos existem no Brasil para acolher mulheres. A política existe; a estrutura não acompanha.</p>
     </div>
 
-    <div class="card p-5" style="border-left: 4px solid #D4A017;">
+    <div class="card p-4" style="border-left: 4px solid #D4A017;">
       <h3 class="font-bold text-base mb-2">CAUSA 4: "Subfinanciamento crônico disfarçado de política completa"</h3>
       <p class="text-sm text-[#8b949e]">O Brasil gasta 4% do PIB em saúde (média OCDE: 8%). Gasta R$ 5.500/aluno/ano (Finlândia: R$ 60.000). O SASI-SUS (saúde indígena) tem orçamento de R$ 3 bi/ano para 800 mil indígenas em territórios remotos -- <strong>570 crianças Yanomami morreram de fome entre 2022 e 2023</strong>. A política é anunciada como existe; o dinheiro é insuficiente para execução real.</p>
     </div>
 
-    <div class="card p-5" style="border-left: 4px solid #C77DFF;">
+    <div class="card p-4" style="border-left: 4px solid #C77DFF;">
       <h3 class="font-bold text-base mb-2">CAUSA 5: "Dados autopreenchidos sem verificação"</h3>
       <p class="text-sm text-[#8b949e]">O INEP pergunta ao diretor da escola quantas salas tem. O SNIS pergunta à empresa de saneamento quantas casas tem água. <strong>Ninguém vai verificar.</strong> O diretor tem incentivo para sobre-relatar (mais recurso). A empresa tem incentivo para sobre-relatar (melhor IDEB, menos multa). O dado que valida a política é produzido pelo próprio agente que deveria ser fiscalizado por ela. É o governo perguntando ao governo se o governo está fazendo o trabalho.</p>
     </div>
 
-    <div class="card p-5" style="border-left: 4px solid #264653;">
+    <div class="card p-4" style="border-left: 4px solid #264653;">
       <h3 class="font-bold text-base mb-2">CAUSA 6: "Descontinuidade política -- cada governo reinventa"</h3>
       <p class="text-sm text-[#8b949e]">Programas que sobem e descem com mudança de governo. O Mais Médicos reduziu mortalidade infantil em 15% nas áreas atendidas -- e foi interrompido em 2023 (expulsão de médicos cubanos). O Programa Cisternas instalou 1 milhão de cisternas e oscila com cada nova gestão. O PPCDAm (desmatamento) reduz quando há vontade política e dispara quando não há. Políticas que dependem de governo não são políticas -- são campanhas eleitorais com dinheiro público.</p>
     </div>
@@ -245,50 +286,50 @@
 </section>
 
 <!-- 5. VEREDITO POR DOMINIO -->
-<section id="dominios" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="dominios" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#00B4D8;">5. Veredito por Domínio</h2>
   <p class="section-sub">Para cada um dos 18 domínios do Raio X: as políticas existentes são suficientes?</p>
 
-  <div class="card p-6 mb-6">
-    <div id="chart-dominio-bar" style="height: 500px;"></div>
+  <div class="card p-4 mb-4">
+    <div id="chart-dominio-bar" style="height: 400px;"></div>
   </div>
 
   <div id="dominios-list" class="space-y-3"></div>
 </section>
 
 <!-- 6. RECOMENDACOES -->
-<section id="recomendacoes" class="max-w-4xl mx-auto px-4 pb-12">
+<section id="recomendacoes" class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#52B788;">6. Recomendações</h2>
   <p class="section-sub">Não basta apontar o problema. O que precisa mudar -- e como.</p>
 
   <div class="space-y-4">
 
-    <div class="card p-6" style="border-left: 4px solid #52B788;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #52B788;">
       <h3 class="font-bold mb-2">1. FATO, NÃO OPINIÃO (Gate Epistemológico)</h3>
       <p class="text-sm text-[#8b949e]">Toda política pública deve ter seus resultados medidos por <strong>dados independentes verificados</strong>, não por auto-relato do executor. Antes de renovar orçamento de qualquer programa, exigir os <strong>7 critérios de FATO</strong>: amostra representativa, reprodutível, fonte independente, triangulação, sem viés, magnitude mensurável, dado temporal. Sem FATO, o orçamento não é renovado.</p>
     </div>
 
-    <div class="card p-6" style="border-left: 4px solid #00B4D8;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #00B4D8;">
       <h3 class="font-bold mb-2">2. RASTREIO INDIVIDUAL, NÃO AGREGADO</h3>
       <p class="text-sm text-[#8b949e]">Nenhuma política deve medir sucesso por "X milhões de atendimentos". Exigir rastreio individual: a criança Y recebeu a comida Z no dia W? O peso dela subiu? Nenhum programa social deve ser aprovado sem rastreio do beneficiário final até o resultado. Sem rastreio, desvio é invisível.</p>
     </div>
 
-    <div class="card p-6" style="border-left: 4px solid #D4A017;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #D4A017;">
       <h3 class="font-bold mb-2">3. CENSO PRÓPRIO EM TEMPO REAL</h3>
       <p class="text-sm text-[#8b949e]">O Censo IBGE sai a cada 10 anos com 2-3 de atraso e subnotifica 37,5 milhões. Nenhuma política pode ser avaliada com dado de 2 anos atrás. Implementar o Raio X proposto neste relatório: <strong>R$ 85 milhões/ano (R$ 0,42 por brasileiro), 18 exames em tempo real, OSINT + cidadão</strong>. 3% do custo do Censo IBGE.</p>
     </div>
 
-    <div class="card p-6" style="border-left: 4px solid #F4A261;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #F4A261;">
       <h3 class="font-bold mb-2">4. EXTINÇÃO DE POLÍTICAS QUE NÃO RESOLVEM</h3>
       <p class="text-sm text-[#8b949e]">As 11 políticas com eficácia mínima ou nula não devem ter orçamento renovado automaticamente. Cada uma deve passar por auditoria do TCU com pergunta direta: "O problema diminuiu?" Se a resposta é não, o orçamento é redirecionado para políticas que funcionam ou para novas abordagens. Continuar financiando fracasso é Lei de Gerson aplicada à máquina pública.</p>
     </div>
 
-    <div class="card p-6" style="border-left: 4px solid #C77DFF;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #C77DFF;">
       <h3 class="font-bold mb-2">5. CONTINUIDADE POR LEI, NÃO POR GESTÃO</h3>
       <p class="text-sm text-[#8b949e]">Programas que comprovadamente funcionam (como Mais Médicos, PRONAF, Programa Cisternas) devem ter continuidade <strong>garantida por lei</strong>, não por decisão de gestão. A descontinuidade custa vidas. Cada interrupção retrocede anos de progresso. Políticas de Estado, não de governo.</p>
     </div>
 
-    <div class="card p-6" style="border-left: 4px solid #D62828;">
+    <div class="card p-4 md:p-6" style="border-left: 4px solid #D62828;">
       <h3 class="font-bold mb-2">6. FISCALIZAÇÃO PELO CIDADÃO (P13)</h3>
       <p class="text-sm text-[#8b949e]">Quem exerce poder público perde privacidade proporcional ao poder (Princípio 13). Toda licitação, todo repasse, todo contrato deve ser público em tempo real. Canal de denúncia anônimo, tamper-proof (blockchain), com verificação comunitária. O cidadão é o fiscal final. Sem isso, accountability é teatro.</p>
     </div>
@@ -296,8 +337,8 @@
 </section>
 
 <!-- CONCLUSÃO -->
-<section class="max-w-4xl mx-auto px-4 pb-12">
-  <div class="card p-8" style="border: 1px solid #D62828; background: rgba(214,40,40,0.03);">
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <div class="card p-5 md:p-8" style="border: 1px solid #D62828; background: rgba(214,40,40,0.03);">
     <h2 class="text-xl font-black mb-4" style="color:#D62828;">Conclusão</h2>
     <p class="text-sm text-[#8b949e] leading-relaxed mb-4">
       O Brasil não tem problema de dinheiro. Tem problema de execução, medição e accountability.
@@ -319,6 +360,14 @@
     </p>
   </div>
 </section>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <a href="#"><span class="nav-icon">📊</span><span>Início</span></a>
+  <a href="#fracassos"><span class="nav-icon">❌</span><span>Fracassos</span></a>
+  <a href="#causas"><span class="nav-icon">🔍</span><span>Causas</span></a>
+  <a href="#recomendacoes"><span class="nav-icon">✅</span><span>Ação</span></a>
+</nav>
 
 <!-- FOOTER -->
 <footer class="border-t border-[#30363d] mt-8 py-8 text-center text-xs text-[#484f58]">
@@ -499,6 +548,16 @@ window.addEventListener('resize', function() {
     var inst = echarts.getInstanceByDom(el);
     if (inst) inst.resize();
   });
+});
+
+// Re-render charts on orientation change (mobile)
+window.addEventListener('orientationchange', function() {
+  setTimeout(function() {
+    document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
+      var inst = echarts.getInstanceByDom(el);
+      if (inst) inst.resize();
+    });
+  }, 300);
 });
 </script>
 </body>
