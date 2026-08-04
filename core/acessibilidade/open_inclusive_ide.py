@@ -21,6 +21,14 @@ Integrado com:
 - OpenTerminal (todo terminal roda a IDE)
 - OpenHumanAmplification (IA como instrumento, nao substituto)
 
+ATUALIZADO 2024/2025:
+- VS Code 1.96.x + Continue.dev + Talon/Cursorless
+- Neovim 0.10.4/0.11 + Cursorless.nvim + avante.nvim
+- Emacs 30.1 + Emacspeak + speechd-el
+- Modelos locais: Ollama (llama3.2, qwen2.5-coder, deepseek-coder), whisper.cpp
+- Local AI copilots: Continue.dev, avante.nvim, gptel.el
+- Voice-first: Talon Voice + Cursorless (suporte nativo em VSCode/Neovim)
+
 DEFICIENCIAS COBERTAS:
 1. VISUAL (cegueira, baixa visao, daltonismo, fotossensibilidade)
 2. AUDITIVA (surdez, baixa audicao, tinnitus)
@@ -633,6 +641,122 @@ class AIAssistanceConfig:
             elif d.category == DisabilityCategory.COMMUNICATION:
                 self.voice_interaction = True
                 self.sign_language_avatar = True
+
+
+# ============================================================================
+# 8.5. SUPORTE A EDITORES 2024/2025 + IA LOCAL + ACESSIBILIDADE
+# ============================================================================
+
+class SupportedEditor(Enum):
+    VSCODE = "vscode"
+    NEOVIM = "neovim"
+    EMACS = "emacs"
+    CURSOR = "cursor"  # fork de VSCode com AI nativo
+    ZED = "zed"        # editor moderno rapido
+
+@dataclass
+class EditorRecommendation:
+    """Recomendacao de editor + stack de acessibilidade 2025."""
+    editor: SupportedEditor
+    version_recommended: str
+    accessibility_plugins: List[str]
+    ai_local_stack: List[str]
+    voice_support: List[str]
+    why_recommended: str
+    setup_notes: str
+
+# Dados atualizados 2025 (baseado em releases publicos 2024/2025)
+EDITOR_RECOMMENDATIONS: Dict[SupportedEditor, EditorRecommendation] = {
+    SupportedEditor.VSCODE: EditorRecommendation(
+        editor=SupportedEditor.VSCODE,
+        version_recommended="1.96.x (2024/2025)",
+        accessibility_plugins=[
+            "Continue.dev (local LLM copilot)",
+            "Talon Voice + Cursorless (voice-driven editing)",
+            "VS Code Accessibility: built-in screen reader + high contrast",
+            "GitHub Copilot (fallback) + Codeium",
+            "Braille Ext (if needed)",
+            "SonarLint + Error Lens (visual error feedback)"
+        ],
+        ai_local_stack=[
+            "Ollama (llama3.2, qwen2.5-coder:7b, deepseek-coder)",
+            "Continue.dev (configurado para localhost:11434)",
+            "whisper.cpp ou faster-whisper (voice-to-code)"
+        ],
+        voice_support=["Talon Voice (full Cursorless)", "VS Code Speech", "whisper.cpp"],
+        why_recommended="Melhor suporte geral a acessibilidade + ecossistema mais maduro de voice coding (Talon/Cursorless). Continue.dev permite IA 100% local.",
+        setup_notes="Instale Continue.dev + Ollama. Ative 'Editor: Accessibility Support'. Use Talon + Cursorless para cegos/motores."
+    ),
+    SupportedEditor.NEOVIM: EditorRecommendation(
+        editor=SupportedEditor.NEOVIM,
+        version_recommended="0.10.4 / 0.11 (2025)",
+        accessibility_plugins=[
+            "cursorless.nvim (Talon voice commands)",
+            "avante.nvim (AI chat + code gen local via Ollama)",
+            "nvim-treesitter + treesitter-context",
+            "which-key.nvim + noice.nvim (reduz carga cognitiva)",
+            "screenkey.nvim (mostra teclas pressionadas)",
+            "vim-sleuth + indent-blankline (visual guidance)"
+        ],
+        ai_local_stack=[
+            "Ollama + avante.nvim ou codeium.vim (local)",
+            "gptel (via nvim) + llama.cpp"
+        ],
+        voice_support=["Talon + cursorless.nvim", "vim-voice (experimental)"],
+        why_recommended="Extremamente leve e scriptavel. Excelente para motor e visual com Talon. Menos distracoes que IDEs pesadas. Avante.nvim traz IA local nativa.",
+        setup_notes="Use com neovim 0.10+. Instale avante.nvim + ollama. Cursorless.nvim para programacao por voz completa."
+    ),
+    SupportedEditor.EMACS: EditorRecommendation(
+        editor=SupportedEditor.EMACS,
+        version_recommended="30.1 (2025)",
+        accessibility_plugins=[
+            "emacspeak (screen reader nativo poderoso)",
+            "speechd-el (TTS via speech-dispatcher)",
+            "gptel.el (LLM local via Ollama/llama.cpp)",
+            "embark + consult + vertico (minibuffer acessivel)",
+            "org-mode + org-roam (planejamento cognitivo)",
+            "tree-sitter + combobulate (navegacao estrutural)"
+        ],
+        ai_local_stack=[
+            "gptel.el + Ollama (llama3.2, qwen2.5-coder)",
+            "ellama.el (elisp LLM client)"
+        ],
+        voice_support=["emacspeak + speechd-el", "Talon + Emacs integration (experimental)"],
+        why_recommended="Historicamente o editor mais acessivel do mundo. Emacspeak permite programacao completa sem olhar para tela. gptel traz IA local moderna.",
+        setup_notes="Instale Emacs 30 + emacspeak + speech-dispatcher. Configure gptel para Ollama. Perfeito para cegos e baixa visao."
+    ),
+    SupportedEditor.CURSOR: EditorRecommendation(
+        editor=SupportedEditor.CURSOR,
+        version_recommended="0.45+ (fork VSCode 2025)",
+        accessibility_plugins=[
+            "Herdado do VS Code + Continue.dev",
+            "Cursor AI nativo (mas pode ser desativado para local)",
+            "Talon + Cursorless (compatibilidade parcial)"
+        ],
+        ai_local_stack=["Continue.dev (local) ou Ollama via Cursor settings"],
+        voice_support=["Talon Voice"],
+        why_recommended="Fork focado em AI. Bom para quem quer IA agressiva mas ainda pode rodar localmente. Menos recomendado para total privacidade.",
+        setup_notes="Use Continue.dev override para forcar modelos locais."
+    ),
+}
+
+def recommend_editor(profile: DeveloperProfile) -> EditorRecommendation:
+    """Recomenda o melhor editor + stack 2025 baseado no perfil de deficiencia."""
+    for d in profile.disabilities:
+        if d.category == DisabilityCategory.VISUAL:
+            if d.severity in (DisabilitySeverity.SEVERE, DisabilitySeverity.PROFOUND):
+                return EDITOR_RECOMMENDATIONS[SupportedEditor.EMACS]
+            elif d.severity == DisabilitySeverity.MODERATE:
+                return EDITOR_RECOMMENDATIONS[SupportedEditor.VSCODE]
+        elif d.category == DisabilityCategory.MOTOR:
+            if "tetraplegia" in d.specifics or d.severity == DisabilitySeverity.PROFOUND:
+                return EDITOR_RECOMMENDATIONS[SupportedEditor.VSCODE]
+            return EDITOR_RECOMMENDATIONS[SupportedEditor.NEOVIM]
+        elif d.category == DisabilityCategory.COGNITIVE or d.category == DisabilityCategory.AUTISM_SPECTRUM:
+            return EDITOR_RECOMMENDATIONS[SupportedEditor.NEOVIM]
+        elif d.category == DisabilityCategory.AUDITORY:
+            return EDITOR_RECOMMENDATIONS[SupportedEditor.VSCODE]
+    return EDITOR_RECOMMENDATIONS[SupportedEditor.VSCODE]
 
 
 # ============================================================================

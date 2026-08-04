@@ -39,6 +39,9 @@ NIVEL CONSTITUCIONAL: P7 (faca e faca) + P8 (democratizar)
 Esta e a politica oficial de linguagem da Republica Aberta.
 
 Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50)
+Updated: 2025 with 2024/2025 data on deaf population (~2.5M in Brazil per estimates/IBGE updates), 
+LBI (Lei Brasileira de Inclusão - Lei 13.146/2015) reinforced by recent decrees, and Libras AI recognizers 
+(advances in computer vision models like those from USP, UFSC, and commercial apps using MediaPipe + deep learning).
 """
 
 from __future__ import annotations
@@ -47,6 +50,21 @@ from enum import Enum
 from dataclasses import dataclass, field
 from collections import defaultdict
 import time
+
+# Dados estatísticos e legais atualizados para 2024/2025
+# População surda no Brasil: ~2.5 milhões (estimativas IBGE e relatórios 2024/2025, incluindo diferentes graus de perda auditiva;
+# ~10% com surdez profunda. Usuários de Libras estimados em 1-1.5 milhão).
+DEAF_POPULATION_BRAZIL_2025: int = 2_500_000
+LIBRAS_USERS_EST_2025: int = 1_500_000
+LAW_LBI: str = "Lei Brasileira de Inclusão (Lei 13.146/2015) - reforçada por decretos e portarias 2023-2025"
+LAW_LIBRAS: str = "Lei 10.436/2002 e Decreto 5.626/2005 - Libras como língua oficial"
+LIBRAS_RECOGNIZERS_2025: list[str] = [
+    "Modelos baseados em MediaPipe + deep learning (Google Research + parcerias BR)",
+    "Projetos acadêmicos: USP, UFSC, UFRJ - reconhecimento de Libras em tempo real (2024 papers)",
+    "Aplicativos: HandTalk, VLibras (atualizações IA 2024/2025 com tradução bidirecional)",
+    "Soluções open-source com transformers e computer vision para tradução Libras-Português",
+    "Pesquisas recentes: melhoria de acurácia >85% em vocabulário controlado (2025 benchmarks)",
+]
 
 
 # ============================================================================

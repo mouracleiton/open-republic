@@ -197,13 +197,19 @@ class SessaoLegenda:
 
 @dataclass
 class ConfigWhisper:
-    """Configuracao do modelo Whisper para legenda."""
-    modelo: str = "base"    # tiny, base, small, medium, large-v3-turbo
-    idioma: str = "pt"      # pt-BR
-    chunk_ms: int = 500     # tamanho do chunk de audio
-    beam_size: int = 1      # 1 = rapido (greedy), 5 = preciso
-    vad_filter: bool = True # Voice Activity Detection
-    filtrar_musica: bool = True  # ignorar audio nao-fala
+    """Configuracao do modelo Whisper para legenda (atualizado 2025)."""
+    modelo: str = "large-v3-turbo"  # tiny, base, small, medium, large-v3, large-v3-turbo, distil-large-v3
+    # 2024/2025 recomendados (OpenAI + community):
+    # - large-v3-turbo: 809M params, otimizado para realtime, qualidade ~large-v3 com 4-8x velocidade
+    # - distil-large-v3: distilled (756M), ~2x mais rapido que large-v3, qualidade muito proxima
+    # - large-v3: 1550M params, estado-da-arte qualidade (Setembro 2023, ainda top em 2025)
+    idioma: str = "pt"      # pt-BR (ou "pt", "en", "auto")
+    chunk_ms: int = 500     # tamanho do chunk de audio (melhor 200-1000ms para latencia)
+    beam_size: int = 1      # 1 = rapido (greedy), 5 = preciso (mais lento)
+    vad_filter: bool = True # Voice Activity Detection (silencio skip)
+    filtrar_musica: bool = True  # ignorar audio nao-fala (economiza GPU/CPU)
+    device: str = "auto"    # "cpu", "cuda", "auto" (2025: cuda para large models)
+    compute_type: str = "float16"  # "int8", "float16", "float32" (faster-whisper)
 
 
 @dataclass
@@ -220,6 +226,28 @@ class PerfilUsuarioCC:
     mostrar_timestamp: bool = True
     mostrar_falante: bool = True
     max_caracteres_linha: int = 42  # CC standard
+
+
+@dataclass
+class ConfigDiarizacao:
+    """Configuracao de diarizacao de falantes (atualizado 2025).
+
+    Diarizacao = identificar QUEM falou o que ("Maria: ...", "Joao: ...").
+    Essencial para videochamadas com multiplos participantes.
+    """
+    habilitada: bool = False
+    # Modelos 2024/2025 recomendados:
+    # - pyannote/speaker-diarization-3.1 (HuggingFace): SOTA em 2024/2025, excelente PT-BR
+    #   Requer: pip install pyannote.audio ; huggingface-cli login (token gratuito)
+    # - whisperX (bain/whisperX no GitHub): Whisper + diarizacao integrada + word-level alignment
+    #   Mais usado em producao para legendas com speaker ID
+    # - NeMo diarization (NVIDIA) ou Sortformer: mais rapido em GPUs NVIDIA
+    # - pyannote 3.1 + clustering: qualidade mais alta, latencia maior
+    modelo: str = "pyannote/speaker-diarization-3.1"
+    min_duracao_falante: float = 0.5   # segundos minimos para registrar falante
+    max_falantes: int = 6              # limite para evitar over-segmentation em calls grandes
+    device: str = "cpu"                # "cuda" ou "mps" (Apple) recomendado para realtime em 2025
+    hf_token: str = ""                 # token HuggingFace para modelos gated (pyannote)
 
 
 # ============================================================================
@@ -326,6 +354,7 @@ class UniversalCaptionEngine:
         self.tela_atual: List[LinhaLegenda] = []  # na tela agora
         self.perfil: PerfilUsuarioCC = PerfilUsuarioCC()
         self.config_whisper = ConfigWhisper()
+        self.config_diarizacao = ConfigDiarizacao()
         self._linha_id = 0
         self._falante_colors: Dict[str, str] = {}
         self._paleta = ["#FFFFFF", "#00FF00", "#00CCFF", "#FFAA00",
@@ -511,6 +540,8 @@ class UniversalCaptionEngine:
             "falantes_identificados": len(self._falante_colors),
             "config_whisper_modelo": self.config_whisper.modelo,
             "config_chunk_ms": self.config_whisper.chunk_ms,
+            "diarizacao_habilitada": self.config_diarizacao.habilitada if hasattr(self, "config_diarizacao") else False,
+            "diarizacao_modelo": self.config_diarizacao.modelo if hasattr(self, "config_diarizacao") else "",
         }
 
 

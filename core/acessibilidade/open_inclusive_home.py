@@ -40,6 +40,7 @@ import random
 
 # ============================================================================
 # 1. ENUMS -- TODOS OS DISPOSITIVOS E METODOS DE CONTROLE
+# Updated 2025: Matter 1.3 + Thread 1.4 support, BRL 2024/2025 pricing
 # ============================================================================
 
 class DeviceType(Enum):

@@ -23,10 +23,13 @@ COMO FUNCIONA (pipeline):
   -> Som classificado -> Filtro de confianca
   -> Alerta (voz/visual/haptico)
 
-O MODELO:
-  YAMNet (AudioSet): 521 classes de som, 3.6M params, roda em CPU.
-  Alternativa: AudioSpecTransformer leve treinado pela Republica.
-  Tudo LOCAL. Sem nuvem. Sem Google. Sem Alexa.
+O MODELO (atualizado 2024/2025):
+  - YAMNet (AudioSet baseline): 521 classes, 3.6M params, CPU-friendly.
+  - Recomendado principal: Audio Spectrogram Transformer (AST) ou PaSST (Patchout Spectrogram Transformer) fine-tuned no AudioSet.
+  - Alternativa moderna local: BEATs (2023) ou EAT (2024) via transformers/onnx.
+  - Para fallback de voz: faster-whisper (large-v3-turbo ou distil-whisper 2024) - mas classificacao de eventos e prioritaria.
+  - Stack recomendado: torchaudio + transformers + onnxruntime (tudo offline).
+  Tudo LOCAL. Sem nuvem. Privacidade radical (P2).
 
 A ETICA DE OUVIR:
 
@@ -76,6 +79,13 @@ class CategoriaSom(Enum):
     TROVAO = ("trovao", "Trovao / tempestade")
     BUZINA = ("buzina", "Buzina de carro")
     Grito = ("grito", "Grito / pedido de socorro")
+    ALARME_GAS = ("gas", "Alarme de gas / monoxido de carbono")
+    PASSOS = ("passos", "Passos / aproximacao de pessoa")
+    PORTA_ABRINDO = ("porta_abrindo", "Porta abrindo ou fechando")
+    CHUVA = ("chuva", "Chuva forte / temporal")
+    VENTO = ("vento", "Vento forte / rajada")
+    MAQUINA_LAVAR = ("lavar", "Maquina de lavar / secadora")
+    ASPIRADOR_ROBO = ("aspirador_robo", "Aspirador de po robo (modelo 2025)")
 
     @property
     def id(self) -> str:
@@ -390,7 +400,136 @@ def _init_sons_conhecidos() -> Dict[CategoriaSom, SomConhecido]:
             ],
             cooldown_segundos=120,
         ),
+        # --- Novos sons catalogados 2024/2025 ---
+        CategoriaSom.ALARME_GAS: SomConhecido(
+            CategoriaSom.ALARME_GAS, NivelUrgencia.EMERGENCIA,
+            "Alarme de gas ou monoxido de carbono detectado.",
+            "SAIR IMEDIATAMENTE. Ventilar area. Ligar 193/190.",
+            frases_iara=[
+                "EMERGENCIA! Alarme de gas!",
+                "Perigo de gas. Saia agora!",
+                "Alarme de monoxido detectado. Evacue!",
+            ],
+            cooldown_segundos=5,
+        ),
+        CategoriaSom.PASSOS: SomConhecido(
+            CategoriaSom.PASSOS, NivelUrgencia.ATENCAO,
+            "Passos ou aproximacao de pessoa detectada.",
+            "Verificar camera ou quem se aproxima (privacidade).",
+            frases_iara=[
+                "Ouvi passos.",
+                "Alguem se aproximando.",
+                "Passos proximos detectados.",
+            ],
+            cooldown_segundos=45,
+        ),
+        CategoriaSom.PORTA_ABRINDO: SomConhecido(
+            CategoriaSom.PORTA_ABRINDO, NivelUrgencia.ATENCAO,
+            "Porta abrindo ou fechando.",
+            "Verificar se foi intencional ou invasao.",
+            frases_iara=[
+                "Porta abrindo.",
+                "Alguem abriu a porta.",
+                "Porta se fechando.",
+            ],
+            cooldown_segundos=20,
+        ),
+        CategoriaSom.CHUVA: SomConhecido(
+            CategoriaSom.CHUVA, NivelUrgencia.INFORMATIVO,
+            "Chuva forte ou temporal.",
+            "Fechar janelas se necessario.",
+            frases_iara=[
+                "Esta chovendo forte.",
+                "Temporal comecando.",
+            ],
+            cooldown_segundos=180,
+        ),
+        CategoriaSom.VENTO: SomConhecido(
+            CategoriaSom.VENTO, NivelUrgencia.INFORMATIVO,
+            "Vento forte ou rajada.",
+            "Cuidado com objetos soltos.",
+            frases_iara=[
+                "Vento forte.",
+                "Rajada de vento.",
+            ],
+            cooldown_segundos=120,
+        ),
+        CategoriaSom.MAQUINA_LAVAR: SomConhecido(
+            CategoriaSom.MAQUINA_LAVAR, NivelUrgencia.INFORMATIVO,
+            "Maquina de lavar roupa ou secadora em funcionamento.",
+            "Informativo: ciclo de lavagem.",
+            frases_iara=[
+                "Maquina de lavar ligada.",
+                "Lavadora rodando.",
+            ],
+            cooldown_segundos=300,
+        ),
+        CategoriaSom.ASPIRADOR_ROBO: SomConhecido(
+            CategoriaSom.ASPIRADOR_ROBO, NivelUrgencia.INFORMATIVO,
+            "Aspirador robo autonomo em operacao.",
+            "Informativo: limpeza automatica.",
+            frases_iara=[
+                "Aspirador robo funcionando.",
+                "Robo aspirador em acao.",
+            ],
+            cooldown_segundos=180,
+        ),
     }
+
+# ============================================================================
+# 3.5 HARDWARE RECOMENDADO (precos aproximados 2024/2025 - BRL/USD)
+# ============================================================================
+
+RECOMENDACOES_HARDWARE = {
+    "microfone_usb_basico": {
+        "nome": "Fifine K669B / Amcrest USB Microphone",
+        "preco_usd_2025": 32,
+        "preco_brl_2025": 175,
+        "tipo": "USB plug-and-play, omnidirecional",
+        "nota": "Melhor custo-beneficio para 24/7. Boa captura de ambiente.",
+        "link_ref": "amazon.com / mercado-livre",
+    },
+    "microfone_usb_premium": {
+        "nome": "Blue Yeti Nano / Rode NT-USB+ (2024/25 refresh)",
+        "preco_usd_2025": 99,
+        "preco_brl_2025": 520,
+        "tipo": "Cardioide + padroes, gain control",
+        "nota": "Recomendado para usuarios com multiplos ambientes ou alta fidelidade.",
+    },
+    "microfone_lav": {
+        "nome": "BOYA BY-M1 / DJI Mic Mini (2024)",
+        "preco_usd_2025": 25,
+        "preco_brl_2025": 140,
+        "tipo": "Lavalier com clip (para posicao proxima a fonte)",
+        "nota": "Ideal para deteccao de voz/alarme proximo ao usuario.",
+    },
+    "array_mic": {
+        "nome": "ReSpeaker 4-Mic Array / Seeed 2-Mic Pi HAT (2025)",
+        "preco_usd_2025": 28,
+        "preco_brl_2025": 155,
+        "tipo": "Microfone array com beamforming (Raspberry Pi / SBC)",
+        "nota": "Excelente para direcao de som + cancelamento de ruido. Recomendado para instalacao fixa.",
+    },
+    "kit_acessibilidade": {
+        "nome": "Kit completo (mic USB + Raspberry Pi Zero 2W + case)",
+        "preco_usd_2025": 85,
+        "preco_brl_2025": 460,
+        "nota": "Setup dedicado 24/7 para OpenAmbientSoundAI em hardware soberano.",
+    },
+}
+
+def listar_hardware() -> None:
+    """Imprime tabela de hardware recomendado com precos atualizados."""
+    print("\n[RECOMENDACOES DE HARDWARE - precos 2024/2025]")
+    for key, h in RECOMENDACOES_HARDWARE.items():
+        print(f"  {key}:")
+        print(f"    Nome: {h['nome']}")
+        print(f"    Preco USD: ~${h['preco_usd_2025']} | BRL: R${h.get('preco_brl_2025', 'N/A')}")
+        if 'tipo' in h:
+            print(f"    Tipo: {h['tipo']}")
+        print(f"    Nota: {h['nota']}")
+        print()
+
 
 
 # ============================================================================
@@ -399,9 +538,14 @@ def _init_sons_conhecidos() -> Dict[CategoriaSom, SomConhecido]:
 
 class ClassificadorSom:
     """
-    Simula a classificacao de audio pelo modelo (YAMNet ou similar).
-    No mundo real: tensor flow lite + YAMNet, ou modelo proprio da Republica.
-    Aqui: simulacao deterministica para o demo.
+    Simula a classificacao de audio pelo modelo.
+    Stack 2024/2025 recomendado (real implementation):
+      - Audio event detection: transformers.ASTForAudioClassification (MIT/ast-finetuned-audioset-10-10-0.4593)
+        ou PaSST / BEATs via HuggingFace + onnxruntime.
+      - Alternativa leve: YAMNet via tf-lite ou yamnet-onnx.
+      - Fallback ASR se necessario: faster-whisper (large-v3 ou distil-whisper-small 2024).
+      - Captura: sounddevice ou pyaudio -> resample 16kHz mono -> model.
+    Tudo offline. Aqui: simulacao deterministica para o demo e testes.
     """
 
     # simulacao de probabilidades por categoria
@@ -768,7 +912,7 @@ def _demo() -> None:
      O microfono ouve sons, nao escuta conversas.
 
   3. NAO ENVIA: tudo local. Nenhum dado sonoro sai do dispositivo.
-     O modelo roda no processador (YAMNet 3.6M params, CPU).
+     O modelo roda no processador (AST/PaSST ou YAMNet ~3-80M params, CPU/GPU local).
 
   4. DESLIGAVEL: usuario pode pausar a escuta a qualquer momento.
      "Iara, parar de ouvir." O microfone fecha. Radical.

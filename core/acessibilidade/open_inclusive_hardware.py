@@ -21,7 +21,7 @@ Integrado com:
 - OpenBodilyAutonomy (usuario controla seu dispositivo)
 - OpenSilencePolicy (dispositivos respeitam o silencio)
 
-HARDWARE MAPEADO (6 CATEGORIAS, 40+ DISPOSITIVOS):
+HARDWARE MAPEADO (8 CATEGORIAS, 56+ DISPOSITIVOS -- atualizado 2024/2025):
 
 1. MASSA (smartphone, tablet, smartwatch, notebook, desktop)
    - Disponivel em qualquer lugar, barato, ubiquo
@@ -71,13 +71,13 @@ class HardwareCategory(Enum):
 
 
 class HardwareCost(Enum):
-    """Custo de aquisicao do hardware."""
+    """Custo de aquisicao do hardware (faixas BRL atualizadas 2024/2025)."""
     FREE = "gratis"            # terminal publico, biblioteca
-    VERY_LOW = "muito_baixo"   # < R$ 100 (fone simples, switch DIY)
-    LOW = "baixo"              # R$ 100-500 (smartphone basico)
-    MEDIUM = "medio"           # R$ 500-2000 (tablet, smartwatch)
-    HIGH = "alto"              # R$ 2000-10000 (eye-tracker, braille)
-    VERY_HIGH = "muito_alto"   # > R$ 10000 (BCI, implante coclear)
+    VERY_LOW = "muito_baixo"   # < R$ 150 (fone simples, switch DIY, microfone lapela)
+    LOW = "baixo"              # R$ 150-800 (smartphone basico, smartwatch simples, fone ANC)
+    MEDIUM = "medio"           # R$ 800-4500 (tablet, smartwatch top, smart ring)
+    HIGH = "alto"              # R$ 4500-18000 (eye-tracker, braille 40 celulas)
+    VERY_HIGH = "muito_alto"   # > R$ 18000 (BCI, implante coclear, braille 80 celulas)
     SUBSIDIZED = "subsidiado"  # governo/seguro cobre
 
 
@@ -127,7 +127,7 @@ class HardwareDevice:
 
 
 # ============================================================================
-# 3. CATALOGO DE HARDWARE (40+ DISPOSITIVOS)
+# 3. CATALOGO DE HARDWARE (56+ DISPOSITIVOS -- atualizado 2024/2025)
 # ============================================================================
 
 HARDWARE_CATALOG: List[HardwareDevice] = [
@@ -140,7 +140,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch", "voice", "camera", "microphone", "bluetooth_keyboard", "nfc", "accelerometer", "gyroscope"],
         output_capabilities=["screen", "speaker", "vibration", "flash_led", "screen_reader"],
         battery_hours=12.0,
-        description="O dispositivo mais inclusivo do planeta. TalkBack, Voice Access, Switch Access nativos."),
+        description="O dispositivo mais inclusivo do planeta. TalkBack, Voice Access, Switch Access nativos. 2024/2025: Android 14/15, Pixel 8a/9, Galaxy A55/S24, Moto G54."),
 
     HardwareDevice("HW-002", "iPhone (qualquer)",
         HardwareCategory.MASS, HardwareCost.MEDIUM, HardwareAvailability.UBIQUITOUS,
@@ -150,7 +150,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch", "voice", "face_id", "camera", "microphone", "bluetooth_keyboard", "lidar"],
         output_capabilities=["screen", "speaker", "vibration", "taptic_engine", "voiceover", "flash_led"],
         battery_hours=15.0,
-        description="VoiceOver, Switch Control, Voice Control, Sound Detection nativos. Lidar para deteccao de obstaculos."),
+        description="VoiceOver, Switch Control, Voice Control, Sound Detection nativos. Lidar para deteccao de obstaculos. 2024/2025: iOS 18, iPhone 15/16, Personal Voice, Live Speech, Eye Tracking (iOS 18)."),
 
     HardwareDevice("HW-003", "Smartphone basico (teclado fisico)",
         HardwareCategory.MASS, HardwareCost.VERY_LOW, HardwareAvailability.COMMON,
@@ -181,7 +181,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch", "voice", "face_id", "camera", "microphone", "stylus_pencil", "lidar"],
         output_capabilities=["screen_large", "speaker", "taptic_engine", "voiceover"],
         battery_hours=10.0,
-        description="Apple Pencil para deteccao de tremores. AssistiveTouch. Full Keyboard Control."),
+        description="Apple Pencil para deteccao de tremores. AssistiveTouch. Full Keyboard Control. 2024/2025: iPad Pro M4 (2024), Apple Intelligence, Eye Tracking iPadOS 18."),
 
     # === SMARTWATCH / WEARABLE ===
     HardwareDevice("HW-006", "Smartwatch Android (WearOS)",
@@ -192,7 +192,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch_small", "voice", "microphone", "accelerometer", "heart_rate", "gestures", "crown"],
         output_capabilities=["screen_tiny", "vibration", "speaker_tiny", "haptic"],
         battery_hours=24.0,
-        description="Vibracao no pulso para alertas (surdez). Monitor de batimento (epilepsia/ansiedade). Coroa para navegacao (motor)."),
+        description="Vibracao no pulso para alertas (surdez). Monitor de batimento (epilepsia/ansiedade). Coroa para navegacao (motor). 2024/2025: WearOS 5, Galaxy Watch 7/Ultra, Pixel Watch 3."),
 
     HardwareDevice("HW-007", "Apple Watch",
         HardwareCategory.WEARABLE, HardwareCost.MEDIUM, HardwareAvailability.COMMON,
@@ -202,7 +202,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch_small", "voice", "microphone", "crown_digital", "accelerometer", "heart_rate", "ecg", "fall_detection", "gestures", "sip_pinch"],
         output_capabilities=["screen_tiny", "taptic_engine", "speaker_tiny", "haptic"],
         battery_hours=18.0,
-        description="Fall Detection (queda). ECG (coracao). Taptic Engine para surdos. AssistiveTouch (pinca/sorvo para tetraplegia). Noise app (autismo)."),
+        description="Fall Detection (queda). ECG (coracao). Taptic Engine para surdos. AssistiveTouch (pinca/sorvo para tetraplegia). Noise app (autismo). 2024/2025: Series 10, Ultra 2, sleep apnea detection (FDA aprovado 2024), Double Tap gesture."),
 
     HardwareDevice("HW-008", "Smartwatch basico / Pulseira fitness",
         HardwareCategory.WEARABLE, HardwareCost.LOW, HardwareAvailability.UBIQUITOUS,
@@ -212,7 +212,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["touch_tiny", "accelerometer", "heart_rate"],
         output_capabilities=["screen_tiny", "vibration"],
         battery_hours=168.0,  # 7 dias
-        description="R$80-200. Vibracao para notificacoes (surdez). Monitor basico de sono/atividade."),
+        description="R$80-250. Vibracao para notificacoes (surdez). Monitor basico de sono/atividade. 2024/2025: Mi Band 8, Galaxy Fit3."),
 
     HardwareDevice("HW-009", "Anel Smart (Smart Ring)",
         HardwareCategory.WEARABLE, HardwareCost.MEDIUM, HardwareAvailability.SPECIALIZED,
@@ -222,7 +222,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["accelerometer", "heart_rate", "temperature", "spO2"],
         output_capabilities=["vibration_tiny", "led"],
         battery_hours=168.0,
-        description="Discreto. Monitor de sono, temperatura, SpO2. Para autismo: biofeedback discreto."),
+        description="Discreto. Monitor de sono, temperatura, SpO2. Para autismo: biofeedback discreto. 2024/2025: Oura Ring 4, Samsung Galaxy Ring, Ultrahuman. R$1500-3500 no Brasil."),
 
     HardwareDevice("HW-010", "Oculos Inteligentes (Smart Glasses)",
         HardwareCategory.WEARABLE, HardwareCost.HIGH, HardwareAvailability.SPECIALIZED,
@@ -232,7 +232,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["voice", "camera", "microphone", "bone_conduction_audio", "head_tracking", "eye_tracking_basic"],
         output_capabilities=["hud_overlay", "bone_conduction_speaker", "vibration"],
         battery_hours=6.0,
-        description="Legendas em tempo real no campo de visao (surdez). Navegacao por setas (cegueira). Heads-up display."),
+        description="Legendas em tempo real no campo de visao (surdez). Navegacao por setas (cegueira). Heads-up display. 2024/2025: Xander Glasses (legendas para surdos), XReal Air 2, Ray-Ban Meta (camera+voz), Google/Android XR."),
 
     # === COMPUTADOR / NOTEBOOK ===
     HardwareDevice("HW-011", "Notebook / Laptop",
@@ -305,7 +305,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["eye_gaze", "dwell_selection", "blink"],
         output_capabilities=[],
         battery_hours=0.0,
-        description="Camera infravermelha rastreia olhos. Tetraplegia, ELA, paralisia cerebral. Custo: R$2.000-8.000."),
+        description="Camera infravermelha rastreia olhos. Tetraplegia, ELA, paralisia cerebral. Custo: R$4.500-18.000 (Tobii PCeye, EyeX Plus, Tobii Dynavox)."),
 
     HardwareDevice("HW-017", "Eye Tracker portatil (smartphone)",
         HardwareCategory.ASSISTIVE_MOTOR, HardwareCost.MEDIUM, HardwareAvailability.SPECIALIZED,
@@ -325,7 +325,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["single_switch", "dual_switch"],
         output_capabilities=[],
         battery_hours=0.0,
-        description="Um ou dois botoes grandes. Scan automatico passa opcoes, usuario aciona para selecionar. DIY possivel por R$20."),
+        description="Um ou dois botoes grandes. Scan automatico passa opcoes, usuario aciona para selecionar. DIY possivel por R$30. 2024/2025: Ablenet Big Red, Logitech Adaptive Gaming Kit."),
 
     HardwareDevice("HW-019", "Teclado adaptativo grande",
         HardwareCategory.ASSISTIVE_MOTOR, HardwareCost.LOW, HardwareAvailability.SPECIALIZED,
@@ -365,7 +365,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["foot_press_left", "foot_press_right", "foot_press_center"],
         output_capabilities=[],
         battery_hours=0.0,
-        description="Para quem tem uso dos pes mas nao das maos. 3 pedais = 3 botoes. R$50-150."),
+        description="Para quem tem uso dos pes mas nao das maos. 3 pedais = 3 botoes. R$80-250."),
 
     HardwareDevice("HW-023", "EMG / MIODOELETRICO (braco bio-feedback)",
         HardwareCategory.ASSISTIVE_MOTOR, HardwareCost.MEDIUM, HardwareAvailability.EXPERIMENTAL,
@@ -386,7 +386,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["neural_spikes", "motor_intention"],
         output_capabilities=[],
         battery_hours=0.0,  # implante
-        description="Eletrodos no cerebro. Tetraplegia profunda. Ainda em ensaios clinicos."),
+        description="Eletrodos no cerebro. Tetraplegia profunda. Neuralink: 3+ pacientes humanos desde 2024 (Noland Arbaugh jogou xadrez mental). Synchron Stentrode: 10+ pacientes. Ainda em ensaios clinicos FDA."),
 
     HardwareDevice("HW-025", "BCI Nao-Invasivo (EEG headset)",
         HardwareCategory.BRAIN, HardwareCost.MEDIUM, HardwareAvailability.SPECIALIZED,
@@ -396,7 +396,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["eeg_waves", "concentration_level", "blink_detect"],
         output_capabilities=["neurofeedback_display"],
         battery_hours=6.0,
-        description="Capacete com eletrodos. Le ondas cerebrais. Precisao baixa mas nao invasivo. R$500-3000."),
+        description="Capacete com eletrodos. Le ondas cerebrais. Precisao baixa mas nao invasivo. R$800-4500 (Muse 2, Emotiv EPOC, g.Nautilus)."),
 
     # === AUDITIVO ===
     HardwareDevice("HC-026", "Aparelho Auditivo (digital)",
@@ -407,7 +407,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["bluetooth_audio_in"],
         output_capabilities=["audio_amplified", "audio_filtered"],
         battery_hours=96.0,  # 4 dias
-        description="Amplifica e filtra som. Bluetooth direto do smartphone. Programa SUS cobre."),
+        description="Amplifica e filtra som. Bluetooth direto do smartphone. Programa SUS cobre. 2024/2025: Phonak Audeo Lumity, Oticon Real, Jabra Enhance (OTC)."),
 
     HardwareDevice("HC-027", "Implante Coclear",
         HardwareCategory.ASSISTIVE_AUDITORY, HardwareCost.VERY_HIGH, HardwareAvailability.MEDICAL,
@@ -417,7 +417,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["bluetooth_audio_in"],
         output_capabilities=["electrical_stimulation"],
         battery_hours=24.0,
-        description="Cirurgico. Eletrodos na coclea. Para surdez profunda. SUS cobre em alguns estados."),
+        description="Cirurgico. Eletrodos na coclea. Para surdez profunda. SUS cobre em alguns estados. 2024/2025: Cochlear N8, Med-El Sonnet 3, Advanced Bionics Marvel."),
 
     HardwareDevice("HC-028", "Loop Magnetico / Sistema FM",
         HardwareCategory.ASSISTIVE_AUDITORY, HardwareCost.LOW, HardwareAvailability.SPECIALIZED,
@@ -438,7 +438,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["anc_microphone"],
         output_capabilities=["audio_anc", "audio_filtered"],
         battery_hours=30.0,
-        description="Cancela ruido ambiente. ESCUDO SENSORIAL para autista/TDAH em ambiente ruidoso. R$100-500."),
+        description="Cancela ruido ambiente. ESCUDO SENSORIAL para autista/TDAH em ambiente ruidoso. R$150-800. 2024/2025: Sony WH-1000XM5, Bose QC Ultra, Soundcore Q45."),
 
     HardwareDevice("HC-030", "Fone com microfone direcional",
         HardwareCategory.ASSISTIVE_COGNITIVE, HardwareCost.LOW, HardwareAvailability.COMMON,
@@ -468,7 +468,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=[],
         output_capabilities=["deep_pressure_stimulation"],
         battery_hours=0.0,
-        description="Pressao profunda calmante. Reduz ansiedade (autismo/TDAH). Melhora sono. R$100-300."),
+        description="Pressao profunda calmante. Reduz ansiedade (autismo/TDAH). Melhora sono. R$120-400."),
 
     HardwareDevice("HC-033", "Bracelete Anti-Ansiedade / Vibratorio",
         HardwareCategory.WEARABLE, HardwareCost.VERY_LOW, HardwareAvailability.COMMON,
@@ -478,7 +478,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["heart_rate", "skin_conductance"],
         output_capabilities=["vibration_patterns", "temperature_cooling"],
         battery_hours=72.0,
-        description="Vibracao para acalmar (biofeedback). Detecta crise de ansiedade por batimento. R$80-200."),
+        description="Vibracao para acalmar (biofeedback). Detecta crise de ansiedade por batimento. R$100-400. 2024/2025: Apollo Neuro, Calmigo."),
 
     # === TERMINAL PUBLICO ===
     HardwareDevice("HW-034", "TV Smart (qualquer)",
@@ -509,7 +509,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["keyboard", "usb_switch", "usb_eye_tracker", "bluetooth"],
         output_capabilities=["screen", "speaker", "audio_jack"],
         battery_hours=0.0,
-        description="Raspberry Pi R$150 + tela R$100 = terminal completo. OpenKit da Republica."),
+        description="Raspberry Pi 5 R$250 (2024) + tela R$120 = terminal completo. OpenKit da Republica."),
 
     HardwareDevice("HW-037", "Computador Comunitario (biblioteca, escola)",
         HardwareCategory.TERMINAL_PUBLIC, HardwareCost.FREE, HardwareAvailability.COMMON,
@@ -530,7 +530,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["voice_high_quality", "noise_cancellation"],
         output_capabilities=[],
         battery_hours=0.0,
-        description="Para dictacao de codigo por voz. Microfone de lapela R$30 = suficiente."),
+        description="Para dictacao de codigo por voz. Microfone de lapela R$40 = suficiente. 2024/2025: Boya BY-M1, Fifine AmpliGame."),
 
     HardwareDevice("HW-039", "Camera Web (webcam)",
         HardwareCategory.MASS, HardwareCost.VERY_LOW, HardwareAvailability.UBIQUITOUS,
@@ -540,7 +540,7 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["hand_tracking", "face_tracking", "eye_tracking_basic", "gesture", "sign_language_capture"],
         output_capabilities=[],
         battery_hours=0.0,
-        description="Gestos de mao, tracking facial, captura de Libras. Webcam R$50 = suficiente."),
+        description="Gestos de mao, tracking facial, captura de Libras. Webcam R$70 = suficiente. 2024/2025: Logitech C920/C930, Insta360 Link."),
 
     # === INPUT ALTERNATIVO ===
     HardwareDevice("HW-040", "Teclado Braille ( Perkins / eletronico)",
@@ -581,7 +581,139 @@ HARDWARE_CATALOG: List[HardwareDevice] = [
         input_capabilities=["microphone_optional"],
         output_capabilities=["audio", "audio_isolated"],
         battery_hours=0.0,
-        description="Fone comum R$15. Para TTS (cego), isolamento (autista), audio direto (surdo com aparelho)."),
+        description="Fone comum R$20. Para TTS (cego), isolamento (autista), audio direto (surdo com aparelho)."),
+
+    # === NOVOS DISPOSITIVOS 2024/2025 ===
+
+    HardwareDevice("HW-044", "Smartphone com IA Generativa On-Device",
+        HardwareCategory.MASS, HardwareCost.MEDIUM, HardwareAvailability.UBIQUITOUS,
+        connections=[ConnectionType.BLUETOOTH, ConnectionType.USB, ConnectionType.WIFI, ConnectionType.NFC],
+        platforms=["Android", "iOS"],
+        disabilities_served=["visual", "auditiva", "motora", "cognitiva", "espectro_autista", "desenvolvimento", "multipla"],
+        input_capabilities=["touch", "voice", "camera_ai_vision", "microphone", "ai_assistant", "ocr_realtime", "image_description"],
+        output_capabilities=["screen", "speaker", "vibration", "screen_reader", "live_captions", "ai_voice_cloned"],
+        battery_hours=20.0,
+        description="2024/2025: Galaxy S24+ (Galaxy AI: traducao de chamadas, resumo), Pixel 9 (Gemini Nano), iPhone 16 (Apple Intelligence). Legendas ao vivo em chamadas. Descricao de imagens por IA para cegos (Lookout, Be My Eyes AI)."),
+
+    HardwareDevice("HW-045", "Oculos de Legenda em Tempo Real (Live Caption Glasses)",
+        HardwareCategory.WEARABLE, HardwareCost.HIGH, HardwareAvailability.SPECIALIZED,
+        connections=[ConnectionType.BLUETOOTH, ConnectionType.WIFI],
+        platforms=["Android", "Proprietary"],
+        disabilities_served=["auditiva", "neurologica"],
+        input_capabilities=["microphone", "voice"],
+        output_capabilities=["hud_overlay", "live_captions_ar"],
+        battery_hours=5.0,
+        description="2024/2025: Xander Glasses (substitui leitura labial), XReal Air + app. Legendas da conversa flutuam no campo de visao. Revolucionario para surdos em reunioes/aulas."),
+
+    HardwareDevice("HW-046", "Leitor de Tela com IA / VLM (Vision Language Model)",
+        HardwareCategory.ASSISTIVE_VISUAL, HardwareCost.FREE, HardwareAvailability.UBIQUITOUS,
+        connections=[ConnectionType.CLOUD, ConnectionType.WIFI],
+        platforms=["Android", "iOS", "Windows", "Linux", "macOS"],
+        disabilities_served=["visual"],
+        input_capabilities=[],
+        output_capabilities=["tts_natural", "image_description", "scene_understanding"],
+        battery_hours=0.0,
+        description="2024/2025: Be My Eyes (integracao GPT-4o), Envision AI, Seeing AI (Microsoft), Google Lookout. IA descreve cenas, le documentos, identifica produtos. Descricao natural, nao robotica."),
+
+    HardwareDevice("HW-047", "Cao-guia Robotico / Navegador Autonomo para Cegos",
+        HardwareCategory.ASSISTIVE_VISUAL, HardwareCost.HIGH, HardwareAvailability.EXPERIMENTAL,
+        connections=[ConnectionType.BLUETOOTH, ConnectionType.WIFI],
+        platforms=["Android", "iOS", "Proprietary"],
+        disabilities_served=["visual", "motora"],
+        input_capabilities=["lidar", "camera_depth", "obstacle_detection", "gps"],
+        output_capabilities=["voice_navigation", "haptic_feedback", "audio_cues"],
+        battery_hours=4.0,
+        description="2024/2025: Glide (Biped.AI), Glidance. Robo com sensor LiDAR que guia pessoa cega em ambiente, evita obstaculos. Alternativa ao cao-guia. Ainda em pre-order/fase inicial."),
+
+    HardwareDevice("HW-048", "Teclado Adaptativo Gaming (Xbox Adaptive / Logitech)",
+        HardwareCategory.ASSISTIVE_MOTOR, HardwareCost.MEDIUM, HardwareAvailability.COMMON,
+        connections=[ConnectionType.USB, ConnectionType.BLUETOOTH],
+        platforms=["Windows", "Linux", "Android", "Xbox"],
+        disabilities_served=["motora", "multipla", "desenvolvimento"],
+        input_capabilities=["large_buttons", "programmable_keys", "foot_pedal_jack", "switch_jack"],
+        output_capabilities=[],
+        battery_hours=0.0,
+        description="2024/2025: Xbox Adaptive Controller, Logitech Adaptive Gaming Kit, Sony Access Controller (PS5). Hub para switchs, pedais e botoes grandes. Democratiza jogos E desenvolvimento para deficiencias motoras."),
+
+    HardwareDevice("HW-049", "Implante Auditivo Osseointegrado (BAHA)",
+        HardwareCategory.ASSISTIVE_AUDITORY, HardwareCost.VERY_HIGH, HardwareAvailability.MEDICAL,
+        connections=[ConnectionType.BLUETOOTH],
+        platforms=["Standalone"],
+        disabilities_served=["auditiva"],
+        input_capabilities=["bluetooth_audio_in"],
+        output_capabilities=["bone_conduction_vibration"],
+        battery_hours=168.0,
+        description="2024/2025: Cochlear Osia, Oticon Ponto. Implante osseo transmite som por vibracao craniana. Para surdez condutiva/unilateral. SUS cobre em alguns estados."),
+
+    HardwareDevice("HW-050", "Robo Asistente Social (para Autismo/AVC/Idosos)",
+        HardwareCategory.ASSISTIVE_COGNITIVE, HardwareCost.HIGH, HardwareAvailability.SPECIALIZED,
+        connections=[ConnectionType.WIFI, ConnectionType.BLUETOOTH],
+        platforms=["Proprietary"],
+        disabilities_served=["espectro_autista", "cognitiva", "neurologica", "desenvolvimento"],
+        input_capabilities=["voice", "camera", "emotion_recognition", "ai_assistant"],
+        output_capabilities=["voice_natural", "screen_tablet", "movement_expression"],
+        battery_hours=6.0,
+        description="2024/2025: Moxie (Embodied), QTrobot (LuxAI), Nao (SoftBank). Robos sociais para terapia de autismo, recuperacao de AVC, estimulacao cognitiva. Pacientes respondem melhor a rostos roboticos que humanos."),
+
+    HardwareDevice("HW-051", "Oculos de Leitura (OrCam Read / eSight)",
+        HardwareCategory.ASSISTIVE_VISUAL, HardwareCost.HIGH, HardwareAvailability.SPECIALIZED,
+        connections=[ConnectionType.WIFI, ConnectionType.BLUETOOTH],
+        platforms=["Android", "iOS", "Proprietary"],
+        disabilities_served=["visual"],
+        input_capabilities=["camera_zoom", "ocr_realtime", "face_recognition"],
+        output_capabilities=["tts", "hud_overlay", "screen_zoomed"],
+        battery_hours=5.0,
+        description="2024/2025: OrCam Read 3, eSight Go. Aponta para texto e fala. Reconhece faces, produtos, dinheiro. Para baixa visao e cegueira parcial. R$8.000-16.000."),
+
+    HardwareDevice("HW-052", "Dispositivo de Comunicacao Alternativa (AAC Tablet dedicado)",
+        HardwareCategory.ASSISTIVE_COGNITIVE, HardwareCost.MEDIUM, HardwareAvailability.SPECIALIZED,
+        connections=[ConnectionType.WIFI, ConnectionType.BLUETOOTH],
+        platforms=["Android", "iOS", "Windows"],
+        disabilities_served=["comunicacao", "motora", "cognitiva", "desenvolvimento", "neurologica"],
+        input_capabilities=["touch", "eye_gaze_optional", "switch_scanning", "voice"],
+        output_capabilities=["tts_natural", "screen_large"],
+        battery_hours=10.0,
+        description="2024/2025: Tobii Dynavox, Prentke Romich (Accent), Proloquo2Go (iPad). Tablet dedicado a comunicacao alternativa. Sintetiza voz para quem nao fala (ELA, autismo nao-verbal, paralisia cerebral)."),
+
+    HardwareDevice("HW-053", "Monitor de Glicose Continuo (CGM) com Alerta Vibratorio",
+        HardwareCategory.WEARABLE, HardwareCost.MEDIUM, HardwareAvailability.MEDICAL,
+        connections=[ConnectionType.BLUETOOTH, ConnectionType.NFC],
+        platforms=["Android", "iOS"],
+        disabilities_served=["auditiva", "neurologica", "cognitiva"],
+        input_capabilities=["glucose_sensor"],
+        output_capabilities=["vibration", "screen_tiny", "audio_alert"],
+        battery_hours=0.0,
+        description="2024/2025: Dexcom G7, FreeStyle Libre 3+. Sensores de glicose continuo. Alertas vibratorios para hipo/hiperglicemia. Essencial para diabeticos surdos que nao ouvem alarmes."),
+
+    HardwareDevice("HW-054", "Sintetizador de Voz AI (Clonagem para ELA/Disartria)",
+        HardwareCategory.ASSISTIVE_COGNITIVE, HardwareCost.FREE, HardwareAvailability.UBIQUITOUS,
+        connections=[ConnectionType.CLOUD, ConnectionType.WIFI],
+        platforms=["Android", "iOS", "Windows", "macOS", "Linux"],
+        disabilities_served=["comunicacao", "motora", "neurologica"],
+        input_capabilities=[],
+        output_capabilities=["ai_voice_cloned", "tts_natural"],
+        battery_hours=0.0,
+        description="2024/2025: ElevenLabs Voice Cloning, Apple Personal Voice (iOS 17+), Microsoft Azure TTS. Clona a voz do paciente ANTES de perder a fala (ELA, distrofia, cancer de laringe). Depois, comunica com a propria voz sintetica. Gratuito no iPhone."),
+
+    HardwareDevice("HW-055", "EPaper Display Acessivel (Baixo Contraste/Luz Azul Zero)",
+        HardwareCategory.TERMINAL_PUBLIC, HardwareCost.LOW, HardwareAvailability.COMMON,
+        connections=[ConnectionType.WIFI, ConnectionType.BLUETOOTH, ConnectionType.USB],
+        platforms=["Linux", "Android", "Proprietary"],
+        disabilities_served=["visual", "espectro_autista", "cognitiva", "neurologica"],
+        input_capabilities=[],
+        output_capabilities=["screen_epaper", "no_flicker", "low_blue_light"],
+        battery_hours=720.0,  # semanas
+        description="2024/2025: Boox Palma/Note Air, Kobo Clara BW, Onyx. Tela e-ink: zero flicker, zero luz azul, leitura em luz solar. Para autismo/fotossensibilidade/epilepsia. Reduz fadiga visual em TDAH."),
+
+    HardwareDevice("HW-056", "Hub de Smarthome Acessivel (Casa Adaptada)",
+        HardwareCategory.ASSISTIVE_COGNITIVE, HardwareCost.LOW, HardwareAvailability.COMMON,
+        connections=[ConnectionType.WIFI, ConnectionType.BLUETOOTH],
+        platforms=["Android", "iOS", "Linux"],
+        disabilities_served=["auditiva", "visual", "motora", "cognitiva", "neurologica", "temporaria"],
+        input_capabilities=["voice", "automation_rules"],
+        output_capabilities=["color_light", "smart_doorbell_visual", "smart_lock", "automation"],
+        battery_hours=0.0,
+        description="2024/2025: Home Assistant (open-source, self-hosted), Google Home, Alexa, Apple HomeKit. Porta que abre por voz (tetraplegia). Campainha que pisca luz (surdez). Rotina automatica (autismo/TDAH). R$200-800 base + dispositivos."),
 ]
 
 
@@ -631,29 +763,40 @@ class HardwareCompatibilityEngine:
     def recommend_setup(self, disabilities: List[str], budget: HardwareCost = HardwareCost.LOW,
                         platform: str = "Android") -> List[HardwareDevice]:
         """Recomenda conjunto de hardware para um perfil."""
-        recommendations = set()
+        # HardwareDevice e dataclass mutavel (nao-hashable): dedupe por device_id.
+        recommendations: Dict[str, HardwareDevice] = {}
         for disability in disabilities:
             devices = self.find_by_disability(disability)
             for d in devices:
                 if platform in d.platforms or not d.platforms:
-                    recommendations.add(d)
+                    recommendations[d.device_id] = d
         # Filtrar por orcamento
-        budget_devices = self.find_by_cost(budget)
-        final = [d for d in recommendations if d in budget_devices]
+        budget_ids = {d.device_id for d in self.find_by_cost(budget)}
+        final = [d for d in recommendations.values() if d.device_id in budget_ids]
         if not final:
             # Se nada no orcamento, retornar gratis/basico
-            final = self.find_by_cost(HardwareCost.FREE) + self.find_by_cost(HardwareCost.VERY_LOW)
-        return list(set(final))
+            seen: Set[str] = set()
+            merged: List[HardwareDevice] = []
+            for d in self.find_by_cost(HardwareCost.FREE) + self.find_by_cost(HardwareCost.VERY_LOW):
+                if d.device_id not in seen:
+                    seen.add(d.device_id)
+                    merged.append(d)
+            final = merged
+        return final
 
     def total_setup_cost(self, devices: List[HardwareDevice]) -> Dict[str, Any]:
-        """Estima custo total de um setup."""
+        """Estima custo total de um setup (faixas BRL atualizadas para 2024/2025).
+
+        Faixas refletem precificacao de mercado brasileira 2024/2025, incluindo
+        importacao, impostos e inflacao desde a versao original do modulo.
+        """
         cost_ranges = {
             HardwareCost.FREE: (0, 0),
-            HardwareCost.VERY_LOW: (1, 100),
-            HardwareCost.LOW: (100, 500),
-            HardwareCost.MEDIUM: (500, 2000),
-            HardwareCost.HIGH: (2000, 10000),
-            HardwareCost.VERY_HIGH: (10000, 100000),
+            HardwareCost.VERY_LOW: (1, 150),        # antes (1,100)
+            HardwareCost.LOW: (150, 800),            # antes (100,500)
+            HardwareCost.MEDIUM: (800, 4500),        # antes (500,2000)
+            HardwareCost.HIGH: (4500, 18000),        # antes (2000,10000)
+            HardwareCost.VERY_HIGH: (18000, 250000), # antes (10000,100000)
             HardwareCost.SUBSIDIZED: (0, 0),
         }
         min_total = 0
@@ -908,11 +1051,11 @@ class HardwareEscalationLadder:
 
     RUNGS = [
         ("Degrau 0: ZERO CUSTO", create_setup_zero_cost, "Biblioteca publica + NVDA gratis. Todo mundo comeca aqui."),
-        ("Degrau 1: SMARTPHONE", create_setup_budget, "Smartphone R$300 + fone R$50 + switch R$30. Acesse de qualquer lugar."),
+        ("Degrau 1: SMARTPHONE", create_setup_budget, "Smartphone R$600-1500 + fone ANC R$200 + switch R$50. Acesse de qualquer lugar."),
         ("Degrau 2: TABLET/WEARABLE", create_setup_deaf, "Adiciona smartwatch/luz para feedback multimodal."),
         ("Degrau 3: ASSISTIVO ESPECIFICO", create_setup_blind, "Adiciona braille/eye-tracker especifico para deficiencia."),
         ("Degrau 4: SETUP COMPLETO", create_setup_motor_severe, "Notebook + eye-tracker + microfone. Desenvolvimento profissional."),
-        ("Degrau 5: BCI/EXPERIMENTAL", None, "BCI, haptic vest, smart glasses. Fronteira da tecnologia."),
+        ("Degrau 5: IA/BCI/EXPERIMENTAL", None, "Smart glasses IA, BCI Neuralink/Synchron, haptic vest. Fronteira da tecnologia 2024/2025."),
     ]
 
     @classmethod

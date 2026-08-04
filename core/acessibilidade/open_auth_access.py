@@ -5,6 +5,14 @@ OpenAuthAccess -- Autenticacao por Camadas para Todas as Acessibilidades
 "Senha para cego? Captcha para surdo? Biometria para quem nao tem dedos?
 A autenticacao tradicional EXCLUI. A Republica INCLUI."
 
+Atualizado 2024/2025:
+- Linux PAM 1.6.1+ (libpam0g 1.6.1-4+ em Debian/Ubuntu 24.04/25.04)
+- evdev / input subsystem: Linux kernel 6.10+ / 6.12 LTS (2024/2025)
+- python-evdev 1.7.1+ (PyPI 2024)
+- libfprint 1.94.7+ + fprintd 1.94+ (suporte fingerprint Goodix/Synaptics/FPC/ELAN integrados 2024/25)
+- Adicionado FINGERPRINT como fator nativo (libfprint + pam_fprintd)
+- Hardware atualizado com precos BRL aproximados 2025 (Mercado Livre / importacao)
+
 O PROBLEMA:
 
   SENHA (texto): cego nao ve o campo. Tetraplegico nao digita.
@@ -26,7 +34,7 @@ A SOLUCAO: AUTENTICACAO ADAPTATIVA POR CAMADAS
 
   "O que voce PODE fazer?" (nao "o que voce NAO pode?")
 
-AS 8 CAPACIDADES DE INPUT (e o metodo de auth para cada uma):
+AS 9 CAPACIDADES DE INPUT (2025, incluindo fingerprint):
 
   1. VOZ:        confirmacao por voz (falar frase de seguranca)
   2. TECLA:      senha tradicional (se consegue digitar)
@@ -34,19 +42,21 @@ AS 8 CAPACIDADES DE INPUT (e o metodo de auth para cada uma):
   4. OLHAR:      eye tracker seleciona (tetrapregico, ELA)
   5. BRAILLE:    le+responde em display braille (surdo-cego)
   6. GESTO:      gesto de cabeca/micro-expressao (motora leve)
-  7. PROXIMIDADE: token fisico (smartwatch/chaveiro NFC)
-  8. CONTEXTO:   localizacao+horario+rede conhecida (fator passivo)
+  7. PROXIMIDADE: token fisico (smartwatch/chaveiro NFC/BLE)
+  8. FINGERPRINT: digital + libfprint (quando disponivel, adaptado)
+  9. CONTEXTO:   localizacao+horario+rede conhecida (fator passivo)
 
-A ARQUITETURA EM CAMADAS (integrando evdev):
+A ARQUITETURA EM CAMADAS (integrando evdev + libfprint + pam):
 
-  CAMADA 0: HARDWARE INPUT (evdev /dev/input/eventX)
-    -> Kernel captura eventos brutos (tecla, switch, mouse, IR)
+  CAMADA 0: HARDWARE INPUT (evdev /dev/input/eventX + fprint)
+    -> Kernel 6.10+ captura eventos brutos (tecla, switch, mouse, IR, touch)
     -> libinput processa em eventos padronizados
-    -> Cada dispositivo = 1 arquivo em /dev/input/
+    -> libfprint 1.94+ para sensores de impressao digital (USB + integrados)
+    -> Cada dispositivo = 1 arquivo em /dev/input/ ou /dev/bus/usb
 
   CAMADA 1: CLASSIFICADOR DE CAPACIDADE
-    -> Detecta quais dispositivos de input estao ativos
-    -> "Tem microfone? Tem switch? Tem eye tracker? Tem braille?"
+    -> Detecta quais dispositivos de input estao ativos (evdev + fprint)
+    -> "Tem microfone? Tem switch? Tem eye tracker? Tem braille? Tem fingerprint?"
     -> Monta o perfil de capacidade do usuario
 
   CAMADA 2: DESAFIO DE AUTENTICACAO (adaptativo)
@@ -54,50 +64,60 @@ A ARQUITETURA EM CAMADAS (integrando evdev):
     -> Cego: desafio por voz + contexto
     -> Tetraplegico: desafio por switch + proximidade
     -> Surdo-cego: desafio por braille + switch
-    -> Sem deficiencia: senha + 2FA (padrao)
+    -> Com fingerprint: digital + contexto (quando sensor acessivel)
+    -> Sem deficiencia: senha + 2FA ou fingerprint + contexto (padrao)
 
   CAMADA 3: VERIFICACAO MULTI-FATOR
     -> Combina fatores: algo que voce E + algo que voce TEM + algo que voce FAZ
     -> Voz (biometria vocal) + smartwatch (posse) + rede conhecida (contexto)
-    -> 2+ fatores para todos, adaptados por capacidade
+    -> Fingerprint (libfprint) + NFC + contexto
+    -> 2+ fatores para todos, adaptados por capacidade + PAM stack
 
   CAMADA 4: AUDITORIA E LOG
     -> Cada tentativa logada: quem, quando, como, resultado
     -> Falha suspeita: desafio adicional (anti-forca-bruta)
     -> Sucesso: token de sessao com TTL
 
-O MODELO DE CONFIANCA (pontos por fator):
+O MODELO DE CONFIANCA (pontos por fator) - 2025:
 
   Cada fator vale pontos. Soma precisa chegar a 100.
 
-  FATOR                          | PONTOS | CEGO | SURDO | MOTOR | IDOSO
-  -------------------------------|--------|------|-------|-------|------
-  Senha (texto)                  |   40   |  OK  |  OK   |  --   |  OK
-  Voz (biometria + frase)        |   60   |  OK  |  --   |  OK   |  OK
-  Switch (padrao de toques)      |   50   |  OK  |  OK   |  OK   |  OK
-  Eye tracker (sequencia visual) |   50   |  --  |  OK   |  OK   |  --
-  Braille (leitura + resposta)   |   60   |  OK  |  --   |  --   |  --
-  NFC/Smartwatch (posse)         |   40   |  OK  |  OK   |  OK   |  OK
-  Contexto (local+hora+rede)     |   30   |  OK  |  OK   |  OK   |  OK
-  Padrao de digitacao (keystroke)|   30   |  OK  |  OK   |  --   |  --
+  FATOR                          | PONTOS | CEGO | SURDO | MOTOR | IDOSO | FPRINT_OK
+  -------------------------------|--------|------|-------|-------|-------|----------
+  Senha (texto)                  |   40   |  OK  |  OK   |  --   |  OK   |  sim
+  Voz (biometria + frase)        |   60   |  OK  |  --   |  OK   |  OK   |  sim
+  Switch (padrao de toques)      |   50   |  OK  |  OK   |  OK   |  OK   |  sim
+  Eye tracker (sequencia visual) |   50   |  --  |  OK   |  OK   |  --   |  sim
+  Braille (leitura + resposta)   |   60   |  OK  |  --   |  --   |  --   |  sim
+  NFC/Smartwatch (posse)         |   40   |  OK  |  OK   |  OK   |  OK   |  sim
+  Fingerprint (libfprint)        |   55   |  --* |  OK   |  OK*  |  OK   |  nativo
+  Contexto (local+hora+rede)     |   30   |  OK  |  OK   |  OK   |  OK   |  sim
+  Padrao de digitacao (keystroke)|   30   |  OK  |  OK   |  --   |  --   |  sim
 
-  Cego:      Voz(60) + Contexto(30) + NFC(40) = 130 -> OK (passa de 100)
+  * Fingerprint pode ser adaptado com assistencia (ex: sensor grande + voz guia)
+    ou desabilitado para quem nao tem dedos acessiveis.
+
+  Cego:      Voz(60) + Contexto(30) + NFC(40) = 130 -> OK
   Surdo:     Senha(40) + NFC(40) + Contexto(30) = 110 -> OK
   Tetrapleg: Voz(60) + NFC(40) + Contexto(30) = 130 -> OK
   Surdo-cego: Braille(60) + NFC(40) + Contexto(30) = 130 -> OK
-  Sem defic:  Senha(40) + 2FA(40) + Contexto(30) = 110 -> OK
+  Com FPRINT: Fingerprint(55) + Contexto(30) + NFC(40) = 125 -> OK (AAL3)
+  Sem defic:  Senha(40) + Fingerprint(55) + Contexto(30) = 125 -> OK
   Idoso:     Voz(60) + NFC(40) + Contexto(30) = 130 -> OK
 
   NENHUM grupo fica de fora. Todos chegam a 100+.
   Sem SENHA obrigatoria. Sem CAPTCHA. Sem biometria unica.
 
-POR QUE EVDEV E A BASE:
+POR QUE EVDEV + LIBFPRINT E A BASE (2025):
 
-  Evdev (/dev/input/eventX) e a camada MAIS BAIXA de input no Linux.
+  Evdev (/dev/input/eventX) e a camada MAIS BAIXA de input no Linux (kernel 6.10+).
   TODO dispositivo de input passa por evdev: teclado, mouse, switch,
   eye tracker, braille display, joystick, pedal, botao adaptativo.
 
-  O OpenAuthAccess se conecta ao evdev para:
+  libfprint 1.94+ + fprintd fornece fingerprint via D-Bus / PAM (pam_fprintd).
+  Integrado com PAM 1.6.1 para auth nativa no GDM, sudo, etc.
+
+  O OpenAuthAccess se conecta ao evdev + fprint para:
   1. DETECTAR dispositivos (Camada 1): "tem switch em /dev/input/event3"
   2. CAPTURAR input do desafio (Camada 2): ler eventos do switch
   3. ANALISAR padrao (Camada 3): timing de toques (keystroke dynamics)
@@ -122,7 +142,7 @@ import re
 # ============================================================================
 
 class CapacidadeInput(Enum):
-    """As 8 capacidades de input para autenticacao."""
+    """As 9 capacidades de input para autenticacao (2025, incluindo fingerprint)."""
     VOZ = ("voz", "Voz: falar frase de seguranca (biometria vocal)")
     TECLA = ("tecla", "Tecla: digitar senha (tradicional)")
     SWITCH = ("switch", "Switch: 1 botao + scanning temporal")
@@ -130,6 +150,7 @@ class CapacidadeInput(Enum):
     BRAILLE = ("braille", "Braille: ler + responder em display tatil")
     GESTO = ("gesto", "Gesto: movimento de cabeca ou micro-expressao")
     PROXIMIDADE = ("proximidade", "Proximidade: NFC/Bluetooth (smartwatch/chaveiro)")
+    FINGERPRINT = ("fingerprint", "Digital: leitor de impressao digital (libfprint + pam_fprintd)")
     CONTEXTO = ("contexto", "Contexto: localizacao + horario + rede conhecida")
 
     @property
@@ -213,17 +234,18 @@ class CamadaAuth(Enum):
 
 
 class TipoDispositivoEvdev(Enum):
-    """Tipos de dispositivo detectaveis via evdev."""
+    """Tipos de dispositivo detectaveis via evdev + libfprint (2025)."""
     TECLADO = ("teclado", "Teclado (USB/PS2/Bluetooth)")
     MOUSE = ("mouse", "Mouse / touchpad")
     SWITCH = ("switch", "Switch adaptativo (botao de acesso)")
-    EYE_TRACKER = ("eye_tracker", "Eye tracker (Tobii, etc)")
-    BRAILLE_DISPLAY = ("braille", "Display Braille USB/Bluetooth")
-    MICROFONE = ("microfone", "Microfone (ALSA, nao evdev, mas detectavel)")
+    EYE_TRACKER = ("eye_tracker", "Eye tracker (Tobii 5 / Tobii PCEye / Irisbond 2025)")
+    BRAILLE_DISPLAY = ("braille", "Display Braille USB/Bluetooth (Orbit Reader 40, HumanWare 2025)")
+    MICROFONE = ("microfone", "Microfone (ALSA + PipeWire, nao evdev mas detectavel)")
     JOYSTICK = ("joystick", "Joystick / gamepad adaptativo")
-    NFC = ("nfc", "Leitor NFC / smartwatch BLE")
-    WEBCAM = ("webcam", "Webcam (para gesto/face)")
+    NFC = ("nfc", "Leitor NFC / smartwatch BLE (RepublicaWatch / Galaxy Watch 2025)")
+    WEBCAM = ("webcam", "Webcam (para gesto/face, 1080p+ 2025)")
     PEDAL = ("pedal", "Pedal adaptativo (foot switch)")
+    FINGERPRINT = ("fingerprint", "Leitor impressao digital (Goodix 2024/Synaptics/FPC/ELAN via libfprint 1.94.7+)")
 
     @property
     def id(self) -> str:

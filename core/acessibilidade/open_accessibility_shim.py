@@ -7,6 +7,14 @@ OpenAccessibilityShim -- Camada de Adaptacao para Software sem Acessibilidade
 80% do software do mundo NAO e acessivel. Nao tem AT-SPI. Nao tem leitor
 de tela. Nao tem contraste. Nao tem fonte escalavel. Nao tem legenda.
 
+ATUALIZACAO 2025 (versoes de software recomendadas):
+- Tesseract OCR: 5.4.1 (2024) + langs por (Portugues)
+- Whisper / faster-whisper: large-v3 + distil-large-v3 (2024)
+- Vosk: 0.3.45 (2024) - fallback leve para mobile/embedded
+- PaddleOCR / PP-OCRv5: 3.0+ (2025) - melhor para PT e tabelas
+- Novos (2024/2025): surya (layout detection), marker (PDF->MD), got-ocr2.0
+- Precos API (ref 2025): OpenAI Whisper ~$0.006/min; Groq Whisper $0.0 (rate-limited)
+
 A Republica NAO pode esperar que todo desenvolvedor adicione acessibilidade.
 Precisa de uma camada que INJETA acessibilidade por cima de qualquer app.
 

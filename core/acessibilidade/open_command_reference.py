@@ -9,10 +9,10 @@ SUBSTITUI man pages como fonte primaria de ajuda. man pages sao:
 - Pesadelo de acessibilidade (Orca le 500 linhas sem pausa)
 - Ingles-centricos, traducoes incompletas
 
-tldr-pages (~6000 comandos) e o oposto:
+tldr-pages (~6500-6800 comandos em 2025) e o oposto:
 - Exemplos curtos e praticos (5-8 por comando)
 - Formato markdown previsivel, parseavel
-- Comunidade mantem, 40 idiomas incluindo pt_BR
+- Comunidade mantem, 40+ idiomas incluindo pt_BR
 - CC BY 4.0 (livre para usar/modificar)
 
 A ARQUITETURA (3 camadas):
@@ -24,8 +24,8 @@ A ARQUITETURA (3 camadas):
    Prioridade: pt_BR primeiro, fallback ingles
 
 2. INPUT POR VOZ (Vosk dual-STT)
-   Vosk (lightweight, ~50ms): hotword "ajuda" + comando curto
-   whisper.cpp (heavyweight): apenas se Vosk falhar ou ditado longo
+   Vosk (lightweight, ~30-80ms em 2025): hotword "ajuda" + comando curto
+   whisper.cpp (heavyweight, ~300-800ms): fallback para ditado longo / transcricao
    Fluxo: Microfone -> Vosk -> "ajuda tar" -> busca no indice
    Offline. Sem nuvem. Sem Big Tech. Sem spyware.
 
@@ -41,7 +41,7 @@ O USO:
 
   Cenario 1 -- Cego quer saber usar tar:
     Usuario: (voz) "ajuda tar"
-    Vosk: reconhece "ajuda tar" (50ms)
+    Vosk: reconhece "ajuda tar" (~40ms em 2025)
     Sistema: busca tldr -> encontra 8 exemplos
     Iara: (voz humana) "Tar serve para arquivar. Quer ouvir os exemplos?"
     Usuario: (voz) "sim"
@@ -484,7 +484,7 @@ def _init_comandos_sample() -> List[CommandPage]:
                     "ssh {{usuario}}@{{host}} {{comando}}"),
             ]),
         CommandPage(
-            comando=" systemctl",
+            comando="systemctl",
             titulo="# systemctl",
             descricao="Gerencia servicos do systemd (init do Linux).",
             link_mais_info="https://www.freedesktop.org/software/systemd/man/systemctl.html",
@@ -688,7 +688,7 @@ class CommandReferenceEngine:
         self._indice_nome_canonico: Dict[str, CommandPage] = {}
         for c in self.comandos:
             self._indice_nome_canonico[c.comando.lower().replace("-", " ")] = c
-            self._indice_nome_canonico[c.comando.lower().replace("-", "-")] = c
+            self._indice_nome_canonico[c.comando.lower()] = c
         self.keywords: Dict[str, List[str]] = _init_keywords()
         self.vosk_config = ConfigVosk()
         self.whisper_config = ConfigWhisperFallback()

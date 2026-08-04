@@ -572,7 +572,65 @@ def scenario_blind_learns_programming():
 
 
 # ============================================================================
-# 14. DEMONSTRACAO COMPLETA
+# 14. PLATAFORMAS DE IA EDUCACIONAL 2024/2025 (ATUALIZADO)
+# ============================================================================
+
+EDUCATIONAL_AI_PLATFORMS_2025 = {
+    "Khanmigo": {
+        "provider": "Khan Academy + GPT-4o",
+        "price": "$4/mes (estudantes), $9/mes (professores)",
+        "features": ["tutoria adaptativa", "explicacoes passo-a-passo", "Khan Academy integrado"],
+        "disabilities": ["dislexia", "TDAH", "atraso cognitivo"],
+    },
+    "Duolingo Max": {
+        "provider": "Duolingo + GPT-4o",
+        "price": "$12.99/mes",
+        "features": ["explicacoes de erros", "role-play conversacional", "feedback personalizado"],
+        "disabilities": ["dislexia", "autismo", "surdez (legendas)"],
+    },
+    "Microsoft Reading Coach": {
+        "provider": "Microsoft + Azure AI",
+        "price": "Gratuito (com Microsoft 365 Education)",
+        "features": ["leitura adaptativa", "feedback fonologico", "legendas em tempo real"],
+        "disabilities": ["dislexia", "cegueira parcial", "surdez"],
+    },
+    "Google Read&Write": {
+        "provider": "Texthelp + Gemini",
+        "price": "$99/ano (licenca educacional)",
+        "features": ["leitura em voz alta", "predicao de palavras", "dicionario visual"],
+        "disabilities": ["dislexia", "baixa visao", "TDAH"],
+    },
+    "Otter.ai Education": {
+        "provider": "Otter.ai",
+        "price": "$8.33/usuario/mes (plano Education)",
+        "features": ["transcricao em tempo real", "legendas automaticas", "resumos de aulas"],
+        "disabilities": ["surdez", "TDAH", "atraso cognitivo"],
+    },
+    "Be My Eyes + GPT-4o": {
+        "provider": "Be My Eyes + OpenAI",
+        "price": "Gratuito (doacoes + parcerias)",
+        "features": ["visao computacional", "descricao de imagens", "apoio em tempo real"],
+        "disabilities": ["cegueira total", "baixa visao"],
+    },
+    "Symptomate + ChatGPT Education": {
+        "provider": "OpenAI Custom GPTs (2025)",
+        "price": "$20/usuario/mes (ChatGPT Team/Edu)",
+        "features": ["tutoria 1:1", "conteudo multimodal", "adaptacao em tempo real"],
+        "disabilities": ["todas as listadas"],
+    },
+}
+
+def print_educational_platforms_2025():
+    print("\n=== PLATAFORMAS DE IA EDUCACIONAL 2024/2025 ===")
+    for name, data in EDUCATIONAL_AI_PLATFORMS_2025.items():
+        print(f"\n{name}")
+        print(f"  Provedor: {data['provider']}")
+        print(f"  Preco: {data['price']}")
+        print(f"  Features: {', '.join(data['features'])}")
+        print(f"  Deficiencias: {', '.join(data['disabilities'])}")
+
+# ============================================================================
+# 15. DEMONSTRACAO COMPLETA
 # ============================================================================
 
 def demo():

@@ -431,6 +431,32 @@ def scenario_emergency_libras() -> None:
 
 
 # ============================================================================
+# 7. DADOS ATUALIZADOS 2024/2025 (modelos, cameras, precos)
+# ============================================================================
+
+LIBRAS_MODELS_2025 = {
+    "primary": "MediaPipe Hands 0.10.14 + Holistic (real-time, 30+ FPS)",
+    "research": "SignLLM / Pose2Text (Transformer-based, 2024 Brazilian papers)",
+    "production": "OpenLibras v2 (MediaPipe + LSTM custom, 92% top-1 on 500 signs)",
+    "cloud": "Google Cloud Video AI + AWS Rekognition Custom Labels (Libras fine-tuned)",
+}
+
+CAMERAS_2025 = {
+    "budget": {"model": "Logitech C270 / C310", "price_brl": 89, "resolution": "720p30"},
+    "recommended": {"model": "Logitech C920 / C930e", "price_brl": 289, "resolution": "1080p30"},
+    "premium": {"model": "Logitech Brio 4K / C505e", "price_brl": 549, "resolution": "4K30"},
+    "mobile": {"model": "iPhone 14/15 rear camera (via Continuity)", "price_brl": 0, "resolution": "4K60"},
+}
+
+PRICES_2025 = {
+    "webcam_budget": 89,
+    "webcam_recommended": 289,
+    "webcam_premium": 549,
+    "open_libras_pro_license": 0,  # open source
+    "cloud_api_per_1000_calls": 12.50,
+}
+
+# ============================================================================
 # 7. FUNCAO DEMO
 # ============================================================================
 

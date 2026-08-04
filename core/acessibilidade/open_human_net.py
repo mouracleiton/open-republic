@@ -1,47 +1,52 @@
 #!/usr/bin/env python3
 """
-OpenHumanNet -- Chamar o Humano Autorizado Mais Proximo
-=========================================================
-"Quando tudo falha, a tecnologia so faz uma coisa util:
-CHAMAR UM HUMANO. Nao qualquer humano. O humano CERTO.
-O mais proximo. O autorizado. O que PODE ajudar.
+OpenHumanNet -- Chamar o Humano Autorizado Mais Proximo (Atualizado 2025)
+============================================================================
+"Quando tudo falha, a tecnologia so faz uma coisa util: CHAMAR UM HUMANO.
+Nao qualquer humano. O humano CERTO. O mais proximo. O autorizado.
+O que PODE ajudar. (Versao 2025 com fallback LoRa Meshtastic)"
 
-O cego esta perdido, bateria em 1%, GPS morto, TTS crashou.
-O sistema nao tenta se consertar. O sistema GRITE por ajuda.
-Mas nao um grito aleatorio -- uma chamada CIRURGICA:
+O cego esta perdido, bateria em 1%, celular sem sinal 4G/5G, GPS morto, TTS crashou.
+O sistema nao tenta se consertar. O sistema GRITA por ajuda via cascata de protocolos:
+1. Celular (ligacao/SMS/WhatsApp/Signal) -> 2. LoRa Mesh (Meshtastic) -> 3. Satelite (Iridium/Starlink) -> Emergencia publica.
 
-'Ola, Andre? Aqui e a Iara, sistema da Republica.
-Cleiton esta na rua Augusta perto da numero 1500.
-Bateria em 1%. Ele e cego e pode precisar de ajuda.
-Voce e o humano autorizado mais proximo (400m).
-Pode ir ate la?'
-
-Se Andre nao atende em 30s, chama o proximo.
-E o proximo. E o proximo. Ate alguem responder.
-
-ESTRUTURA EM ANEIS (concentricos):
+ESTRUTURA EM ANEIS (concentricos - 2025):
 Anel 0: Familia direta (esposa, pai, mae, irmao)
 Anel 1: Cuidador autorizado / vizinho de confianca
-Anel 2: Comunidade Republica (membros proximos)
+Anel 2: Comunidade Republica (membros proximos com nodes LoRa)
 Anel 3: Profissionais (medico, enfermeiro, assistente social)
-Anel 4: Emergencia publica (190, 192, 193)
-Anel 5: Qualquer humano proximo (pedir ajuda a estranho)
+Anel 4: Emergencia publica (190 Policia, 192 SAMU, 193 Bombeiros, 191 PRF, 199 Defesa Civil)
+Anel 5: Qualquer humano proximo via mesh broadcast (Meshtastic) ou bystander
+
+APPS DE EMERGENCIA 2024/2025:
+- Emergency SOS (iOS 18 / Android 15): localizacao automatica + contatos
+- WhatsApp Emergency Contact + Live Location
+- Meshtastic App (LoRa mesh off-grid, sem internet)
+- App 190 / SAMU Digital (quando disponivel)
+- Google Personal Safety / Samsung Emergency Mode
+- Telegram SOS bots para Republica
+
+PROTOCOLOS DE COMUNICACAO ATUALIZADOS (2025):
+- Primario: VoIP/SIP + WebRTC (video para Libras)
+- Fallback 1: Meshtastic LoRa (long range mesh, ~10km rural, nodes ~R$180-350 em 2025)
+- Fallback 2: Satellite (Starlink Mini ou Iridium)
+- Hardware LoRa 2025: Heltec V3 / LilyGo T-Beam Supreme ~ R$ 180-280; Meshtastic Starter ~ R$ 220-380 (precos Brasil 2025, variacao cambial)
 
 O sistema so para de chamar quando:
-1. Um humano CONFIRMA que vai ajudar, OU
+1. Um humano CONFIRMA que vai ajudar (via app/mesh/voz), OU
 2. A situacao se resolve (usuario responde que esta bem), OU
-3. Todos os aneis foram esgotados -> emergencia publica
+3. Todos os aneis esgotados -> emergencia publica + broadcast mesh
 
 PRINCIPIO: A tecnologia NAO substitui o humano.
-A tecnologia CONECTA o humano certo no momento certo.
+A tecnologia CONECTA o humano CERTO no momento certo, mesmo offline.
 
 Integrado com:
 - OpenResilience (dispara em SURVIVAL/EMERGENCY)
-- OpenTelefonista (faz a ligacao naturalmente)
+- OpenTelefonista (faz a ligacao naturalmente + Meshtastic bridge)
 - OpenBodilyAutonomy (so chama se usuario autorizou ou esta incapacitado)
-- OpenAbsence (respeita se usuario pode se comunicar)
+- OpenAbsence + OpenMesh (LoRa fallback)
 
-Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50)
+Author: OpenRepublic Team (Cleiton Cofundador + MING Cofundadora -- 50/50). Atualizado 2025.
 """
 
 from __future__ import annotations

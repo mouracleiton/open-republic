@@ -808,7 +808,44 @@ def scenario_full_body_haptic():
 
 
 # ============================================================================
-# 9. DEMONSTRACAO
+# 9. ANDROID HAPTICFEEDBACK V2 (2024/2025)
+# ============================================================================
+
+"""
+Android HapticFeedbackConstants V2 (API 30+ Composition APIs)
+-------------------------------------------------------------
+- EFFECT_CLICK, EFFECT_HEAVY_CLICK, EFFECT_TICK, EFFECT_DOUBLE_CLICK
+- Composition primitives: PRIMITIVE_CLICK, PRIMITIVE_TICK, PRIMITIVE_LOW_TICK,
+  PRIMITIVE_SPIN, PRIMITIVE_THUD, PRIMITIVE_QUICK_FALL, PRIMITIVE_QUICK_RISE
+- Requires: VibratorManager + VibrationEffect.createComposition()
+- Supported on Pixel 7+, Galaxy S23+, OnePlus 11+ (2024-2025 flagships)
+"""
+
+ANDROID_HAPTIC_V2 = {
+    "PRIMITIVE_CLICK": {"amplitude": 1.0, "duration_ms": 20, "intensity": 0.8},
+    "PRIMITIVE_TICK": {"amplitude": 0.6, "duration_ms": 10, "intensity": 0.5},
+    "PRIMITIVE_LOW_TICK": {"amplitude": 0.4, "duration_ms": 15, "intensity": 0.3},
+    "PRIMITIVE_SPIN": {"amplitude": 0.9, "duration_ms": 40, "intensity": 0.7},
+    "PRIMITIVE_THUD": {"amplitude": 1.0, "duration_ms": 60, "intensity": 1.0},
+    "PRIMITIVE_QUICK_FALL": {"amplitude": 0.7, "duration_ms": 25, "intensity": 0.6},
+    "PRIMITIVE_QUICK_RISE": {"amplitude": 0.8, "duration_ms": 30, "intensity": 0.65},
+}
+
+# ============================================================================
+# 10. HARDWARE HAPTIC COSTS 2024/2025 (LRA actuators)
+# ============================================================================
+
+HAPTIC_HARDWARE_PRICES_USD_2025 = {
+    "LRA_ERM_6mm": 0.85,      # generic coin LRA (smartwatch)
+    "LRA_8mm_high_amp": 1.45, # high-amplitude for vest/ankle
+    "LRA_10mm": 2.10,         # waist-band / chest vest
+    "LRA_12mm": 3.25,         # professional-grade (colete)
+    "DRV2605L_driver": 1.20,  # TI haptic driver IC
+    "DRV2625_driver": 2.80,   # advanced closed-loop driver
+}
+
+# ============================================================================
+# 11. DEMONSTRACAO
 # ============================================================================
 
 def demo():
