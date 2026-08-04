@@ -6,7 +6,6 @@
 <title>OpenRepublic — Raio X do Brasil</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/map/js/brazil.js"></script>
 <style>
   :root {
     --verde: #1A5E3F;
@@ -66,6 +65,27 @@
     border-radius: 3px;
     transition: width 0.5s ease;
   }
+  .info-box {
+    background: rgba(0,180,216,0.08);
+    border-left: 3px solid #00B4D8;
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 1.5;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .tooltip-hint {
+    cursor: help;
+    border-bottom: 1px dotted #8b949e;
+  }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: #0d1117; }
   ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
@@ -91,36 +111,69 @@
   </div>
 </header>
 
+<!-- INTRO BANNER -->
+<section class="max-w-7xl mx-auto px-4 pt-6">
+  <div class="info-box mb-6">
+    <strong>O QUE É ISSO?</strong> Um checkup completo do Brasil. Como um hospital faz bateria de exames num paciente,
+    nós fazemos 18 exames em 18 domínios do pais. Cada exame mede um aspecto da saude nacional --
+    violencia, alimentacao, agua, educacao, etc. O objetivo: saber onde o Brasil está doente
+    e quao urgente é cada sintoma, ANTES de propor tratamento.
+    <br><br>
+    <strong>DADOS:</strong> Estes números vem de 64 módulos Python no repositório OpenRepublic, cruzados com
+    dados publicos (IBGE, INEP, VIGISAN, datasus). O Censo IBGE 2022 custou R$ 2.4 bilhões e
+    subnotifica ~37.5 milhoes de brasileiros. Este Raio X custaria R$ 85 milhoes/ano --
+    <strong>3% do custo do Censo IBGE</strong> -- com atualização em tempo real, nao a cada 10 anos.
+  </div>
+</section>
+
 <!-- HERO METRICS -->
-<section class="max-w-7xl mx-auto px-4 py-6">
-  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+<section class="max-w-7xl mx-auto px-4 py-2">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+
     <div class="card p-4">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Exames</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Cada dominio representa uma area da vida nacional que precisa de monitoramento continuo. Ex: violencia, saude, educacao, agua.">Exames</span>
+      </p>
       <p class="stat-number text-[#00B4D8]">18</p>
-      <p class="text-xs text-[#8b949e] mt-1">domínios mapeados</p>
+      <p class="text-xs text-[#8b949e] mt-1">domínios do país mapeados</p>
     </div>
+
     <div class="card p-4 pulse-emergency">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Emergências</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Vidas em risco AGORA. Violencia (tiroteio/feminicidio), Saude (mortalidade infantil/fila SUS) e Alimentacao (33 milhoes passando fome). Estas 3 areas precisam de acao imediata, nao podem esperar diagnostico completo.">Emergências</span>
+      </p>
       <p class="stat-number" style="color:#D62828;">3</p>
-      <p class="text-xs text-[#8b949e] mt-1">vidas em risco</p>
+      <p class="text-xs text-[#8b949e] mt-1">vidas em risco AGORA</p>
     </div>
+
     <div class="card p-4">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Invisíveis</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Pessoas que o IBGE NAO conta: indigenas em terras remotas, quilombolas, ribeirinhos, populacao de rua, presidiarios, etc. O Censo IBGE 2022 subnotificou pelo menos 37.5 milhoes de brasileiros.">Invisíveis</span>
+      </p>
       <p class="stat-number" style="color:var(--amarelo);">37.6M</p>
-      <p class="text-xs text-[#8b949e] mt-1">IBGE não conta</p>
+      <p class="text-xs text-[#8b949e] mt-1">brasileiros sem dados no IBGE</p>
     </div>
+
     <div class="card p-4">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Automação</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Porcentagem dos exames que rodam sozinhos via OSINT (satelite, Street View), sensores IoT e APIs publicas. Os outros 37% precisam de cidadao no campo (forca tarefa). Quanto maior a automacao, mais rapido e barato o diagnostico.">Automação</span>
+      </p>
       <p class="stat-number" style="color:#52B788;">63%</p>
-      <p class="text-xs text-[#8b949e] mt-1">OSINT + sensor</p>
+      <p class="text-xs text-[#8b949e] mt-1">OSINT + sensor (sem humano)</p>
     </div>
+
     <div class="card p-4">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Custo/Ano</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Custo total anual para rodar todos os 18 exames em todos os 5570 municipios. Inclui app mobile, infra de servidores, satelite OSINT e pagamento de coletores comunitarios. Para comparar: o Censo IBGE 2022 custou R$ 2.4 bilhoes.">Custo/Ano</span>
+      </p>
       <p class="stat-number" style="color:var(--terra);">R$85M</p>
-      <p class="text-xs text-[#8b949e] mt-1">3% do Censo IBGE</p>
+      <p class="text-xs text-[#8b949e] mt-1">3% do custo do Censo IBGE</p>
     </div>
+
     <div class="card p-4">
-      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">Por Pessoa</p>
+      <p class="text-xs text-[#8b949e] uppercase tracking-wide mb-1">
+        <span class="tooltip-hint" title="Dividindo R$ 85 milhoes por 203 milhoes de brasileiros: R$ 0.42 por pessoa por ano. Menos que um pacote de biscoito. Para comparar: o Brasil gasta R$ 177 por pessoa/ano com o Censo IBGE.">Por Pessoa</span>
+      </p>
       <p class="stat-number text-[#8b949e]">R$0.42</p>
       <p class="text-xs text-[#8b949e] mt-1">por habitante/ano</p>
     </div>
@@ -129,51 +182,92 @@
 
 <!-- TABS -->
 <section class="max-w-7xl mx-auto px-4">
-  <div class="flex gap-6 border-b border-[#30363d] mb-6">
-    <button onclick="showTab('overview')" id="tab-overview" class="pb-3 text-sm font-semibold tab-active">Visão Geral</button>
-    <button onclick="showTab('triage')" id="tab-triage" class="pb-3 text-sm font-semibold text-[#8b949e]">Triagem</button>
-    <button onclick="showTab('exames')" id="tab-exames" class="pb-3 text-sm font-semibold text-[#8b949e]">Exames Detalhados</button>
-    <button onclick="showTab('invisivel')" id="tab-invisivel" class="pb-3 text-sm font-semibold text-[#8b949e]">População Invisível</button>
-    <button onclick="showTab('custos')" id="tab-custos" class="pb-3 text-sm font-semibold text-[#8b949e]">Custos</button>
+  <div class="flex gap-6 border-b border-[#30363d] mb-6 overflow-x-auto">
+    <button onclick="showTab('overview')" id="tab-overview" class="pb-3 text-sm font-semibold tab-active whitespace-nowrap">Visão Geral</button>
+    <button onclick="showTab('triage')" id="tab-triage" class="pb-3 text-sm font-semibold text-[#8b949e] whitespace-nowrap">Triagem</button>
+    <button onclick="showTab('exames')" id="tab-exames" class="pb-3 text-sm font-semibold text-[#8b949e] whitespace-nowrap">Exames Detalhados</button>
+    <button onclick="showTab('invisivel')" id="tab-invisivel" class="pb-3 text-sm font-semibold text-[#8b949e] whitespace-nowrap">População Invisível</button>
+    <button onclick="showTab('custos')" id="tab-custos" class="pb-3 text-sm font-semibold text-[#8b949e] whitespace-nowrap">Custos</button>
   </div>
 </section>
 
 <!-- TAB: OVERVIEW -->
 <div id="content-overview" class="max-w-7xl mx-auto px-4 pb-12">
+
+  <div class="info-box mb-6">
+    <strong>LEIA ASSIM:</strong> Cada barra colorida abaixo representa um dos 18 exames.
+    A <strong>cor</strong> indica urgência (vermelho = emergência, verde = rotina).
+    A <strong>altura da barra de automação</strong> mostra quanto do exame roda sozinho (sem precisar mandar gente ao campo).
+    A <strong>frequência</strong> mostra com que rapidez o dado atualiza -- "tempo real" significa segundos, "anual" significa 1 vez por ano.
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+
     <div class="card p-6">
-      <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Urgência por Domínio</h3>
-      <div id="chart-urgencia" style="height: 320px;"></div>
+      <h3 class="text-sm font-bold mb-2 text-[#e6edf3] uppercase">Urgência por Domínio</h3>
+      <p class="text-xs text-[#8b949e] mb-4">Cada barra é um exame. A cor mostra o nível de urgência. Vermelho = vidas em risco agora. Verde = monitoramento de rotina.</p>
+      <!-- Legend -->
+      <div class="flex flex-wrap gap-3 mb-4 text-xs">
+        <span><span class="legend-dot" style="background:#D62828"></span>Emergência</span>
+        <span><span class="legend-dot" style="background:#E76F51"></span>Urgente</span>
+        <span><span class="legend-dot" style="background:#F4A261"></span>Alta prioridade</span>
+        <span><span class="legend-dot" style="background:#52B788"></span>Rotina</span>
+        <span><span class="legend-dot" style="background:#48CAE4"></span>Baseline</span>
+      </div>
+      <div id="chart-urgencia" style="height: 340px;"></div>
     </div>
+
     <div class="card p-6">
-      <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Automação vs Humano</h3>
-      <div id="chart-automacao" style="height: 320px;"></div>
+      <h3 class="text-sm font-bold mb-2 text-[#e6edf3] uppercase">Automação vs Humano</h3>
+      <p class="text-xs text-[#8b949e] mb-4">Quanto do exame roda sozinho (OSINT/satelite) vs quanto precisa de gente no campo. Mais verde = mais barato e mais rápido.</p>
+      <div id="chart-automacao" style="height: 340px;"></div>
     </div>
   </div>
+
   <div class="card p-6">
-    <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Frequência de Coleta por Domínio</h3>
+    <h3 class="text-sm font-bold mb-2 text-[#e6edf3] uppercase">Frequência de Coleta por Domínio</h3>
+    <p class="text-xs text-[#8b949e] mb-4">
+      Com que rapidez o dado atualiza. <strong>Tempo real</strong> = segundos/minutos (ex: tiroteio). <strong>Diário</strong> = 1x/dia (ex: inflação). <strong>Anual</strong> = 1x/ano (ex: eleições).
+      O IBGE atualiza a cada <strong>10 anos</strong>. Nosso objetivo: nenhum exame menos frequente que mensal.
+    </p>
     <div id="chart-frequencia" style="height: 360px;"></div>
   </div>
 </div>
 
 <!-- TAB: TRIAGE -->
 <div id="content-triage" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+
+  <div class="info-box mb-6">
+    <strong>REGRA DO PRONTO-SOCORRO:</strong> Nem todo sintoma precisa de diagnóstico completo pra ser tratado.
+    Se alguém chega no PS com hemorragia, você estanca o sangue AGORA, faz raio-x depois. Mas se é dor no peito,
+    você diagnostica ANTES de tratar -- pode ser infarto ou gases.
+    <br><br>
+    <strong>VIDA</strong> (vermelho): age AGORA, diagnostica depois. Ex: criança com fome -> dá comida. Não precisa de censo.
+    <br><strong>BOLSO</strong> (amarelo): diagnostica PRIMEIRO, age depois. Ex: inflação -> entende a causa antes de subir juros.
+    <br><strong>VOTO</strong> (azul escuro): NUNCA age sem diagnóstico. Vira palanque (P9 anti-polarização).
+    <br><strong>ESTRUTURA</strong> (verde): diagnostica + trata ao mesmo tempo. Ex: escola sem água -> leva água E faz diagnóstico.
+  </div>
+
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-    <div class="card p-4 text-center">
+    <div class="card p-4 text-center" style="border-top: 3px solid #D62828;">
       <p class="stat-number" style="color:#D62828;">5</p>
-      <p class="text-xs text-[#8b949e] mt-1">AGIR AGORA</p>
+      <p class="text-xs text-[#8b949e] mt-1 font-semibold">AGIR AGORA</p>
+      <p class="text-xs text-[#D62828] mt-1">VIDA · sem esperar dado</p>
     </div>
-    <div class="card p-4 text-center">
+    <div class="card p-4 text-center" style="border-top: 3px solid #E76F51;">
       <p class="stat-number" style="color:#E76F51;">3</p>
-      <p class="text-xs text-[#8b949e] mt-1">DIAGNOSTICAR</p>
+      <p class="text-xs text-[#8b949e] mt-1 font-semibold">DIAGNOSTICAR</p>
+      <p class="text-xs text-[#E76F51] mt-1">BOLSO · achar causa 1º</p>
     </div>
-    <div class="card p-4 text-center">
+    <div class="card p-4 text-center" style="border-top: 3px solid #F4A261;">
       <p class="stat-number" style="color:#F4A261;">3</p>
-      <p class="text-xs text-[#8b949e] mt-1">COM RESSALVA</p>
+      <p class="text-xs text-[#8b949e] mt-1 font-semibold">COM RESSALVA</p>
+      <p class="text-xs text-[#F4A261] mt-1">ESTRUTURA · tratar+diag.</p>
     </div>
-    <div class="card p-4 text-center">
-      <p class="stat-number" style="color:#8B1A1A;">3</p>
-      <p class="text-xs text-[#8b949e] mt-1">BLOQUEADOS (P9)</p>
+    <div class="card p-4 text-center" style="border-top: 3px solid #264653;">
+      <p class="stat-number" style="color:#48CAE4;">3</p>
+      <p class="text-xs text-[#8b949e] mt-1 font-semibold">BLOQUEADOS</p>
+      <p class="text-xs text-[#264653] mt-1">VOTO · P9 anti-palanque</p>
     </div>
   </div>
   <div id="triage-list" class="space-y-3"></div>
@@ -181,14 +275,36 @@
 
 <!-- TAB: EXAMES -->
 <div id="content-exames" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+
+  <div class="info-box mb-6">
+    <strong>COMO LER:</strong> Cada card é um exame medido num domínio do país.
+    A <strong>barra de automação</strong> mostra quanto roda sozinho (verde = 100% OSINT, vermelho = 100% manual).
+    Clique em <strong>"Indicadores"</strong> para ver o que é medido e o <strong>GAP principal</strong> --
+    ou seja, o que NÃO sabemos hoje e precisamos descobrir.
+    <br><br>
+    <strong>GAP</strong> = lacuna de conhecimento. É o que o Estado brasileiro deveria saber mas não sabe.
+    Exemplo: "Não sabemos onde tiroteio acontece em tempo real. O SINESP tem 6-12h de atraso."
+  </div>
+
   <div id="exames-list" class="space-y-4"></div>
 </div>
 
 <!-- TAB: INVISIVEL -->
 <div id="content-invisivel" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+
+  <div class="info-box mb-6">
+    <strong>POPULAÇÃO INVISÍVEL:</strong> São ~37.570.000 brasileiros que o IBGE NÃO conta.
+    Indígenas em terras remotas, quilombolas sem titulação, ribeirinhos, população de rua,
+    presidiários, crianças fora da escola, refugiados, e agora -- 33 milhões em insegurança alimentar grave (VIGISAN 2022).
+    <br><br>
+    O Censo IBGE 2022 veio a público em 2024 com <strong>2-3 anos de atraso</strong> e subnotificou estes grupos.
+    O Raio X propõe censos específicos por comunidade, com coleta feita pelos próprios membros.
+    Estes brasileiros não são "dados faltantes" -- são pessoas que o sistema ignorou.
+  </div>
+
   <div class="card p-6 mb-6">
-    <h3 class="text-lg font-bold mb-2">População Invisível do IBGE</h3>
-    <p class="text-[#8b949e] text-sm mb-4">~37.570.000 brasileiros que o Censo IBGE NÃO conta</p>
+    <h3 class="text-lg font-bold mb-2">Distribuição da População Invisível</h3>
+    <p class="text-[#8b949e] text-sm mb-4">~37.570.000 brasileiros que o Censo IBGE NÃO conta. Passe o mouse para ver cada grupo.</p>
     <div id="chart-invisivel" style="height: 400px;"></div>
   </div>
   <div id="invisivel-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -196,23 +312,63 @@
 
 <!-- TAB: CUSTOS -->
 <div id="content-custos" class="max-w-7xl mx-auto px-4 pb-12 hidden">
+
+  <div class="info-box mb-6">
+    <strong>POR QUE TÃO BARATO?</strong> Porque 63% da coleta é automatizada via OSINT (Google Street View, Sentinel-2,
+    MapBiomas) e sensores IoT. O Censo IBGE manda 200 mil recenseadores de porta em porta a cada 10 anos.
+    Nosso modelo usa satelite + app + cidadão voluntário em tempo real.
+    <br><br>
+    R$ 85 milhões/ano = <strong>menos de 2 dias de juros da dívida pública</strong> (juros = R$ ~240 milhões POR DIA).
+    É o preço de <strong>meio caza Gripen</strong>. Custa menos que uma única licitação de TI do governo federal.
+  </div>
+
   <div class="card p-6 mb-6">
-    <h3 class="text-sm font-bold mb-4 text-[#8b949e] uppercase">Custo por Exame (R$ milhões/ano)</h3>
+    <h3 class="text-sm font-bold mb-2 text-[#e6edf3] uppercase">Custo por Exame (R$ milhões/ano)</h3>
+    <p class="text-xs text-[#8b949e] mb-4">Amarelo = exames caros (>R$10M/ano). Laranja = médios (R$5-10M). Verde-água = baratos (<R$5M). O total soma R$ 85M/ano.</p>
     <div id="chart-custos" style="height: 400px;"></div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="card p-6">
-      <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Custo Total Anual</h3>
+      <h3 class="text-sm font-bold mb-3 text-[#e6edf3] uppercase">Custo Total Anual</h3>
       <p class="text-4xl font-bold mb-2" style="color:var(--terra);">R$ 85M</p>
       <p class="text-sm text-[#8b949e]">R$ 0.42 por brasileiro por ano</p>
+      <div class="mt-4 pt-4 border-t border-[#30363d] text-xs text-[#8b949e] space-y-1">
+        <p>Para contexto:</p>
+        <p>• Juros da dívida pública por DIA: <strong style="color:#D62828;">R$ 240M</strong></p>
+        <p>• Nosso Raio X custa menos que <strong>2 dias de juros</strong></p>
+      </div>
     </div>
     <div class="card p-6">
-      <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Comparativo</h3>
-      <div class="space-y-2 text-sm">
-        <div class="flex justify-between"><span>Censo IBGE 2022</span><span class="font-bold">R$ 2.400M</span></div>
-        <div class="flex justify-between"><span>Bolsa Família/ano</span><span class="font-bold">R$ 36.000M</span></div>
-        <div class="flex justify-between"><span>36 Caças Gripen</span><span class="font-bold">R$ 36.000M</span></div>
-        <div class="flex justify-between" style="color:var(--ciano);"><span class="font-bold">Raio X República</span><span class="font-bold">R$ 85M</span></div>
+      <h3 class="text-sm font-bold mb-3 text-[#e6edf3] uppercase">Comparativo de Custo</h3>
+      <div class="space-y-3 text-sm">
+        <div class="flex justify-between items-center pb-2 border-b border-[#30363d]">
+          <div>
+            <span class="text-[#e6edf3]">Censo IBGE 2022</span>
+            <p class="text-xs text-[#8b949e]">Recenseador porta-a-porta, a cada 10 anos</p>
+          </div>
+          <span class="font-bold text-lg" style="color:#D62828;">R$ 2.400M</span>
+        </div>
+        <div class="flex justify-between items-center pb-2 border-b border-[#30363d]">
+          <div>
+            <span class="text-[#e6edf3]">Bolsa Família/ano</span>
+            <p class="text-xs text-[#8b949e]">Programa social, ~21 milhões de famílias</p>
+          </div>
+          <span class="font-bold text-lg" style="color:#E76F51;">R$ 36.000M</span>
+        </div>
+        <div class="flex justify-between items-center pb-2 border-b border-[#30363d]">
+          <div>
+            <span class="text-[#e6edf3]">36 Caças Gripen</span>
+            <p class="text-xs text-[#8b949e]">Contrato Força Aérea Brasileira</p>
+          </div>
+          <span class="font-bold text-lg" style="color:#E76F51;">R$ 36.000M</span>
+        </div>
+        <div class="flex justify-between items-center pt-2" style="background:rgba(0,180,216,0.05); padding: 8px 12px; border-radius: 8px;">
+          <div>
+            <span class="text-[#00B4D8] font-bold">Raio X República</span>
+            <p class="text-xs text-[#8b949e]">OSINT + sensor + cidadão, tempo real</p>
+          </div>
+          <span class="font-bold text-lg" style="color:#00B4D8;">R$ 85M</span>
+        </div>
       </div>
     </div>
   </div>
@@ -221,7 +377,8 @@
 <!-- FOOTER -->
 <footer class="border-t border-[#30363d] mt-12 py-6 text-center text-xs text-[#484f58]">
   <p>OpenRepublic · github.com/mouracleiton/open-republic</p>
-  <p class="mt-1">Dados pré-compilados de 64 módulos · CC0 Universal</p>
+  <p class="mt-1">Dados pré-compilados de 64 módulos Python · CC0 Universal</p>
+  <p class="mt-1 text-[#30363d]">"O IBGE pergunta ao diretor. Nós perguntamos ao chão."</p>
 </footer>
 
 <script type="application/json" id="embedded-data">
@@ -246,6 +403,13 @@ const URGENCIA_COLOR = {
 const URGENCIA_LABEL = {
   u1: 'Emergência', u2: 'Urgente', u3: 'Alta', u4: 'Rotina', u5: 'Baseline'
 };
+const URGENCIA_FULL = {
+  u1: 'Emergência (vidas em risco AGORA)',
+  u2: 'Urgente (deteriorando rápido)',
+  u3: 'Alta prioridade',
+  u4: 'Rotina (monitorar)',
+  u5: 'Baseline (referência)'
+};
 
 // === TAB SWITCHING ===
 function showTab(name) {
@@ -257,7 +421,6 @@ function showTab(name) {
   document.getElementById('content-'+name).classList.remove('hidden');
   document.getElementById('tab-'+name).classList.add('tab-active');
   document.getElementById('tab-'+name).classList.remove('text-[#8b949e]');
-  // Re-render charts on tab switch
   setTimeout(() => {
     if (name === 'overview') renderOverview();
     if (name === 'invisivel') renderInvisivel();
@@ -267,14 +430,24 @@ function showTab(name) {
 
 // === CHARTS ===
 function renderOverview() {
-  // Urgency by domain (bar)
+  // === Urgency by domain (bar) ===
   const urg = echarts.init(document.getElementById('chart-urgencia'));
   const urgData = __DATA__.exames.map(e => ({
     value: 1, itemStyle: { color: URGENCIA_COLOR[e.urgencia] }, name: e.dominio
   }));
   urg.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    grid: { left: '3%', right: '4%', bottom: '15%', top: '10%' },
+    tooltip: {
+      trigger: 'axis', axisPointer: { type: 'shadow' },
+      formatter: function(params) {
+        var e = __DATA__.exames[params[0].dataIndex];
+        return '<b>' + e.dominio.toUpperCase() + '</b><br/>' +
+               'Tipo: ' + e.exame_rotulo + '<br/>' +
+               'Urgência: <b>' + URGENCIA_FULL[e.urgencia] + '</b><br/>' +
+               'Frequência: ' + e.freq + '<br/>' +
+               'Automação: ' + e.automacao_pct + '%';
+      }
+    },
+    grid: { left: '3%', right: '4%', bottom: '18%', top: '10%' },
     xAxis: {
       type: 'category',
       data: __DATA__.exames.map(e => e.dominio),
@@ -283,185 +456,312 @@ function renderOverview() {
     yAxis: { type: 'value', show: false },
     series: [{
       type: 'bar', data: urgData, barWidth: '60%',
-      label: { show: true, position: 'top', formatter: d => URGENCIA_LABEL[__DATA__.exames[d.dataIndex].urgencia].charAt(0), fontSize: 9, color: '#8b949e' }
+      label: {
+        show: true, position: 'top',
+        formatter: function(d) {
+          return URGENCIA_LABEL[__DATA__.exames[d.dataIndex].urgencia].charAt(0);
+        },
+        fontSize: 10, color: '#e6edf3', fontWeight: 'bold'
+      },
+      markLine: {
+        silent: true,
+        data: [{ yAxis: 0, lineStyle: { color: '#30363d' } }]
+      }
     }]
   });
 
-  // Automation pie
+  // === Automation pie ===
   const aut = echarts.init(document.getElementById('chart-automacao'));
   const autoLevels = {};
   __DATA__.exames.forEach(e => {
-    const key = e.automacao_pct === 100 ? '100% (OSINT)' :
-                e.automacao_pct >= 75 ? '75% (Alto)' :
-                e.automacao_pct >= 50 ? '50% (Médio)' :
-                e.automacao_pct >= 25 ? '25% (Baixo)' : '0% (Manual)';
+    var key = e.automacao_pct === 100 ? '100% OSINT (total)' :
+              e.automacao_pct >= 75 ? 'Alta (75-99%)' :
+              e.automacao_pct >= 50 ? 'Média (50-74%)' :
+              e.automacao_pct >= 25 ? 'Baixa (25-49%)' : 'Manual (<25%)';
     autoLevels[key] = (autoLevels[key] || 0) + 1;
   });
   const autoColors = ['#52B788','#2A9D8F','#F4A261','#E76F51','#D62828'];
   aut.setOption({
-    tooltip: { trigger: 'item' },
+    tooltip: {
+      trigger: 'item',
+      formatter: function(p) {
+        return '<b>' + p.name + '</b><br/>' +
+               p.value + ' exames (' + p.percent + '%)<br/>' +
+               '<span style="color:#8b949e">Mais automação = mais barato e rápido</span>';
+      }
+    },
     legend: { bottom: 0, textStyle: { color: '#8b949e', fontSize: 11 } },
     series: [{
       type: 'pie', radius: ['40%','70%'],
-      data: Object.entries(autoLevels).map(([k,v],i) => ({ value: v, name: k, itemStyle: { color: autoColors[i] } })),
-      label: { color: '#e6edf3', fontSize: 12 }
+      data: Object.entries(autoLevels).map(function(entry,i) {
+        return { value: entry[1], name: entry[0], itemStyle: { color: autoColors[i] } };
+      }),
+      label: {
+        color: '#e6edf3', fontSize: 13, fontWeight: 'bold',
+        formatter: function(d) { return d.value + ' exames'; }
+      },
+      labelLine: { show: true }
     }]
   });
 
-  // Frequency chart
+  // === Frequency chart ===
   const freq = echarts.init(document.getElementById('chart-frequencia'));
-  const freqOrder = ['tempo real','diario','semanal','mensal','trimestral','semestral','anual'];
-  const freqData = freqOrder.map(f => {
-    const items = __DATA__.exames.filter(e => e.freq.includes(f.split(' ')[1] || f));
-    return { value: items.length, name: f };
-  }).filter(d => d.value > 0);
+  var freqOrder = ['tempo real','diario','semanal','mensal','trimestral','semestral','anual'];
+  var freqLabels = {
+    'tempo real': 'Tempo Real (segundos/min)',
+    'diario': 'Diário',
+    'semanal': 'Semanal',
+    'mensal': 'Mensal',
+    'trimestral': 'Trimestral',
+    'semestral': 'Semestral',
+    'anual': 'Anual'
+  };
+  var freqData = freqOrder.map(function(f) {
+    var items = __DATA__.exames.filter(function(e) { return e.freq.includes(f.split(' ')[1] || f); });
+    return { value: items.length, name: freqLabels[f] || f, domains: items.map(function(i) { return i.dominio; }) };
+  }).filter(function(d) { return d.value > 0; });
+
   freq.setOption({
-    tooltip: { trigger: 'axis' },
-    grid: { left: '10%', right: '5%', bottom: '10%', top: '5%' },
-    xAxis: { type: 'category', data: freqData.map(d => d.name), axisLabel: { color: '#8b949e' } },
-    yAxis: { type: 'value', axisLabel: { color: '#8b949e' } },
+    tooltip: {
+      trigger: 'axis',
+      formatter: function(params) {
+        var d = freqData[params[0].dataIndex];
+        return '<b>' + d.name + '</b><br/>' +
+               d.value + ' exames<br/>' +
+               '<span style="color:#8b949e">' + d.domains.join(', ') + '</span>';
+      }
+    },
+    grid: { left: '10%', right: '5%', bottom: '10%', top: '8%' },
+    xAxis: { type: 'category', data: freqData.map(function(d) { return d.name; }), axisLabel: { color: '#8b949e', fontSize: 11, rotate: 20 } },
+    yAxis: { type: 'value', name: 'Nº de exames', nameTextStyle: { color: '#8b949e' }, axisLabel: { color: '#8b949e' } },
     series: [{
-      type: 'bar', data: freqData.map((d,i) => ({ value: d.value, itemStyle: { color: ['#D62828','#E76F51','#F4A261','#F4A261','#52B788','#48CAE4','#264653'][i] || '#00B4D8' } })),
+      type: 'bar',
+      data: freqData.map(function(d,i) {
+        var colors = ['#D62828','#E76F51','#F4A261','#F4A261','#52B788','#48CAE4','#264653'];
+        return { value: d.value, itemStyle: { color: colors[i] || '#00B4D8' } };
+      }),
       barWidth: '50%',
-      label: { show: true, position: 'top', color: '#e6edf3' }
+      label: {
+        show: true, position: 'top', color: '#e6edf3', fontSize: 13, fontWeight: 'bold',
+        formatter: function(d) { return d.value + (d.value === 1 ? ' exame' : ' exames'); }
+      },
+      markLine: {
+        silent: true,
+        data: [{
+          xAxis: 2.5,
+          lineStyle: { color: '#52B788', type: 'dashed' },
+          label: { formatter: 'Meta: mínimo mensal →', color: '#52B788', fontSize: 10, position: 'insideEndTop' }
+        }]
+      }
     }]
   });
 }
 
 function renderInvisivel() {
   const chart = echarts.init(document.getElementById('chart-invisivel'));
-  const groups = __DATA__.invisivel.map(p => p.grupo);
-  const values = __DATA__.invisivel.map(p => parseInt(p.estimativa.replace(/[^0-9]/g,'')));
+  var groups = __DATA__.invisivel.map(function(p) { return p.grupo; });
+  var values = __DATA__.invisivel.map(function(p) { return parseInt(p.estimativa.replace(/[^0-9]/g,'')); });
+  var motivos = __DATA__.invisivel.map(function(p) { return p.motivo; });
+
   chart.setOption({
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    grid: { left: '25%', right: '5%', bottom: '5%', top: '5%' },
-    xAxis: { type: 'value', axisLabel: { color: '#8b949e', formatter: v => (v/1000)+'k' } },
-    yAxis: { type: 'category', data: groups, axisLabel: { color: '#8b949e', fontSize: 10 } },
+    tooltip: {
+      trigger: 'axis', axisPointer: { type: 'shadow' },
+      formatter: function(params) {
+        var i = params[0].dataIndex;
+        return '<b>' + groups[i] + '</b><br/>' +
+               'População: ~' + values[i].toLocaleString('pt-BR') + '<br/>' +
+               '<span style="color:#8b949e">' + motivos[i] + '</span>';
+      }
+    },
+    grid: { left: '28%', right: '12%', bottom: '5%', top: '5%' },
+    xAxis: {
+      type: 'value',
+      name: 'Pessoas',
+      nameTextStyle: { color: '#8b949e' },
+      axisLabel: { color: '#8b949e', formatter: function(v) { return (v/1000000).toFixed(1) + 'M'; } }
+    },
+    yAxis: { type: 'category', data: groups, axisLabel: { color: '#8b949e', fontSize: 11 } },
     series: [{
       type: 'bar',
-      data: values.map((v,i) => ({ value: v, itemStyle: { color: ['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF'][i] || '#00B4D8' } })),
-      label: { show: true, position: 'right', formatter: d => d.value.toLocaleString('pt-BR'), color: '#8b949e', fontSize: 10 }
+      data: values.map(function(v,i) {
+        var colors = ['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF','#E76F51'];
+        return { value: v, itemStyle: { color: colors[i] || '#00B4D8' } };
+      }),
+      label: {
+        show: true, position: 'right', color: '#e6edf3', fontSize: 11, fontWeight: 'bold',
+        formatter: function(d) {
+          if (d.value >= 1000000) return '~' + (d.value/1000000).toFixed(1) + 'M';
+          return '~' + (d.value/1000).toFixed(0) + 'k';
+        }
+      }
     }]
   });
 }
 
 function renderCustos() {
   const chart = echarts.init(document.getElementById('chart-custos'));
-  const custoData = __DATA__.exames.map(e => {
-    const m = e.custo.match(/R\$\s*(\d+)/);
-    return { dominio: e.dominio, custo: m ? parseInt(m[1]) : 0 };
-  }).sort((a,b) => b.custo - a.custo);
+  var custoData = __DATA__.exames.map(function(e) {
+    var m = e.custo.match(/R\$\s*(\d+)/);
+    return { dominio: e.dominio, custo: m ? parseInt(m[1]) : 0, freq: e.freq, urgencia: e.urgencia };
+  }).sort(function(a,b) { return b.custo - a.custo; });
+
   chart.setOption({
-    tooltip: { trigger: 'axis', formatter: p => `${p[0].name}<br/>R$ ${p[0].value}M/ano` },
-    grid: { left: '3%', right: '8%', bottom: '20%', top: '5%' },
-    xAxis: { type: 'category', data: custoData.map(d => d.dominio), axisLabel: { rotate: 45, color: '#8b949e', fontSize: 10 } },
-    yAxis: { type: 'value', name: 'R$ Milhões', nameTextStyle: { color: '#8b949e' }, axisLabel: { color: '#8b949e' } },
+    tooltip: {
+      trigger: 'axis',
+      formatter: function(params) {
+        var d = custoData[params[0].dataIndex];
+        return '<b>' + d.dominio.toUpperCase() + '</b><br/>' +
+               'Custo: R$ ' + d.custo + 'M/ano<br/>' +
+               'Frequência: ' + d.freq + '<br/>' +
+               'Urgência: ' + URGENCIA_LABEL[d.urgencia];
+      }
+    },
+    grid: { left: '3%', right: '8%', bottom: '22%', top: '8%' },
+    xAxis: { type: 'category', data: custoData.map(function(d) { return d.dominio; }), axisLabel: { rotate: 45, color: '#8b949e', fontSize: 10 } },
+    yAxis: { type: 'value', name: 'R$ Milhões/ano', nameTextStyle: { color: '#8b949e' }, axisLabel: { color: '#8b949e' } },
     series: [{
       type: 'bar',
-      data: custoData.map(d => ({ value: d.custo, itemStyle: {
-        color: d.custo >= 10 ? '#D4A017' : d.custo >= 5 ? '#E76F51' : '#2A9D8F'
-      }})),
+      data: custoData.map(function(d) {
+        return {
+          value: d.custo,
+          itemStyle: { color: d.custo >= 10 ? '#D4A017' : d.custo >= 5 ? '#E76F51' : '#2A9D8F' }
+        };
+      }),
       barWidth: '50%',
-      label: { show: true, position: 'top', formatter: function(d) { return 'R$' + d.value + 'M'; }, color: '#8b949e', fontSize: 9 }
+      label: {
+        show: true, position: 'top',
+        formatter: function(d) { return 'R$' + d.value + 'M'; },
+        color: '#e6edf3', fontSize: 10, fontWeight: 'bold'
+      }
     }]
   });
 }
 
 // === TRIAGE LIST ===
 function renderTriage() {
-  const STATUS_COLOR = { agir: '#D62828', diagnosticar: '#E76F51', ressalva: '#F4A261', bloquear: '#8B1A1A', monitorar: '#484f58' };
-  const STATUS_LABEL = { agir: 'AGIR AGORA', diagnosticar: 'DIAGNOSTICAR', ressalva: 'COM RESSALVA', bloquear: 'BLOQUEADO', monitorar: 'MONITORAR' };
-  const CAT_COLOR = { vida: '#D62828', bolso: '#D4A017', voto: '#264653', estrutura: '#2A9D8F' };
+  var STATUS_COLOR = { agir: '#D62828', diagnosticar: '#E76F51', ressalva: '#F4A261', bloquear: '#264653', monitorar: '#484f58' };
+  var STATUS_LABEL = { agir: 'AGIR AGORA', diagnosticar: 'DIAGNOSTICAR', ressalva: 'COM RESSALVA', bloquear: 'BLOQUEADO', monitorar: 'MONITORAR' };
+  var STATUS_DESC = {
+    agir: 'Trata sem esperar diagnóstico. Vida em risco.',
+    diagnosticar: 'Precisa achar a causa antes de tratar.',
+    ressalva: 'Pode tratar parcialmente enquanto diagnostica.',
+    bloquear: 'Nunca tratar sem FATO. Vira palanque (P9).',
+    monitorar: 'Acompanhar, sem ação direta.'
+  };
+  var CAT_COLOR = { vida: '#D62828', bolso: '#D4A017', voto: '#264653', estrutura: '#2A9D8F' };
+  var CAT_DESC = {
+    vida: 'Vida humana em risco',
+    bolso: 'Dinheiro/economia',
+    voto: 'Decisão política',
+    estrutura: 'Infraestrutura/sistema'
+  };
 
-  const container = document.getElementById('triage-list');
-  const sorted = [...__DATA__.triage].sort((a,b) => {
-    const order = { agir: 0, diagnosticar: 1, ressalva: 2, bloquear: 3, monitorar: 4 };
+  var container = document.getElementById('triage-list');
+  var sorted = __DATA__.triage.slice().sort(function(a,b) {
+    var order = { agir: 0, diagnosticar: 1, ressalva: 2, bloquear: 3, monitorar: 4 };
     return (order[a.status]||5) - (order[b.status]||5);
   });
 
-  container.innerHTML = sorted.map(t => `
-    <div class="card p-4 flex items-center gap-4" style="border-left: 4px solid ${STATUS_COLOR[t.status]};">
-      <div class="flex-shrink-0">
-        <span class="pill" style="background:${STATUS_COLOR[t.status]}22; color:${STATUS_COLOR[t.status]};">${STATUS_LABEL[t.status]}</span>
-      </div>
-      <div class="flex-1">
-        <p class="font-semibold text-sm">${t.nome}</p>
-        <div class="flex gap-2 mt-1">
-          <span class="pill" style="background:${CAT_COLOR[t.categoria]}22; color:${CAT_COLOR[t.categoria]};">${t.categoria.toUpperCase()}</span>
-          <span class="text-xs text-[#8b949e]">${t.acao}</span>
-        </div>
-      </div>
-      <div class="text-right">
-        <p class="text-xs text-[#8b949e]">Prazo diag.</p>
-        <p class="font-bold text-sm" style="color:${t.prazo <= 7 ? '#D62828' : t.prazo <= 30 ? '#E76F51' : '#52B788'};">${t.prazo}d</p>
-      </div>
-    </div>
-  `).join('');
+  container.innerHTML = sorted.map(function(t) {
+    return '<div class="card p-4" style="border-left: 4px solid ' + STATUS_COLOR[t.status] + ';">' +
+      '<div class="flex items-start gap-4">' +
+        '<div class="flex-shrink-0">' +
+          '<span class="pill" style="background:' + STATUS_COLOR[t.status] + '22; color:' + STATUS_COLOR[t.status] + ';">' + STATUS_LABEL[t.status] + '</span>' +
+          '<p class="text-xs text-[#8b949e] mt-2" style="max-width:140px;">' + STATUS_DESC[t.status] + '</p>' +
+        '</div>' +
+        '<div class="flex-1">' +
+          '<p class="font-semibold text-sm">' + t.nome + '</p>' +
+          '<div class="flex gap-2 mt-1 flex-wrap">' +
+            '<span class="pill" style="background:' + CAT_COLOR[t.categoria] + '22; color:' + CAT_COLOR[t.categoria] + ';">' + t.categoria.toUpperCase() + '</span>' +
+            '<span class="text-xs text-[#8b949e]" title="' + (CAT_DESC[t.categoria]||'') + '">' + (CAT_DESC[t.categoria]||'') + '</span>' +
+          '</div>' +
+          '<p class="text-xs text-[#8b949e] mt-1">Ação: <span class="text-[#e6edf3]">' + t.acao.replace(/_/g,' ') + '</span></p>' +
+        '</div>' +
+        '<div class="text-right">' +
+          '<p class="text-xs text-[#8b949e]">Prazo p/ diagnóstico</p>' +
+          '<p class="font-bold text-lg" style="color:' + (t.prazo <= 7 ? '#D62828' : t.prazo <= 30 ? '#E76F51' : '#52B788') + ';">' +
+            (t.prazo <= 1 ? 'IMEDIATO' : t.prazo + ' dias') + '</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
 
 // === EXAMES LIST ===
 function renderExames() {
-  const container = document.getElementById('exames-list');
-  container.innerHTML = __DATA__.exames.map(e => `
-    <div class="card p-5">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="pill" style="background:${URGENCIA_COLOR[e.urgencia]}22; color:${URGENCIA_COLOR[e.urgencia]};">${URGENCIA_LABEL[e.urgencia]}</span>
-            <span class="pill" style="background:#00B4D822; color:#00B4D8;">${e.exame}</span>
-            <span class="text-xs text-[#8b949e]">${e.freq}</span>
-          </div>
-          <h3 class="font-bold text-lg">${e.dominio}</h3>
-        </div>
-        <div class="text-right">
-          <p class="text-xs text-[#8b949e]">Automação</p>
-          <p class="font-bold text-xl" style="color:${e.automacao_pct === 100 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828'};">${e.automacao_pct}%</p>
-        </div>
-      </div>
-      <div class="progress-bar mb-3">
-        <div class="progress-fill" style="width:${e.automacao_pct}%; background:${e.automacao_pct === 100 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828'};"></div>
-      </div>
-      <details class="text-sm">
-        <summary class="cursor-pointer text-[#00B4D8] hover:underline">Indicadores (${e.indicadores.length})</summary>
-        <ul class="mt-2 space-y-1 text-[#8b949e]">
-          ${e.indicadores.map(i => `<li>• ${i}</li>`).join('')}
-        </ul>
-        <div class="mt-3 p-3 rounded-lg bg-[#0d1117] border border-[#30363d]">
-          <p class="text-xs text-[#D4A017] font-semibold mb-1">GAP PRINCIPAL:</p>
-          <p class="text-xs text-[#8b949e]">${e.gap}</p>
-        </div>
-        <p class="text-xs text-[#8b949e] mt-2">Custo: ${e.custo}</p>
-      </details>
-    </div>
-  `).join('');
+  var container = document.getElementById('exames-list');
+  container.innerHTML = __DATA__.exames.map(function(e) {
+    var autoColor = e.automacao_pct === 100 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828';
+    var autoDesc = e.automacao_pct === 100 ? 'Roda sozinho (OSINT/satelite)' :
+                   e.automacao_pct >= 75 ? 'Quase tudo automatizado' :
+                   e.automacao_pct >= 50 ? 'Metade automático, metade humano' :
+                   e.automacao_pct >= 25 ? 'Principalmente manual' : 'Quase 100% braçal';
+    return '<div class="card p-5">' +
+      '<div class="flex items-start justify-between mb-3">' +
+        '<div>' +
+          '<div class="flex items-center gap-2 mb-2 flex-wrap">' +
+            '<span class="pill" style="background:' + URGENCIA_COLOR[e.urgencia] + '22; color:' + URGENCIA_COLOR[e.urgencia] + ';">' + URGENCIA_LABEL[e.urgencia] + '</span>' +
+            '<span class="pill" style="background:#00B4D822; color:#00B4D8;">' + e.exame + '</span>' +
+            '<span class="text-xs text-[#8b949e]">Atualização: ' + e.freq + '</span>' +
+          '</div>' +
+          '<h3 class="font-bold text-lg">' + e.dominio + '</h3>' +
+          '<p class="text-xs text-[#8b949e] mt-1">' + e.exame_rotulo + '</p>' +
+        '</div>' +
+        '<div class="text-right">' +
+          '<p class="text-xs text-[#8b949e]">Automação</p>' +
+          '<p class="font-bold text-xl" style="color:' + autoColor + ';">' + e.automacao_pct + '%</p>' +
+          '<p class="text-xs" style="color:' + autoColor + ';">' + autoDesc + '</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="progress-bar mb-2">' +
+        '<div class="progress-fill" style="width:' + e.automacao_pct + '%; background:' + autoColor + ';"></div>' +
+      '</div>' +
+      '<div class="flex justify-between text-xs text-[#8b949e] mb-3">' +
+        '<span>0% (100% humano)</span><span>100% (100% OSINT)</span>' +
+      '</div>' +
+      '<details class="text-sm">' +
+        '<summary class="cursor-pointer text-[#00B4D8] hover:underline font-semibold">▼ Indicadores medidos (' + e.indicadores.length + ')</summary>' +
+        '<ul class="mt-2 space-y-1 text-[#8b949e]">' +
+          e.indicadores.map(function(i) { return '<li>• ' + i + '</li>'; }).join('') +
+        '</ul>' +
+      '</details>' +
+      '<details class="text-sm mt-2" open>' +
+        '<summary class="cursor-pointer text-[#D4A017] hover:underline font-semibold">⚠ GAP principal (o que não sabemos)</summary>' +
+        '<div class="mt-2 p-3 rounded-lg" style="background:rgba(214,40,40,0.05); border:1px solid rgba(214,40,40,0.2);">' +
+          '<p class="text-xs text-[#e6edf3]">' + e.gap + '</p>' +
+        '</div>' +
+      '</details>' +
+      '<p class="text-xs text-[#8b949e] mt-3">💰 Custo estimado: <span class="text-[#e6edf3]">' + e.custo + '</span></p>' +
+    '</div>';
+  }).join('');
 }
 
 // === INVISIVEL LIST ===
 function renderInvisivelList() {
-  const container = document.getElementById('invisivel-list');
-  container.innerHTML = __DATA__.invisivel.map((p,i) => `
-    <div class="card p-4" style="border-left: 4px solid ${['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF'][i] || '#00B4D8'};">
-      <div class="flex justify-between items-start mb-2">
-        <h4 class="font-bold text-sm">${p.grupo}</h4>
-        <span class="font-bold text-lg" style="color:var(--amarelo);">~${p.estimativa}</span>
-      </div>
-      <p class="text-xs text-[#8b949e]">${p.motivo}</p>
-    </div>
-  `).join('');
+  var container = document.getElementById('invisivel-list');
+  container.innerHTML = __DATA__.invisivel.map(function(p,i) {
+    var colors = ['#8B1A1A','#D4A017','#E76F51','#52B788','#264653','#0A2540','#00B4D8','#C77DFF','#E76F51'];
+    return '<div class="card p-4" style="border-left: 4px solid ' + (colors[i] || '#00B4D8') + ';">' +
+      '<div class="flex justify-between items-start mb-2">' +
+        '<h4 class="font-bold text-sm">' + p.grupo + '</h4>' +
+        '<span class="font-bold text-lg" style="color:var(--amarelo);">~' + p.estimativa + '</span>' +
+      '</div>' +
+      '<p class="text-xs text-[#8b949e]">' + p.motivo + '</p>' +
+    '</div>';
+  }).join('');
 }
 
 // === INIT ===
-window.addEventListener('load', () => {
+window.addEventListener('load', function() {
   renderOverview();
   renderTriage();
   renderExames();
   renderInvisivelList();
 });
 
-// Resize charts on window resize
-window.addEventListener('resize', () => {
-  document.querySelectorAll('[id^="chart-"]').forEach(el => {
-    const inst = echarts.getInstanceByDom(el);
+window.addEventListener('resize', function() {
+  document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
+    var inst = echarts.getInstanceByDom(el);
     if (inst) inst.resize();
   });
 });
