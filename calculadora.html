@@ -80,7 +80,7 @@ body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1117; color:#e
 <div style="max-width:700px;margin:0 auto;padding:24px 16px;">
 
   <h1 class="section-title" style="color:#D4A017;">CALCULADORA DE SCORE</h1>
-  <p class="section-sub">Mexe nos sliders. Liga as etiquetas. Veja na hora se passa no corte 4.0.</p>
+  <p class="section-sub">Avaliacao para NOVAS candidaturas em 2026. Quem ja teve cargo esta bloqueado.</p>
 
   <div class="formula-box">
     <strong>FORMULA:</strong> <code>SCORE = C1&times;3 + C2&times;2 + C3&times;1) / 6 &times; 5 + ETIQUETAS + CAMADA_0</code><br>
@@ -139,22 +139,19 @@ body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1117; color:#e
     <div id="etiquetas-container"></div>
   </div>
 
-  <!-- CAMADA 0 -->
-  <div class="omissao-box">
-    <h3>CAMADA 0: OMISSAO / COMISSAO</h3>
+  <!-- CANDIDATURA -->
+  <div class="omissao-box" style="border-color:#8B1A1A;">
+    <h3 style="color:#8B1A1A;">🚫 APENAS NOVAS CANDIDATURAS (2026)</h3>
+    <p style="font-size:0.75rem;color:#8b949e;margin-bottom:12px;">Em 2026, a OpenRepublic nao endossa reeleicao de ninguem. Quem ja teve cargo politico, beleza -- va fazer outra coisa da vida. Esta calculadora avalia <strong>novas candidaturas</strong> apenas.</p>
     <div class="omissao-row">
-      <label>Teve cargo?</label>
+      <label>Ja teve cargo politico?</label>
       <select id="omissao-cargo" onchange="calc()">
-        <option value="nao">Nao</option>
-        <option value="sim">Sim</option>
+        <option value="nao">Nao (candidatura nova)</option>
+        <option value="sim">Sim (BLOQUEADO em 2026)</option>
       </select>
     </div>
-    <div class="omissao-row" id="omissao-details" style="display:none;">
-      <label>Resolveu?</label>
-      <select id="omissao-resolveu" onchange="calc()">
-        <option value="nao">NAO resolveu (Omissao: -0.50)</option>
-        <option value="sim">Resolveu (Comissao: +0.30)</option>
-      </select>
+    <div id="omissao-details" style="display:none;padding:12px;background:rgba(139,26,26,0.15);border-radius:6px;margin-top:8px;">
+      <p style="font-size:0.78rem;color:#C44536;font-weight:700;">🚫 BLOQUEADO. Quem teve cargo nao volta em 2026. Sem excecoes. Reeleicao por merito so em 2030.</p>
     </div>
   </div>
 
@@ -243,16 +240,13 @@ function calc() {
   var omissaoTexto = '';
   var cargo = document.getElementById('omissao-cargo').value;
   var details = document.getElementById('omissao-details');
-  details.style.display = cargo === 'sim' ? 'flex' : 'none';
+  details.style.display = cargo === 'sim' ? 'block' : 'none';
   if (cargo === 'sim') {
-    var resolveu = document.getElementById('omissao-resolveu').value;
-    if (resolveu === 'nao') {
-      omissaoImpacto = -0.50;
-      omissaoTexto = 'Omissao: teve cargo, problema existia e NAO resolveu. -0.50';
-    } else {
-      omissaoImpacto = 0.30;
-      omissaoTexto = 'Comissao: teve cargo e resolveu. +0.30';
-    }
+    // BLOQUEADO em 2026
+    omissaoImpacto = -5.0;
+    omissaoTexto = 'BLOQUEADO: ja teve cargo politico. Em 2026 nao ha reeleicao. Sem excecoes.';
+  } else {
+    omissaoTexto = 'Nova candidatura. Sem cargo anterior.';
   }
 
   // Final
