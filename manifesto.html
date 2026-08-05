@@ -3,196 +3,399 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MANIFESTO — Open Republic</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-
-  :root {
-    --bg: #0A2540;
-    --fg: #F5F5F0;
-    --accent: #D4A017;
-    --muted: #666;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--fg);
-    line-height: 1.1;
-    overflow-x: hidden;
-  }
-
-  .manifesto {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 120px 24px 200px;
-  }
-
-  .header {
-    text-align: center;
-    margin-bottom: 120px;
-  }
-  .header .label {
-    font-size: 13px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-  .header h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(4.2rem, 9vw, 7.5rem);
-    font-weight: 900;
-    line-height: .92;
-    letter-spacing: -4px;
-  }
-  .header .sub {
-    font-size: 1.1rem;
-    color: var(--muted);
-    margin-top: 24px;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .section {
-    margin-bottom: 140px;
-  }
-  .section:last-child { margin-bottom: 0; }
-
-  .statement {
-    font-size: clamp(2.1rem, 4.8vw, 3.4rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    margin-bottom: 48px;
-  }
-  .statement:last-child { margin-bottom: 0; }
-
-  .statement .highlight {
-    color: var(--accent);
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 48px;
-    margin-top: 60px;
-  }
-
-  .block {
-    border-left: 3px solid var(--accent);
-    padding-left: 24px;
-  }
-  .block p {
-    font-size: 1.35rem;
-    line-height: 1.25;
-    font-weight: 600;
-  }
-
-  .final {
-    text-align: center;
-    padding: 100px 20px;
-    border-top: 1px solid #222;
-    margin-top: 100px;
-  }
-  .final h2 {
-    font-size: clamp(2.8rem, 6vw, 4.2rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 32px;
-  }
-  .cta {
-    display: inline-block;
-    background: var(--accent);
-    color: #0A2540;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 18px 48px;
-    text-decoration: none;
-    border-radius: 9999px;
-    margin-top: 40px;
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  .cta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  }
-
-  .footer {
-    text-align: center;
-    padding: 60px 20px 40px;
-    font-size: .875rem;
-    color: var(--muted);
-  }
-</style>
-
+<title>MANIFESTO — OpenRepublic</title>
 <style>
 :root {
   --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
   --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+  --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e;
 }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+/* HERO */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+  position: relative;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(212,160,23,0.15);
+  color: var(--amarelo);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #F5F5F0, #D4A017);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .tagline {
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  color: #F5F5F0;
+  font-weight: 700;
+  max-width: 600px;
+  margin: 0 auto 16px;
+}
+.hero .subtagline {
+  font-size: 0.9rem;
+  color: rgba(245,245,240,0.6);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* SECTIONS */
+.section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.section-title {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 900;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 32px;
+}
+
+/* PRINCIPLES */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.principle {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.principle::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.principle:nth-child(1)::before { background: var(--vermelho); }
+.principle:nth-child(2)::before { background: var(--amarelo); }
+.principle:nth-child(3)::before { background: var(--verde-claro); }
+.principle:nth-child(4)::before { background: var(--azul-medio); }
+.principle:nth-child(5)::before { background: var(--roxo); }
+.principle:nth-child(6)::before { background: var(--verde); }
+.principle:nth-child(7)::before { background: var(--terra); }
+.principle .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: 900;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.principle:nth-child(1) .num { background: var(--vermelho); }
+.principle:nth-child(2) .num { background: var(--amarelo); }
+.principle:nth-child(3) .num { background: var(--verde-claro); }
+.principle:nth-child(4) .num { background: var(--azul-medio); }
+.principle:nth-child(5) .num { background: var(--roxo); }
+.principle:nth-child(6) .num { background: var(--verde); }
+.principle:nth-child(7) .num { background: var(--terra); }
+.principle h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+.principle p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+/* BIG STATEMENT */
+.statement-block {
+  text-align: center;
+  padding: 80px 24px;
+  background: var(--azul);
+}
+.statement-text {
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.15;
+  max-width: 700px;
+  margin: 0 auto;
+  color: #F5F5F0;
+}
+.statement-text .hl { color: var(--amarelo); }
+
+/* GATES */
+.gate-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.gate-row .icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.gate-row .text h3 { font-size: 0.92rem; font-weight: 800; margin-bottom: 4px; }
+.gate-row .text p { font-size: 0.78rem; color: var(--muted); }
+
+/* QUOTE BANNER */
+.quote-banner {
+  background: var(--vermelho);
+  padding: 60px 24px;
+  text-align: center;
+}
+.quote-banner p {
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  font-weight: 800;
+  color: #F5F5F0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.3;
+}
+
+/* CTA */
+.cta-section {
+  text-align: center;
+  padding: 80px 24px;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--amarelo);
+  color: var(--bg);
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 16px 40px;
+  text-decoration: none;
+  border-radius: 9999px;
+  margin-top: 24px;
+  transition: transform 0.2s;
+}
+.cta-btn:hover { transform: translateY(-3px); }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--verde-claro); text-decoration: none; font-weight: 600; }
 </style>
 </head>
 <body>
+
+<!-- HEADER -->
 <header style="border-bottom:1px solid #30363d;position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);">
   <div style="max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
-    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#8b949e;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);">
       <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
       <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
     </a>
-    <a href="index.html" style="font-size:11px;color:#2D6A4F;text-decoration:none;font-weight:bold;">&larr; Voltar</a>
+    <a href="index.html" style="font-size:11px;color:var(--verde-claro);text-decoration:none;font-weight:bold;">&larr; Voltar</a>
   </div>
 </header>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Código aberto CC0 · Sem partido · Sem dono</div>
+  <h1>NÃO É PARTIDO.<br>É MEDIÇÃO.</h1>
+  <p class="tagline">O IBGE pergunta ao diretor. Nós perguntamos ao chão.</p>
+  <p class="subtagline">Sistema de medição política independente. O sensor ilumina. O povo cobra. Partido é ferramenta. População é fim.</p>
+</section>
 
-  <div class="manifesto">
-    <!-- HEADER -->
-    <div class="header">
-      <div class="label">OPEN REPUBLIC</div>
-      <h1>MANIFESTO</h1>
-      <p class="sub">O Brasil não precisa de mais promessas.<br>Precisa de dados. De verdade. De luz.</p>
+<!-- 7 PRINCÍPIOS -->
+<section class="section">
+  <h2 class="section-title" style="color:var(--amarelo);">7 PRINCÍPIOS</h2>
+  <p class="section-sub">O que nos governa. Não negociável.</p>
+
+  <div class="principles-grid">
+    <div class="principle">
+      <div class="num">1</div>
+      <h3>A métrica é uma</h3>
+      <p>Quantas pessoas pararam de sofrer? Não importa se o partido está feliz. Não importa a coalizão. Importa: a fome acabou? 33 milhões passam fome. Isso é a única métrica.</p>
     </div>
-
-    <!-- CORE -->
-    <div class="section">
-      <div class="statement">Partido é ferramenta.<br>População é fim.</div>
-      <div class="statement">O sensor ilumina.<br>O povo cobra.</div>
+    <div class="principle">
+      <div class="num">2</div>
+      <h3>Opinião é opinião. Dado é dado.</h3>
+      <p>Fatos são sempre feitos em cima de uma boa análise de dados reais e representativos. Não usamos percepção. Usamos números. Números não mentem, embora possam ser escondidos. Se o gestor não publica, a etiqueta é #CaixaPreta.</p>
     </div>
-
-    <!-- PRINCIPLES -->
-    <div class="section">
-      <div class="grid">
-        <div class="block">
-          <p><span class="highlight">Transparência radical</span> não é opção. É pré-requisito de soberania.</p>
-        </div>
-        <div class="block">
-          <p>Dados públicos são oxigênio. Quem os esconde sufoca a República.</p>
-        </div>
-        <div class="block">
-          <p>Medir é resistir. O que não é medido é manipulado.</p>
-        </div>
-      </div>
+    <div class="principle">
+      <div class="num">3</div>
+      <h3>Capacidade sem alinhamento não serve</h3>
+      <p>Score é multiplicado por alinhamento com o Raio X. Pode ser gênio. Se não aponta na direção de reduzir sofrimento, o score é zero. O corte é 4.0. Binário: APROVADO ou W.O.</p>
     </div>
-
-    <!-- DECLARATION -->
-    <div class="section">
-      <div class="statement">Não somos oposição.<br>Somos <span class="highlight">oposição ao opaco</span>.</div>
-      <div class="statement">Não pedimos confiança.<br>Exigimos verificação.</div>
+    <div class="principle">
+      <div class="num">4</div>
+      <h3>Sem proposta executável = W.O.</h3>
+      <p>Gate WO exige 7 critérios: COMO, QUEM, CUSTO, PRAZO, MÉTRICA, FONTE, DIAGNÓSTICO. Falta um = W.O. Palanque não é proposta. Diagnóstico coerente sem execução é incompletude, não ignorância — mas não passa.</p>
     </div>
-
-    <!-- FINAL -->
-    <div class="final">
-      <h2>Este é o nosso<br>contrato com o Brasil.</h2>
-      <a href="index.html" class="cta">VER OS DADOS →</a>
+    <div class="principle">
+      <div class="num">5</div>
+      <h3>Transparência radical</h3>
+      <p>Nada escondido. Log público. Caixa-preta proibida. Dados abertos em formato machine-readable. Quem vota contra transparência tem patrimônio inconsistente ou beneficia empresas sem licitação = #CaixaPreta.</p>
     </div>
-
-    <div class="footer">
-      Open Republic • 2026
+    <div class="principle">
+      <div class="num">6</div>
+      <h3>Representatividade real</h3>
+      <p>56% da população é negra. 50% é mulher. Se o poder não parece a população, não é representação — é apropriação. Medimos o gap entre quem governa e quem é governado. Sub-representação é punida 1.5x.</p>
+    </div>
+    <div class="principle">
+      <div class="num">7</div>
+      <h3>Omissão é punitiva</h3>
+      <p>Teve cargo. Problema existia. Não resolveu. OMISSÃO: -0.50 no score. Teve cargo, resolveu: COMISSÃO: +0.30. O sistema não premia quem "teve a chance". Premia quem entregou. Um vacilo em qualquer cargo = bloqueado pra sempre.</p>
     </div>
   </div>
+</section>
+
+<!-- GATES -->
+<section class="section">
+  <h2 class="section-title" style="color:var(--vermelho);">COMO MEDIMOS</h2>
+  <p class="section-sub">5 sistemas. 1 veredito. Sem onde se esconder.</p>
+
+  <div class="gate-row">
+    <div class="icon">📊</div>
+    <div class="text">
+      <h3>SCORE BASE (C1×3 + C2×2 + C3×1) / 6 × 5</h3>
+      <p>Capacidade de execução (peso 3) + experiência correlata (peso 2) + predição de futuro (peso 1). Corte 4.0 binário.</p>
+    </div>
+  </div>
+  <div class="gate-row">
+    <div class="icon">🏷️</div>
+    <div class="text">
+      <h3>33 ETIQUETAS POLÍTICAS (9 pilares)</h3>
+      <p>Gestão fiscal, transparência, eficiência, impacto social, capacidade técnica, verdade e dados, sustentabilidade, diálogo, inovação. Cada etiqueta: -0.30 a +0.25 no score.</p>
+    </div>
+  </div>
+  <div class="gate-row">
+    <div class="icon">⚖️</div>
+    <div class="text">
+      <h3>CAMADA 0: OMISSÃO / COMISSÃO</h3>
+      <p>Teve cargo + problema existia + não resolveu = -0.50. Resolveu = +0.30. O sistema não pergunta "tem experiência?". Pergunta "resolveu?".</p>
+    </div>
+  </div>
+  <div class="gate-row">
+    <div class="icon">🌍</div>
+    <div class="text">
+      <h3>31 TAGS DE REPRESENTATIVIDADE</h3>
+      <p>Fenotípico, geográfico, socioeconômico, origem, contexto de vida. Score 0-100. Se falta preto no poder, o próximo indicado DEVE ser preto.</p>
+    </div>
+  </div>
+  <div class="gate-row">
+    <div class="icon">🚫</div>
+    <div class="text">
+      <h3>REELEIÇÃO POR MÉRITO</h3>
+      <p>Quem teve cargo e entregou: pode voltar (mérito). Quem teve cargo e vacilou: nunca mais. Sem evidência = bloqueado. O cargo não é propriedade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BIG STATEMENT -->
+<section class="statement-block">
+  <p class="statement-text">
+    O sensor <span class="hl">ilumina</span>.<br>
+    A frente <span class="hl">propõe</span>.<br>
+    O governo <span class="hl">executa</span>.<br>
+    O povo <span class="hl">cobra</span>.
+  </p>
+</section>
+
+<!-- RENDA REAL -->
+<section class="section">
+  <h2 class="section-title" style="color:var(--terra);">A MÉDIA MENTE</h2>
+  <p class="section-sub">70% da população ganha abaixo da média. A distribuição mostra a realidade.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-top:24px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+      <div style="font-size:1.8rem;font-weight:900;color:var(--vermelho);">R$ 300</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;">P10 (mais pobre)</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+      <div style="font-size:1.8rem;font-weight:900;color:var(--amarelo);">R$ 1.600</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;">P50 (mediana real)</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+      <div style="font-size:1.8rem;font-weight:900;color:var(--verde-claro);">R$ 25.000</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;">P99 (1% mais rico)</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;">
+      <div style="font-size:1.8rem;font-weight:900;color:var(--roxo);">28.3%</div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;">Renda do 1% mais rico</div>
+    </div>
+  </div>
+  <p style="margin-top:24px;font-size:0.82rem;color:var(--muted);text-align:center;">
+    A média aritmética foi substituída por distribuição percentil em todos os 28 estados (27 + BR).<br>
+    Negro ganha 56% do branco. Mulher ganha 75% do homem. A média esconde. A distribuição revela.
+  </p>
+</section>
+
+<!-- CO-PRESIDÊNCIA -->
+<section class="section">
+  <h2 class="section-title" style="color:var(--roxo);">CO-PRESIDÊNCIA</h2>
+  <p class="section-sub">Ninguém governa sozinho. Presidente tem voto de minerva.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div style="background:var(--card);border:2px solid var(--roxo);border-radius:12px;padding:24px;">
+      <div style="font-size:0.75rem;color:var(--roxo);font-weight:700;text-transform:uppercase;margin-bottom:8px;">PRESIDENTE</div>
+      <div style="font-size:1.1rem;font-weight:900;">Dilma Rousseff</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:8px;">Score 4.50. Única presidente mulher. Deposta em golpe sem crime. Voto de minerva (palavra final em empate).</div>
+    </div>
+    <div style="background:var(--card);border:2px solid var(--azul-medio);border-radius:12px;padding:24px;">
+      <div style="font-size:0.75rem;color:var(--azul-medio);font-weight:700;text-transform:uppercase;margin-bottom:8px;">VICE</div>
+      <div style="font-size:1.1rem;font-weight:900;">Jones Manoel</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:8px;">Comunicação e mobilização. 2M inscritos. 10 anos de coerência. Duplo comando: técnica (Dilma) + rua (Jones).</div>
+    </div>
+  </div>
+  <p style="margin-top:16px;font-size:0.82rem;color:var(--muted);">
+    Nada passa sem assinatura de AMBOS. Presidente tem palavra final em empate. Sensor ILUMINA, não decide. Decidir = crime.
+  </p>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-banner">
+  <p>"Se você está mais preocupado com disputa interna do que com 33 milhões em insegurança alimentar, pare neste exato momento e vá fazer outra coisa da sua vida."</p>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 style="font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;margin-bottom:8px;">Este é o nosso contrato com o Brasil.</h2>
+  <p style="color:var(--muted);font-size:0.85rem;">Código aberto CC0. Sem dono. Sem partido. Sem paywall.</p>
+  <a href="index.html" class="cta-btn">VER OS DADOS →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  OpenRepublic · <a href="https://github.com/mouracleiton/open-republic">github.com/mouracleiton/open-republic</a><br>
+  Partido é ferramenta. População é fim.<br>
+  A métrica é uma: quantas pessoas pararam de sofrer?
+</footer>
+
 </body>
 </html>
