@@ -115,50 +115,49 @@ def _init_ministerios() -> List[Ministerio]:
             True, "Fundido com Fazenda. Planificação."),
 
         # === VAZIOS CRÍTICOS (falta gente E importa) ===
-        Ministerio("Relações Exteriores (Itamaraty)", "soberania_alimentar", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Comércio Sul-Sul. Fim remessas. Soberania. SEM gente."),
+        Ministerio("Relações Exteriores (Itamaraty)", "soberania_alimentar", StatusVaga.PREENCHIDO,
+            "Celso Amorim", "—",
+            True, "Diplomata. 2x ministro Itamaraty. Comércio Sul-Sul. Soberania."),
 
-        Ministerio("Defesa", "violencia", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Forças Armadas. Soberania territorial. Amazonia. SEM gente."),
+        Ministerio("Defesa", "violencia", StatusVaga.PREENCHIDO,
+            "Aldo Rebelo", "—",
+            True, "Foi ministro Defesa. Nacionalista. Soberania Amazônia. Fronteiras."),
 
-        Ministerio("Ciência e Tecnologia", "educacao", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "EMBRAPA. Fertilizantes. Transição energetica. SEM gente."),
+        Ministerio("Ciência e Tecnologia", "educacao", StatusVaga.PREENCHIDO,
+            "Ricardo Galvão", "—",
+            True, "Físico. Ex-INPE. Defendeu dados do desmatamento. EMBRAPA. Fertilizantes."),
 
-        Ministerio("Desenvolvimento Regional", "agua", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Saneamento no NE. Transposição. SEM gente."),
+        Ministerio("Desenvolvimento Regional", "agua", StatusVaga.PREENCHIDO,
+            "Humberto Costa", "—",
+            True, "Senador NE. Gestão regional. Saneamento. Transposição."),
 
-        Ministerio("Integração Nacional", "agua", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Transposição São Francisco. Semi-árido. SEM gente."),
+        Ministerio("Integração Nacional", "agua", StatusVaga.FUSAO,
+            "Humberto Costa", "Desenvolvimento Regional",
+            True, "Fundido com Desenvolvimento Regional. Transposição São Francisco."),
 
-        Ministerio("Esporte", "violencia", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Prevenção juvenil. Futebol popular. SEM gente."),
+        Ministerio("Esporte", "violencia", StatusVaga.PREENCHIDO,
+            "Ana Moser", "—",
+            True, "Ex-vôlei. Educação popular pelo esporte. Prevenção juvenil."),
 
-        Ministerio("Previdência Social", "emprego", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "22M idosos dependem. Reforma. SEM gente (Paim cobre parte)."),
+        Ministerio("Previdência Social", "emprego", StatusVaga.FUSAO,
+            "Paulo Paim", "Trabalho e Previdência",
+            True, "Fundido com Trabalho. 22M idosos. Senador 5x. 30 anos direitos."),
 
-        Ministerio("Igualdade Racial", "violencia", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Negro ganha 56%. Racismo estrutural. SEM gente."),
+        Ministerio("Igualdade Racial", "violencia", StatusVaga.PREENCHIDO,
+            "Silvio Almeida", "—",
+            True, "Filósofo. Autor 'Racismo Estrutural'. Negro ganha 56%."),
 
         Ministerio("Povos Originários", "indigena", StatusVaga.FUSAO,
             "Sonia Guajajara", "Direitos e Diversidade",
             True, "Fundido com Direitos Humanos."),
 
-        Ministerio("Pequenas, Micro e Médias Empresas", "emprego", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            False, "Importante mas nao resolve Raio X diretamente."),
+        Ministerio("Pequenas, Micro e Médias Empresas", "emprego", StatusVaga.PREENCHIDO,
+            "Eduardo Mancuso", "—",
+            False, "Economia solidária. Cooperativismo. Importante mas não resolve Raio X."),
 
-        # === VAZIOS LIXO (burocracia/fidalgo) ===
-        Ministerio("Controladoria-Geral da União", "corrupcao", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "R$ 200bi/ano corrupção. Recuperado: 2.5%. PRECISA de gente."),
+        Ministerio("Controladoria-Geral da União", "corrupcao", StatusVaga.PREENCHIDO,
+            "Bruno Dantas", "—",
+            True, "TCU. Auditoria. Combate corrupção. R$ 200bi/ano. Recuperar >2.5%."),
 
         Ministerio("Turismo", "—", StatusVaga.VAZIO_LIXO,
             "VAZIO", "—",
@@ -176,9 +175,9 @@ def _init_ministerios() -> List[Ministerio]:
             "VAZIO", "—",
             False, "Burocracia de articulação. Casa Civil cobre."),
 
-        Ministerio("Advocacia-Geral da União", "corrupcao", StatusVaga.VAZIO_CRITICO,
-            "VAZIO", "—",
-            True, "Defesa jurídica. Lei do Confisco. PRECISA de gente."),
+        Ministerio("Advocacia-Geral da União", "corrupcao", StatusVaga.PREENCHIDO,
+            "João Paulo Lopes", "—",
+            True, "Jurista. Direito constitucional popular. Lei do Confisco."),
 
         Ministerio("Gabinete de Segurança Institucional", "violencia", StatusVaga.VAZIO_LIXO,
             "VAZIO", "—",
