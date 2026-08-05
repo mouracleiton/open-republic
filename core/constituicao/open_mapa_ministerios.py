@@ -23,7 +23,13 @@ class StatusVaga(Enum):
 
 @dataclass
 class Ministerio:
-    """Um ministério real do governo federal brasileiro."""
+    """
+    Um ministério real do governo federal brasileiro.
+
+    AVISO: TODOS os nomes sao MOCK (placeholder).
+    A composicao final so e definida apos analise individual.
+    O sistema de medicao e REAL. As pessoas sao HIPOTETICAS.
+    """
     nome: str
     area_raiox: str                     # qual eixo do Raio X atende
     status: StatusVaga

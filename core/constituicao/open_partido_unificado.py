@@ -4,6 +4,11 @@ OpenPartidoUnificado -- Partido Comunista Unificado do Brasil (PCU-B)
 =======================================================================
 Sem siglas. Sem "eu sou do X". Só gente que sabe fazer algo servindo a um programa.
 A sigla morreu. O cargo fica. A habilidade fica. O nome fica.
+
+AVISO: TODOS os nomes sao MOCK (placeholder).
+A composicao final so e definida apos analise individual
+pelo Gate WO + score de capacidade + triangulacao de fontes.
+O sistema de medicao e REAL. As pessoas sao HIPOTETICAS.
 """
 from __future__ import annotations
 
@@ -241,6 +246,11 @@ class PartidoUnificado:
     """
     Partido Comunista Unificado do Brasil (PCU-B).
     Sem siglas. Só gente. Só habilidade. Só programa.
+
+    AVISO: TODOS os nomes sao MOCK (placeholder).
+    A composicao final so e definida apos analise individual
+    pelo Gate WO + score de capacidade + triangulacao de fontes.
+    O sistema de medicao e REAL. As pessoas sao HIPOTETICAS.
     """
 
     def __init__(self):
