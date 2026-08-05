@@ -4,26 +4,245 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prova de Recuperação — Frente Comunista Unida</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
-  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  :root {
+    --verde: #1A5E3F;
+    --azul: #0A2540;
+    --preto: #1A1A1A;
+    --branco: #F5F5F0;
+    --vermelho: #8B1A1A;
+    --amarelo: #D4A017;
+    --terra: #8B5E3C;
+    --verde-claro: #2D6A4F;
+    --azul-medio: #3D5A80;
+    --roxo: #6A4C93;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: #0d1117;
     color: #e6edf3;
     line-height: 1.6;
-    margin: 0;
+    overflow-x: hidden;
   }
-  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; }
-  .info-box { background: rgba(61,90,128,0.06); border-left: 3px solid #3D5A80; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
-  .danger-box { background: rgba(139,26,26,0.06); border-left: 3px solid #8B1A1A; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
-  .red-box { background: rgba(139,26,26,0.08); border: 2px solid #8B1A1A; border-radius: 8px; padding: 16px; }
-  .data-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #21262d; gap: 12px; }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+    border-bottom: 1px solid rgba(245,245,240,0.1);
+  }
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8B5E3C, #1A5E3F);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: white;
+    font-size: 16px;
+  }
+  .logo-text {
+    color: #8b949e;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .logo:hover .logo-text { color: #e6edf3; }
+  .back-link {
+    color: #2D6A4F;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #D4A017; }
+
+  /* HERO SECTION */
+  .hero {
+    background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+    padding: 50px 20px 30px;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(212,160,23,0.05) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    background: rgba(212,160,23,0.15);
+    color: #D4A017;
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    font-weight: 900;
+    margin-bottom: 10px;
+    z-index: 1;
+    background: linear-gradient(135deg, #F5F5F0, #D4A017);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .tagline {
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+    color: #F5F5F0;
+    font-weight: 700;
+    margin-bottom: 6px;
+    z-index: 1;
+  }
+  .hero .subtagline {
+    font-size: 0.8rem;
+    color: #8b949e;
+    max-width: 600px;
+    margin: 0 auto 20px;
+    z-index: 1;
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  .section-title {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    color: #8b949e;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+  }
+
+  /* CARDS */
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .card-red {
+    border: 2px solid #8B1A1A;
+    background: rgba(139,26,26,0.05);
+  }
+
+  /* INFO BOXES */
+  .info-box {
+    background: rgba(61,90,128,0.08);
+    border-left: 3px solid #3D5A80;
+    padding: 12px 14px;
+    border-radius: 0 10px 10px 0;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .danger-box {
+    background: rgba(139,26,26,0.08);
+    border-left: 3px solid #8B1A1A;
+    padding: 12px 14px;
+    border-radius: 0 10px 10px 0;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 16px 10px;
+    text-align: center;
+    border-top: 3px solid;
+  }
+  .stat-card .num {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 900;
+    line-height: 1;
+  }
+  .stat-card .label {
+    font-size: 0.65rem;
+    color: #8b949e;
+    margin-top: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* DATA ROWS */
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid #21262d;
+    gap: 10px;
+  }
   .data-row:last-child { border-bottom: none; }
-  .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
-  .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
-  .pill { display: inline-block; padding: 2px 8px; border-radius: 16px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; }
-  .pill-UP { background: rgba(139,26,26,0.2); color: #8B1A1A; }
+  .data-label {
+    font-size: 0.75rem;
+    color: #8b949e;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .data-value {
+    font-size: 0.8rem;
+    color: #e6edf3;
+    text-align: right;
+    font-weight: 700;
+  }
+
+  /* PARTY PILLS */
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .pill-UP { background: rgba(212,160,23,0.2); color: #D4A017; }
   .pill-PT { background: rgba(212,160,23,0.2); color: #D4A017; }
   .pill-PSOL { background: rgba(106,76,147,0.2); color: #6A4C93; }
   .pill-PCB { background: rgba(139,26,26,0.15); color: #C44536; }
@@ -32,48 +251,103 @@
   .pill-REDE { background: rgba(45,106,79,0.15); color: #2D6A4F; }
   .pill-PDT { background: rgba(212,160,23,0.15); color: #D4A017; }
   .pill-PCO { background: rgba(139,94,60,0.2); color: #8B5E3C; }
-  .section-title { font-size: clamp(1rem, 5vw, 1.25rem); font-weight: 800; margin-bottom: 4px; }
-  .section-sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 16px; }
-  .role-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-  .task-item { padding: 10px 0; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
+
+  /* TASK LIST */
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .task-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #21262d;
+    font-size: 0.8rem;
+  }
   .task-item:last-child { border-bottom: none; }
-  .task-num { display: inline-block; width: 28px; height: 28px; background: #8B1A1A; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.75rem; margin-right: 8px; flex-shrink: 0; }
-  @media print { body { background: white; color: black; } .card { border: 1px solid #ccc; } }
+  .task-num {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: #8B1A1A;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ROLE GRID */
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .role-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .role-card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #8b949e;
+    font-size: 0.7rem;
+    border-top: 1px solid #30363d;
+    background: #0d1117;
+  }
+  footer a { color: #2D6A4F; text-decoration: none; font-weight: 600; }
+  footer .heart { color: #8B1A1A; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .section { padding: 20px 16px; }
+    .card { padding: 14px; }
+    .role-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media print {
+    body { background: white; color: black; }
+    .card { border: 1px solid #ccc; }
+    header { position: static; }
+  }
 </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-<!-- CABEÇALHO DA PROVA -->
-<header class="border-b-2 border-[#8B1A1A] bg-[#0d1117] sticky top-0 z-50">
-  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2 text-[#8b949e] hover:text-[#e6edf3] transition-colors">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background: linear-gradient(135deg, #0A2540, #8B5E3C, #1A5E3F);">R</div>
-      <span class="text-xs font-bold uppercase tracking-wider">OpenRepublic</span>
+<!-- HEADER -->
+<header>
+  <div class="header-content">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">R</div>
+      <span class="logo-text">OpenRepublic</span>
     </a>
-    <a href="index.html" class="text-xs text-[#2D6A4F] hover:text-[#D4A017] transition-colors font-bold">← Voltar</a>
+    <a href="index.html" class="back-link">← Voltar</a>
   </div>
 </header>
 
-<!-- CABEÇALHO DA PROVA (original abaixo) -->
-<div class="border-b-2 border-[#8B1A1A] bg-[#0d1117]">
-  <div class="max-w-3xl mx-auto px-4 py-6">
-    <div class="text-center">
-      <p class="text-xs text-[#8b949e] uppercase tracking-widest mb-2">OpenRepublic · Sistema de Avaliação Política</p>
-      <h1 class="text-xl md:text-3xl font-black mb-2">PROVA DE RECUPERAÇÃO</h1>
-      <p class="text-sm md:text-base font-bold" style="color:#8B1A1A;">FRENTE COMUNISTA UNIDA — PLANO DE GOVERNO</p>
-      <p class="text-xs text-[#8b949e] mt-2">Liderança do Projeto: Jones Manoel — Vice-Presidente da República</p>
-      <p class="text-xs text-[#8b949e]">Presidente: Dilma Rousseff · Co-Presidência com voto de minerva</p>
-    </div>
-    <div class="mt-6 red-box text-center">
-      <p class="text-sm font-bold text-[#e6edf3]">PRAZO DE ENTREGA: 5 DE AGOSTO DE 2026</p>
-      <p class="text-xs text-[#8b949e] mt-1">Sem trabalho individual. Sem copiar do vizinho. O Brasil não aceita cola.</p>
-    </div>
-  </div>
-</header>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">OpenRepublic · Sistema de Avaliação Política</div>
+  <h1>PROVA DE RECUPERAÇÃO</h1>
+  <p class="tagline" style="color: #8B1A1A;">FRENTE COMUNISTA UNIDA — PLANO DE GOVERNO</p>
+  <p class="subtagline">Liderança do Projeto: Jones Manoel — Vice-Presidente da República<br>
+  Presidente: Dilma Rousseff · Co-Presidência com voto de minerva</p>
+</section>
 
 <!-- ENUNCIADO -->
-<section class="max-w-3xl mx-auto px-4 py-6">
-  <div class="info-box mb-6">
+<section class="section">
+  <div class="info-box">
     <strong>ENUNCIADO.</strong> A Frente Comunista Unida precisa de um Plano de Governo. O Brasil está em crise:
     33 milhões passando fome, 47.500 homicídios/ano, PISA 377, 100 milhões sem esgoto, R$ 9.8 trilhões de dívida.
     O partido Unidade Popular (UP), liderado por Samara Martins, é o nó central da coalizão. Os demais partidos
@@ -87,33 +361,35 @@
     PRAZO e MÉTRICA = W.O. automático. O tabuleiro é virado.
   </div>
 
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-    <div class="card p-4 text-center" style="border-top: 3px solid #8B1A1A;">
-      <p class="text-2xl font-black" style="color:#8B1A1A;">18</p>
-      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Eixos do Raio X</p>
+  <div class="stats-grid">
+    <div class="stat-card" style="border-top-color: #8B1A1A;">
+      <div class="num" style="color:#8B1A1A;">18</div>
+      <div class="label">Eixos do Raio X</div>
     </div>
-    <div class="card p-4 text-center" style="border-top: 3px solid #D4A017;">
-      <p class="text-2xl font-black" style="color:#D4A017;">9</p>
-      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Partidos Coalizão</p>
+    <div class="stat-card" style="border-top-color: #D4A017;">
+      <div class="num" style="color:#D4A017;">9</div>
+      <div class="label">Partidos Coalizão</div>
     </div>
-    <div class="card p-4 text-center" style="border-top: 3px solid #3D5A80;">
-      <p class="text-2xl font-black" style="color:#3D5A80;">7</p>
-      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Critérios Gate W.O.</p>
+    <div class="stat-card" style="border-top-color: #3D5A80;">
+      <div class="num" style="color:#3D5A80;">7</div>
+      <div class="label">Critérios Gate W.O.</div>
     </div>
-    <div class="card p-4 text-center" style="border-top: 3px solid #6A4C93;">
-      <p class="text-2xl font-black" style="color:#6A4C93;">4.0</p>
-      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Nota de Corte</p>
+    <div class="stat-card" style="border-top-color: #6A4C93;">
+      <div class="num" style="color:#6A4C93;">4.0</div>
+      <div class="label">Nota de Corte</div>
     </div>
   </div>
 </section>
 
 <!-- ESTRUTURA DA COALIZÃO -->
-<section class="max-w-3xl mx-auto px-4 pb-8">
+<section class="section">
   <h2 class="section-title" style="color:#8B1A1A;">ESTRUTURA DA COALIZÃO</h2>
   <p class="section-sub">UP é o nó central. Cada partido satélite aporta capacidade onde rende.</p>
 
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3"><span class="pill pill-PCB">PCB · LIDERANÇA</span> Jones Manoel — Encabeça o Projeto</h3>
+  <div class="card">
+    <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:10px;">
+      <span class="pill pill-PCB">PCB · LIDERANÇA</span> Jones Manoel — Encabeça o Projeto
+    </h3>
     <div class="data-row"><span class="data-label">Função</span><span class="data-value">Coordena a frente. Comunica. Cobre. Mobiliza.</span></div>
     <div class="data-row"><span class="data-label">Base</span><span class="data-value">Canal ~2M inscritos. 10+ anos de comunicação política. PCB.</span></div>
     <div class="data-row"><span class="data-label">Score capacidade</span><span class="data-value" style="color:#C44536;">2.50 (WO em execução, APROVADO em comunicação)</span></div>
@@ -122,58 +398,60 @@
     <div class="data-row"><span class="data-label">O que precisa</span><span class="data-value">A coalizão supre a execução que falta. Jones não faz sozinho.</span></div>
   </div>
 
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3"><span class="pill pill-UP">UP · NÓ CENTRAL</span> Samara Martins — Programa Base da Coalizão</h3>
+  <div class="card">
+    <h3 style="font-size:0.9rem; font-weight:700; margin-bottom:10px;">
+      <span class="pill pill-UP">UP · NÓ CENTRAL</span> Samara Martins — Programa Base da Coalizão
+    </h3>
     <div class="data-row"><span class="data-label">Função</span><span class="data-value">Nó central. Diagnóstico 100%, direção 100%. Programa de 25 pontos.</span></div>
     <div class="data-row"><span class="data-label">Base</span><span class="data-value">MTST, periferia, trabalhadores. Autossustentação financeira.</span></div>
     <div class="data-row"><span class="data-label">Gap</span><span class="data-value" style="color:#8B1A1A;">Execução 0% (sem equipe técnica). Precisa dos satélites.</span></div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="role-grid">
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PT">PT</span> Execução Governista</h3>
+      <h3><span class="pill pill-PT">PT</span> Execução Governista</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Gestão pública, ministérios, máquina</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Casa Civil, Fazenda, Saúde</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PT é social-democrata, UP é socialista. Rixa histórica.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PSOL">PSOL</span> Rua e Movimento</h3>
+      <h3><span class="pill pill-PSOL">PSOL</span> Rua e Movimento</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Mobilização, direitos humanos, comunicação</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Direitos Humanos, Mulheres, Cultura</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PSOL quer autonomia. Não se dissolve no PT.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCB">PCB</span> Teoria e Análise</h3>
+      <h3><span class="pill pill-PCB">PCB</span> Teoria e Análise</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Análise econômica, estrutura, jornalismo (Jones Manoel)</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Comunicação, Economia, Educação política</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PCB não abre mão do socialismo. PT exige reformismo.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCdoB">PCdoB</span> Técnica e Educação</h3>
+      <h3><span class="pill pill-PCdoB">PCdoB</span> Técnica e Educação</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Saúde, educação, ciência. Quadros técnicos.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Saúde (Jandira Feghali), Esporte (Orlando Silva)</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#2D6A4F;">Já opera na base governista. Compatível.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-REDE">REDE</span> Ambiente</h3>
+      <h3><span class="pill pill-REDE">REDE</span> Ambiente</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Ambiente, água, Amazônia. Marina Silva.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Meio Ambiente, Agrária Familiar</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">Marina é evangelica. Divergência em aborto/drogas.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PDT">PDT</span> Infraestrutura</h3>
+      <h3><span class="pill pill-PDT">PDT</span> Infraestrutura</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Ciro Gomes. Integração regional, transposição.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Integração Regional, Energia, Transporte</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">Ciro x Lula. Rivalidade presidencial histórica.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PSTU">PSTU</span> Crítica e Mobilização</h3>
+      <h3><span class="pill pill-PSTU">PSTU</span> Crítica e Mobilização</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Sindicalismo, crítica anticapitalista</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Trabalho (consultivo), mobilização de rua</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#8B1A1A;">PSTU acusa PT de traição. Rixa histórica.</span></div>
     </div>
     <div class="role-card">
-      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCO">PCO</span> Observador</h3>
+      <h3><span class="pill pill-PCO">PCO</span> Observador</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Crítica. Sem quadro executivo.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Observador da coalizão</span></div>
       <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#8B1A1A;">Não participa de governo burguês. FrontOutside.</span></div>
@@ -182,11 +460,11 @@
 </section>
 
 <!-- QUESTÕES DA PROVA -->
-<section class="max-w-3xl mx-auto px-4 pb-8">
+<section class="section">
   <h2 class="section-title" style="color:#D4A017;">QUESTÕES DA PROVA (18 EIXOS)</h2>
   <p class="section-sub">Cada questão = 1 eixo do Raio X. Cada grupo desenvolve 1 política pública. Cada política passa pelo Gate W.O.</p>
 
-  <div class="danger-box mb-6">
+  <div class="danger-box">
     <strong>REGRAS:</strong><br>
     1. Cada grupo tem 3-5 membros de partidos diferentes.<br>
     2. A política DEVE ter: COMO, QUEM, CUSTO, PRAZO, MÉTRICA, FONTE, DIAGNÓSTICO.<br>
@@ -197,62 +475,68 @@
     7. Se a coalizão discordar, o Raio X decide qual eixo é mais urgente. O povo cobra.
   </div>
 
-  <div class="card p-4">
-    <div class="task-item"><span class="task-num">1</span> <strong>VIOLÊNCIA</strong> (EMERGÊNCIA · 47.500 homicídios/ano). Desenvolva política de segurança pública que passe no Gate W.O. <em>Crédito: qual partido lidera a execução?</em></div>
-    <div class="task-item"><span class="task-num">2</span> <strong>SAÚDE</strong> (EMERGÊNCIA · Dengue 6M, SUS subfinanciado). Desenvolva política de saúde universal. <em>Crédito: PCdoB (Jandira) ou PT?</em></div>
-    <div class="task-item"><span class="task-num">3</span> <strong>ALIMENTAÇÃO</strong> (EMERGÊNCIA · 33M com fome). Desenvolva política de segurança alimentar com rastreio individual. <em>Crédito: REDE (Marina/CONSEA) ou PT (BF)?</em></div>
-    <div class="task-item"><span class="task-num">4</span> <strong>ÁGUA</strong> (EMERGÊNCIA · 35M sem água). Desenvolva política de universalização. <em>Crédito: REDE (Cisternas)?</em></div>
-    <div class="task-item"><span class="task-num">5</span> <strong>SOBERANIA ALIMENTAR</strong> (EMERGÊNCIA · 80% trigo importado). Desenvolva política de produção nacional. <em>Crédito: UP (reforma agrária) ou PCB (planificação)?</em></div>
-    <div class="task-item"><span class="task-num">6</span> <strong>EDUCAÇÃO</strong> (ALTA · PISA 377). Desenvolva política educacional com escola integral. <em>Crédito: PCdoB ou PT (Camilo Santana)?</em></div>
-    <div class="task-item"><span class="task-num">7</span> <strong>EMPREGO</strong> (ALTA · 7.9% desemprego). Desenvolva política de emprego. <em>Crédito: PCB (Jones Manoel) ou PSTU?</em></div>
-    <div class="task-item"><span class="task-num">8</span> <strong>ECONOMIA</strong> (ALTA · R$ 9.8T dívida). Desenvolva política econômica. <em>Crédito: PCB (nacionalização) ou PT (arcabouço)?</em></div>
-    <div class="task-item"><span class="task-num">9</span> <strong>AMBIENTE</strong> (MÉDIA · 13.235 km²/ano). Desenvolva política ambiental. <em>Crédito: REDE (Marina, PPCDAm -80%).</em></div>
-    <div class="task-item"><span class="task-num">10</span> <strong>POVOS ORIGINÁRIOS</strong> (MÉDIA · 251 terras). Desenvolva política indígena. <em>Crédito: PSOL (Sonia Guajajara).</em></div>
-    <div class="task-item"><span class="task-num">11</span> <strong>AGROPECUÁRIA/TERRA</strong> (MÉDIA · Gini 0.85). Desenvolva política de reforma agrária. <em>Crédito: UP (nacionalização) ou MST?</em></div>
-    <div class="task-item"><span class="task-num">12</span> <strong>ENERGIA</strong> (MÉDIA · tarifas altas). Desenvolva política energética. <em>Crédito: PDT (transposição) ou PCB (estatização)?</em></div>
-    <div class="task-item"><span class="task-num">13</span> <strong>TRANSPORTE</strong> (MÉDIA · 30 mortes/dia). Desenvolva política de mobilidade. <em>Crédito: PDT ou UP (estatização)?</em></div>
-    <div class="task-item"><span class="task-num">14</span> <strong>HABITAÇÃO</strong> (MÉDIA · 8M sem moradia). Desenvolva política habitacional. <em>Crédito: PT (Patrus, MCMV) ou UP (imóveis vazios)?</em></div>
-    <div class="task-item"><span class="task-num">15</span> <strong>SANEAMENTO</strong> (MÉDIA · 100M sem esgoto). Desenvolva política de saneamento. <em>Crédito: PT (Marco Legal revertido)?</em></div>
-    <div class="task-item"><span class="task-num">16</span> <strong>DROGAS</strong> (MÉDIA · 17% sem tratamento). Desenvolva política de redução de danos. <em>Crédito: PSOL ou PCdoB?</em></div>
-    <div class="task-item"><span class="task-num">17</span> <strong>CULTURA</strong> (MONITORAR · 80% estrangeiro). Desenvolva política cultural. <em>Crédito: PSOL (Erundina) ou PCB (nacionalização)?</em></div>
-    <div class="task-item"><span class="task-num">18</span> <strong>COMUNICAÇÃO</strong> (MONITORAR · 6 grupos = 80%). Desenvolva política de democratização. <em>Crédito: PCB (Jones) ou PSOL?</em></div>
+  <div class="card">
+    <div class="task-list">
+      <div class="task-item"><span class="task-num">1</span> <strong>VIOLÊNCIA</strong> (EMERGÊNCIA · 47.500 homicídios/ano). Desenvolva política de segurança pública que passe no Gate W.O. <em>Crédito: qual partido lidera a execução?</em></div>
+      <div class="task-item"><span class="task-num">2</span> <strong>SAÚDE</strong> (EMERGÊNCIA · Dengue 6M, SUS subfinanciado). Desenvolva política de saúde universal. <em>Crédito: PCdoB (Jandira) ou PT?</em></div>
+      <div class="task-item"><span class="task-num">3</span> <strong>ALIMENTAÇÃO</strong> (EMERGÊNCIA · 33M com fome). Desenvolva política de segurança alimentar com rastreio individual. <em>Crédito: REDE (Marina/CONSEA) ou PT (BF)?</em></div>
+      <div class="task-item"><span class="task-num">4</span> <strong>ÁGUA</strong> (EMERGÊNCIA · 35M sem água). Desenvolva política de universalização. <em>Crédito: REDE (Cisternas)?</em></div>
+      <div class="task-item"><span class="task-num">5</span> <strong>SOBERANIA ALIMENTAR</strong> (EMERGÊNCIA · 80% trigo importado). Desenvolva política de produção nacional. <em>Crédito: UP (reforma agrária) ou PCB (planificação)?</em></div>
+      <div class="task-item"><span class="task-num">6</span> <strong>EDUCAÇÃO</strong> (ALTA · PISA 377). Desenvolva política educacional com escola integral. <em>Crédito: PCdoB ou PT (Camilo Santana)?</em></div>
+      <div class="task-item"><span class="task-num">7</span> <strong>EMPREGO</strong> (ALTA · 7.9% desemprego). Desenvolva política de emprego. <em>Crédito: PCB (Jones Manoel) ou PSTU?</em></div>
+      <div class="task-item"><span class="task-num">8</span> <strong>ECONOMIA</strong> (ALTA · R$ 9.8T dívida). Desenvolva política econômica. <em>Crédito: PCB (nacionalização) ou PT (arcabouço)?</em></div>
+      <div class="task-item"><span class="task-num">9</span> <strong>AMBIENTE</strong> (MÉDIA · 13.235 km²/ano). Desenvolva política ambiental. <em>Crédito: REDE (Marina, PPCDAm -80%).</em></div>
+      <div class="task-item"><span class="task-num">10</span> <strong>POVOS ORIGINÁRIOS</strong> (MÉDIA · 251 terras). Desenvolva política indígena. <em>Crédito: PSOL (Sonia Guajajara).</em></div>
+      <div class="task-item"><span class="task-num">11</span> <strong>AGROPECUÁRIA/TERRA</strong> (MÉDIA · Gini 0.85). Desenvolva política de reforma agrária. <em>Crédito: UP (nacionalização) ou MST?</em></div>
+      <div class="task-item"><span class="task-num">12</span> <strong>ENERGIA</strong> (MÉDIA · tarifas altas). Desenvolva política energética. <em>Crédito: PDT (transposição) ou PCB (estatização)?</em></div>
+      <div class="task-item"><span class="task-num">13</span> <strong>TRANSPORTE</strong> (MÉDIA · 30 mortes/dia). Desenvolva política de mobilidade. <em>Crédito: PDT ou UP (estatização)?</em></div>
+      <div class="task-item"><span class="task-num">14</span> <strong>HABITAÇÃO</strong> (MÉDIA · 8M sem moradia). Desenvolva política habitacional. <em>Crédito: PT (Patrus, MCMV) ou UP (imóveis vazios)?</em></div>
+      <div class="task-item"><span class="task-num">15</span> <strong>SANEAMENTO</strong> (MÉDIA · 100M sem esgoto). Desenvolva política de saneamento. <em>Crédito: PT (Marco Legal revertido)?</em></div>
+      <div class="task-item"><span class="task-num">16</span> <strong>DROGAS</strong> (MÉDIA · 17% sem tratamento). Desenvolva política de redução de danos. <em>Crédito: PSOL ou PCdoB?</em></div>
+      <div class="task-item"><span class="task-num">17</span> <strong>CULTURA</strong> (MONITORAR · 80% estrangeiro). Desenvolva política cultural. <em>Crédito: PSOL (Erundina) ou PCB (nacionalização)?</em></div>
+      <div class="task-item"><span class="task-num">18</span> <strong>COMUNICAÇÃO</strong> (MONITORAR · 6 grupos = 80%). Desenvolva política de democratização. <em>Crédito: PCB (Jones) ou PSOL?</em></div>
+    </div>
   </div>
 </section>
 
 <!-- GABARITO DO GATE W.O. -->
-<section class="max-w-3xl mx-auto px-4 pb-8">
+<section class="section">
   <h2 class="section-title" style="color:#3D5A80;">GABARITO: CHECKLIST W.O. (7 CRITÉRIOS)</h2>
   <p class="section-sub">Toda política DEVE responder estas 7 perguntas. Falta 1 crítica = W.O.</p>
-  <div class="card p-4">
-    <div class="task-item"><span class="task-num">1</span> <strong>COMO</strong> será executado? (peso 3) — Mecanismo concreto, não "vamos ampliar".</div>
-    <div class="task-item"><span class="task-num">2</span> <strong>QUEM</strong> é o responsável? (peso 3) — Partido/ministério/conselho identificado.</div>
-    <div class="task-item"><span class="task-num">3</span> <strong>QUANTO CUSTA</strong>? (peso 3) — Valor em R$ com fonte.</div>
-    <div class="task-item"><span class="task-num">4</span> <strong>COMO OS DADOS FORAM MANIPULADOS</strong>? (peso 2) — Transparência metodológica.</div>
-    <div class="task-item"><span class="task-num">5</span> <strong>QUAL O PRAZO</strong>? (peso 2) — Marco verificável, não "a médio prazo".</div>
-    <div class="task-item"><span class="task-num">6</span> <strong>QUEM É AFETADO</strong>? (jequeri) — Quem ganha, quem perde.</div>
-    <div class="task-item"><span class="task-num">7</span> <strong>COMO MEDIR O RESULTADO</strong>? (jequeri) — Métrica concreta.</div>
+  <div class="card">
+    <div class="task-list">
+      <div class="task-item"><span class="task-num">1</span> <strong>COMO</strong> será executado? (peso 3) — Mecanismo concreto, não "vamos ampliar".</div>
+      <div class="task-item"><span class="task-num">2</span> <strong>QUEM</strong> é o responsável? (peso 3) — Partido/ministério/conselho identificado.</div>
+      <div class="task-item"><span class="task-num">3</span> <strong>QUANTO CUSTA</strong>? (peso 3) — Valor em R$ com fonte.</div>
+      <div class="task-item"><span class="task-num">4</span> <strong>COMO OS DADOS FORAM MANIPULADOS</strong>? (peso 2) — Transparência metodológica.</div>
+      <div class="task-item"><span class="task-num">5</span> <strong>QUAL O PRAZO</strong>? (peso 2) — Marco verificável, não "a médio prazo".</div>
+      <div class="task-item"><span class="task-num">6</span> <strong>QUEM É AFETADO</strong>? (peso 1) — Quem ganha, quem perde.</div>
+      <div class="task-item"><span class="task-num">7</span> <strong>COMO MEDIR O RESULTADO</strong>? (peso 1) — Métrica concreta.</div>
+    </div>
   </div>
 </section>
 
 <!-- FORMAÇÃO DOS GRUPOS -->
-<section class="max-w-3xl mx-auto px-4 pb-8">
+<section class="section">
   <h2 class="section-title" style="color:#6A4C93;">FORMAÇÃO DOS GRUPOS DE TRABALHO</h2>
   <p class="section-sub">Divisão por eixo. Cada grupo mistura partidos. Ninguém faz sozinho.</p>
-  <div class="card p-4">
-    <div class="task-item"><strong>GRUPO 1 — EMERGÊNCIAS (Eixos 1-5):</strong> Jones Manoel (coordena) + 1 REDE + 1 PT + 1 UP. Força-tarefa: vidas em risco AGORA.</div>
-    <div class="task-item"><strong>GRUPO 2 — DESENVOLVIMENTO HUMANO (Eixos 6-7):</strong> 1 PCdoB + 1 PT + 1 PSOL + 1 PSTU.</div>
-    <div class="task-item"><strong>GRUPO 3 — ECONOMIA E SOBERANIA (Eixos 8, 12):</strong> 1 PCB + 1 PT + 1 PDT + 1 UP.</div>
-    <div class="task-item"><strong>GRUPO 4 — TERRA E AMBIENTE (Eixos 9, 11):</strong> 1 REDE + 1 UP + 1 PSOL + 1 PCB.</div>
-    <div class="task-item"><strong>GRUPO 5 — INFRAESTRUTURA (Eixos 13-15):</strong> 1 PDT + 1 PT + 1 UP + 1 PCdoB.</div>
-    <div class="task-item"><strong>GRUPO 6 — DIREITOS (Eixos 10, 16):</strong> 1 PSOL + 1 PCdoB + 1 UP.</div>
-    <div class="task-item"><strong>GRUPO 7 — CULTURA E COMUNICAÇÃO (Eixos 17-18):</strong> 1 PCB + 1 PSOL + 1 UP.</div>
+  <div class="card">
+    <div class="task-list">
+      <div class="task-item"><strong>GRUPO 1 — EMERGÊNCIAS (Eixos 1-5):</strong> Jones Manoel (coordena) + 1 REDE + 1 PT + 1 UP. Força-tarefa: vidas em risco AGORA.</div>
+      <div class="task-item"><strong>GRUPO 2 — DESENVOLVIMENTO HUMANO (Eixos 6-7):</strong> 1 PCdoB + 1 PT + 1 PSOL + 1 PSTU.</div>
+      <div class="task-item"><strong>GRUPO 3 — ECONOMIA E SOBERANIA (Eixos 8, 12):</strong> 1 PCB + 1 PT + 1 PDT + 1 UP.</div>
+      <div class="task-item"><strong>GRUPO 4 — TERRA E AMBIENTE (Eixos 9, 11):</strong> 1 REDE + 1 UP + 1 PSOL + 1 PCB.</div>
+      <div class="task-item"><strong>GRUPO 5 — INFRAESTRUTURA (Eixos 13-15):</strong> 1 PDT + 1 PT + 1 UP + 1 PCdoB.</div>
+      <div class="task-item"><strong>GRUPO 6 — DIREITOS (Eixos 10, 16):</strong> 1 PSOL + 1 PCdoB + 1 UP.</div>
+      <div class="task-item"><strong>GRUPO 7 — CULTURA E COMUNICAÇÃO (Eixos 17-18):</strong> 1 PCB + 1 PSOL + 1 UP.</div>
+    </div>
   </div>
 </section>
 
 <!-- CRITÉRIOS DE AVALIAÇÃO -->
-<section class="max-w-3xl mx-auto px-4 pb-8">
+<section class="section">
   <h2 class="section-title" style="color:#2D6A4F;">CRITÉRIOS DE AVALIAÇÃO</h2>
-  <div class="card p-4">
+  <div class="card">
     <div class="data-row"><span class="data-label">Nota máxima</span><span class="data-value">5.0</span></div>
     <div class="data-row"><span class="data-label">Nota de corte</span><span class="data-value" style="color:#2D6A4F;">≥ 4.0 APROVADO</span></div>
     <div class="data-row"><span class="data-label">< 4.0</span><span class="data-value" style="color:#8B1A1A;">W.O. (recuperação)</span></div>
@@ -264,23 +548,30 @@
 </section>
 
 <!-- AVISO FINAL -->
-<section class="max-w-3xl mx-auto px-4 pb-12">
-  <div class="card p-6" style="border: 2px solid #8B1A1A;">
-    <h2 class="text-lg font-black mb-4" style="color:#8B1A1A;">OBSERVAÇÕES DO PROFESSOR</h2>
-    <div class="space-y-3 text-sm text-[#e6edf3]">
-      <p>O Brasil não é um país pobre. Tem R$ 11.5 trilhões de PIB. Tem R$ 500 bilhões gastos em políticas públicas por ano. O problema é que 94% das políticas não resolvem e 99.7% dos políticos não têm capacidade comprovada.</p>
-      <p>Esta prova não é sobre ideologia. É sobre EXECUÇÃO. O Gate W.O. não mede se você é de esquerda ou direita. Mede se você sabe COMO fazer, QUANTO custa, QUEM executa e COMO mede.</p>
-      <p>A UP tem o diagnóstico mais amplo (13 de 18 eixos cobertos). Mas não tem equipe técnica. A coalizão precisa suprir isso. Cada partido aporta onde rende. Ninguém faz tudo. Ninguém fica de fora.</p>
-      <p><strong>Jones Manoel encabeça a liderança do projeto.</strong> Coordena a frente. Comunica ao povo. Cobra os grupos. Mas não decide sozinho -- o Raio X decide qual eixo é urgente, o povo cobra com os dados na mão. Jones é o comunicador. A coalizão é a execução.</p>
-      <p><strong>Se a coalizão não entregar 18 políticas aprovadas (≥4.0) até 5 de Agosto de 2026, o Brasil continua como está.</strong> 33 milhões com fome. 47.500 assassinatos. PISA 377.</p>
-      <p>O dado existe. A política existe. Falta COBRAR.</p>
+<section class="section">
+  <div class="card card-red">
+    <h2 style="font-size:1.1rem; font-weight:900; margin-bottom:14px; color:#8B1A1A;">OBSERVAÇÕES DO PROFESSOR</h2>
+    <div style="font-size:0.85rem; line-height:1.7; color:#e6edf3;">
+      <p style="margin-bottom:10px;">O Brasil não é um país pobre. Tem R$ 11.5 trilhões de PIB. Tem R$ 500 bilhões gastos em políticas públicas por ano. O problema é que 94% das políticas não resolvem e 99.7% dos políticos não têm capacidade comprovada.</p>
+      <p style="margin-bottom:10px;">Esta prova não é sobre ideologia. É sobre EXECUÇÃO. O Gate W.O. não mede se você é de esquerda ou direita. Mede se você sabe COMO fazer, QUANTO custa, QUEM executa e COMO mede.</p>
+      <p style="margin-bottom:10px;">A UP tem o diagnóstico mais amplo (13 de 18 eixos cobertos). Mas não tem equipe técnica. A coalizão precisa suprir isso. Cada partido aporta onde rende. Ninguém faz tudo. Ninguém fica de fora.</p>
+      <p style="margin-bottom:10px;"><strong>Jones Manoel encabeça a liderança do projeto.</strong> Coordena a frente. Comunica ao povo. Cobra os grupos. Mas não decide sozinho -- o Raio X decide qual eixo é urgente, o povo cobra com os dados na mão. Jones é o comunicador. A coalizão é a execução.</p>
+      <p style="margin-bottom:10px;"><strong>Se a coalizão não entregar 18 políticas aprovadas (≥4.0) até 5 de Agosto de 2026, o Brasil continua como está.</strong> 33 milhões com fome. 47.500 assassinatos. PISA 377.</p>
+      <p style="margin-bottom:0;">O dado existe. A política existe. Falta COBRAR.</p>
     </div>
-    <div class="mt-6 pt-6 border-t border-[#30363d]">
-      <p class="text-xs text-[#8b949e]">OpenRepublic · Código aberto CC0 · github.com/mouracleiton/open-republic</p>
-      <p class="text-xs text-[#8b949e] mt-1">"Política é xadrez, não dama. Se a proposta não responder as 7 perguntas, o tabuleiro é virado."</p>
+    <div style="margin-top:16px; padding-top:14px; border-top:1px solid #30363d; font-size:0.7rem; color:#8b949e;">
+      OpenRepublic · Código aberto CC0 · github.com/mouracleiton/open-republic<br>
+      "Política é xadrez, não dama. Se a proposta não responder as 7 perguntas, o tabuleiro é virado."
     </div>
   </div>
 </section>
+
+<!-- FOOTER -->
+<footer>
+  OpenRepublic · <a href="https://github.com/mouracleiton/open-republic">github.com/mouracleiton/open-republic</a><br>
+  Código aberto CC0 · Sem paywall · Sem partido · <span class="heart">A métrica é uma: quantas pessoas pararam de sofrer?</span><br>
+  Feito com <span class="heart">■</span> por quem pergunta ao chão
+</footer>
 
 </body>
 </html>

@@ -35,55 +35,189 @@
     overflow-x: hidden;
     margin: 0;
   }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+    border-bottom: 1px solid rgba(245,245,240,0.1);
+  }
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #8B5E3C, #1A5E3F);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: white;
+    font-size: 18px;
+  }
+  .logo-text {
+    color: #8b949e;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .logo:hover .logo-text { color: #e6edf3; }
+  .back-link {
+    color: #2D6A4F;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #D4A017; }
+
+  /* HERO SECTION */
+  .hero {
+    background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+    padding: 60px 20px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #F5F5F0, #D4A017);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .tagline {
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    color: #F5F5F0;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .hero .subtagline {
+    font-size: 0.85rem;
+    color: #8b949e;
+    max-width: 600px;
+    margin: 0 auto 24px;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(212,160,23,0.15);
+    color: #D4A017;
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  .section-title {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+
+  /* CARDS */
   .card {
     background: #161b22;
     border: 1px solid #30363d;
-    border-radius: 10px;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
+    border-top: 3px solid;
   }
   .stat-number {
     font-size: clamp(1.6rem, 7vw, 2.4rem);
     font-weight: 900;
     line-height: 1;
   }
-  .info-box {
-    background: rgba(61,90,128,0.06);
-    border-left: 3px solid #3D5A80;
-    padding: 12px 14px;
-    border-radius: 0 8px 8px 0;
-    font-size: 0.82rem;
+  .stat-card .label {
+    font-size: 0.7rem;
     color: #8b949e;
-    line-height: 1.55;
+    margin-top: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* INFO BOXES */
+  .info-box {
+    background: rgba(61,90,128,0.08);
+    border-left: 3px solid #3D5A80;
+    padding: 14px 16px;
+    border-radius: 0 10px 10px 0;
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.6;
+    margin-bottom: 20px;
   }
   .danger-box {
-    background: rgba(139,26,26,0.06);
+    background: rgba(139,26,26,0.08);
     border-left: 3px solid #8B1A1A;
-    padding: 12px 14px;
-    border-radius: 0 8px 8px 0;
-    font-size: 0.82rem;
+    padding: 14px 16px;
+    border-radius: 0 10px 10px 0;
+    font-size: 0.85rem;
     color: #8b949e;
-    line-height: 1.55;
+    line-height: 1.6;
+    margin-bottom: 20px;
   }
-  .section-title {
-    font-size: clamp(1.05rem, 5vw, 1.3rem);
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-  .section-sub {
-    color: #8b949e;
-    font-size: 0.82rem;
-    margin-bottom: 16px;
-  }
+
+  /* DATA ROWS */
   .data-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #21262d;
     gap: 12px;
   }
   .data-row:last-child { border-bottom: none; }
-  .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
-  .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
+  .data-label { font-size: 0.8rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
+  .data-value { font-size: 0.85rem; color: #e6edf3; text-align: right; font-weight: 700; }
+
+  /* ERA BADGE */
   .era-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -94,46 +228,72 @@
     margin-bottom: 8px;
   }
 
-  /* Knight Lab override */
+  /* TASK LIST */
+  .task-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #21262d;
+    font-size: 0.85rem;
+  }
+  .task-item:last-child { border-bottom: none; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #8b949e;
+    font-size: 0.75rem;
+    border-top: 1px solid #30363d;
+    background: #0d1117;
+  }
+  footer a { color: #2D6A4F; text-decoration: none; font-weight: 600; }
+  footer .heart { color: #8B1A1A; }
+
+  /* Knight Lab Timeline */
+  .timeline-embed {
     width: 100%;
     height: 650px;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #30363d;
   }
+
+  /* RESPONSIVE */
   @media (max-width: 768px) {
+    .section { padding: 24px 16px; }
+    .card { padding: 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .timeline-embed { height: 500px; }
   }
+  @media print {
+    body { background: white; color: black; }
+    .card { border: 1px solid #ccc; }
+    header { position: static; }
   }
 </style>
 </head>
 <body class="min-h-screen">
 
 <!-- HEADER -->
-<header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
-  <div class="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2 text-[#8b949e] hover:text-[#e6edf3] transition-colors">
-      <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background: linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
-      <span class="text-xs font-bold uppercase tracking-wider">OpenRepublic</span>
+<header>
+  <div class="header-content">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">R</div>
+      <span class="logo-text">OpenRepublic</span>
     </a>
-    <a href="index.html" class="text-xs text-[#2D6A4F] hover:text-[#D4A017] transition-colors font-bold">← Voltar</a>
+    <a href="index.html" class="back-link">← Voltar</a>
   </div>
 </header>
 
-<!-- HEADER ORIGINAL -->
-<header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
-  <div class="max-w-4xl mx-auto px-4 py-3">
-    <div class="flex items-center gap-3 mb-1">
-      <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center font-bold text-white text-base md:text-lg flex-shrink-0" style="background: linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
-      <div class="min-w-0">
-        <h1 class="text-base md:text-xl font-black leading-tight">Brasil: 524 Anos — A História que Ninguém Contou</h1>
-        <p class="text-xs text-[#8b949e]">De 1500 a 2026 · 33 eventos · Knight Lab Timeline</p>
-      </div>
-    </div>
-  </div>
-</header>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">OpenRepublic · Sistema de Medição Política</div>
+  <h1>Brasil: 524 Anos — A História que Ninguém Contou</h1>
+  <p class="tagline">De 1500 a 2026 · 33 eventos · Knight Lab Timeline</p>
+  <p class="subtagline">A linha do tempo de como 33 milhões de brasileiros chegaram à fome. Nada aconteceu por acidente. A desigualdade foi construída.</p>
+</section>
 
 <!-- INTRODUCAO -->
-<section class="max-w-4xl mx-auto px-4 py-6">
+<section class="max-w-1200px mx-auto px-4 py-6">
   <div class="info-box mb-6">
     <strong>ESTA NÃO É UMA AULA DE HISTÓRIA.</strong> Esta é a linha do tempo de como 33 milhões de brasileiros
     chegaram à fome. Cada evento abaixo construiu o Brasil de hoje. Nada aconteceu por acaso. A desigualdade
@@ -162,7 +322,7 @@
 </section>
 
 <!-- KNIGHT LAB TIMELINE -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#3D5A80;">A Linha do Tempo</h2>
   <p class="section-sub">Arraste horizontalmente. Clique nos pontos para ver detalhes. Cada cor = uma era.</p>
 
@@ -170,7 +330,7 @@
 </section>
 
 <!-- ERA 1: POVOS ORIGINARIOS -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(45,106,79,0.2);color:#2D6A4F;">ANTES DE 1500</span>
   <h2 class="section-title" style="color:#2D6A4F;">Os Povos Originários</h2>
   <p class="section-sub">Antes de Cabral, 5-8 milhões de pessoas viviam aqui. 305 etnias. 274 línguas.</p>
@@ -184,7 +344,7 @@
 </section>
 
 <!-- ERA 2: COLONIZACAO -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(139,94,60,0.2);color:#8B5E3C;">1500 — 1822</span>
   <h2 class="section-title" style="color:#8B5E3C;">322 Anos de Extração</h2>
   <p class="section-sub">Pau-brasil, açúcar, ouro, escravidão. O modelo de extração nasce aqui.</p>
@@ -199,7 +359,7 @@
 </section>
 
 <!-- ERA 3: IMPERIO + REPUBLICA VELHA -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(196,69,54,0.2);color:#C44536;">1822 — 1930</span>
   <h2 class="section-title" style="color:#C44536;">Império e República do Café</h2>
   <p class="section-sub">Independência sem povo. República sem povo. Poder para latifundiários.</p>
@@ -213,7 +373,7 @@
 </section>
 
 <!-- ERA 4: VARGAS -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(212,160,23,0.2);color:#D4A017;">1930 — 1964</span>
   <h2 class="section-title" style="color:#D4A017;">Vargas e a Falsa Democracia</h2>
   <p class="section-sub">Industrialização com ditadura. Direitos sem distribuição.</p>
@@ -226,7 +386,7 @@
 </section>
 
 <!-- ERA 5: DITADURA -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(139,26,26,0.2);color:#8B1A1A;">1964 — 1985</span>
   <h2 class="section-title" style="color:#8B1A1A;">21 Anos de Ditadura</h2>
   <p class="section-sub">Tortura, censura, e a maior concentração de renda da história.</p>
@@ -240,7 +400,7 @@
 </section>
 
 <!-- ERA 6: DEMOCRACIA -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(61,90,128,0.2);color:#3D5A80;">1985 — 2018</span>
   <h2 class="section-title" style="color:#3D5A80;">33 Anos de Democracia</h2>
   <p class="section-sub">Constituição, Real, Lula, Dilma, impeachment. Avanços e recuos.</p>
@@ -255,7 +415,7 @@
 </section>
 
 <!-- RAIO X: 18 EIXOS -->
-<section id="raiox-18" class="max-w-4xl mx-auto px-4 pb-8">
+<section id="raiox-18" class="max-w-1200px mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#8B1A1A;">Raio X: Os 18 Eixos do Brasil</h2>
   <p class="section-sub">Checkup nacional completo. Cada eixo com indicador, dado, fonte e nível de urgência.</p>
 
@@ -431,7 +591,7 @@
 </section>
 
 <!-- ERA 7: HOJE -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
+<section class="max-w-1200px mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(106,76,147,0.2);color:#6A4C93;">2018 — 2026</span>
   <h2 class="section-title" style="color:#6A4C93;">O Brasil Hoje</h2>
   <p class="section-sub">O resultado de 524 anos. Os números que ninguém quer ver.</p>
@@ -467,7 +627,7 @@
 </section>
 
 <!-- CHAPA DEFINIDA -->
-<section id="chapa" class="max-w-4xl mx-auto px-4 pb-8">
+<section id="chapa" class="max-w-1200px mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#6A4C93;">CHAPA DEFINIDA: CO-PRESIDÊNCIA</h2>
   <p class="section-sub">Presidente e Vice com mesmo poder de sanção e veto. Presidente tem voto de minerva.</p>
 
@@ -505,7 +665,7 @@
 </section>
 
 <!-- JOB BOARD: PROCURA-SE -->
-<section id="job-board" class="max-w-4xl mx-auto px-4 pb-8">
+<section id="job-board" class="max-w-1200px mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#8B1A1A;">PROCURA-SE: GOVERNADORES, SENADORES, DEPUTADOS</h2>
   <p class="section-sub">A Frente Unificada Comunista busca gente. Não importa partido. Importa score, habilidade e origem.</p>
 
@@ -603,7 +763,7 @@
 
 
 <!-- BRIEFING POR ESTADO: 27 ESTADOS -->
-<section id="briefing-estados" class="max-w-4xl mx-auto px-4 pb-8">
+<section id="briefing-estados" class="max-w-1200px mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#8B1A1A;">BRIEFING ESTADUAL: 27 ESTADOS, 27 INFERNOS</h2>
   <p class="section-sub">Cada estado com dados, problemas e desafio. Quem quer cargo traz proposta. Sem proposta = W.O.</p>
 
@@ -1382,7 +1542,7 @@
 </section>
 
 <!-- VEREDITO FINAL -->
-<section class="max-w-4xl mx-auto px-4 pb-12">
+<section class="max-w-1200px mx-auto px-4 pb-12">
   <div class="card p-6" style="border: 2px solid #6A4C93;">
     <h2 class="text-lg font-black mb-4" style="color:#6A4C93;">A HISTÓRIA EXPLICA O HOJE</h2>
     <div class="space-y-3 text-sm text-[#e6edf3]">
