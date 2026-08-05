@@ -37,6 +37,11 @@ class Pilar(Enum):
     TRANSPARENCIA = "transparencia"
     EFICIENCIA = "eficiencia"
     IMPACTO_SOCIAL = "impacto_social"
+    CAPACIDADE_TECNICA = "capacidade_tecnica"
+    VERDADE_DADOS = "verdade_dados"
+    SUSTENTABILIDADE = "sustentabilidade"
+    DIALOGO = "dialogo"
+    INOVACAO = "inovacao"
 
 
 class Polaridade(Enum):
@@ -192,9 +197,155 @@ def _init_etiquetas() -> Dict[str, Etiqueta]:
             "Elitista Excludente",
             Pilar.IMPACTO_SOCIAL, Polaridade.NEGATIVA,
             "Beneficia desproporcionalmente grupos de alta renda enquanto base estagna ou piora.",
-            "Gasto regressivo (subsídio ao topo > base) OU indicadores do decil rico crescendo > pobre por 3+ anos",
+            "Gasto regressivo (subsidio ao topo > base) OU indicadores do decil rico crescendo > pobre por 3+ anos",
             "IBGE, IPEA,Politica Fiscal (ONS), PNAD",
             -0.30),
+
+        # ===== CAPACIDADE TECNICA E GOVERNANCA =====
+        "meritocratico_tecnico": Etiqueta(
+            "meritocratico_tecnico", "#MeritocraticoTecnico",
+            "Meritocratico Tecnico",
+            Pilar.CAPACIDADE_TECNICA, Polaridade.POSITIVA,
+            "Nomeia secretarios e diretores por curriculo comprovado e experiencia na area. Rotatividade baixa em cargos tecnicos.",
+            "100% dos cargos tecnicos com perfil adequado + rotatividade <15%/ano",
+            "DOU/diarios, curriculos Lattes, SIAPE",
+            +0.15),
+        "apadrinhado_politico": Etiqueta(
+            "apadrinhado_politico", "#ApadrinhadoPolitico",
+            "Apadrinhado Politico",
+            Pilar.CAPACIDADE_TECNICA, Polaridade.NEGATIVA,
+            "Preenche cargos-chave (saude, educacao, obras) com aliados ou familiares sem qualificacao. Alta rotatividade por troca de apoio.",
+            "Cargos comissionados >50% do total OU rotatividade >40%/ano OU parente em cargo tecnico",
+            "SIAPE, diarios, CGU (nepotismo)",
+            -0.25),
+        "gestor_de_crise": Etiqueta(
+            "gestor_de_crise", "#GestorDeCrise",
+            "Gestor de Crise",
+            Pilar.CAPACIDADE_TECNICA, Polaridade.POSITIVA,
+            "Reage bem a emergencias (enchentes, pandemias, colapsos). Bom em apagar fogo.",
+            "Resposta a crise documentada com resultado positivo (ex: vacinacao >90% na pandemia)",
+            "Relatorios de crise, OMS, Defesa Civil",
+            +0.10),
+        "planejador_estrategico": Etiqueta(
+            "planejador_estrategico", "#PlanejadorEstrategico",
+            "Planejador Estrategico",
+            Pilar.CAPACIDADE_TECNICA, Polaridade.POSITIVA,
+            "Plano de governo detalhado com metas de 4/8 anos, monitoramento publico de KPIs e ajustes baseados em dados.",
+            "Plano com metas quantificaveis + relatorio anual publico + KPIs rastreaveis",
+            "PPA, LDO, LOA, portal de metas",
+            +0.15),
+
+        # ===== VERDADE E DADOS =====
+        "baseado_em_evidencias": Etiqueta(
+            "baseado_em_evidencias", "#BaseadoEmEvidencias",
+            "Baseado em Evidencias",
+            Pilar.VERDADE_DADOS, Polaridade.POSITIVA,
+            "Justifica decisoes citando estudos, dados e pareceres. Admite erros quando dados contradizem suas acoes.",
+            "Decisoes com nota tecnica citando fonte verificavel + admissao publica de erro documentada",
+            "Notas tecnicas, DOU, discursos protocolados",
+            +0.15),
+        "ideologico_rigido": Etiqueta(
+            "ideologico_rigido", "#IdeologicoRigido",
+            "Ideologico Rigido",
+            Pilar.VERDADE_DADOS, Polaridade.NEGATIVA,
+            "Mantem politicas mesmo quando dados mostram ineficacia. Prioriza dogma sobre resultado.",
+            "Politica mantida apos dado oficial mostrar ineficacia OU veto a estudo solicitado",
+            "Congresso, DOU, indicadores IBGE/IPEA",
+            -0.15),
+        "negacionista_dados": Etiqueta(
+            "negacionista_dados", "#NegacionistaDados",
+            "Negacionista de Dados",
+            Pilar.VERDADE_DADOS, Polaridade.NEGATIVA,
+            "Ignora ou distorce estatisticas oficiais quando contrariam narrativa. Cria dados alternativos sem metodologia.",
+            "Contradicao publica com dado oficial + criacao de 'dado alternativo' sem metodologia",
+            "Checagens (Agencia Lupa, UOL, Comprova), IBGE",
+            -0.25),
+        "populista_numerico": Etiqueta(
+            "populista_numerico", "#PopulistaNumerico",
+            "Populista Numerico",
+            Pilar.VERDADE_DADOS, Polaridade.NEGATIVA,
+            "Usa numeros reais fora de contexto para criar narrativas enganosas (ex: recorde sem ajustar por inflacao/populacao).",
+            "Numero real citado sem contexto (sem ajuste inflacionario/per capita) repetido 3+ vezes",
+            "Checagens, IBGE, BCB (deflatores)",
+            -0.10),
+
+        # ===== SUSTENTABILIDADE E LONGO PRAZO =====
+        "visao_legado": Etiqueta(
+            "visao_legado", "#VisaoLegado",
+            "Visao de Legado",
+            Pilar.SUSTENTABILIDADE, Polaridade.POSITIVA,
+            "Inicia projetos estruturantes (saneamento, energia, educacao basica) com retorno pos-mandato. Assume custo politico imediato.",
+            "Obra/projeto com retorno >4 anos iniciado e nao concluido no mandato mas com execucao >60%",
+            "TCU, Portal Obras, PPA",
+            +0.15),
+        "curto_prazista": Etiqueta(
+            "curto_prazista", "#CurtoPrazista",
+            "Curto Prazista",
+            Pilar.SUSTENTABILIDADE, Polaridade.NEGATIVA,
+            "Foca em obras visiveis e rapidas (pavimentacao, eventos) para reeleicao. Deixa passivos ocultos.",
+            "Orcamento >60% em obras de curto prazo + manutencao adiada + passivo crescente",
+            "SICONFI, TCU, PPA",
+            -0.15),
+        "predador_recursos": Etiqueta(
+            "predador_recursos", "#PredadorRecursos",
+            "Predador de Recursos",
+            Pilar.SUSTENTABILIDADE, Polaridade.NEGATIVA,
+            "Esgota recursos naturais ou financeiros sem plano de reposicao ou sustentabilidade.",
+            "Fundo soberano/reserva esgotado OU recurso natural explorado sem reposicao (desmatamento, aquifero)",
+            "ANA, INPE, IBAMA, TCU",
+            -0.25),
+
+        # ===== DIALOGO E REPRESENTATIVIDADE =====
+        "ouvidor_ativo": Etiqueta(
+            "ouvidor_ativo", "#OuvidorAtivo",
+            "Ouvidor Ativo",
+            Pilar.DIALOGO, Polaridade.POSITIVA,
+            "Realiza consultas publicas reais, incorpora sugestoes da sociedade civil e presta contas em linguagem acessivel.",
+            "Consultas publicas com participacao >1000 + sugestoes incorporadas documentadas",
+            "Portais de participacao, conselhos, diarios",
+            +0.10),
+        "surdo_institucional": Etiqueta(
+            "surdo_institucional", "#SurdoInstitucional",
+            "Surdo Institucional",
+            Pilar.DIALOGO, Polaridade.NEGATIVA,
+            "Ignora conselhos municipais/estaduais. Audiencias publicas sao mera formalidade.",
+            "Decisao contraria a conselho + audiencia publica sem impacto na decisao final",
+            "Atas de conselhos, diarios",
+            -0.15),
+        "polarizador_toxico": Etiqueta(
+            "polarizador_toxico", "#PolarizadorToxico",
+            "Polarizador Toxico",
+            Pilar.DIALOGO, Polaridade.NEGATIVA,
+            "Usa discurso de odio ou divisao social como ferramenta principal de mobilizacao.",
+            "3+ discursos publicos com odio/divisao documentados OU associacao a grupo de odio",
+            "Redes sociais (publicas), TSE (quejas), checagens",
+            -0.30),
+        "conciliador_pragmatico": Etiqueta(
+            "conciliador_pragmatico", "#ConciliadorPragmatico",
+            "Conciliador Pragmatico",
+            Pilar.DIALOGO, Polaridade.POSITIVA,
+            "Constroi coalizoes tecnicas transversais para aprovar medidas necessarias, mesmo sem maioria ideologica.",
+            "Aprovacao de medida com voto transversal (esquerda+direita) documentada",
+            "Congresso, diarios, observatorios",
+            +0.10),
+
+        # ===== EFICIENCIA DIGITAL E INOVACAO =====
+        "estado_digital": Etiqueta(
+            "estado_digital", "#EstadoDigital",
+            "Estado Digital",
+            Pilar.INOVACAO, Polaridade.POSITIVA,
+            "Implementa servicos 100% online. Reduz deslocamento e filas. Dados abertos em formato machine-readable.",
+            "100% dos servicos essenciais online + dados abertos em API + fila fisica reduzida >50%",
+            "gov.br, dados.gov.br, ranking digital",
+            +0.10),
+        "analogico_obsoleto": Etiqueta(
+            "analogico_obsoleto", "#AnalogicoObsoleto",
+            "Analogico Obsoleto",
+            Pilar.INOVACAO, Polaridade.NEGATIVA,
+            "Mantem processos burocraticos em papel. Exige presenca fisica para servicos simples. Resiste a digitalizacao.",
+            "Servico essencial sem opcao online OU exigencia de papel quando digital e possivel",
+            "Levantamento de servicos, gov.br",
+            -0.10),
     }
 
 
