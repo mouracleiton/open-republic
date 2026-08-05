@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brasil: 524 Anos — A História que Ninguém Contou</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<!-- Knight Lab Timeline -->
+<link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+
 <style>
   :root {
     --verde: #1A5E3F;
@@ -77,68 +80,6 @@
   .data-row:last-child { border-bottom: none; }
   .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
   .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
-
-  /* D3 TIMELINE */
-  #timeline-container {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 20px 0;
-  }
-  #timeline-svg {
-    display: block;
-  }
-  .timeline-axis path,
-  .timeline-axis line {
-    stroke: #30363d;
-    shape-rendering: crispEdges;
-  }
-  .timeline-axis text {
-    fill: #8b949e;
-    font-size: 11px;
-  }
-  .timeline-line {
-    stroke: #30363d;
-    stroke-width: 3;
-    fill: none;
-  }
-  .event-dot {
-    cursor: pointer;
-    transition: r 0.2s;
-  }
-  .event-dot:hover { filter: brightness(1.3); }
-  .event-label {
-    fill: #e6edf3;
-    font-size: 10px;
-    font-weight: 600;
-    pointer-events: none;
-  }
-  .event-year {
-    fill: #8b949e;
-    font-size: 9px;
-    pointer-events: none;
-  }
-  .tooltip {
-    position: absolute;
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 0.78rem;
-    color: #e6edf3;
-    max-width: 300px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s;
-    z-index: 200;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  }
-  .tooltip strong { color: #00B4D8; }
-  .tooltip .tooltip-year { color: #D4A017; font-weight: 700; font-size: 0.9rem; }
-  .tooltip .tooltip-desc { color: #8b949e; margin-top: 4px; }
-  .tooltip .tooltip-data { color: #52B788; margin-top: 6px; font-size: 0.72rem; }
-
-  /* ERA BADGES */
   .era-badge {
     display: inline-block;
     padding: 4px 12px;
@@ -149,10 +90,16 @@
     margin-bottom: 8px;
   }
 
-  @media print {
-    body { background: white; color: black; }
-    .card { border: 1px solid #ccc; }
-    #timeline-container { overflow: visible; }
+  /* Knight Lab override */
+  #timeline-embed {
+    width: 100%;
+    height: 650px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #30363d;
+  }
+  @media (max-width: 768px) {
+    #timeline-embed { height: 500px; }
   }
 </style>
 </head>
@@ -165,7 +112,7 @@
       <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center font-bold text-white text-base md:text-lg flex-shrink-0" style="background: linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
       <div class="min-w-0">
         <h1 class="text-base md:text-xl font-black leading-tight">Brasil: 524 Anos — A História que Ninguém Contou</h1>
-        <p class="text-xs text-[#8b949e]">De 1500 a 2026 · 32 eventos · 71 dados compilados · D3.js</p>
+        <p class="text-xs text-[#8b949e]">De 1500 a 2026 · 33 eventos · Knight Lab Timeline</p>
       </div>
     </div>
   </div>
@@ -200,26 +147,12 @@
   </div>
 </section>
 
-<!-- TIMELINE D3.js -->
+<!-- KNIGHT LAB TIMELINE -->
 <section class="max-w-4xl mx-auto px-4 pb-8">
   <h2 class="section-title" style="color:#00B4D8;">A Linha do Tempo</h2>
   <p class="section-sub">Arraste horizontalmente. Clique nos pontos para ver detalhes. Cada cor = uma era.</p>
 
-  <div id="timeline-container">
-    <svg id="timeline-svg"></svg>
-  </div>
-  <div class="tooltip" id="tooltip"></div>
-
-  <!-- LEGENDA -->
-  <div class="flex flex-wrap gap-3 mt-4 text-xs">
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#52B788;display:inline-block;"></span> Originário</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#8B5E3C;display:inline-block;"></span> Colonização</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#E76F51;display:inline-block;"></span> Império</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#D4A017;display:inline-block;"></span> República Velha</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#D62828;display:inline-block;"></span> Ditadura</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#00B4D8;display:inline-block;"></span> Democracia</span>
-    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#C77DFF;display:inline-block;"></span> Crise Atual</span>
-  </div>
+  <div id="timeline-embed"></div>
 </section>
 
 <!-- ERA 1: POVOS ORIGINARIOS -->
@@ -265,16 +198,15 @@
   </div>
 </section>
 
-<!-- ERA 4: VARGAS + DEMOCRACIA -->
+<!-- ERA 4: VARGAS -->
 <section class="max-w-4xl mx-auto px-4 pb-8">
   <span class="era-badge" style="background:rgba(212,160,23,0.2);color:#D4A017;">1930 — 1964</span>
   <h2 class="section-title" style="color:#D4A017;">Vargas e a Falsa Democracia</h2>
   <p class="section-sub">Industrialização com ditadura. Direitos sem distribuição.</p>
   <div class="card p-4">
     <div class="data-row"><span class="data-label">Revolução de 1930</span><span class="data-value">Vargas assume</span></div>
-    <div class="data-row"><span class="data-label">CLT</span><span class="data-value">1943 (direitos trabalhistas)</span></div>
+    <div class="data-row"><span class="data inline-block">CLT</span><span class="data-value">1943 (direitos trabalhistas)</span></div>
     <div class="data-row"><span class="data-label">Estado Novo</span><span class="data-value">1937-1945 (ditadura)</span></div>
-    <div class="data-row"><span class="data-label">Súditos a cidadãos</span><span class="data-value">Sem redistribution de terra</span></div>
     <div class="data-row"><span class="data-label">Industrialização</span><span class="data-value">CSN, Vale, Petrobras (1953)</span></div>
   </div>
 </section>
@@ -286,10 +218,9 @@
   <p class="section-sub">Tortura, censura, e a maior concentração de renda da história.</p>
   <div class="card p-4">
     <div class="data-row"><span class="data-label">Mortos/desaparecidos</span><span class="data-value">434 (CNV 2014)</span></div>
-    <div class="data-row"><span class="data-label">Torturados</span><span class="data-value">milhares</span></div>
+    <div class="data-row"><span class="data-label">Torturados</span><span class="data-value">Milhares</span></div>
     <div class="data-row"><span class="data-label">Condenados</span><span class="data-value" style="color:#D62828;">0 (Lei da Anistia protege)</span></div>
     <div class="data-row"><span class="data-label">Milagre econômico</span><span class="data-value">10% PIB/ano, salário caiu 30%</span></div>
-    <div class="data-row"><span class="data-label">Concentração de renda</span><span class="data-value">Gini 0.60 (mais alto da história)</span></div>
     <div class="data-row"><span class="data-label">Dívida externa</span><span class="data-value">US$ 4 bi (1964) → US$ 100 bi (1985)</span></div>
   </div>
 </section>
@@ -304,7 +235,6 @@
     <div class="data-row"><span class="data-label">Plano Real</span><span class="data-value">1994 — fim da hiperinflação</span></div>
     <div class="data-row"><span class="data-label">Fome Zero + Bolsa Família</span><span class="data-value" style="color:#52B788;">2003-2010: 30M saíram da pobreza</span></div>
     <div class="data-row"><span class="data-label">Minha Casa Minha Vida</span><span class="data-value">4 milhões de moradias</span></div>
-    <div class="data-row"><span class="data-label">Lava Jato</span><span class="data-value">2014 — parcialidade questionada</span></div>
     <div class="data-row"><span class="data-label">Impeachment Dilma</span><span class="data-value">2016 — sem crime de responsabilidade</span></div>
     <div class="data-row"><span class="data-label">Teto de gastos</span><span class="data-value">2016 — congelou SUS, educação</span></div>
   </div>
@@ -320,7 +250,7 @@
     <div class="card p-4">
       <h3 class="text-sm font-bold mb-3" style="color:#D62828;">🚨 5 EMERGÊNCIAS</h3>
       <div class="data-row"><span class="data-label">Violência</span><span class="data-value">47.500 homicídios/ano</span></div>
-      <div class="data-row"><span class="data-label">Saúde</span><span class="data-value">Dengue 6M. Fila SUS 6 meses</span></div>
+      <div class="data-row"><span class="data-row"><span class="data-label">Saúde</span><span class="data-value">Dengue 6M. Fila SUS 6 meses</span></div>
       <div class="data-row"><span class="data-label">Fome</span><span class="data-value">33 milhões passando fome</span></div>
       <div class="data-row"><span class="data-label">Água</span><span class="data-value">35 milhões sem água potável</span></div>
       <div class="data-row"><span class="data-label">Soberania</span><span class="data-value">Importa 80% do trigo</span></div>
@@ -331,7 +261,7 @@
       <div class="data-row"><span class="data-label">Dívida</span><span class="data-value">R$ 9.8 trilhões</span></div>
       <div class="data-row"><span class="data-label">Políticas que resolvem</span><span class="data-value" style="color:#D62828;">6% (2 de 33)</span></div>
       <div class="data-row"><span class="data-label">Políticos aprovados</span><span class="data-value" style="color:#D62828;">0.3% (2 de 593)</span></div>
-      <div class="="data-row"><span class="data-label">Score médio Congresso</span><span class="data-value" style="color:#D62828;">1.32/5.0</span></div>
+      <div class="data-row"><span class="data-label">Score médio Congresso</span><span class="data-value" style="color:#D62828;">1.32/5.0</span></div>
     </div>
   </div>
 
@@ -365,297 +295,33 @@
   </div>
 </section>
 
-<!-- EMBEDDED DATA -->
-<script type="application/json" id="embedded-data">
-{"pais": {"nome": "Brasil", "populacao": "203.1 milhoes (IBGE 2022)", "pib": "R$ 11.5 trilhoes", "divida_publica": "R$ 9.8 trilhoes", "taxa_juros": "10.75% (SELIC)", "estados": 27, "municipios": 5570}, "raio_x": {"dominios": 18, "exames": 18, "emergencias": 5, "custo_anual": "R$ 79 milhoes (R$ 0.37/habitante)", "automatizaveis": "9 exames >= 75% automacao", "triagem": "VIDA=AGIR_AGORA, BOLSO=diagnosticar, VOTO=bloqueado sem FATO"}, "politicas": {"total_avaliadas": 33, "resolvem": 2, "nao_resolvem": 2, "orcamento_anual": "R$ 500+ bilhoes", "taxa_sucesso": "6%"}, "plano_governo": {"propostas_total": 20, "cumpridas": 4, "parciais": 9, "nao_cumpridas": 4, "lacunas": 8}, "politicos": {"total_avaliados": 593, "aprovados": 2, "taxa_aprovacao": "0.3%", "score_medio_nacional": 1.32, "corte": ">= 4.0 (escala 0-5)", "detalhados": 60, "heuristicos": 533}, "propostas_gate": {"criterios": 7, "criticos": 5, "candidatos_avaliados": 8, "propostas_total": 24, "aprovadas": 7}, "comparativo": {"governos_avaliados": 5, "anos": "30 anos (1995-2026)", "resultados": 12, "taxa_sucesso": "8.3%", "unica_resolver": "Lula (PT) Fome Zero/BF 2003-2010", "samara_propostas": 25, "samara_aprovadas_gate": 25}, "censo": {"dominios": 18, "fontes": 9, "invisiveis": "4.57 milhoes", "custo_ibge": "R$ 2.3 bilhoes", "custo_republica": "R$ 200 milhoes", "economia": "R$ 2.1 bilhoes/ano"}, "denuncia": {"tipos": 19, "canais": 10, "protecoes": 9, "anonimato_tor": "5/5"}, "gate_epistemologico": {"classificacoes": 3, "criterios": 7, "falacias": 11, "regra": "Politica so vira lei com FATO (7/7 criterios)"}, "limitacao": "Dados pre-compilados de fontes publicas (IBGE, INEP, VIGISAN, DataSUS, BCB, TSE). Scores de politicos sao OPINIAO estruturada, nao FATO (0.5/7 Gate Epistemologico). Para virar FATO precisa triangulacao de 3+ fontes independentes e auditoria publica."}
+<!-- KNIGHT LAB TIMELINE INIT -->
+<script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+<script type="application/json" id="timeline-data">
+{"title": {"text": {"headline": "Brasil: 524 Anos", "text": "De 1500 a 2026. A história que ninguém contou. Cada evento construiu o Brasil de hoje."}, "background": {"color": "#0A2540"}}, "events": [{"start_date": {"year": 1500}, "text": {"headline": "Chegada dos Portugueses", "text": "Cabral chega. Início da extração de pau-brasil. População originária: 5-8 milhões."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1532}, "text": {"headline": "Primeiro Engenho de Açúcar", "text": "Martim Afonso funda São Vicente. Início da escravidão. Modelo: monocultura + escravidão."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1549}, "text": {"headline": "Chegada dos Jesuítas", "text": "Tomé de Sousa. Início da catequese forçada. Indígenas: 'salvar a alma, perder a cultura'."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1654}, "text": {"headline": "Expulsão dos Holandeses", "text": "Fim da ocupação holandesa no Nordeste. Açúcar volta ao monopólio português."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1695}, "text": {"headline": "Descoberta do Ouro", "text": "Ouro em Minas Gerais. 1.200 toneladas extraídas. Destino: Inglaterra."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1789}, "text": {"headline": "Inconfidência Mineira", "text": "Tiradentes enforcado. Primeira tentativa de independência. Motivo: imposto (derrama)."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1808}, "text": {"headline": "Chegada da Família Real", "text": "D. João VI foge de Napoleão. Banco do Brasil, imprensa, escolas criadas."}, "background": {"color": "#8B5E3C"}, "group": "Colonização"}, {"start_date": {"year": 1822}, "text": {"headline": "Independência", "text": "D. Pedro I. Sem guerra, sem povo. Quem votava: <1% (homens, renda alta)."}, "background": {"color": "#E76F51"}, "group": "Império"}, {"start_date": {"year": 1850}, "text": {"headline": "Lei de Terras", "text": "Só compra. Escravo liberto não pode comprar terra. Base legal da concentração fundiária atual."}, "background": {"color": "#E76F51"}, "group": "Império"}, {"start_date": {"year": 1888}, "text": {"headline": "Abolição da Escravidão", "text": "Lei Áurea. 376 anos de escravidão terminam. 4.9M africanos. Indenização: R$ 0."}, "background": {"color": "#E76F51"}, "group": "Império"}, {"start_date": {"year": 1889}, "text": {"headline": "Proclamação da República", "text": "Golpe militar. Deodoro. República sem povo. Sem constituinte, sem referendo."}, "background": {"color": "#E76F51"}, "group": "Império"}, {"start_date": {"year": 1930}, "text": {"headline": "Revolução de 1930", "text": "Getúlio Vargas chega ao poder. Fim da República do Café com Leite."}, "background": {"color": "#D4A017"}, "group": "República"}, {"start_date": {"year": 1937}, "text": {"headline": "Estado Novo", "text": "Vargas instaura ditadura. Censura, DOPS, prisão política."}, "background": {"color": "#D4A017"}, "group": "República"}, {"start_date": {"year": 1943}, "text": {"headline": "CLT", "text": "Consolidação das Leis do Trabalho. Salário mínimo, férias, 13º. Sem reforma agrária."}, "background": {"color": "#D4A017"}, "group": "República"}, {"start_date": {"year": 1953}, "text": {"headline": "Petrobras", "text": "Vargas cria a estatal do petróleo. 'O petróleo é nosso.' Monopólio estatal."}, "background": {"color": "#D4A017"}, "group": "República"}, {"start_date": {"year": 1961}, "text": {"headline": "Brasília", "text": "JK muda a capital para o centro do país. Modernização sem redistribuição."}, "background": {"color": "#D4A017"}, "group": "República"}, {"start_date": {"year": 1964}, "text": {"headline": "Golpe Militar", "text": "Exército derruba Goulart. 21 anos de ditadura. EUA apoiaram. Operação Brother Sam."}, "background": {"color": "#D62828"}, "group": "Ditadura"}, {"start_date": {"year": 1968}, "text": {"headline": "AI-5", "text": "Ditadura radicaliza. Tortura, censura, exílio. Milhares torturados. 434 mortos/desaparecidos."}, "background": {"color": "#D62828"}, "group": "Ditadura"}, {"start_date": {"year": 1971}, "text": {"headline": "Milagre Econômico", "text": "10% PIB/ano. Mas salário caiu 30%. Dívida externa: US$ 4bi → US$ 100bi."}, "background": {"color": "#D62828"}, "group": "Ditadura"}, {"start_date": {"year": 1985}, "text": {"headline": "Redemocratização", "text": "Tancredo Neves eleito. Fim da ditadura. Transição sem punição aos torturadores."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 1988}, "text": {"headline": "Constituição Cidadã", "text": "SUS, educação gratuita, direitos sociais. Maior constituição do mundo. 250 artigos."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 1994}, "text": {"headline": "Plano Real", "text": "Fim da hiperinflação. FHC, Itamar. Inflação: 2.000% → 10%. Mas privatizou."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2003}, "text": {"headline": "Fome Zero + Bolsa Família", "text": "Lula. Programa tira 30M da pobreza. ÚNICA política que RESOLVEU (6% das avaliadas)."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2004}, "text": {"headline": "PPCDAm", "text": "Marina Silva reduz desmatamento 80%. Amazônia: 27.772 → 4.571 km² (2004-2012)."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2009}, "text": {"headline": "Minha Casa Minha Vida", "text": "4 milhões de moradias populares. Maior programa habitacional da história."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2014}, "text": {"headline": "Lava Jato", "text": "Operação anticorrupção. Parcialidade questionada. STF: 11x3 condenou Moro."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2016}, "text": {"headline": "Impeachment de Dilma", "text": "Sem crime de responsabilidade comprovado. Teto de gastos congelou SUS e educação."}, "background": {"color": "#00B4D8"}, "group": "Democracia"}, {"start_date": {"year": 2018}, "text": {"headline": "Bolsonaro Eleito", "text": "Discurso antissistema. Governo de extrema-direita. Armas, milícias, negacionismo."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}, {"start_date": {"year": 2020}, "text": {"headline": "COVID-19", "text": "600 mil mortos. Governo sabota vacina. CPI revelou culpa direta do governo."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}, {"start_date": {"year": 2022}, "text": {"headline": "Lula Reeleito", "text": "Volta do PT. Mais acirrada da história. 50.9% x 49.1%. País dividido."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}, {"start_date": {"year": 2023}, "text": {"headline": "Reforma Tributária", "text": "IVA dual aprovado. CBS + IBS. Primeira reforma estrutural em 30 anos."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}, {"start_date": {"year": 2024}, "text": {"headline": "Dengue 6 Milhões", "text": "Maior surto de dengue da história. 6M casos. SUS subfinanciado. 33M com fome."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}, {"start_date": {"year": 2026}, "text": {"headline": "BRASIL HOJE", "text": "Resultado de 524 anos. PISA 377. 47.5k homicídios. Gini 0.52. 33M famintos."}, "background": {"color": "#C77DFF"}, "group": "Crise Atual"}]}
 </script>
-
-<!-- D3.js TIMELINE -->
 <script>
-var EVENTOS = [
-  {ano: 1500, titulo: "Chegada dos Portugueses", era: "colonizacao",
-   desc: "Cabral chega. Início da extração de pau-brasil.",
-   dado: "População originária: 5-8 milhões.",
-   cor: "#8B5E3C"},
-  {ano: 1532, titulo: "Primeiro Engenho de Açúcar", era: "colonizacao",
-   desc: "Martim Afonso funda São Vicente. Início da escravidão.",
-   dado: "Modelo: monocultura + escravidão.",
-   cor: "#8B5E3C"},
-  {ano: 1549, titulo: "Chegada dos Jesuítas", era: "colonizacao",
-   desc: "Tomé de Sousa. Início da catequese forçada.",
-   dado: "Indígenas: 'salvar a alma, perder a cultura'.",
-   cor: "#8B5E3C"},
-  {ano: 1654, titulo: "Expulsão dos Holandeses", era: "colonizacao",
-   desc: "Fim da ocupação holandesa no Nordeste.",
-   dado: "Açúcar volta ao monopólio português.",
-   cor: "#8B5E3C"},
-  {ano: 1695, titulo: "Descoberta do Ouro", era: "colonizacao",
-   desc: "Ouro em Minas Gerais. Ciclo do ouro começa.",
-   dado: "1.200 toneladas extraídas. Destino: Inglaterra.",
-   cor: "#8B5E3C"},
-  {ano: 1789, titulo: "Inconfidência Mineira", era: "colonizacao",
-   desc: "Tiradentes enforcado. Primeira tentativa de independência.",
-   dado: "Motivo: imposto (derrama).",
-   cor: "#8B5E3C"},
-  {ano: 1808, titulo: "Chegada da Família Real", era: "colonizacao",
-   desc: "D. João VI foge de Napoleão. Rio vira capital.",
-   dado: "Banco do Brasil, imprensa, escolas criadas.",
-   cor: "#8B5E3C"},
-  {ano: 1822, titulo: "Independência", era: "imperio",
-   desc: "D. Pedro I. Independência sem guerra, sem povo.",
-   dado: "Quem votava: <1% (homens, renda alta).",
-   cor: "#E76F51"},
-  {ano: 1850, titulo: "Lei de Terras", era: "imperio",
-   desc: "Só compra. Escravo liberto não pode comprar terra.",
-   dado: "Base legal da concentração fundiária atual.",
-   cor: "#E76F51"},
-  {ano: 1888, titulo: "Abolição da Escravidão", era: "imperio",
-   desc: "Lei Áurea. 376 anos de escravidão terminam.",
-   dado: "4.9M africanos. Indenização: R$ 0.",
-   cor: "#E76F51"},
-  {ano: 1889, titulo: "Proclamação da República", era: "imperio",
-   desc: "Golpe militar. Deodoro. República sem povo.",
-   dado: "Sem constituinte, sem referendo.",
-   cor: "#E76F51"},
-  {ano: 1930, titulo: "Revolução de 1930", era: "republica_velha",
-   desc: "Getúlio Vargas chega ao poder.",
-   dado: "Fim da República do Café com Leite.",
-   cor: "#D4A017"},
-  {ano: 1937, titulo: "Estado Novo", era: "republica_velha",
-   desc: "Vargas instaura ditadura.",
-   dado: "Censura, DOPS, prisão política.",
-   cor: "#D4A017"},
-  {ano: 1943, titulo: "CLT", era: "republica_velha",
-   desc: "Consolidação das Leis do Trabalho.",
-   dado: "Salário mínimo, férias, 13º. Sem reforma agrária.",
-   cor: "#D4A017"},
-  {ano: 1953, titulo: "Petrobras", era: "republica_velha",
-   desc: "Vargas cria a estatal do petróleo.",
-   dado: "'O petróleo é nosso.' Monopólio estatal.",
-   cor: "#D4A017"},
-  {ano: 1961, titulo: "Brasília", era: "republica_velha",
-   desc: "JK muda a capital para o centro do país.",
-   dado: "Modernização sem redistribuição.",
-   cor: "#D4A017"},
-  {ano: 1964, titulo: "Golpe Militar", era: "ditadura",
-   desc: "Exército derruba Goulart. 21 anos de ditadura.",
-   dado: "EUA apoiaram. Operação Brother Sam.",
-   cor: "#D62828"},
-  {ano: 1968, titulo: "AI-5", era: "ditadura",
-   desc: "Ditadura radicaliza. Tortura, censura, exílio.",
-   dado: "Milhares torturados. 434 mortos/desaparecidos.",
-   cor: "#D62828"},
-  {ano: 1971, titulo: "Milagre Econômico", era: "ditadura",
-   desc: "10% PIB/ano. Mas salário caiu 30%.",
-   dado: "Dívida externa: US$ 4bi → US$ 100bi.",
-   cor: "#D62828"},
-  {ano: 1985, titulo: "Redemocratização", era: "democracia",
-   desc: "Tancredo Neves eleito. Fim da ditadura.",
-   dado: "Transição sem punição aos torturadores.",
-   cor: "#00B4D8"},
-  {ano: 1988, titulo: "Constituição Cidadã", era: "democracia",
-   desc: "SUS, educação gratuita, direitos sociais.",
-   dado: "Maior constituição do mundo. 250 artigos.",
-   cor: "#00B4D8"},
-  {ano: 1994, titulo: "Plano Real", era: "democracia",
-   desc: "Fim da hiperinflação. FHC, Itamar.",
-   dado: "Inflação: 2.000% → 10%. Mas privatizou.",
-   cor: "#00B4D8"},
-  {ano: 2003, titulo: "Fome Zero + Bolsa Família", era: "democracia",
-   desc: "Lula. Programa tira 30M da pobreza.",
-   dado: "ÚNICA política que RESOLVEU (6% das avaliadas).",
-   cor: "#00B4D8"},
-  {ano: 2004, titulo: "PPCDAm", era: "democracia",
-   desc: "Marina Silva reduz desmatamento 80%.",
-   dado: "Amazonia: 27.772 → 4.571 km² (2004-2012).",
-   cor: "#00B4D8"},
-  {ano: 2009, titulo: "Minha Casa Minha Vida", era: "democracia",
-   desc: "4 milhões de moradias populares.",
-   dado: "Maior programa habitacional da história.",
-   cor: "#00B4D8"},
-  {ano: 2014, titulo: "Lava Jato", era: "democracia",
-   desc: "Operação anticorrupção. Parcialidade questionada.",
-   dado: "STF: 11x3 condenou Moro. Mensagens vazadas.",
-   cor: "#00B4D8"},
-  {ano: 2016, titulo: "Impeachment de Dilma", era: "democracia",
-   desc: "Sem crime de responsabilidade comprovado.",
-   dado: "Teto de gastos congelou SUS e educação.",
-   cor: "#00B4D8"},
-  {ano: 2018, titulo: "Bolsonaro Eleito", era: "crise",
-   desc: "Discurso antissistema. Governo de extrema-direita.",
-   dado: "Armas, milícias, negacionismo científico.",
-   cor: "#C77DFF"},
-  {ano: 2020, titulo: "COVID-19", era: "crise",
-   desc: "600 mil mortos. Governo sabota vacina.",
-   dado: "CPI revelou culpa direta do governo.",
-   cor: "#C77DFF"},
-  {ano: 2022, titulo: "Lula Reeleito", era: "crise",
-   desc: "Volta do PT. Mais acirrada da história.",
-   dado: "50.9% x 49.1%. País dividido.",
-   cor: "#C77DFF"},
-  {ano: 2023, titulo: "Reforma Tributária", era: "crise",
-   desc: "IVA dual aprovado. CBS + IBS.",
-   dado: "Primeira reforma estrutural em 30 anos.",
-   cor: "#C77DFF"},
-  {ano: 2024, titulo: "Dengue 6 Milhões", era: "crise",
-   desc: "Maior surto de dengue da história.",
-   dado: "6M casos. SUS subfinanciado. 33M com fome.",
-   cor: "#C77DFF"},
-  {ano: 2026, titulo: "BRASIL HOJE", era: "crise",
-   desc: "Resultado de 524 anos.",
-   dado: "PISA 377. 47.5k homicídios. Gini 0.52. 33M famintos.",
-   cor: "#C77DFF"},
-];
+(function() {
+  var dataEl = document.getElementById('timeline-data');
+  var data = null;
+  try { data = JSON.parse(dataEl.textContent.trim()); } catch(e) { console.error('Timeline data parse error:', e); }
 
-// D3.js Timeline
-function buildTimeline() {
-  var container = document.getElementById('timeline-container');
-  var containerWidth = container.clientWidth;
-  var isMobile = containerWidth < 768;
-  var margin = {top: 30, right: 50, bottom: 50, left: 50};
-  var width = Math.max(containerWidth, isMobile ? 2400 : 1800) - margin.left - margin.right;
-  var height = (isMobile ? 500 : 400) - margin.top - margin.bottom;
-
-  // Clear
-  d3.select('#timeline-svg').selectAll('*').remove();
-
-  var svg = d3.select('#timeline-svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom);
-
-  var g = svg.append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-  // Scale
-  var xScale = d3.scaleLinear()
-    .domain([1490, 2030])
-    .range([0, width]);
-
-  // Line
-  g.append('line')
-    .attr('class', 'timeline-line')
-    .attr('x1', 0)
-    .attr('y1', height / 2)
-    .attr('x2', width)
-    .attr('y2', height / 2);
-
-  // Axis
-  var xAxis = d3.axisBottom(xScale)
-    .tickFormat(d3.format('d'))
-    .ticks(20);
-
-  g.append('g')
-    .attr('class', 'timeline-axis')
-    .attr('transform', 'translate(0,' + (height / 2 + 30) + ')')
-    .call(xAxis);
-
-  // Alternate positions above/below
-  var tooltip = d3.select('#tooltip');
-
-  EVENTOS.forEach(function(evento, i) {
-    var x = xScale(evento.ano);
-    var isAbove = i % 2 === 0;
-    var yBase = height / 2;
-    var yDot = yBase;
-    var yLabel = isAbove ? yBase - 80 : yBase + 80;
-    var yLineEnd = isAbove ? yBase - 15 : yBase + 15;
-    var yText = isAbove ? yLabel - 25 : yLabel + 5;
-
-    // Connector line
-    g.append('line')
-      .attr('x1', x)
-      .attr('y1', yBase)
-      .attr('x2', x)
-      .attr('y2', yLineEnd)
-      .attr('stroke', evento.cor)
-      .attr('stroke-width', 1)
-      .attr('opacity', 0.5);
-
-    // Year label
-    g.append('text')
-      .attr('class', 'event-year')
-      .attr('x', x)
-      .attr('y', isAbove ? yBase - 20 : yBase + 22)
-      .attr('text-anchor', 'middle')
-      .text(evento.ano);
-
-    // Event title
-    var titleText = evento.titulo;
-    if (titleText.length > 22) titleText = titleText.substring(0, 20) + '...';
-    g.append('text')
-      .attr('class', 'event-label')
-      .attr('x', x)
-      .attr('y', yText)
-      .attr('text-anchor', 'middle')
-      .style('fill', evento.cor)
-      .text(titleText);
-
-    // Dot
-    g.append('circle')
-      .attr('class', 'event-dot')
-      .attr('cx', x)
-      .attr('cy', yDot)
-      .attr('r', 8)
-      .attr('fill', evento.cor)
-      .attr('stroke', '#0d1117')
-      .attr('stroke-width', 2)
-      .on('mouseover', function(e) {
-        d3.select(this).attr('r', 12);
-        tooltip.style('opacity', 1)
-          .html('<div class="tooltip-year">' + evento.ano + '</div>' +
-                '<strong>' + evento.titulo + '</strong>' +
-                '<div class="tooltip-desc">' + evento.desc + '</div>' +
-                '<div class="tooltip-data">📊 ' + evento.dado + '</div>');
-      })
-      .on('mousemove', function(e) {
-        var rect = container.getBoundingClientRect();
-        var tx = e.clientX - rect.left + container.scrollLeft + 15;
-        var ty = e.clientY - rect.top + 10;
-        tooltip.style('left', tx + 'px').style('top', ty + 'px');
-      })
-      .on('mouseout', function() {
-        d3.select(this).attr('r', 8);
-        tooltip.style('opacity', 0);
-      });
-  });
-
-  // Era bands (background)
-  var eras = [
-    {inicio: 1490, fim: 1822, cor: 'rgba(139,94,60,0.03)'},
-    {inicio: 1822, fim: 1889, cor: 'rgba(231,111,81,0.03)'},
-    {inicio: 1889, fim: 1930, cor: 'rgba(212,160,23,0.03)'},
-    {inicio: 1930, fim: 1964, cor: 'rgba(212,160,23,0.03)'},
-    {inicio: 1964, fim: 1985, cor: 'rgba(214,40,40,0.03)'},
-    {inicio: 1985, fim: 2018, cor: 'rgba(0,180,216,0.03)'},
-    {inicio: 2018, fim: 2030, cor: 'rgba(199,125,255,0.03)'},
-  ];
-
-  eras.forEach(function(era) {
-    g.append('rect')
-      .attr('x', xScale(era.inicio))
-      .attr('y', 0)
-      .attr('width', xScale(era.fim) - xScale(era.inicio))
-      .attr('height', height)
-      .attr('fill', era.cor);
-  });
-}
-
-// Init
-function init() {
-  buildTimeline();
-  // Rebuild on resize
-  var resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(buildTimeline, 250);
-  });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+  if (data) {
+    window.timeline = new TL.Timeline(
+      'timeline-embed',
+      data,
+      {
+        language: 'pt-br',
+        height: window.innerWidth < 768 ? '500' : '650',
+        hash_bookmark: false,
+        start_at_end: false,
+        timenav_position: 'top',
+        ga_property_id: null
+      }
+    );
+  }
+})();
 </script>
+
 </body>
 </html>
