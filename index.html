@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic - Brasil em Dados</title>
+<style>
+  :root {
+    --verde: #1A5E3F;
+    --azul: #0A2540;
+    --vermelho: #8B1A1A;
+    --amarelo: #D4A017;
+    --terra: #8B5E3C;
+    --verde-claro: #2D6A4F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    min-height: 100vh;
+  }
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #0A2540, #1A5E3F);
+  }
+  .hero h1 { font-size: clamp(1.5rem, 6vw, 2.5rem); margin-bottom: 10px; }
+  .hero p { color: #8b949e; font-size: 0.9rem; max-width: 600px; margin: 0 auto 20px; }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(212,160,23,0.2);
+    color: #D4A017;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .links {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 24px;
+    text-decoration: none;
+    color: #e6edf3;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--verde-claro);
+  }
+  .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  .card p { font-size: 0.8rem; color: #8b949e; line-height: 1.5; }
+  .card .meta { font-size: 0.7rem; color: #2D6A4F; margin-top: 12px; font-weight: 700; }
+  .stats {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  .stat {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat .num { font-size: 1.5rem; font-weight: 900; color: var(--vermelho); }
+  .stat .label { font-size: 0.7rem; color: #8b949e; margin-top: 4px; }
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #8b949e;
+    font-size: 0.75rem;
+    border-top: 1px solid #30363d;
+  }
+  footer a { color: #2D6A4F; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Código aberto CC0</div>
+  <h1>OpenRepublic</h1>
+  <p>O IBGE pergunta ao diretor. Nós perguntamos ao chão.</p>
+  <p>Sistema de medição política independente. O sensor ilumina. O povo cobra.</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="num">33M</div><div class="label">Com fome</div></div>
+  <div class="stat"><div class="num">47.5k</div><div class="label">Homicídios/ano</div></div>
+  <div class="stat"><div class="num">100M</div><div class="label">Sem esgoto</div></div>
+  <div class="stat"><div class="num">2/593</div><div class="label">Aprovados</div></div>
+</div>
+
+<div class="links">
+  <a class="card" href="relatorio.html">
+    <h2>Relatório: Brasil 524 Anos</h2>
+    <p>História de 1500 a hoje. Raio X de 18 eixos. Briefing de 27 estados. Timeline interativa. Chapa Dilma + Jones. Procura-se: governadores, senadores, deputados.</p>
+    <div class="meta">relatorio.html</div>
+  </a>
+
+  <a class="card" href="prova_de_recuperacao.html">
+    <h2>Prova de Recuperação</h2>
+    <p>Frente Comunista Unida. Trabalho em grupo. 18 questões (1 por eixo do Raio X). Gate WO 7 critérios. Prazo: 5 de Agosto de 2026.</p>
+    <div class="meta">prova_de_recuperacao.html</div>
+  </a>
+
+  <a class="card" href="dashboard.html">
+    <h2>Dashboard Analítica</h2>
+    <p>6 abas: visão geral, triagem, exames, invisível, políticas, custos. Dados de 18 eixos do Raio X. 33 políticas avaliadas.</p>
+    <div class="meta">dashboard.html</div>
+  </a>
+
+  <a class="card" href="carrosseis.html">
+    <h2>Carrosséis Instagram</h2>
+    <p>6 frentes de ataque. 30 slides formato 1:1. Emergência de vida, infra, desenvolvimento, soberania, justiça, futuro.</p>
+    <div class="meta">carrosseis.html</div>
+  </a>
+</div>
+
+<footer>
+  OpenRepublic · <a href="https://github.com/mouracleiton/open-republic">github.com/mouracleiton/open-republic</a><br>
+  "Partido é ferramenta. População é fim."
+</footer>
+
+</body>
+</html>
