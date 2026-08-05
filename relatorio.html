@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Síntese — Brasil em Dados Compilados</title>
+<title>Brasil: 524 Anos — A História que Ninguém Contou</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
   :root {
     --verde: #1A5E3F;
@@ -15,6 +16,7 @@
     --verde-claro: #52B788;
     --laranja: #E76F51;
     --roxo: #C77DFF;
+    --terra: #8B5E3C;
   }
   * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -24,6 +26,7 @@
     color: #e6edf3;
     line-height: 1.6;
     overflow-x: hidden;
+    margin: 0;
   }
   .card {
     background: #161b22;
@@ -53,6 +56,16 @@
     color: #8b949e;
     line-height: 1.55;
   }
+  .section-title {
+    font-size: clamp(1.05rem, 5vw, 1.3rem);
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    color: #8b949e;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
   .data-row {
     display: flex;
     justify-content: space-between;
@@ -62,48 +75,84 @@
     gap: 12px;
   }
   .data-row:last-child { border-bottom: none; }
-  .data-label {
-    font-size: 0.78rem;
-    color: #8b949e;
-    flex-shrink: 0;
+  .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
+  .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
+
+  /* D3 TIMELINE */
+  #timeline-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
+  }
+  #timeline-svg {
+    display: block;
+  }
+  .timeline-axis path,
+  .timeline-axis line {
+    stroke: #30363d;
+    shape-rendering: crispEdges;
+  }
+  .timeline-axis text {
+    fill: #8b949e;
+    font-size: 11px;
+  }
+  .timeline-line {
+    stroke: #30363d;
+    stroke-width: 3;
+    fill: none;
+  }
+  .event-dot {
+    cursor: pointer;
+    transition: r 0.2s;
+  }
+  .event-dot:hover { filter: brightness(1.3); }
+  .event-label {
+    fill: #e6edf3;
+    font-size: 10px;
     font-weight: 600;
+    pointer-events: none;
   }
-  .data-value {
-    font-size: 0.82rem;
+  .event-year {
+    fill: #8b949e;
+    font-size: 9px;
+    pointer-events: none;
+  }
+  .tooltip {
+    position: absolute;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
     color: #e6edf3;
-    text-align: right;
-    font-weight: 700;
+    max-width: 300px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 200;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   }
-  .pill {
+  .tooltip strong { color: #00B4D8; }
+  .tooltip .tooltip-year { color: #D4A017; font-weight: 700; font-size: 0.9rem; }
+  .tooltip .tooltip-desc { color: #8b949e; margin-top: 4px; }
+  .tooltip .tooltip-data { color: #52B788; margin-top: 6px; font-size: 0.72rem; }
+
+  /* ERA BADGES */
+  .era-badge {
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 16px;
-    font-size: 0.62rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    white-space: nowrap;
+    margin-bottom: 8px;
   }
-  .section-title {
-    font-size: clamp(1rem, 5vw, 1.25rem);
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-  .section-sub {
-    color: #8b949e;
-    font-size: 0.78rem;
-    margin-bottom: 14px;
-  }
-  .toc-item {
-    padding: 8px 0;
-    border-bottom: 1px solid #21262d;
-    font-size: 0.82rem;
-  }
-  .toc-item a { color: #00B4D8; text-decoration: none; }
-  .toc-item a:hover { text-decoration: underline; }
 
   @media print {
     body { background: white; color: black; }
     .card { border: 1px solid #ccc; }
+    #timeline-container { overflow: visible; }
   }
 </style>
 </head>
@@ -111,332 +160,495 @@
 
 <!-- HEADER -->
 <header class="border-b border-[#30363d] sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur">
-  <div class="max-w-3xl mx-auto px-4 py-3">
+  <div class="max-w-4xl mx-auto px-4 py-3">
     <div class="flex items-center gap-3 mb-1">
-      <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center font-bold text-white text-base md:text-lg flex-shrink-0" style="background: linear-gradient(135deg, #D62828, #1A5E3F);">R</div>
+      <div class="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center font-bold text-white text-base md:text-lg flex-shrink-0" style="background: linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
       <div class="min-w-0">
-        <h1 class="text-base md:text-xl font-black leading-tight">Síntese — Brasil em Dados Compilados</h1>
-        <p class="text-xs text-[#8b949e]">OpenRepublic · 203M habitantes · 18 domínios · 33 políticas · 593 políticos · Dados 2024/2025</p>
+        <h1 class="text-base md:text-xl font-black leading-tight">Brasil: 524 Anos — A História que Ninguém Contou</h1>
+        <p class="text-xs text-[#8b949e]">De 1500 a 2026 · 32 eventos · 71 dados compilados · D3.js</p>
       </div>
     </div>
   </div>
 </header>
 
-<!-- AVISO -->
-<section class="max-w-3xl mx-auto px-4 py-6">
+<!-- INTRODUCAO -->
+<section class="max-w-4xl mx-auto px-4 py-6">
   <div class="info-box mb-6">
-    <strong>SÍNTESE.</strong> Toda a lógica do projeto compilada em dados. Sem gráfico. Sem narrativa. Número cru.
-    Cada dado tem fonte. Cada fonte é pública. Esta é a fotografia do Brasil em dados reais (e os limites desses dados).
+    <strong>ESTA NÃO É UMA AULA DE HISTÓRIA.</strong> Esta é a linha do tempo de como 33 milhões de brasileiros
+    chegaram à fome. Cada evento abaixo construiu o Brasil de hoje. Nada aconteceu por acaso. A desigualdade
+    não é natural — foi construída em 524 anos de extração, escravidão e abandono. Arraste a linha do tempo.
+    Clique nos pontos. Entenda de onde viemos. Descubra por que estamos aqui.
   </div>
 
-  <!-- HERO METRICS -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #D62828;">
-      <p class="stat-number" style="color:#D62828;">6%</p>
-      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Políticas que Resolvem</p>
+    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #8B5E3C;">
+      <p class="stat-number" style="color:#8B5E3C;">524</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Anos de História</p>
     </div>
-    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #E76F51;">
-      <p class="stat-number" style="color:#E76F51;">0.3%</p>
-      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Políticos Aprovados</p>
+    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #D62828;">
+      <p class="stat-number" style="color:#D62828;">4.9M</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Africanos Escravizados</p>
+    </div>
+    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #52B788;">
+      <p class="stat-number" style="color:#52B788;">305</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Etnias Originárias</p>
     </div>
     <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #D4A017;">
-      <p class="stat-number" style="color:#D4A017;">R$9.8T</p>
-      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Dívida Pública</p>
-    </div>
-    <div class="card p-3 md:p-4 text-center" style="border-top: 3px solid #C77DFF;">
-      <p class="stat-number" style="color:#C77DFF;">4.57M</p>
-      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Invisíveis p/ IBGE</p>
+      <p class="stat-number" style="color:#D4A017;">33M</p>
+      <p class="text-xs text-[#8b949e] mt-2 font-semibold uppercase">Com Fome Hoje</p>
     </div>
   </div>
+</section>
 
-  <!-- TABLE OF CONTENTS -->
-  <div class="card p-4 mb-6">
-    <h3 class="text-sm font-bold mb-3 text-[#8b949e] uppercase">Índice</h3>
-    <div class="toc-item"><a href="#pais">1. O País</a></div>
-    <div class="toc-item"><a href="#raiox">2. Raio X (18 domínios)</a></div>
-    <div class="toc-item"><a href="#politicas">3. Políticas Públicas (33 avaliadas)</a></div>
-    <div class="toc-item"><a href="#plano">4. Plano de Governo (20 propostas)</a></div>
-    <div class="toc-item"><a href="#politicos">5. Políticos (593 avaliados)</a></div>
-    <div class="toc-item"><a href="#gate">6. Gate Epistemológico + Checklist W.O.</a></div>
-    <div class="toc-item"><a href="#comparativo">7. Comparativo: Governos x Samara</a></div>
-    <div class="toc-item"><a href="#censo">8. Censo + Denúncia</a></div>
-    <div class="toc-item"><a href="#limitacao">9. Limitação dos Dados</a></div>
+<!-- TIMELINE D3.js -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#00B4D8;">A Linha do Tempo</h2>
+  <p class="section-sub">Arraste horizontalmente. Clique nos pontos para ver detalhes. Cada cor = uma era.</p>
+
+  <div id="timeline-container">
+    <svg id="timeline-svg"></svg>
+  </div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <!-- LEGENDA -->
+  <div class="flex flex-wrap gap-3 mt-4 text-xs">
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#52B788;display:inline-block;"></span> Originário</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#8B5E3C;display:inline-block;"></span> Colonização</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#E76F51;display:inline-block;"></span> Império</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#D4A017;display:inline-block;"></span> República Velha</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#D62828;display:inline-block;"></span> Ditadura</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#00B4D8;display:inline-block;"></span> Democracia</span>
+    <span class="flex items-center gap-1"><span style="width:12px;height:12px;border-radius:50%;background:#C77DFF;display:inline-block;"></span> Crise Atual</span>
   </div>
 </section>
 
-<!-- 1. O PAIS -->
-<section id="pais" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#52B788;">1. O País</h2>
-  <p class="section-sub">Dados básicos do Brasil. Fonte: IBGE 2022, BCB 2024.</p>
+<!-- ERA 1: POVOS ORIGINARIOS -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(82,183,136,0.2);color:#52B788;">ANTES DE 1500</span>
+  <h2 class="section-title" style="color:#52B788;">Os Povos Originários</h2>
+  <p class="section-sub">Antes de Cabral, 5-8 milhões de pessoas viviam aqui. 305 etnias. 274 línguas.</p>
   <div class="card p-4">
-    <div class="data-row"><span class="data-label">População</span><span class="data-value">203.1 milhões</span></div>
-    <div class="data-row"><span class="data-label">PIB</span><span class="data-value">R$ 11.5 trilhões</span></div>
-    <div class="data-row"><span class="data-label">Dívida pública</span><span class="data-value" style="color:#D62828;">R$ 9.8 trilhões</span></div>
-    <div class="data-row"><span class="data-label">Taxa de juros (SELIC)</span><span class="data-value" style="color:#E76F51;">10.75%</span></div>
-    <div class="data-row"><span class="data-label">Estados</span><span class="data-value">27</span></div>
-    <div class="data-row"><span class="data-label">Municípios</span><span class="data-value">5.570</span></div>
-    <div class="data-row"><span class="data-label">Escolas (INEP 2024)</span><span class="data-value">178.459</span></div>
-    <div class="data-row"><span class="data-label">Políticos federais em exercício</span><span class="data-value">593 (81 sen + 512 dep)</span></div>
+    <div class="data-row"><span class="data-label">População estimada</span><span class="data-value">5-8 milhões</span></div>
+    <div class="data-row"><span class="data-label">Etnias</span><span class="data-value">305</span></div>
+    <div class="data-row"><span class="data-label">Línguas</span><span class="data-value">274</span></div>
+    <div class="data-row"><span class="data-label">Território</span><span class="data-value">Livre e demarcado pelos povos</span></div>
+    <div class="data-row"><span class="data-label">Hoje (2022)</span><span class="data-value" style="color:#D62828;">1.7 milhão (IBGE). 251 terras sem demarcar.</span></div>
   </div>
 </section>
 
-<!-- 2. RAIO X -->
-<section id="raiox" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#D62828;">2. Raio X (18 Domínios)</h2>
-  <p class="section-sub">Checkup nacional. 18 exames. 5 emergências. R$ 0.37/habitante/ano.</p>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3 text-[#D62828]">5 EMERGÊNCIAS (vidas em risco AGORA)</h3>
-    <div id="raiox-emergencias"></div>
-  </div>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3 text-[#8b949e]">Triagem Operacional</h3>
-    <div class="data-row"><span class="data-label">VIDA</span><span class="data-value" style="color:#D62828;">AGIR AGORA (trata, diagnostica depois)</span></div>
-    <div class="data-row"><span class="data-label">BOLSO</span><span class="data-value" style="color:#D4A017;">DIAGNOSTICAR PRIMEIRO</span></div>
-    <div class="data-row"><span class="data-label">VOTO</span><span class="data-value" style="color:#E76F51;">BLOQUEADO sem FATO (vira palanque)</span></div>
-    <div class="data-row"><span class="data-label">ESTRUTURA</span><span class="data-value" style="color:#00B4D8;">TRATAR + DIAGNOSTICAR simultâneo</span></div>
-  </div>
-
+<!-- ERA 2: COLONIZACAO -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(139,94,60,0.2);color:#8B5E3C;">1500 — 1822</span>
+  <h2 class="section-title" style="color:#8B5E3C;">322 Anos de Extração</h2>
+  <p class="section-sub">Pau-brasil, açúcar, ouro, escravidão. O modelo de extração nasce aqui.</p>
   <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3 text-[#8b949e]">Custo e Cobertura</h3>
-    <div class="data-row"><span class="data-label">Custo anual Raio X</span><span class="data-value">R$ 79 milhões</span></div>
-    <div class="data-row"><span class="data-label">Custo por habitante</span><span class="data-value">R$ 0.37/ano</span></div>
-    <div class="data-row"><span class="data-label">Exames ≥75% automatizáveis</span><span class="data-value">9 de 18</span></div>
-    <div class="data-row"><span class="data-label">Domínios cobertos</span><span class="data-value">18</span></div>
+    <div class="data-row"><span class="data-label">Africanos traficados</span><span class="data-value" style="color:#D62828;">4.9 milhões (40% do Atlântico)</span></div>
+    <div class="data-row"><span class="data-label">Indígenas mortos</span><span class="data-value" style="color:#D62828;">90% da população (século XVI)</span></div>
+    <div class="data-row"><span class="data-label">Ouro extraído (MG)</span><span class="data-value">1.200 toneladas (séc XVIII)</span></div>
+    <div class="data-row"><span class="data-label">Destino do ouro</span><span class="data-value">Inglaterra (via Tratado de Methuen)</span></div>
+    <div class="data-row"><span class="data-label">Abolição</span><span class="data-value">1888 — último país do Ocidente</span></div>
+    <div class="data-row"><span class="data-label">Indenização</span><span class="data-value">R$ 0 (escravos libertos sem nada)</span></div>
   </div>
 </section>
 
-<!-- 3. POLITICAS -->
-<section id="politicas" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#E76F51;">3. Políticas Públicas (33 Avaliadas)</h2>
-  <p class="section-sub">Mapeadas aos 18 domínios do Raio X. Avaliadas em eficiência e eficácia.</p>
-
-  <div class="card p-4 mb-4">
-    <div class="data-row"><span class="data-label">Total avaliadas</span><span class="data-value">33</span></div>
-    <div class="data-row"><span class="data-label">Resolvem</span><span class="data-value" style="color:#52B788;">2 (6%)</span></div>
-    <div class="data-row"><span class="data-label">Não resolvem</span><span class="data-value" style="color:#D62828;">2 (6%)</span></div>
-    <div class="data-row"><span class="data-label">Eficácia mínima</span><span class="data-value" style="color:#D4A017;">~16</span></div>
-    <div class="data-row"><span class="data-label">Orçamento anual total</span><span class="data-value">R$ 500+ bilhões</span></div>
-  </div>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#52B788;">AS 2 QUE RESOLVEM</h3>
-    <div id="politicas-resolvem"></div>
-  </div>
-
+<!-- ERA 3: IMPERIO + REPUBLICA VELHA -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(231,111,81,0.2);color:#E76F51;">1822 — 1930</span>
+  <h2 class="section-title" style="color:#E76F51;">Império e República do Café</h2>
+  <p class="section-sub">Independência sem povo. República sem povo. Poder para latifundiários.</p>
   <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#D62828;">6 CAUSAS RAIZ DA FALHA</h3>
-    <div class="data-row"><span class="data-label">1</span><span class="data-value text-left">Dinheiro chega, resultado não</span></div>
-    <div class="data-row"><span class="data-label">2</span><span class="data-value text-left">Política de gaveta (existe, não executa)</span></div>
-    <div class="data-row"><span class="data-label">3</span><span class="data-value text-left">Cobertura parcial vendida como universal</span></div>
-    <div class="data-row"><span class="data-label">4</span><span class="data-value text-left">Subfinanciamento crônico</span></div>
-    <div class="data-row"><span class="data-label">5</span><span class="data-value text-left">Dados autopreenchidos sem verificação</span></div>
-    <div class="data-row"><span class="data-label">6</span><span class="data-value text-left">Descontinuidade (cada governo reinventa)</span></div>
+    <div class="data-row"><span class="data-label">Independência</span><span class="data-value">1822 (D. Pedro Igrita às margens do Ipiranga)</span></div>
+    <div class="data-row"><span class="data-label">Quem votava</span><span class="data-value"><1% (homens livres, renda alta)</span></div>
+    <div class="data-row"><span class="data-label">Proclamação da República</span><span class="data-value">1889 (golpe militar, sem povo)</span></div>
+    <div class="data-row"><span class="data-label">Café</span><span class="data-value">70% das exportações (1900-1930)</span></div>
+    <div class="data-row"><span class="data-label">Escravidão até</span><span class="data-value">1888 — 376 anos</span></div>
   </div>
 </section>
 
-<!-- 4. PLANO DE GOVERNO -->
-<section id="plano" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#D4A017;">4. Plano de Governo (20 Propostas)</h2>
-  <p class="section-sub">Governo Lula 2023-2026. Cruzado com Raio X.</p>
-
-  <div class="card p-4 mb-4">
-    <div class="data-row"><span class="data-label">Propostas totais</span><span class="data-value">20</span></div>
-    <div class="data-row"><span class="data-label">Cumpridas</span><span class="data-value" style="color:#52B788;">4 (20%)</span></div>
-    <div class="data-row"><span class="data-label">Parciais</span><span class="data-value" style="color:#D4A017;">9 (45%)</span></div>
-    <div class="data-row"><span class="data-label">Não cumpridas</span><span class="data-value" style="color:#D62828;">4 (20%)</span></div>
-    <div class="data-row"><span class="data-label">Sem dado</span><span class="data-value">3 (15%)</span></div>
-    <div class="data-row"><span class="data-label">Lacunas críticas</span><span class="data-value" style="color:#D62828;">8</span></div>
-  </div>
-
+<!-- ERA 4: VARGAS + DEMOCRACIA -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(212,160,23,0.2);color:#D4A017;">1930 — 1964</span>
+  <h2 class="section-title" style="color:#D4A017;">Vargas e a Falsa Democracia</h2>
+  <p class="section-sub">Industrialização com ditadura. Direitos sem distribuição.</p>
   <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#D62828;">8 LACUNAS CRÍTICAS</h3>
-    <div id="plano-lacunas"></div>
+    <div class="data-row"><span class="data-label">Revolução de 1930</span><span class="data-value">Vargas assume</span></div>
+    <div class="data-row"><span class="data-label">CLT</span><span class="data-value">1943 (direitos trabalhistas)</span></div>
+    <div class="data-row"><span class="data-label">Estado Novo</span><span class="data-value">1937-1945 (ditadura)</span></div>
+    <div class="data-row"><span class="data-label">Súditos a cidadãos</span><span class="data-value">Sem redistribution de terra</span></div>
+    <div class="data-row"><span class="data-label">Industrialização</span><span class="data-value">CSN, Vale, Petrobras (1953)</span></div>
   </div>
 </section>
 
-<!-- 5. POLITICOS -->
-<section id="politicos" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#C77DFF;">5. Políticos (593 Avaliados)</h2>
-  <p class="section-sub">81 senadores + 512 deputados. Score de capacidade × alinhamento Raio X. Corte 4.0.</p>
-
-  <div class="danger-box mb-4">
-    <strong>AVISO:</strong> Scores são OPINIÃO ESTRUTURADA, não FATO. Passa em 0.5/7 critérios do Gate Epistemológico.
-    Para virar FATO precisa triangulação de fontes (TSE, CGU, TCU) e auditoria pública.
-  </div>
-
-  <div class="card p-4 mb-4">
-    <div class="data-row"><span class="data-label">Total avaliados</span><span class="data-value">593</span></div>
-    <div class="data-row"><span class="data-label">Aprovados (≥4.0)</span><span class="data-value" style="color:#52B788;">2 (0.3%)</span></div>
-    <div class="data-row"><span class="data-label">Eliminados (<4.0)</span><span class="data-value" style="color:#D62828;">591 (99.7%)</span></div>
-    <div class="data-row"><span class="data-label">Score médio nacional</span><span class="data-value" style="color:#E76F51;">1.32 / 5.0</span></div>
-    <div class="data-row"><span class="data-label">Avaliados em detalhe</span><span class="data-value">60</span></div>
-    <div class="data-row"><span class="data-label">Avaliados por heurística</span><span class="data-value">533</span></div>
-  </div>
-
+<!-- ERA 5: DITADURA -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(214,40,40,0.2);color:#D62828;">1964 — 1985</span>
+  <h2 class="section-title" style="color:#D62828;">21 Anos de Ditadura</h2>
+  <p class="section-sub">Tortura, censura, e a maior concentração de renda da história.</p>
   <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#52B788;">OS 2 APROVADOS</h3>
-    <div class="data-row"><span class="data-label">Camilo Santana (PT/CE)</span><span class="data-value">4.72 — educação</span></div>
-    <div class="data-row"><span class="data-label">Marina Silva (REDE/SP)</span><span class="data-value">4.11 — ambiente</span></div>
+    <div class="data-row"><span class="data-label">Mortos/desaparecidos</span><span class="data-value">434 (CNV 2014)</span></div>
+    <div class="data-row"><span class="data-label">Torturados</span><span class="data-value">milhares</span></div>
+    <div class="data-row"><span class="data-label">Condenados</span><span class="data-value" style="color:#D62828;">0 (Lei da Anistia protege)</span></div>
+    <div class="data-row"><span class="data-label">Milagre econômico</span><span class="data-value">10% PIB/ano, salário caiu 30%</span></div>
+    <div class="data-row"><span class="data-label">Concentração de renda</span><span class="data-value">Gini 0.60 (mais alto da história)</span></div>
+    <div class="data-row"><span class="data-label">Dívida externa</span><span class="data-value">US$ 4 bi (1964) → US$ 100 bi (1985)</span></div>
   </div>
 </section>
 
-<!-- 6. GATE -->
-<section id="gate" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#00B4D8;">6. Gate Epistemológico + Checklist W.O.</h2>
-  <p class="section-sub">"Opinião é Opinião. Dados são Dados. FATO exige análise."</p>
+<!-- ERA 6: DEMOCRACIA -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(0,180,216,0.2);color:#00B4D8;">1985 — 2018</span>
+  <h2 class="section-title" style="color:#00B4D8;">33 Anos de Democracia</h2>
+  <p class="section-sub">Constituição, Real, Lula, Dilma, impeachment. Avanços e recuos.</p>
+  <div class="card p-4">
+    <div class="data-row"><span class="data-label">Constituição Cidadã</span><span class="data-value">1988 — SUS, educação, direitos</span></div>
+    <div class="data-row"><span class="data-label">Plano Real</span><span class="data-value">1994 — fim da hiperinflação</span></div>
+    <div class="data-row"><span class="data-label">Fome Zero + Bolsa Família</span><span class="data-value" style="color:#52B788;">2003-2010: 30M saíram da pobreza</span></div>
+    <div class="data-row"><span class="data-label">Minha Casa Minha Vida</span><span class="data-value">4 milhões de moradias</span></div>
+    <div class="data-row"><span class="data-label">Lava Jato</span><span class="data-value">2014 — parcialidade questionada</span></div>
+    <div class="data-row"><span class="data-label">Impeachment Dilma</span><span class="data-value">2016 — sem crime de responsabilidade</span></div>
+    <div class="data-row"><span class="data-label">Teto de gastos</span><span class="data-value">2016 — congelou SUS, educação</span></div>
+  </div>
+</section>
 
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#00B4D8;">GATE EPISTEMOLÓGICO</h3>
-    <div class="data-row"><span class="data-label">Classificações</span><span class="data-value">3 (FATO / DADO / OPINIÃO)</span></div>
-    <div class="data-row"><span class="data-label">Critérios de FATO</span><span class="data-value">7</span></div>
-    <div class="data-row"><span class="data-label">Falácias mapeadas</span><span class="data-value">11</span></div>
-    <div class="data-row"><span class="data-label">Regra</span><span class="data-value text-left">Política só vira lei com FATO (7/7)</span></div>
+<!-- ERA 7: HOJE -->
+<section class="max-w-4xl mx-auto px-4 pb-8">
+  <span class="era-badge" style="background:rgba(199,125,255,0.2);color:#C77DFF;">2018 — 2026</span>
+  <h2 class="section-title" style="color:#C77DFF;">O Brasil Hoje</h2>
+  <p class="section-sub">O resultado de 524 anos. Os números que ninguém quer ver.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="card p-4">
+      <h3 class="text-sm font-bold mb-3" style="color:#D62828;">🚨 5 EMERGÊNCIAS</h3>
+      <div class="data-row"><span class="data-label">Violência</span><span class="data-value">47.500 homicídios/ano</span></div>
+      <div class="data-row"><span class="data-label">Saúde</span><span class="data-value">Dengue 6M. Fila SUS 6 meses</span></div>
+      <div class="data-row"><span class="data-label">Fome</span><span class="data-value">33 milhões passando fome</span></div>
+      <div class="data-row"><span class="data-label">Água</span><span class="data-value">35 milhões sem água potável</span></div>
+      <div class="data-row"><span class="data-label">Soberania</span><span class="data-value">Importa 80% do trigo</span></div>
+    </div>
+    <div class="card p-4">
+      <h3 class="text-sm font-bold mb-3" style="color:#D4A017;">💸 A CONTA</h3>
+      <div class="data-row"><span class="data-label">PIB</span><span class="data-value">R$ 11.5 trilhões</span></div>
+      <div class="data-row"><span class="data-label">Dívida</span><span class="data-value">R$ 9.8 trilhões</span></div>
+      <div class="data-row"><span class="data-label">Políticas que resolvem</span><span class="data-value" style="color:#D62828;">6% (2 de 33)</span></div>
+      <div class="data-row"><span class="data-label">Políticos aprovados</span><span class="data-value" style="color:#D62828;">0.3% (2 de 593)</span></div>
+      <div class="="data-row"><span class="data-label">Score médio Congresso</span><span class="data-value" style="color:#D62828;">1.32/5.0</span></div>
+    </div>
   </div>
 
   <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#D62828;">CHECKLIST W.O. (7 CRITÉRIOS)</h3>
-    <div class="data-row"><span class="data-label">1. COMO (crítico, peso 3)</span><span class="data-value text-left">Como será executado?</span></div>
-    <div class="data-row"><span class="data-label">2. QUEM (crítico, peso 3)</span><span class="data-value text-left">Responsável identificado?</span></div>
-    <div class="data-row"><span class="data-label">3. CUSTO (crítico, peso 3)</span><span class="data-value text-left">Orçamento detalhado?</span></div>
-    <div class="data-row"><span class="data-label">4. DADOS (crítico, peso 2)</span><span class="data-value text-left">Como dados foram manipulados?</span></div>
-    <div class="data-row"><span class="data-label">5. PRAZO (crítico, peso 2)</span><span class="data-value text-left">Marco verificável?</span></div>
-    <div class="data-row"><span class="data-label">6. QUEM AFETA (jequeri)</span><span class="data-value text-left">Quem perde? Quem ganha?</span></div>
-    <div class="data-row"><span class="data-label">7. MÉTRICA (jequeri)</span><span class="data-value text-left">Como medir resultado?</span></div>
+    <h3 class="text-sm font-bold mb-3" style="color:#8b949e;">O ARCO DA DESIGUALDADE</h3>
+    <div class="data-row"><span class="data-label">1500: indígenas mortos</span><span class="data-value">90% da população</span></div>
+    <div class="data-row"><span class="data-label">1530-1888: escravidão</span><span class="data-value">4.9M africanos, R$ 0 indenização</span></div>
+    <div class="data-row"><span class="data-label">1888: abolição</span><span class="data-value">Sem terra, sem trabalho, sem escola</span></div>
+    <div class="data-row"><span class="data-label">1964-1985: ditadura</span><span class="data-value">Gini 0.60, salário caiu 30%</span></div>
+    <div class="data-row"><span class="data-label">2024: hoje</span><span class="data-value" style="color:#D62828;">Gini 0.52. Negro ganha 56% do branco.</span></div>
+    <div class="data-row"><span class="data-label">2024: fome</span><span class="data-value" style="color:#D62828;">33 milhões. Mesmo país de R$ 11.5T de PIB.</span></div>
   </div>
 </section>
 
-<!-- 7. COMPARATIVO -->
-<section id="comparativo" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#C77DFF;">7. Comparativo: Governos x Samara</h2>
-  <p class="section-sub">30 anos. 5 presidentes. 8.3% de sucesso.</p>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#D62828;">GOVERNOS ANTERIORES (RESULTADO REAL)</h3>
-    <div id="comparativo-governos"></div>
-  </div>
-
-  <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#52B788;">PLANO SAMARA (UP) + OPENREPUBLIC (SIMULAÇÃO)</h3>
-    <div class="data-row"><span class="data-label">Propostas</span><span class="data-value">25</span></div>
-    <div class="data-row"><span class="data-label">Original (Gate WO)</span><span class="data-value" style="color:#D62828;">0/25 aprovadas (0%)</span></div>
-    <div class="data-row"><span class="data-label">+ OpenRepublic (Gate WO)</span><span class="data-value" style="color:#52B788;">25/25 aprovadas (100%)</span></div>
-    <div class="data-row"><span class="data-label">Cobertura Raio X</span><span class="data-value">13 de 18 domínios</span></div>
-    <div class="data-row"><span class="data-label">Custo anual</span><span class="data-value">~R$ 520 bilhões</span></div>
-    <div class="data-row"><span class="data-label">Fontes de financiamento</span><span class="data-value">R$ 650 bi (ISF + bancos + subsídios)</span></div>
-    <div class="data-row"><span class="data-label">Superávit</span><span class="data-value" style="color:#52B788;">R$ 130 bi/ano</span></div>
-  </div>
-</section>
-
-<!-- 8. CENSO + DENUNCIA -->
-<section id="censo" class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#1A5E3F;">8. Censo + Denúncia</h2>
-  <p class="section-sub">Perguntar ao chão, não ao diretor.</p>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#52B788;">CENSO DA REPÚBLICA</h3>
-    <div class="data-row"><span class="data-label">Domínios</span><span class="data-value">18</span></div>
-    <div class="data-row"><span class="data-label">Fontes</span><span class="data-value">9 (cidadao, comunidade, OSINT, etc)</span></div>
-    <div class="data-row"><span class="data-label">Invisíveis (IBGE não conta)</span><span class="data-value" style="color:#D62828;">4.57 milhões</span></div>
-    <div class="data-row"><span class="data-label">Custo IBGE</span><span class="data-value">R$ 2.3 bilhões</span></div>
-    <div class="data-row"><span class="data-label">Censo da República</span><span class="data-value" style="color:#52B788;">R$ 200 milhões</span></div>
-    <div class="data-row"><span class="data-label">Economia</span><span class="data-value" style="color:#52B788;">R$ 2.1 bilhões/ano</span></div>
-  </div>
-
-  <div class="card p-4">
-    <h3 class="text-sm font-bold mb-3" style="color:#D62828;">CANAL DE DENÚNCIA</h3>
-    <div class="data-row"><span class="data-label">Tipos de denúncia</span><span class="data-value">19</span></div>
-    <div class="data-row"><span class="data-label">Canais</span><span class="data-value">10 (Tor, Onion, SMS, LoRa, papel...)</span></div>
-    <div class="data-row"><span class="data-label">Proteções</span><span class="data-value">9 (EXIF removido, IP nunca logado)</span></div>
-    <div class="data-row"><span class="data-label">Anonimato (Tor)</span><span class="data-value" style="color:#52B788;">5/5</span></div>
-    <div class="data-row"><span class="data-label">Cadeia hash</span><span class="data-value">SHA-256 tamper-proof</span></div>
-  </div>
-</section>
-
-<!-- 9. LIMITACAO -->
-<section id="limitacao" class="max-w-3xl mx-auto px-4 pb-12">
-  <h2 class="section-title" style="color:#8b949e;">9. Limitação dos Dados</h2>
-  <p class="section-sub">Honestidade epistemológica.</p>
-
-  <div class="card p-4" style="border: 2px solid #D4A017;">
+<!-- VEREDITO FINAL -->
+<section class="max-w-4xl mx-auto px-4 pb-12">
+  <div class="card p-6" style="border: 2px solid #C77DFF;">
+    <h2 class="text-lg font-black mb-4" style="color:#C77DFF;">A HISTÓRIA EXPLICA O HOJE</h2>
     <div class="space-y-3 text-sm text-[#e6edf3]">
-      <p><strong style="color:#D4A017;">FONTES:</strong> Dados pré-compilados de fontes públicas: IBGE, INEP, VIGISAN, DataSUS, BCB, TSE, FBSP, PRODES/INPE, CONAB, SNIS.</p>
-      <p><strong style="color:#D62828;">SCORES DE POLÍTICOS:</strong> OPINIÃO ESTRUTURADA, não FATO. Passa em 0.5/7 critérios do Gate Epistemológico. Os inputs (fez_funcionar=0.9, liderou=0.8) foram atribuídos sem fonte externa verificável.</p>
-      <p><strong style="color:#D62828;">PROPOSTAS DE SAMARA:</strong> SIMULAÇÃO. Os dados de execução (COMO, CUSTO, PRAZO) foram preenchidos pelo OpenRepublic, não pela candidata. Não passam pelo Gate Epistemológico.</p>
-      <p><strong style="color:#D4A017;">GATE WO:</strong> O sistema confunde acesso a dados com qualidade de proposta. Quem tem equipe técnica detalha execução. Quem não tem, não. O método de 3 camadas (diagnóstico + direção + execução) corrige parcialmente esse viés.</p>
-      <p><strong style="color:#52B788;">PARA VIRAR FATO:</strong> Triangulação de 3+ fontes independentes + auditoria pública + dados abertos em CC0 + reprodução por terceiros.</p>
+      <p>33 milhões passam fome hoje porque em 1888 abolimos a escravidão sem dar terra, escola ou trabalho a 4.9 milhões de pessoas.</p>
+      <p>47.500 brasileiros são assassinados por ano porque construímos uma polícia em 1808 para perseguir escravos — e nunca mudamos.</p>
+      <p>O PISA pontua 377 porque em 524 anos a educação foi privilégio de elite. Nunca do povo.</p>
+      <p>100 milhões não têm esgoto porque quem sempre governou nunca precisou usar fossa.</p>
+      <p>Negro ganha 56% do branco porque 376 anos de escravidão não se apagam com 136 anos de "liberdade".</p>
+      <p>O Brasil não é pobre. É desigual. E a desigualdade foi construída. Evento por evento. Ponto por ponto na linha do tempo.</p>
     </div>
-  </div>
-
-  <div class="mt-6 text-center">
-    <p class="text-xs text-[#8b949e]">OpenRepublic · Código aberto CC0 · github.com/mouracleiton/open-republic</p>
-    <p class="text-xs text-[#8b949e] mt-1">"O IBGE pergunta ao diretor. Nós perguntamos ao chão."</p>
+    <div class="mt-6 pt-6 border-t border-[#30363d]">
+      <p class="text-xs text-[#8b949e]">OpenRepublic · Código aberto CC0 · github.com/mouracleiton/open-republic</p>
+      <p class="text-xs text-[#8b949e] mt-1">"O IBGE pergunta ao diretor. Nós perguntamos ao chão."</p>
+    </div>
   </div>
 </section>
 
 <!-- EMBEDDED DATA -->
 <script type="application/json" id="embedded-data">
-{"pais": {"nome": "Brasil", "populacao": "203.1 milhoes (IBGE 2022)", "pib": "R$ 11.5 trilhoes", "divida_publica": "R$ 9.8 trilhoes", "taxa_juros": "10.75% (SELIC)", "estados": 27, "municipios": 5570}, "raio_x": {"dominios": 18, "exames": 18, "emergencias": 5, "custo_anual": "R$ 79 milhoes (R$ 0.37/habitante)", "automatizaveis": "9 exames >= 75% automacao", "triagem": "VIDA=AGIR_AGORA, BOLSO=diagnosticar, VOTO=bloqueado sem FATO"}, "politicas": {"total_avaliadas": 33, "resolvem": 2, "nao_resolvem": 2, "orcamento_anual": "R$ 500+ bilhoes", "taxa_sucesso": "6%"}, "plano_governo": {"propostas": [{"id": "p01", "eixo": "Combate a Fome", "proposta": "Revigorar o Bolsa Familia com R$600 + R$150 por crianca ate 7 anos", "dominio": "alimentacao", "status": "cumprido", "status_rotulo": "CUMPRIDO", "realidade": "BF restaurado. 21 milhoes de familias recebem. MAS: 33 milhoes ainda passam fome (VIGISAN 2022). Dinheiro entra, fome persiste. 17% das familias beneficiarias continuam em inseguranca alimentar.", "meta": "2023", "fonte": "Plano de Governo, Eixo Social", "recomendacao": "Rastreio individual por crianca. Verificar se R$ virou comida no prato (open_child_food_security)."}, {"id": "p02", "eixo": "Combate a Fome", "proposta": "Recriar o CONSEA (Conselho Nacional de Seguranca Alimentar)", "dominio": "alimentacao", "status": "cumprido", "status_rotulo": "CUMPRIDO", "realidade": "CONSEA recriado em 2023. Mas CONSEA e consultivo, nao executa. Nenhum programa novo de alimentacao criado a partir dele.", "meta": "2023", "fonte": "Plano de Governo, Eixo Social", "recomendacao": ""}, {"id": "p03", "eixo": "Combate a Fome", "proposta": "Fortalecer o PNAE (merenda escolar)", "dominio": "alimentacao", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Orcamento do PNAE aumentou para R$ 2.5 bi/ano. Mas 1.6 milhoes de criancas FORA da escola = sem merenda. Terceirizacao em 70% dos municipios. Qualidade nao medida.", "meta": "2026", "fonte": "Plano de Governo, Eixo Educacao", "recomendacao": ""}, {"id": "p04", "eixo": "Saude", "proposta": "Mais Medicos para o SUS", "dominio": "saude", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Programa retomado. ~18 mil medicos. Mas cobertura ainda insuficiente. Interior e periferia seguem sem medico. Interrompido parcialmente em 2023 (cubanos).", "meta": "2023", "fonte": "Plano de Governo, Eixo Saude", "recomendacao": ""}, {"id": "p05", "eixo": "Saude", "proposta": "Recuperar calendario nacional de vacinacao", "dominio": "saude", "status": "nao_cumprido", "status_rotulo": "NAO CUMPRIDO", "realidade": "Cobertura vacinal: 68% (2023). Meta: 95%. CAIU desde 2023. Sarampo reapareceu. Polio ameaca voltar. Nenhum plano nacional efetivo de recuperacao.", "meta": "2026", "fonte": "Plano de Governo, Eixo Saude", "recomendacao": "Campanha vacinal casa-a-casa com rastreio individual (open_censo_nacional)."}, {"id": "p06", "eixo": "Saude", "proposta": "Investir R$ 25 bi em saneamento para saude", "dominio": "saneamento", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Recurso liberado via PAC. Mas cobertura de esgoto: 53% (urbano). Rural: 15%. Ritmo: 0.8%/ano. Meta de 90% so chega em 2050.", "meta": "2026", "fonte": "Plano de Governo, Eixo Saude/Infra", "recomendacao": ""}, {"id": "p07", "eixo": "Educacao", "proposta": "Pais na Escola -- engajar familias na educacao", "dominio": "educacao", "status": "sem_dado", "status_rotulo": "SEM DADO PARA MEDIR", "realidade": "Programa anunciado. Sem metricas publicas de implementacao. Nao ha dado de adesao por municipio ou escola.", "meta": "2026", "fonte": "Plano de Governo, Eixo Educacao", "recomendacao": ""}, {"id": "p08", "eixo": "Educacao", "proposta": "Aumentar investimento em educacao para 6% do PIB", "dominio": "educacao", "status": "nao_cumprido", "status_rotulo": "NAO CUMPRIDO", "realidade": "Brasil investe ~4.5% do PIB em educacao (2024). Meta: 6%. PISA 2022: 393/410/403 vs OCDE 472/476/485. 50% do 7o ano nao sabem ler.", "meta": "2026", "fonte": "Plano de Governo, Eixo Educacao", "recomendacao": "Censo escolar proprio (open_censo_escolar) com OSINT por escola. Saber onde o dinheiro chega."}, {"id": "p09", "eixo": "Seguranca Publica", "proposta": "Plano Nacional de Seguranca Publica com foco em inteligencia e prevencao", "dominio": "violencia", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Plano lancado em 2023. Homicidios: 21.7/100k (2023), caiu ~3%. Mas violencia domestica subnotificada 70%. SINESP com 6-12h de atraso. Nao previne, conta.", "meta": "2026", "fonte": "Plano de Governo, Eixo Seguranca", "recomendacao": ""}, {"id": "p10", "eixo": "Seguranca Publica", "proposta": "Recriar estrutura de prevencao a violencia (PRONASCI类似)", "dominio": "violencia", "status": "sem_dado", "status_rotulo": "SEM DADO PARA MEDIR", "realidade": "Sem programa estruturado de prevencao anunciado ou implementado com metricas. Foco continua em repressao.", "meta": "2026", "fonte": "Plano de Governo, Eixo Seguranca", "recomendacao": ""}, {"id": "p11", "eixo": "Economia", "proposta": "Novo Arcabouco Fiscal responsavel", "dominio": "inflacao", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Arcabouco aprovado. IPCA 2023: 4.62%. Mas cesta basica subiu mais. Arroz +50%, feijao +30% em 2024. Pobre paga mais inflacao que o IPCA mede.", "meta": "2023", "fonte": "Plano de Governo, Eixo Economia", "recomendacao": ""}, {"id": "p12", "eixo": "Economia", "proposta": "Plano Safra recorde para agricultura familiar", "dominio": "agropecuaria", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Plano Safra 2024/25: R$ 400 bi. PRONAF: R$ 60 bi. Mas agricultura familiar produz 70% da comida com 30% do credito. Demanda e 4x maior.", "meta": "anual", "fonte": "Plano de Governo, Eixo Economia", "recomendacao": ""}, {"id": "p13", "eixo": "Meio Ambiente", "proposta": "Zerar desmatamento ilegal na Amazonia ate 2030", "dominio": "ambiente", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "Desmatamento caiu 22% (2022->2023): 13.235 km2. Ainda 2x a meta. Ibama multa mas 80% das multas nao sao pagas.", "meta": "2030", "fonte": "Plano de Governo, Eixo Ambiente", "recomendacao": "Cruzar MapBiomas/INPE com denominacao de responsabilidade. Quem e dono da area desmatada?"}, {"id": "p14", "eixo": "Meio Ambiente", "proposta": "Reativar Fundo Amazonia", "dominio": "ambiente", "status": "cumprido", "status_rotulo": "CUMPRIDO", "realidade": "Fundo Amazonia reativado em 2023. Doacoes retomadas (Noruega, Alemanha, EUA). R$ 3 bi disponiveis.", "meta": "2023", "fonte": "Plano de Governo, Eixo Ambiente", "recomendacao": ""}, {"id": "p15", "eixo": "Povos Originarios", "proposta": "Demarcar terras indigenas e combater garimpo ilegal", "dominio": "indigena", "status": "nao_cumprido", "status_rotulo": "NAO CUMPRIDO", "realidade": "Zero novas demarcacoes (Marco Temporal/STF 2023). 570 criancas Yanomami morreram de fome (2022-2023). Garimpo cresceu. Operacoes tmidas no Yanomami.", "meta": "2026", "fonte": "Plano de Governo, Eixo Indigena", "recomendacao": "Censo proprio indigena (open_censo_nacional, dominio indigena). Saude por DSEI com rastreio por aldeia."}, {"id": "p16", "eixo": "Habitacao", "proposta": "Retomar Minha Casa Minha Vida para baixa renda", "dominio": "habitacao", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "MCMV retomado em 2023. ~2 milhoes de unidades no PAC. Mas casas longe do centro = sem servicos. Favelas crescem mais rapido que construcao.", "meta": "2026", "fonte": "Plano de Governo, Eixo Habitacao", "recomendacao": ""}, {"id": "p17", "eixo": "Cultura", "proposta": "Reativar Ministerio da Cultura e Lei Rouanet", "dominio": "cultura", "status": "cumprido", "status_rotulo": "CUMPRIDO", "realidade": "MinC recriado. Lei Paulo Gustavo: R$ 3.8 bi. Lei Aldir Blanc 2: R$ 3 bi. Mas Lei Rouanet concentra 90% em 10% (ricos). Cultura periferica sem acesso.", "meta": "2023", "fonte": "Plano de Governo, Eixo Cultura", "recomendacao": ""}, {"id": "p18", "eixo": "Transporte", "proposta": "PAC Mobilidade Urbana com metro/VLT", "dominio": "transporte", "status": "parcial", "status_rotulo": "PARCIAL", "realidade": "R$ 40 bi anunciados. Mas Brasil tem 10 linhas de metro vs 200+ em paises equivalentes. Pobre gasta 2h+ em transporte. Tarifa nao subsidiada federalmente.", "meta": "2026", "fonte": "Plano de Governo, Eixo Infra", "recomendacao": ""}, {"id": "p19", "eixo": "Comunicacao", "proposta": "Democratizar acesso a internet (5G + rural)", "dominio": "comunicacao", "status": "nao_cumprido", "status_rotulo": "NAO CUMPRIDO", "realidade": "5G lancado nas capitais. Mas 70% da zona rural SEM internet. PNBL extinto. Escola rural sem conexao. Nenhum plano federal de banda larga rural.", "meta": "2026", "fonte": "Plano de Governo, Eixo Digital", "recomendacao": "Conectividade escola-a-escola com OSINT (open_school_osint). Verificar quem tem internet de verdade."}, {"id": "p20", "eixo": "Igualdade Racial", "proposta": "Politicas afirmativas e combate ao racismo estrutural", "dominio": "violencia", "status": "sem_dado", "status_rotulo": "SEM DADO PARA MEDIR", "realidade": "Ministerio da Igualdade Racial criado. Programas anunciados. Mas homicidio de jovens negros: 2.7x maior que brancos. Sem metricas claras de impacto.", "meta": "2026", "fonte": "Plano de Governo, Eixo Igualdade", "recomendacao": ""}], "lacunas": [{"dominio": "drogas", "problema": "Epidemia de crack e drogas sinteticas", "dado": "Drogas sinteticas cresceram 400% (2019-2024). So 17% dos dependentes tem tratamento. Lei de drogas eca racial.", "ausencia": "Plano nao menciona politica de reducao de danos. Zero novas unidades CAPS-AD.", "recomendacao": "Reducao de danos como politica de Estado. Tratamento como saude, nao seguranca."}, {"dominio": "saneamento", "problema": "47% do Brasil sem coleta de esgoto", "dado": "Cobertura: 53% urbano, 15% rural. Crianca continua morrendo de diarreia no Norte.", "ausencia": "Plano promete investimento mas nao tem meta de cobertura MENSURAVEL por municipio.", "recomendacao": "Censo de saneamento por escola/posto/bairro. Dado em tempo real, nao SNIS autopreenchido."}, {"dominio": "agua", "problema": "35 milhoes sem agua tratada", "dado": "Sertao: <30% tem agua potavel. Cisternas cobrem 33% da demanda.", "ausencia": "Plano nao tem meta de agua por regiao. Programa Cisternas oscila com governo.", "recomendacao": "Agua como prioridade de sobrevivencia (triagem INFRA). Meta: 100% agua potavel em 5 anos."}, {"dominio": "comunicacao", "problema": "70% da zona rural sem internet", "dado": "Escola rural sem conexao = sem EAD, sem telemedicina, sem servico publico digital.", "ausencia": "PNBL extinto. Plano atual nao substitui. 5G e para capital, nao para o sertao.", "recomendacao": "Internet como direito constituinte (P11 letramento digital). Banda larga rural por lei."}, {"dominio": "seguranca_alimentar", "problema": "Fome mede a cada 2 anos (VIGISAN bienal)", "dado": "33M com fome. Fome muda em dias, VIGISAN mede a cada 24 meses. dado obsoleto entre coletas.", "ausencia": "Plano nao propoe medicao continua. VIGISAN nao e prioridade de orcamento.", "recomendacao": "VIGISAN mensal + cestas basicas monitoradas por bairro (open_raio_x_brasil)."}, {"dominio": "violencia", "problema": "Violencia domestica subnotificada 70%", "dado": "1.8M medidas protetivas/ano. So 198 abrigos no Brasil. Cumprimento de medidas: ~40%.", "ausencia": "Plano nao tem meta de abrigos. Nao tem rastreio de cumprimento de medidas protetivas.", "recomendacao": "Monitor de violencia em tempo real (open_constitutional_monitor). Abrigo por lei em todo municipio >100k."}, {"dominio": "emprego", "problema": "40 milhoes na informalidade sem protecao", "dado": "Informal: ~40% da forca de trabalho. Sem seguro-desemprego, sem FGTS, sem direito trabalhista.", "ausencia": "Plano nao propoe rede de protecao para informal. Empreendedorismo individual nao e protecao social.", "recomendacao": "Renda basica universal como direito. Desvinculada de vinculo empregaticio."}, {"dominio": "indigena", "problema": "Saude indigena em colapso (Yanomami)", "dado": "570 criancas Yanomami mortas de fome (2022-2023). SASI-SUS subfinanciado. Garimpo cresce.", "ausencia": "Plano promete combater garimpo mas Marco Temporal impediu demarcacoes. Saude indigena sem medico.", "recomendacao": "Censo proprio por etnia. Saude por aldeia com rastreio. Garimpo como crime federal."}], "scorecard": {"modulo": "open_plano_governo", "versao": "0.1.0-spec", "propostas_avaliadas": 20, "cumprimento": {"cumprido": 4, "parcial": 9, "nao_cumprido": 4, "contradiz": 0, "sem_dado": 3}, "pct_cumprido": "4/20 (20%)", "pct_nao_cumprido": "4/20 (20%)", "pct_sem_dado": "3/20 (15%)", "lacunas_identificadas": 8, "veredito": "4 cumpridas, 9 parciais, 4 nao cumpridas, 3 sem dado. 8 problemas reais que o plano nem prometeu tratar."}}, "politicos": {"total_avaliados": 593, "aprovados": 2, "taxa_aprovacao": "0.3%", "score_medio_nacional": 1.32, "corte": ">= 4.0 (escala 0-5)", "detalhados": 60, "heuristicos": 533}, "propostas_gate": {"criterios": 7, "criticos": 5, "candidatos_avaliados": 8, "propostas_total": 24, "aprovadas": 7}, "comparativo": {"governos_anteriores": [{"governo": "FHC (PSDB) 1995-2002", "area": "inflacao", "resultado": "Plano Real estabilizou, mas privatizou", "veredito": "PARCIAL"}, {"governo": "Lula (PT) 2003-2010", "area": "alimentacao", "resultado": "Fome Zero + BF tirou 30M da pobreza", "veredito": "RESOLVEU"}, {"governo": "Lula (PT) 2003-2010", "area": "inflacao", "resultado": "Crescimento + distribuição", "veredito": "PARCIAL"}, {"governo": "Dilma (PT) 2011-2016", "area": "inflacao", "resultado": "Recessão + impeachment", "veredito": "FALHOU"}, {"governo": "Temer (MDB) 2016-2018", "area": "inflacao", "resultado": "Teto de gastos, cortou direitos", "veredito": "FALHOU"}, {"governo": "Bolsonaro (PL) 2019-2022", "area": "violencia", "resultado": "Armas, milicias, COVID falhou", "veredito": "FALHOU"}, {"governo": "Bolsonaro (PL) 2019-2022", "area": "saude", "resultado": "600 mil mortos COVID", "veredito": "FALHOU"}, {"governo": "Lula (PT) 2023-2026", "area": "alimentacao", "resultado": "BF ampliado, mas 33M ainda com fome", "veredito": "PARCIAL"}, {"governo": "Lula (PT) 2023-2026", "area": "violencia", "resultado": "47.5k homicidios, sem plano", "veredito": "FALHOU"}, {"governo": "Lula (PT) 2023-2026", "area": "saude", "resultado": "Dengue 6M, fila SUS, subfinanciado", "veredito": "FALHOU"}, {"governo": "Lula (PT) 2023-2026", "area": "educacao", "resultado": "PISA 377, 7.2M analfabetos func.", "veredito": "FALHOU"}, {"governo": "Lula (PT) 2023-2026", "area": "ambiente", "resultado": "PPCDAm reativado, mas 13.235 km2", "veredito": "PARCIAL"}], "samara_propostas": [{"n": 1, "area": "inflacao", "titulo": "Controle social dos monopólios", "custo": "R$ 2bi transição", "prazo": "2 anos", "metrica": "Gini interestadual <0.45"}, {"n": 2, "area": "inflacao", "titulo": "Nacionalização do sistema bancário", "custo": "R$ 1.2 tri", "prazo": "4 anos", "metrica": "Spread bancário <5%"}, {"n": 3, "area": "inflacao", "titulo": "Fim da espoliação imperialista", "custo": "R$ 50bi audit + R$ 400bi/ano ganho", "prazo": "3 anos", "metrica": "Dívida externa/PIB"}, {"n": 4, "area": "energia", "titulo": "Reestatização do petróleo", "custo": "R$ 80bi", "prazo": "4 anos", "metrica": "Produção estatal 100%"}, {"n": 5, "area": "emprego", "titulo": "Emprego para todos", "custo": "R$ 120bi/ano", "prazo": "4 anos", "metrica": "Desemprego <4%"}, {"n": 6, "area": "agropecuaria", "titulo": "Reforma agrária popular", "custo": "R$ 15bi/ano", "prazo": "4 anos", "metrica": "Gini terra <0.6"}, {"n": 7, "area": "inflacao", "titulo": "Imposto sobre grandes fortunas", "custo": "GANHO R$ 200bi/ano", "prazo": "1 ano", "metrica": "Carga tributária ricos 35%"}, {"n": 8, "area": "transporte", "titulo": "Estatização do transporte", "custo": "R$ 40bi/ano", "prazo": "4 anos", "metrica": "Passageiros +50%, mortes <10/dia"}, {"n": 9, "area": "educacao", "titulo": "Educação pública universal", "custo": "R$ 150bi/ano", "prazo": "4 anos", "metrica": "IDEB 6.0, PISA 450"}, {"n": 10, "area": "comunicacao", "titulo": "Democratização da mídia", "custo": "R$ 5bi/ano", "prazo": "4 anos", "metrica": "Concentração mídia <0.3"}, {"n": 11, "area": "violencia", "titulo": "Fim do financiamento privado", "custo": "R$ 3bi/eleição", "prazo": "Imediato", "metrica": "0% PJ em campanhas"}, {"n": 12, "area": "violencia", "titulo": "Juízes eleitos pelo povo", "custo": "R$ 500M/eleição", "prazo": "4 anos", "metrica": "Tempo processo <1 ano"}, {"n": 13, "area": "violencia", "titulo": "Direitos das mulheres + aborto", "custo": "R$ 8bi/ano", "prazo": "4 anos", "metrica": "Feminicídio 0"}, {"n": 14, "area": "cultura", "titre": "Fim da discriminação", "custo": "R$ 2bi/ano", "prazo": "Imediato", "metrica": "Crimes ódio mensurados"}, {"n": 15, "area": "ambiente", "titulo": "Controle popular da Amazônia", "custo": "R$ 10bi/ano", "prazo": "4 anos", "metrica": "Desmatamento <3.000 km²"}, {"n": 16, "area": "indigena", "titulo": "Demarcação imediata", "custo": "R$ 5bi/ano", "prazo": "4 anos", "metrica": "251 terras demarcadas"}, {"n": 17, "area": "saude", "titulo": "SUS universal, fim planos", "custo": "R$ 80bi/ano", "prazo": "4 anos", "metrica": "Fila <30 dias, cobertura 100%"}, {"n": 18, "area": "cultura", "titulo": "Cultura nacional", "custo": "R$ 3bi/ano", "prazo": "Imediato", "metrica": "Conteúdo nacional 50%"}, {"n": 19, "area": "emprego", "titulo": "Jornada 6h + aumento salários", "custo": "15% folha", "prazo": "3 anos", "metrica": "Horas trabalhadas, salário real"}, {"n": 20, "area": "emprego", "titulo": "Descanso em feriados", "custo": "R$ 0", "prazo": "Imediato", "metrica": "Folga dominical"}, {"n": 21, "area": "habitacao", "titulo": "Moradia + saneamento", "custo": "R$ 60bi/ano", "prazo": "4 anos", "metrica": "Déficit 0, esgoto 90%"}, {"n": 22, "area": "violencia", "titulo": "Confisco de corruptos", "custo": "R$ 1bi/ano", "prazo": "Imediato", "metrica": "Recuperado R$ 50bi/ano"}, {"n": 23, "area": "comunicacao", "titulo": "Apoio à libertação dos povos", "custo": "R$ 0", "prazo": "Imediato", "metrica": "0 bases estrangeiras"}, {"n": 24, "area": "violencia", "titulo": "Fim da polícia militar", "custo": "R$ 20bi/ano", "prazo": "4 anos", "metrica": "Homicídios <15k, 0 mortes polícia"}, {"n": 25, "area": "violencia", "titulo": "Punição de torturadores", "custo": "R$ 500M", "prazo": "4 anos", "metrica": "Processos abertos"}], "scorecard": {"governos_anteriores": {"total_resultados": 12, "resolveu": 1, "parcial": 3, "falhou": 8, "taxa_sucesso": 8.3}, "samara": {"propostas_total": 25, "aprovadas_gate": 25, "aprovadas_pct": 100, "score_gate": 5.0, "custo_total_anual": "R$ ~520bi/ano (financiado por ISF + nacionalização + fim subsídios)", "fonte_financiamento": "Imposto sobre Grandes Fortunas (R$ 200bi), nacionalização bancária (R$ 400bi/ano em juros), fim subsídios empresas (R$ 50bi)", "cobertura_raiox": "13 de 18 dominios", "score_3_camadas": 4.0, "limitacao": "SIMULACAO. Dados de execucao sao OPINIAO estruturada. Para virar FATO precisa triangulacao de 3+ fontes."}}}, "censo": {"dominios": 18, "fontes": 9, "invisiveis": "4.57 milhoes", "custo_ibge": "R$ 2.3 bilhoes", "custo_republica": "R$ 200 milhoes", "economia": "R$ 2.1 bilhoes/ano"}, "denuncia": {"tipos": 19, "canais": 10, "protecoes": 9, "anonimato_tor": "5/5"}, "gate_epistemologico": {"classificacoes": 3, "criterios": 7, "falacias": 11, "regra": "Politica so vira lei com FATO (7/7 criterios)"}, "limitacao": "Dados pre-compilados de fontes publicas (IBGE, INEP, VIGISAN, DataSUS, BCB, TSE). Scores de politicos sao OPINIAO estruturada, nao FATO (0.5/7 Gate Epistemologico). Para virar FATO precisa triangulacao de 3+ fontes independentes e auditoria publica.", "politicas_data": [{"dominio": "agropecuaria", "veredito": "PARCIAL", "nome": "Plano Safra (Crédito Rural)", "esfera": "Federal", "orcamento": "R$ 400 bi/ano (2024/2025)", "publico": "Produtores rurais (grande e pequeno)", "alcance": "~70% vai para grande produtor. ~30% para agricultura familiar.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Brasil e 2o maior exportador de alimentos. Mas 33M passam fome.", "gap": "Produz comida PRA EXPORTAR. Familiar recebe 30% do credito, produz 70% da comida DO BR.", "ano": 1965, "status": "ativo"}, {"dominio": "agropecuaria", "veredito": "PARCIAL", "nome": "PRONAF (Agricultura Familiar)", "esfera": "Federal", "orcamento": "R$ 60 bi/ano (dentro do Plano Safra)", "publico": "4 milhoes de familias de agricultores familiares", "alcance": "~2 milhoes de contratos ativos.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Agricultura familiar produz 70% da comida consumida no BR com 30% do credito.", "gap": "Subfinanciado. Demanda e 4x maior que oferta de credito.", "ano": 1995, "status": "ativo"}, {"dominio": "agua", "veredito": "PARCIAL", "nome": "Novo Marco Legal do Saneamento (Lei 14.026/2020)", "esfera": "Federal", "orcamento": "R$ 700 bi (meta 20 anos)", "publico": "Toda populacao", "alcance": "84% agua tratada (urbano). Rural: ~40%. Sertao: <30%.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Meta: 99% agua ate 2033. Ritmo atual: 0.5%/ano. Chegara em 2050.", "gap": "Privatizou sem fiscalizar. Tarifa subiu. Rural IGNORADO pela lei.", "ano": 2020, "status": "ativo"}, {"dominio": "agua", "veredito": "PARCIAL", "nome": "Programa Agua Doce / Cisternas", "esfera": "Federal", "orcamento": "R$ 500M/ano", "publico": "Sertao nordestino", "alcance": "~1 milhoao de cisternas instaladas (P1MC + P1+2). Demanda: ~3 milhoes.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Cisterna garante agua potavel por 8 meses de seca para uma familia.", "gap": "Cobre ~33% da demanda. Programa oscila com mudanca de governo.", "ano": 2003, "status": "ativo"}, {"dominio": "alimentacao", "veredito": "PARCIAL", "nome": "Bolsa Familia (novo)", "esfera": "Federal", "orcamento": "R$ 36 bi/ano", "publico": "~21 milhoes de familias (~55 milhoes)", "alcance": "~80% das familias elegiveis. 20% ainda sem cadastrar.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Fome caiu de 33M (2022) para ~33M (2024). NAo mudou. Dinheiro entra, fome continua.", "gap": "NAO garante que dinheiro vire comida. ~17% das familias ainda passam fome.", "ano": 2003, "status": "ativo"}, {"dominio": "alimentacao", "veredito": "PARCIAL", "nome": "PNAE (Merenda Escolar)", "esfera": "Federal", "orcamento": "R$ 2.5 bi/ano", "publico": "~40 milhoes de alunos", "alcance": "Cobre todas escolas publicas. Mas 1.6M criancas fora da escola = sem merenda.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Garante 1 refeicao/dia para 40M criancas. Custo R$0.36/aluno/dia.", "gap": "Crianca que falta nao come. Terceirizacao em 70% dos municipios. Qualidade duvidosa.", "ano": 1955, "status": "ativo"}, {"dominio": "ambiente", "veredito": "PARCIAL (alguma funciona)", "nome": "PPCDAm (Plano Prevencao Desmatamento Amazonia)", "esfera": "Federal", "orcamento": "R$ 2 bi/ano", "publico": "Amazonia Legal", "alcance": "Desmatamento: 13.235 km2 (2023). Caiu 22% vs 2022, mas ainda 2x meta.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu desmatamento 22% (2022->2023). Meta: eliminar ate 2027.", "gap": "Sobe e desce com governo. Ibama multa mas 80% das multas nao sao pagas.", "ano": 2004, "status": "ativo"}, {"dominio": "ambiente", "veredito": "PARCIAL (alguma funciona)", "nome": "MapBiomas / INPE (Monitoramento)", "esfera": "Federal/ONG", "orcamento": "R$ 500M/ano", "publico": "Toda populacao (dados publicos)", "alcance": "Cobertura nacional. DETER/PRODES alerta quase em tempo real.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "resolve", "eficacia_rotulo": "Resolve (problema diminuiu significativamente)", "impacto": "MapBiomas e referencia mundial. INPE detecta desmatamento em 1-7 dias.", "gap": "Detecta, mas fiscalizacao e fraca. Sabe onde queima, nao apaga o fogo.", "ano": 1988, "status": "ativo"}, {"dominio": "comunicacao", "veredito": "FALHOU (nao resolve)", "nome": "Programa Nacional de Banda Larga (PNBL)", "esfera": "Federal", "orcamento": "R$ 4 bi (total historico)", "publico": "Areas nao atendidas", "alcance": "Descontinuado em 2019. Cobertura rural: ~30%.", "eficiencia": "nula", "eficiencia_rotulo": "Nulo (dinheiro gasto, sem resultado)", "eficacia": "nao_resolve", "eficacia_rotulo": "Nao resolve (problema persiste)", "impacto": "Projeto abandonado. 70% das areas rurais sem internet em 2024.", "gap": "Internet chega pelo mercado (caro), nao por politica. Escola rural sem internet.", "ano": 2010, "status": "extinto"}, {"dominio": "cultura", "veredito": "PARCIAL", "nome": "Lei Paulo Gustavo / Lei Aldir Blanc", "esfera": "Federal", "orcamento": "R$ 3.8 bi (Aldir Blanc) + R$ 3.8 bi (Paulo Gustavo)", "publico": "Trabalhadores da cultura", "alcance": "~500 mil beneficiarios.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Manteve setor cultural vivo durante pandemia. Mas e emergencial, nao continuo.", "gap": "Lei Rouanet concentra 90% em 10% (ricos). Cultura periferica sem acesso.", "ano": 2020, "status": "ativo"}, {"dominio": "drogas", "veredito": "FALHOU (nao resolve)", "nome": "Política Nacional sobre Drogas (SENAD)", "esfera": "Federal", "orcamento": "R$ 1 bi/ano", "publico": "Usuarios dependentes + prevencao", "alcance": "~500 CAPS-AD (centros de atendimento). Demanda: ~3000.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Drogas sinteticas cresceram 400% (2019-2024). Crack persiste.", "gap": "So 17% dos dependentes tem acesso a tratamento. Lei de drogas eca racial.", "ano": 2002, "status": "ativo"}, {"dominio": "educacao", "veredito": "PARCIAL", "nome": "FUNDEB (Fundo de Manutencao da Educacao Basica)", "esfera": "Federal/Estadual/Municipal", "orcamento": "R$ 165 bi/ano", "publico": "40 milhoes de alunos da rede publica", "alcance": "Todas escolas publicas recebem repasse.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Brasil gasta R$5.500/aluno/ano. Finlandia gasta R$60k. PISA 2022: BR 393/410/403 vs OCDE 472/476/485.", "gap": "Dinheiro entra mas IDEB estagnou. 7o ano: 50% nao sabem ler.", "ano": 1996, "status": "ativo"}, {"dominio": "educacao", "veredito": "PARCIAL", "nome": "ProUNI / FIES / Enem", "esfera": "Federal", "orcamento": "R$ 12 bi/ano", "publico": "Estudantes de baixa renda para ensino superior", "alcance": "~3 milhoes de bolsas concedidas historico.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Ampliou acesso ao superior. Mas evasao ~50% nos primeiros 2 anos.", "gap": "So 18% dos jovens 18-24 chegam a universidade. Majoritariamente brancos.", "ano": 2004, "status": "ativo"}, {"dominio": "emprego", "veredito": "PARCIAL", "nome": "Seguro-Desemprego", "esfera": "Federal", "orcamento": "R$ 60 bi/ano", "publico": "Trabalhadores formais demitidos", "alcance": "~8 milhoes de beneficiarios/ano.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Socorro temporario. NAO reconecta ao mercado de trabalho.", "gap": "So cobre trabalhador FORMAL. ~40M informais nao tem direito.", "ano": 1986, "status": "ativo"}, {"dominio": "emprego", "veredito": "PARCIAL", "nome": "Programa Emprega + Mulheres / Renova Mais", "esfera": "Federal", "orcamento": "R$ 1 bi/ano", "publico": "Mulheres, jovens, pretos/pardos", "alcance": "~100 mil insercoes/ano vs 10M desempregados.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Cobertura <1% do publico alvo.", "gap": "Gota no oceano. Nao atende escala.", "ano": 2022, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "Luz para Todos", "esfera": "Federal", "orcamento": "R$ 8 bi (total historico)", "publico": "Comunidades rurais sem energia", "alcance": "~3.5 milhoes de ligacoes realizadas desde 2003.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Levou luz a 16 milhoes de pessoas. Mas ainda ha ~200 mil sem luz.", "gap": "Areas remotas (Amazonia, sertao) ainda sem. Energia solar nao incluida.", "ano": 2003, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "Tarifa Social de Energia Eletrica", "esfera": "Federal", "orcamento": "R$ 8 bi/ano (subsidio)", "publico": "Familias de baixa renda", "alcance": "~22 milhoes de familias beneficiadas.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Desconto de 10-65% na conta de luz. Evita corte.", "gap": "Nao cobre quem NAO tem rede eletrica. Subsidio a consumo, nao a geracao.", "ano": 2010, "status": "ativo"}, {"dominio": "energia", "veredito": "PARCIAL", "nome": "ProGD (Geracao Distribuida Solar)", "esfera": "Federal", "orcamento": "N/A (incentivo tributario)", "publico": "Quem pode instalar paineis", "alcance": "~2 milhoes de sistemas instalados (2024). Concentrado em classe media.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Solar cresceu 80%/ano. Mas pobre nao tem dinheiro pro painel.", "gap": "Beneficia quem tem telhado + credito. Pobre alugado fica de fora.", "ano": 2012, "status": "ativo"}, {"dominio": "habitacao", "veredito": "PARCIAL", "nome": "Minha Casa Minha Vida", "esfera": "Federal", "orcamento": "R$ 20 bi/ano", "publico": "Familias de baixa renda (até R$2.600)", "alcance": "~5 milhoes de unidades entregues desde 2009.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu deficit habitacional ~20%. Mas casas longe do centro = sem servicos.", "gap": "Casas no meio do nada. Sem escola, posto, onibus. Virou dormitorio.", "ano": 2009, "status": "ativo"}, {"dominio": "indigena", "veredito": "FALHOU (nao resolve)", "nome": "SASI-SUS (Subsistema Indigena de Saude)", "esfera": "Federal (SESAI)", "orcamento": "R$ 3 bi/ano", "publico": "~800 mil indigenas", "alcance": "34 Distritos Sanitarios Especiais Indigenas (DSEI).", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Mortalidade infantil indigena 2x nacional. Desnutricao crônica Yanomami.", "gap": "Sem medicos, sem estrutura. Yanomami: 570 criancas morreram de fome (2022-2023).", "ano": 2010, "status": "ativo"}, {"dominio": "inflacao", "veredito": "PARCIAL", "nome": "Meta de Inflacao (Copom/BCB)", "esfera": "Federal", "orcamento": "N/A (politica monetaria)", "publico": "Toda populacao (precos)", "alcance": "Afeta todos os precos da economia.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "IPCA 2023: 4.62%. Meta: 3.25%. Mas cesta basica subiu 8% (pesa mais no pobre).", "gap": "Juros altos (10.75%) matam emprego. Inflacao de alimentos > inflaCAO geral.", "ano": 1999, "status": "ativo"}, {"dominio": "inflacao", "veredito": "PARCIAL", "nome": "Cesta Basica Brasil / Subsidio de Alimentos", "esfera": "Federal", "orcamento": "R$ 0 (extinto)", "publico": "Populacao de baixa renda", "alcance": "0 (programa nao existe mais)", "eficiencia": "nula", "eficiencia_rotulo": "Nulo (dinheiro gasto, sem resultado)", "eficacia": "nao_resolve", "eficacia_rotulo": "Nao resolve (problema persiste)", "impacto": "Nenhum. Nao existe controle de preco de alimentos basicos no Brasil.", "gap": "Arroz +50%, feijao +30% em 2024. Zero politica de controle.", "ano": 1980, "status": "extinto"}, {"dominio": "saneamento", "veredito": "FALHOU (nao resolve)", "nome": "Novo Marco Saneamento (Lei 14.026/2020)", "esfera": "Federal", "orcamento": "R$ 700 bi (meta 20 anos)", "publico": "Toda populacao", "alcance": "Coleta de esgoto: 53% (urbano). Rural: ~15%.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Meta: 90% esgoto ate 2033. Ritmo atual: 0.8%/ano. Chegara em 2050.", "gap": "Privatizou sem metas reais. Crianca continua morrendo de diarreia no Norte.", "ano": 2020, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "SUS (Sistema Unico de Saude)", "esfera": "Federal/Estadual/Municipal", "orcamento": "R$ 280 bi/ano", "publico": "215 milhoes de brasileiros", "alcance": "75% da populacao DEPENDE exclusivamente do SUS. 25% tem plano.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Cobertura vacinal caiu de 95% (2015) para 68% (2023). Fila SUS nao existe como metrica. Dengue 2024: 6M casos.", "gap": "Subfinanciamento cronico (gasta 4% do PIB vs 8% OCDE). Faltam medicos no interior.", "ano": 1988, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "Mais Medicos", "esfera": "Federal", "orcamento": "R$ 5 bi/ano", "publico": "Areas remotas e periferias", "alcance": "~18 mil medicos em ~4 mil municipos.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Reduziu mortalidade infantil nas areas atendidas em ~15%.", "gap": "Programa interrompido em 2023 (expulsao de medicos cubanos). Retomado parcial.", "ano": 2013, "status": "ativo"}, {"dominio": "saude", "veredito": "PARCIAL", "nome": "Programa Nacional de Imunizacoes (PNI)", "esfera": "Federal", "orcamento": "R$ 8 bi/ano", "publico": "215 milhoes", "alcance": "Historicamente >90%. 2023: 68% (calendario basico).", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Eradicou polio, sarampo (reapareceu 2018-2020). Queda de cobertura e emergencia.", "gap": "Anti-vax + desinformacao + falta de campanha. Cobertura caindo desde 2016.", "ano": 1973, "status": "ativo"}, {"dominio": "seguranca_alimentar", "veredito": "RESOLVE", "nome": "VIGISAN (Vigilancia de Seguranca Alimentar)", "esfera": "Federal", "orcamento": "R$ 20M/ano", "publico": "Amostra nacional", "alcance": "Pesquisa bienal. ~100 mil entrevistados.", "eficiencia": "alta", "eficiencia_rotulo": "Eficiente (baixo custo, alto impacto)", "eficacia": "resolve", "eficacia_rotulo": "Resolve (problema diminuiu significativamente)", "impacto": "VIGISAN 2022: 33M com fome, 125M em inseguranca alimentar. DADO REAL.", "gap": "Bienal. Fome muda em dias, VIGISAN mede a cada 2 anos. Volume insuficiente.", "ano": 2012, "status": "ativo"}, {"dominio": "transporte", "veredito": "PARCIAL", "nome": "PAC Mobilidade Urbana", "esfera": "Federal", "orcamento": "R$ 40 bi/ano", "publico": "Populacao urbana", "alcance": "Metros/VLT em ~20 cidades. Onibus sem subsídio federal direto.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Brasil tem 10 linhas de metro vs 200+ em paises equivalentes.", "gap": "Pobre gasta 2h+ em transporte. Tarifa cara. Bicicleta ignorada.", "ano": 2007, "status": "ativo"}, {"dominio": "transporte", "veredito": "PARCIAL", "nome": "Vale-Transporte", "esfera": "Federal", "orcamento": "R$ 12 bi/ano (empresas)", "publico": "Trabalhador formal CLT", "alcance": "~30 milhoes de trabalhadores.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Subsidia passagem do trabalhador formal.", "gap": "Trabalhador informal (40M) nao tem. Idoso e estudante por leis separadas.", "ano": 1987, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "SINESP (Sistema Nacional de Informacoes de Seguranca Publica)", "esfera": "Federal", "orcamento": "R$ 300M/ano", "publico": "Toda populacao (dados de seguranca em tempo real)", "alcance": "Dados com 6-12h de atraso. 40% dos municipios nao alimentam o sistema.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Taxa de homicidios: 21.7/100k (2023). Caiu 3% em 5 anos. SINESP nao previne, so conta.", "gap": "NAO da alerta em tempo real. NAO cobre violencia domestica (subnotificada ~70%).", "ano": 2004, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "PRONASCI / Mais Seguranca", "esfera": "Federal", "orcamento": "R$ 3.8 bi (total historico)", "publico": "Jovens em situacao de risco + forcas de seguranca", "alcance": "Descontinuado em varios estados. Cobertura <10% do publico alvo.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Estudos mostram zero impacto em homicidios nas areas atendidas.", "gap": "Foco em repressao, nao em prevencao. Ignora causas (fome, escola, emprego).", "ano": 2007, "status": "reformulado"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "Lei Maria da Penha (Lei 11.340/2006)", "esfera": "Federal", "orcamento": "~R$ 500M/ano (implementacao)", "publico": "Mulheres em situacao de violencia", "alcance": "1.8 milhoes de medidas protetivas/ano. Mas so 30% dos casos sao denunciados.", "eficiencia": "media", "eficiencia_rotulo": "Razoavel (custo proporcional ao impacto)", "eficacia": "parcial", "eficacia_rotulo": "Parcial (ajuda mas nao resolve)", "impacto": "Homicidio de mulheres subiu 4% (2019-2023). Lei e boa, execucao falha.", "gap": "Faltam abrigos (so 198 no Brasil). Cumprimento de medidas protetivas ~40%.", "ano": 2006, "status": "ativo"}, {"dominio": "violencia", "veredito": "PARCIAL", "nome": "Brasil Seguro (Plano Nacional)", "esfera": "Federal", "orcamento": "R$ 4.5 bi/ano", "publico": "Estados com altos indices de violencia", "alcance": "Repasse a estados. Sem metricas claras de resultado.", "eficiencia": "baixa", "eficiencia_rotulo": "Ineficiente (caro, pouco resultado)", "eficacia": "minima", "eficacia_rotulo": "Minima (impacto marginal)", "impacto": "Norte/Nordeste continuam com homicidios subindo. Dinheiro sem accountability.", "gap": "Sem meta mensuravel. Dinheiro entra, violencia continua.", "ano": 2022, "status": "ativo"}]}
+{"pais": {"nome": "Brasil", "populacao": "203.1 milhoes (IBGE 2022)", "pib": "R$ 11.5 trilhoes", "divida_publica": "R$ 9.8 trilhoes", "taxa_juros": "10.75% (SELIC)", "estados": 27, "municipios": 5570}, "raio_x": {"dominios": 18, "exames": 18, "emergencias": 5, "custo_anual": "R$ 79 milhoes (R$ 0.37/habitante)", "automatizaveis": "9 exames >= 75% automacao", "triagem": "VIDA=AGIR_AGORA, BOLSO=diagnosticar, VOTO=bloqueado sem FATO"}, "politicas": {"total_avaliadas": 33, "resolvem": 2, "nao_resolvem": 2, "orcamento_anual": "R$ 500+ bilhoes", "taxa_sucesso": "6%"}, "plano_governo": {"propostas_total": 20, "cumpridas": 4, "parciais": 9, "nao_cumpridas": 4, "lacunas": 8}, "politicos": {"total_avaliados": 593, "aprovados": 2, "taxa_aprovacao": "0.3%", "score_medio_nacional": 1.32, "corte": ">= 4.0 (escala 0-5)", "detalhados": 60, "heuristicos": 533}, "propostas_gate": {"criterios": 7, "criticos": 5, "candidatos_avaliados": 8, "propostas_total": 24, "aprovadas": 7}, "comparativo": {"governos_avaliados": 5, "anos": "30 anos (1995-2026)", "resultados": 12, "taxa_sucesso": "8.3%", "unica_resolver": "Lula (PT) Fome Zero/BF 2003-2010", "samara_propostas": 25, "samara_aprovadas_gate": 25}, "censo": {"dominios": 18, "fontes": 9, "invisiveis": "4.57 milhoes", "custo_ibge": "R$ 2.3 bilhoes", "custo_republica": "R$ 200 milhoes", "economia": "R$ 2.1 bilhoes/ano"}, "denuncia": {"tipos": 19, "canais": 10, "protecoes": 9, "anonimato_tor": "5/5"}, "gate_epistemologico": {"classificacoes": 3, "criterios": 7, "falacias": 11, "regra": "Politica so vira lei com FATO (7/7 criterios)"}, "limitacao": "Dados pre-compilados de fontes publicas (IBGE, INEP, VIGISAN, DataSUS, BCB, TSE). Scores de politicos sao OPINIAO estruturada, nao FATO (0.5/7 Gate Epistemologico). Para virar FATO precisa triangulacao de 3+ fontes independentes e auditoria publica."}
 </script>
 
+<!-- D3.js TIMELINE -->
 <script>
-var __DATA__ = null;
-try {
-  var el = document.getElementById('embedded-data');
-  if (el) __DATA__ = JSON.parse(el.textContent.trim());
-} catch(e) { console.error('Parse error:', e); }
+var EVENTOS = [
+  {ano: 1500, titulo: "Chegada dos Portugueses", era: "colonizacao",
+   desc: "Cabral chega. Início da extração de pau-brasil.",
+   dado: "População originária: 5-8 milhões.",
+   cor: "#8B5E3C"},
+  {ano: 1532, titulo: "Primeiro Engenho de Açúcar", era: "colonizacao",
+   desc: "Martim Afonso funda São Vicente. Início da escravidão.",
+   dado: "Modelo: monocultura + escravidão.",
+   cor: "#8B5E3C"},
+  {ano: 1549, titulo: "Chegada dos Jesuítas", era: "colonizacao",
+   desc: "Tomé de Sousa. Início da catequese forçada.",
+   dado: "Indígenas: 'salvar a alma, perder a cultura'.",
+   cor: "#8B5E3C"},
+  {ano: 1654, titulo: "Expulsão dos Holandeses", era: "colonizacao",
+   desc: "Fim da ocupação holandesa no Nordeste.",
+   dado: "Açúcar volta ao monopólio português.",
+   cor: "#8B5E3C"},
+  {ano: 1695, titulo: "Descoberta do Ouro", era: "colonizacao",
+   desc: "Ouro em Minas Gerais. Ciclo do ouro começa.",
+   dado: "1.200 toneladas extraídas. Destino: Inglaterra.",
+   cor: "#8B5E3C"},
+  {ano: 1789, titulo: "Inconfidência Mineira", era: "colonizacao",
+   desc: "Tiradentes enforcado. Primeira tentativa de independência.",
+   dado: "Motivo: imposto (derrama).",
+   cor: "#8B5E3C"},
+  {ano: 1808, titulo: "Chegada da Família Real", era: "colonizacao",
+   desc: "D. João VI foge de Napoleão. Rio vira capital.",
+   dado: "Banco do Brasil, imprensa, escolas criadas.",
+   cor: "#8B5E3C"},
+  {ano: 1822, titulo: "Independência", era: "imperio",
+   desc: "D. Pedro I. Independência sem guerra, sem povo.",
+   dado: "Quem votava: <1% (homens, renda alta).",
+   cor: "#E76F51"},
+  {ano: 1850, titulo: "Lei de Terras", era: "imperio",
+   desc: "Só compra. Escravo liberto não pode comprar terra.",
+   dado: "Base legal da concentração fundiária atual.",
+   cor: "#E76F51"},
+  {ano: 1888, titulo: "Abolição da Escravidão", era: "imperio",
+   desc: "Lei Áurea. 376 anos de escravidão terminam.",
+   dado: "4.9M africanos. Indenização: R$ 0.",
+   cor: "#E76F51"},
+  {ano: 1889, titulo: "Proclamação da República", era: "imperio",
+   desc: "Golpe militar. Deodoro. República sem povo.",
+   dado: "Sem constituinte, sem referendo.",
+   cor: "#E76F51"},
+  {ano: 1930, titulo: "Revolução de 1930", era: "republica_velha",
+   desc: "Getúlio Vargas chega ao poder.",
+   dado: "Fim da República do Café com Leite.",
+   cor: "#D4A017"},
+  {ano: 1937, titulo: "Estado Novo", era: "republica_velha",
+   desc: "Vargas instaura ditadura.",
+   dado: "Censura, DOPS, prisão política.",
+   cor: "#D4A017"},
+  {ano: 1943, titulo: "CLT", era: "republica_velha",
+   desc: "Consolidação das Leis do Trabalho.",
+   dado: "Salário mínimo, férias, 13º. Sem reforma agrária.",
+   cor: "#D4A017"},
+  {ano: 1953, titulo: "Petrobras", era: "republica_velha",
+   desc: "Vargas cria a estatal do petróleo.",
+   dado: "'O petróleo é nosso.' Monopólio estatal.",
+   cor: "#D4A017"},
+  {ano: 1961, titulo: "Brasília", era: "republica_velha",
+   desc: "JK muda a capital para o centro do país.",
+   dado: "Modernização sem redistribuição.",
+   cor: "#D4A017"},
+  {ano: 1964, titulo: "Golpe Militar", era: "ditadura",
+   desc: "Exército derruba Goulart. 21 anos de ditadura.",
+   dado: "EUA apoiaram. Operação Brother Sam.",
+   cor: "#D62828"},
+  {ano: 1968, titulo: "AI-5", era: "ditadura",
+   desc: "Ditadura radicaliza. Tortura, censura, exílio.",
+   dado: "Milhares torturados. 434 mortos/desaparecidos.",
+   cor: "#D62828"},
+  {ano: 1971, titulo: "Milagre Econômico", era: "ditadura",
+   desc: "10% PIB/ano. Mas salário caiu 30%.",
+   dado: "Dívida externa: US$ 4bi → US$ 100bi.",
+   cor: "#D62828"},
+  {ano: 1985, titulo: "Redemocratização", era: "democracia",
+   desc: "Tancredo Neves eleito. Fim da ditadura.",
+   dado: "Transição sem punição aos torturadores.",
+   cor: "#00B4D8"},
+  {ano: 1988, titulo: "Constituição Cidadã", era: "democracia",
+   desc: "SUS, educação gratuita, direitos sociais.",
+   dado: "Maior constituição do mundo. 250 artigos.",
+   cor: "#00B4D8"},
+  {ano: 1994, titulo: "Plano Real", era: "democracia",
+   desc: "Fim da hiperinflação. FHC, Itamar.",
+   dado: "Inflação: 2.000% → 10%. Mas privatizou.",
+   cor: "#00B4D8"},
+  {ano: 2003, titulo: "Fome Zero + Bolsa Família", era: "democracia",
+   desc: "Lula. Programa tira 30M da pobreza.",
+   dado: "ÚNICA política que RESOLVEU (6% das avaliadas).",
+   cor: "#00B4D8"},
+  {ano: 2004, titulo: "PPCDAm", era: "democracia",
+   desc: "Marina Silva reduz desmatamento 80%.",
+   dado: "Amazonia: 27.772 → 4.571 km² (2004-2012).",
+   cor: "#00B4D8"},
+  {ano: 2009, titulo: "Minha Casa Minha Vida", era: "democracia",
+   desc: "4 milhões de moradias populares.",
+   dado: "Maior programa habitacional da história.",
+   cor: "#00B4D8"},
+  {ano: 2014, titulo: "Lava Jato", era: "democracia",
+   desc: "Operação anticorrupção. Parcialidade questionada.",
+   dado: "STF: 11x3 condenou Moro. Mensagens vazadas.",
+   cor: "#00B4D8"},
+  {ano: 2016, titulo: "Impeachment de Dilma", era: "democracia",
+   desc: "Sem crime de responsabilidade comprovado.",
+   dado: "Teto de gastos congelou SUS e educação.",
+   cor: "#00B4D8"},
+  {ano: 2018, titulo: "Bolsonaro Eleito", era: "crise",
+   desc: "Discurso antissistema. Governo de extrema-direita.",
+   dado: "Armas, milícias, negacionismo científico.",
+   cor: "#C77DFF"},
+  {ano: 2020, titulo: "COVID-19", era: "crise",
+   desc: "600 mil mortos. Governo sabota vacina.",
+   dado: "CPI revelou culpa direta do governo.",
+   cor: "#C77DFF"},
+  {ano: 2022, titulo: "Lula Reeleito", era: "crise",
+   desc: "Volta do PT. Mais acirrada da história.",
+   dado: "50.9% x 49.1%. País dividido.",
+   cor: "#C77DFF"},
+  {ano: 2023, titulo: "Reforma Tributária", era: "crise",
+   desc: "IVA dual aprovado. CBS + IBS.",
+   dado: "Primeira reforma estrutural em 30 anos.",
+   cor: "#C77DFF"},
+  {ano: 2024, titulo: "Dengue 6 Milhões", era: "crise",
+   desc: "Maior surto de dengue da história.",
+   dado: "6M casos. SUS subfinanciado. 33M com fome.",
+   cor: "#C77DFF"},
+  {ano: 2026, titulo: "BRASIL HOJE", era: "crise",
+   desc: "Resultado de 524 anos.",
+   dado: "PISA 377. 47.5k homicídios. Gini 0.52. 33M famintos.",
+   cor: "#C77DFF"},
+];
 
+// D3.js Timeline
+function buildTimeline() {
+  var container = document.getElementById('timeline-container');
+  var containerWidth = container.clientWidth;
+  var isMobile = containerWidth < 768;
+  var margin = {top: 30, right: 50, bottom: 50, left: 50};
+  var width = Math.max(containerWidth, isMobile ? 2400 : 1800) - margin.left - margin.right;
+  var height = (isMobile ? 500 : 400) - margin.top - margin.bottom;
+
+  // Clear
+  d3.select('#timeline-svg').selectAll('*').remove();
+
+  var svg = d3.select('#timeline-svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom);
+
+  var g = svg.append('g')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+  // Scale
+  var xScale = d3.scaleLinear()
+    .domain([1490, 2030])
+    .range([0, width]);
+
+  // Line
+  g.append('line')
+    .attr('class', 'timeline-line')
+    .attr('x1', 0)
+    .attr('y1', height / 2)
+    .attr('x2', width)
+    .attr('y2', height / 2);
+
+  // Axis
+  var xAxis = d3.axisBottom(xScale)
+    .tickFormat(d3.format('d'))
+    .ticks(20);
+
+  g.append('g')
+    .attr('class', 'timeline-axis')
+    .attr('transform', 'translate(0,' + (height / 2 + 30) + ')')
+    .call(xAxis);
+
+  // Alternate positions above/below
+  var tooltip = d3.select('#tooltip');
+
+  EVENTOS.forEach(function(evento, i) {
+    var x = xScale(evento.ano);
+    var isAbove = i % 2 === 0;
+    var yBase = height / 2;
+    var yDot = yBase;
+    var yLabel = isAbove ? yBase - 80 : yBase + 80;
+    var yLineEnd = isAbove ? yBase - 15 : yBase + 15;
+    var yText = isAbove ? yLabel - 25 : yLabel + 5;
+
+    // Connector line
+    g.append('line')
+      .attr('x1', x)
+      .attr('y1', yBase)
+      .attr('x2', x)
+      .attr('y2', yLineEnd)
+      .attr('stroke', evento.cor)
+      .attr('stroke-width', 1)
+      .attr('opacity', 0.5);
+
+    // Year label
+    g.append('text')
+      .attr('class', 'event-year')
+      .attr('x', x)
+      .attr('y', isAbove ? yBase - 20 : yBase + 22)
+      .attr('text-anchor', 'middle')
+      .text(evento.ano);
+
+    // Event title
+    var titleText = evento.titulo;
+    if (titleText.length > 22) titleText = titleText.substring(0, 20) + '...';
+    g.append('text')
+      .attr('class', 'event-label')
+      .attr('x', x)
+      .attr('y', yText)
+      .attr('text-anchor', 'middle')
+      .style('fill', evento.cor)
+      .text(titleText);
+
+    // Dot
+    g.append('circle')
+      .attr('class', 'event-dot')
+      .attr('cx', x)
+      .attr('cy', yDot)
+      .attr('r', 8)
+      .attr('fill', evento.cor)
+      .attr('stroke', '#0d1117')
+      .attr('stroke-width', 2)
+      .on('mouseover', function(e) {
+        d3.select(this).attr('r', 12);
+        tooltip.style('opacity', 1)
+          .html('<div class="tooltip-year">' + evento.ano + '</div>' +
+                '<strong>' + evento.titulo + '</strong>' +
+                '<div class="tooltip-desc">' + evento.desc + '</div>' +
+                '<div class="tooltip-data">📊 ' + evento.dado + '</div>');
+      })
+      .on('mousemove', function(e) {
+        var rect = container.getBoundingClientRect();
+        var tx = e.clientX - rect.left + container.scrollLeft + 15;
+        var ty = e.clientY - rect.top + 10;
+        tooltip.style('left', tx + 'px').style('top', ty + 'px');
+      })
+      .on('mouseout', function() {
+        d3.select(this).attr('r', 8);
+        tooltip.style('opacity', 0);
+      });
+  });
+
+  // Era bands (background)
+  var eras = [
+    {inicio: 1490, fim: 1822, cor: 'rgba(139,94,60,0.03)'},
+    {inicio: 1822, fim: 1889, cor: 'rgba(231,111,81,0.03)'},
+    {inicio: 1889, fim: 1930, cor: 'rgba(212,160,23,0.03)'},
+    {inicio: 1930, fim: 1964, cor: 'rgba(212,160,23,0.03)'},
+    {inicio: 1964, fim: 1985, cor: 'rgba(214,40,40,0.03)'},
+    {inicio: 1985, fim: 2018, cor: 'rgba(0,180,216,0.03)'},
+    {inicio: 2018, fim: 2030, cor: 'rgba(199,125,255,0.03)'},
+  ];
+
+  eras.forEach(function(era) {
+    g.append('rect')
+      .attr('x', xScale(era.inicio))
+      .attr('y', 0)
+      .attr('width', xScale(era.fim) - xScale(era.inicio))
+      .attr('height', height)
+      .attr('fill', era.cor);
+  });
+}
+
+// Init
 function init() {
-  if (!__DATA__) return;
-
-  // Raio X emergencias
-  var raioEmerg = document.getElementById('raiox-emergencias');
-  if (raioEmerg && __DATA__.raiox_emergencias) {
-    raioEmerg.innerHTML = __DATA__.raiox_emergencias.map(function(e) {
-      return '<div class="data-row"><span class="data-label" style="color:#D62828;">' + e.nome + '</span><span class="data-value text-left">' + e.indicador + '</span></div>';
-    }).join('');
-  } else if (raioEmerg && __DATA__.comparativo) {
-    // Fallback: use known emergencias
-    var emergencias = [
-      {nome: 'Violência', indicador: '47.500 homicídios/ano'},
-      {nome: 'Saúde', indicador: 'Dengue 6M casos. Fila SUS 6 meses'},
-      {nome: 'Fome', indicador: '33 milhões passando fome'},
-      {nome: 'Água', indicador: '35 milhões sem água potável'},
-      {nome: 'Soberania', indicador: 'Importa 80% do trigo'},
-    ];
-    raioEmerg.innerHTML = emergencias.map(function(e) {
-      return '<div class="data-row"><span class="data-label" style="color:#D62828;">' + e.nome + '</span><span class="data-value text-left">' + e.indicador + '</span></div>';
-    }).join('');
-  }
-
-  // Politicas que resolvem
-  var polRes = document.getElementById('politicas-resolvem');
-  if (polRes) {
-    var polData = __DATA__.politicas_data || __DATA__.politicas || [];
-    var resolvem = polData.filter(function(p) { return p.eficacia === 'resolve'; });
-    polRes.innerHTML = resolvem.map(function(p) {
-      return '<div class="data-row"><span class="data-label">' + p.nome + '</span><span class="data-value text-left">' + (p.dominio || '') + '</span></div>';
-    }).join('');
-  }
-
-  // Plano lacunas
-  var planLac = document.getElementById('plano-lacunas');
-  if (planLac && __DATA__.plano_governo && __DATA__.plano_governo.lacunas) {
-    planLac.innerHTML = __DATA__.plano_governo.lacunas.map(function(l, i) {
-      return '<div class="data-row"><span class="data-label">' + (i+1) + '. ' + (l.dominio || l.area || '') + '</span><span class="data-value text-left">' + (l.recomendacao || l.titulo || '').substring(0, 60) + '</span></div>';
-    }).join('');
-  }
-
-  // Comparativo governos
-  var compGov = document.getElementById('comparativo-governos');
-  if (compGov && __DATA__.comparativo && __DATA__.comparativo.governos_anteriores) {
-    var colorMap = {'RESOLVEU': '#52B788', 'PARCIAL': '#D4A017', 'FALHOU': '#D62828'};
-    compGov.innerHTML = __DATA__.comparativo.governos_anteriores.map(function(g) {
-      var c = colorMap[g.veredito] || '#8b949e';
-      return '<div class="data-row"><span class="data-label">' + g.governo + '</span><span class="data-value text-left" style="color:' + c + ';">' + g.veredito + ': ' + g.resultado.substring(0, 50) + '</span></div>';
-    }).join('');
-  }
+  buildTimeline();
+  // Rebuild on resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildTimeline, 250);
+  });
 }
 
 if (document.readyState === 'loading') {
