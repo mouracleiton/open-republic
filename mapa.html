@@ -206,8 +206,8 @@ function filtrarEixo(eixo) {
     activeBtn.style.color = '#F5F5F0';
   }
 
-  document.querySelectorAll('path[data-uf]').forEach(function(path) {
-    var uf = path.getAttribute('data-uf');
+  document.querySelectorAll('#mapa-brasil path[id]').forEach(function(path) {
+    var uf = path.id;
     var d = window.__ESTADOS__[uf];
     if (!d) return;
 
@@ -238,11 +238,13 @@ document.addEventListener('DOMContentLoaded', function() {
   if (svg) {
     svg.addEventListener('click', function(e) {
       var el = e.target;
-      // Walk up the DOM to find path with data-uf (SVG closest is unreliable)
       while (el && el !== svg) {
-        if (el.tagName === 'path' && el.getAttribute('data-uf')) {
-          showEstado(el.getAttribute('data-uf'));
-          return;
+        if (el.tagName === 'path' || (el.tagName && el.tagName.toLowerCase() === 'path')) {
+          var uf = el.id || el.getAttribute('data-uf');
+          if (uf && uf.length === 2) {
+            showEstado(uf);
+            return;
+          }
         }
         el = el.parentNode;
       }
