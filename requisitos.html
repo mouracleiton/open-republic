@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic — Requisitos para Político</title>
+<style>
+:root {
+  --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
+  --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+  --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.section-title { font-size:clamp(1.2rem,5vw,1.8rem); font-weight:900; margin-bottom:4px; }
+.section-sub { color:var(--muted); font-size:0.82rem; margin-bottom:20px; }
+
+.req-card {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:24px; margin-bottom:16px; position:relative; overflow:hidden;
+}
+.req-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.req-card.cat-legal::before { background:var(--azul-medio); }
+.req-card.cat-moral::before { background:var(--vermelho); }
+.req-card.cat-tecnica::before { background:var(--amarelo); }
+.req-card.cat-rep::before { background:var(--verde-claro); }
+.req-card.cat-transp::before { background:var(--roxo); }
+
+.req-card .cat-label {
+  font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+  margin-bottom:8px; display:inline-block; padding:2px 8px; border-radius:4px;
+}
+.req-card.cat-legal .cat-label { background:rgba(61,90,128,0.2); color:var(--azul-medio); }
+.req-card.cat-moral .cat-label { background:rgba(139,26,26,0.2); color:var(--vermelho); }
+.req-card.cat-tecnica .cat-label { background:rgba(212,160,23,0.2); color:var(--amarelo); }
+.req-card.cat-rep .cat-label { background:rgba(45,106,79,0.2); color:var(--verde-claro); }
+.req-card.cat-transp .cat-label { background:rgba(106,76,147,0.2); color:var(--roxo); }
+
+.req-card h3 { font-size:1rem; font-weight:800; margin-bottom:8px; }
+.req-card p { font-size:0.82rem; color:var(--muted); line-height:1.55; }
+
+.req-icon { font-size:1.5rem; margin-bottom:8px; display:block; }
+
+.pilar-header {
+  font-size:1.1rem; font-weight:900; margin:40px 0 16px; padding-bottom:8px;
+  border-bottom:2px solid var(--border);
+}
+.pilar-header .pilar-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:50%; font-size:0.8rem; margin-right:8px;
+  color:var(--text); font-weight:900;
+}
+
+.check-list { list-style:none; padding:0; }
+.check-list li {
+  padding:8px 0; border-bottom:1px solid var(--border);
+  font-size:0.82rem; color:var(--text); display:flex; align-items:flex-start; gap:8px;
+}
+.check-list li:last-child { border-bottom:none; }
+.check-list li .check-icon {
+  flex-shrink:0; width:20px; height:20px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:0.65rem; font-weight:900;
+}
+.check-pass { background:var(--verde-claro); color:#F5F5F0; }
+.check-fail { background:var(--vermelho); color:#F5F5F0; }
+.check-warn { background:var(--amarelo); color:#0d1117; }
+
+.gate-box {
+  background:rgba(139,26,26,0.08); border:2px solid var(--vermelho);
+  border-radius:12px; padding:24px; margin-bottom:20px;
+}
+.gate-box h3 { color:var(--vermelho); font-size:1rem; font-weight:800; margin-bottom:8px; }
+
+.summary-box {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:24px; margin:24px 0; text-align:center;
+}
+.summary-box .big-num { font-size:3rem; font-weight:900; color:var(--vermelho); line-height:1; }
+.summary-box .big-label { font-size:0.8rem; color:var(--muted); margin-top:8px; }
+</style>
+</head>
+<body>
+
+<header style="border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);">
+  <div style="max-width:700px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);">
+      <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
+      <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
+    </a>
+    <a href="index.html" style="font-size:11px;color:var(--verde-claro);text-decoration:none;font-weight:bold;">&larr; Voltar</a>
+  </div>
+</header>
+
+<div style="max-width:700px;margin:0 auto;padding:40px 16px;">
+
+  <h1 class="section-title" style="color:var(--vermelho);">REQUISITOS PARA POLÍTICO NO BRASIL</h1>
+  <p class="section-sub">Segundo etiquetas democráticas. Sem isso, você não serve. Ponto.</p>
+
+  <div class="summary-box">
+    <div class="big-num">5 PILARES</div>
+    <div class="big-label">28 REQUISITOS. TODOS OBRIGATÓRIOS.</div>
+  </div>
+
+  <!-- PILAR 1: LEGAL -->
+  <div class="pilar-header" style="color:var(--azul-medio);">
+    <span class="pilar-num" style="background:var(--azul-medio);">1</span>
+    LEGAL E CONSTITUCIONAL
+  </div>
+
+  <div class="req-card cat-legal">
+    <span class="cat-label">Legal</span>
+    <span class="req-icon">📜</span>
+    <h3>Requisitos da Constituição</h3>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> <strong>Nacionalidade brasileira</strong> (nato ou naturalizada há 15+ anos para presidente).</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Pleno exercício dos direitos políticos</strong> (sem suspensão por condenação criminal).</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Alistamento eleitoral</strong> em dia e domicílio eleitoral no local da candidatura.</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Filiação partidária</strong> ou candidatura avulsa reconhecida.</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Idade mínima</strong> conforme cargo: 35 (presidente/governador/senador), 21 (deputado), 18 (vereador).</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> ter sido condenado em processo por corrupção, lavagem, peculato, ou crime contra a administração pública.</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> ter renunciado para escapar de processo de impeachment ou perda de mandato.</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> ter vínculo familiar (até 2º grau) com pessoa nomeada em cargo comissionado do seu ente.</li>
+    </ul>
+  </div>
+
+  <!-- PILAR 2: MORAL E ÉTICA -->
+  <div class="pilar-header" style="color:var(--vermelho);">
+    <span class="pilar-num" style="background:var(--vermelho);">2</span>
+    MORAL, ÉTICA E INTEGRIDADE
+  </div>
+
+  <div class="req-card cat-moral">
+    <span class="cat-label">Moral</span>
+    <span class="req-icon">⚖️</span>
+    <h3>Etiqueta: #BlindadoÉtico</h3>
+    <p>Sem isso você é #CaixaPreta. Etiqueta automática para quem não publica.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> <strong>Patrimônio declarado e consistente</strong> com renda comprovada (TSE + Receita Federal).</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Sem processos por corrupção</strong> em andamento (MPF, CGU, TCU) — não precisa estar condenado; processo ativo já é alerta.</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Sem vínculo societário</strong> com empresas que recebem verba pública do ente que governa.</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> usou cargo para beneficiar familiares, amigos ou empresas (comprovação por auditoria).</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> contratou ou nomeou parente (nepotismo — Súmula Vinculante 13 do STF).</li>
+      <li><span class="check-icon check-warn">!</span> Se não publicar patrimônio e agenda completo = etiqueta automática <strong>#CaixaPreta</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="req-card cat-moral">
+    <span class="cat-label">Moral</span>
+    <span class="req-icon">🔍</span>
+    <h3>Etiqueta: #VidroTransparente</h3>
+    <p>O oposto de #CaixaPreta. Tudo aberto. Tudo auditável.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> Agenda completa publicada (com quem se reuniu, quando, sobre o quê).</li>
+      <li><span class="check-icon check-pass">✓</span> Doadores de campanha identificados (sem caixa 2).</li>
+      <li><span class="check-icon check-pass">✓</span> Despesas de gabinete detalhadas em portal público.</li>
+      <li><span class="check-icon check-pass">✓</span> Auditoria voluntária anual das contas de mandato.</li>
+    </ul>
+  </div>
+
+  <!-- PILAR 3: CAPACIDADE TÉCNICA -->
+  <div class="pilar-header" style="color:var(--amarelo);">
+    <span class="pilar-num" style="background:var(--amarelo); color:#0d1117;">3</span>
+    CAPACIDADE TÉCNICA E COMPETÊNCIA
+  </div>
+
+  <div class="req-card cat-tecnica">
+    <span class="cat-label">Técnica</span>
+    <span class="req-icon">🎓</span>
+    <h3>Etiqueta: #MeritocráticoTécnico</h3>
+    <p>Cargo não é prêmio de fidelidade. É ferramenta de gestão.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> <strong>Equipe técnica qualificada</strong> (curriculum dos secretários/diretores publicado e verificável).</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Plano de governo com metas quantificáveis</strong> (não "vamos melhorar" — "IDEB de 4.2 para 5.0 em 4 anos").</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Compreensão do orçamento público</strong> (sabe de onde vem e pra onde vai o dinheiro).</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> preenche cargos comissionados com aliados políticos sem qualificação = #ApadrinhadoPolítico.</li>
+    </ul>
+  </div>
+
+  <div class="req-card cat-tecnica">
+    <span class="cat-label">Técnica</span>
+    <span class="req-icon">📊</span>
+    <h3>Etiqueta: #BaseadoEmEvidências</h3>
+    <p>Decisão com nota técnica e dado. Não com achismo.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> Justifica cada decisão citando fonte verificável (IBGE, IPEA, nota técnica).</li>
+      <li><span class="check-icon check-pass">✓</span> Admite erro quando dado contradiz ação.</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> cria "dados alternativos" sem metodologia = #NegacionistaDados.</li>
+      <li><span class="check-icon check-fail">✗</span> <strong>NÃO</strong> usa números fora de contexto = #PopulistaNumérico.</li>
+    </ul>
+  </div>
+
+  <!-- PILAR 4: REPRESENTATIVIDADE -->
+  <div class="pilar-header" style="color:var(--verde-claro);">
+    <span class="pilar-num" style="background:var(--verde-claro);">4</span>
+    REPRESENTATIVIDADE REAL
+  </div>
+
+  <div class="req-card cat-rep">
+    <span class="cat-label">Representatividade</span>
+    <span class="req-icon">🌍</span>
+    <h3>O poder deve parecer a população</h3>
+    <p>56% é negro. 50% é mulher. Se o poder não parece a população, não é representação — é apropriação.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> <strong>Equipe que reflete a população</strong> em raça, gênero, classe e região.</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Cotas reais</strong>: gênero 50%, raça 56%, classe 40% (não negociável).</li>
+      <li><span class="check-icon check-pass">✓</span> <strong>Vem do território</strong> que representa (nasceu, viveu ou tem pernas no local).</li>
+      <li><span class="check-icon check-warn">!</span> Política que beneficia desproporcionalmente grupos de alta renda = #ElitistaExcludente.</li>
+    </ul>
+  </div>
+
+  <div class="req-card cat-rep">
+    <span class="cat-label">Representatividade</span>
+    <span class="req-icon">👂</span>
+    <h3>Etiqueta: #OuvidorAtivo</h3>
+    <p>Conselhos não são decoração. Audiência pública não é teatro.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> Consultas públicas reais com participação documentada.</li>
+      <li><span class="check-icon check-pass">✓</span> Sugestões da sociedade civil incorporadas e justificadas (aceita ou recusada com motivo).</li>
+      <li><span class="check-icon check-fail">✗</span> Ignora conselhos = #SurdoInstitucional.</li>
+      <li><span class="check-icon check-fail">✗</span> Usa discurso de ódio como ferramenta política = #PolarizadorTóxico.</li>
+    </ul>
+  </div>
+
+  <!-- PILAR 5: TRANSPARÊNCIA E PRESTAÇÃO DE CONTAS -->
+  <div class="pilar-header" style="color:var(--roxo);">
+    <span class="pilar-num" style="background:var(--roxo);">5</span>
+    TRANSPARÊNCIA E PRESTAÇÃO DE CONTAS
+  </div>
+
+  <div class="req-card cat-transp">
+    <span class="cat-label">Transparência</span>
+    <span class="req-icon">🔓</span>
+    <h3>Etiqueta: #EstadoDigital</h3>
+    <p>O Estado é do povo. O povo precisa ver tudo. Em tempo real.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> Dados abertos em formato machine-readable (API, CSV, JSON).</li>
+      <li><span class="check-icon check-pass">✓</span> Serviços essenciais 100% online (sem fila física para o básico).</li>
+      <li><span class="check-icon check-pass">✓</span> Prestação de contas em linguagem acessível (cidadão entende, não só advogado).</li>
+      <li><span class="check-icon check-fail">✗</span> Exige papel quando digital é possível = #AnalógicoObsoleto.</li>
+    </ul>
+  </div>
+
+  <div class="req-card cat-transp">
+    <span class="cat-label">Transparência</span>
+    <span class="req-icon">📅</span>
+    <h3>Etiqueta: #PlanejadorEstratégico</h3>
+    <p>Governo não é improviso. É plano com meta, prazo e medição.</p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">✓</span> Plano plurianual com metas quantificáveis e cronograma.</li>
+      <li><span class="check-icon check-pass">✓</span> Relatório anual público de execução (o que cumpriu vs. o que prometeu).</li>
+      <li><span class="check-icon check-pass">✓</span> KPIs rastreáveis no portal do governo.</li>
+      <li><span class="check-icon check-warn">!</span> Só faz obra visível para reeleição = #CurtoPrazista.</li>
+    </ul>
+  </div>
+
+  <!-- GATE WO -->
+  <div class="gate-box">
+    <h3>🚫 GATE WO: 7 CRITÉRIOS OBRIGATÓRIOS PARA PROPOSTA</h3>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">
+      Toda proposta de campanha deve passar no Gate WO. Falta 1 = W.O. (Walk Over). Sem proposta executável, você não é candidato — é palanque.
+    </p>
+    <ul class="check-list">
+      <li><span class="check-icon check-pass">1</span> <strong>COMO</strong> vai fazer (mecanismo, instrumento, passo a passo).</li>
+      <li><span class="check-icon check-pass">2</span> <strong>QUEM</strong> vai executar (pessoa, órgão, equipe).</li>
+      <li><span class="check-icon check-pass">3</span> <strong>CUSTO</strong> quanto vai custar (R$, fonte de financiamento).</li>
+      <li><span class="check-icon check-pass">4</span> <strong>PRAZO</strong> quando começa e quando termina.</li>
+      <li><span class="check-icon check-pass">5</span> <strong>MÉTRICA</strong> como vai medir se deu certo (indicador, número).</li>
+      <li><span class="check-icon check-pass">6</span> <strong>FONTE</strong> de onde tirou o dado que justifica a proposta.</li>
+      <li><span class="check-icon check-pass">7</span> <strong>DIAGNÓSTICO</strong> qual problema está resolvendo (com dado).</li>
+    </ul>
+  </div>
+
+  <!-- BLOQUEIOS AUTOMÁTICOS -->
+  <div class="gate-box" style="border-color:var(--vermelho);background:rgba(139,26,26,0.12);">
+    <h3>🚫 BLOQUEIOS AUTOMÁTICOS (SEM EXCEÇÃO)</h3>
+    <ul class="check-list">
+      <li><span class="check-icon check-fail">✗</span> Reeleição em <strong>2026</strong> (política OpenRepublic: só novas candidaturas este ano).</li>
+      <li><span class="check-icon check-fail">✗</span> Condenação por corrupção, lavagem, peculato (em qualquer instância).</li>
+      <li><span class="check-icon check-fail">✗</span> Nepotismo comprovado (Súmula Vinculante 13).</li>
+      <li><span class="check-icon check-fail">✗</span> Renúncia para escapar de impeachment.</li>
+      <li><span class="check-icon check-fail">✗</span> Proposta sem Gate WO (falta COMO/QUEM/CUSTO/PRAZO/MÉTRICA/FONTE/DIAGNÓSTICO).</li>
+      <li><span class="check-icon check-fail">✗</span> Discurso de ódio ou polarização tóxica como estratégia política (#PolarizadorTóxico).</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER NOTE -->
+  <div style="text-align:center;padding:40px 0;color:var(--muted);font-size:0.78rem;">
+    <p style="margin-bottom:8px;"><strong>33 etiquetas. 5 pilares. 28 requisitos. 1 corte: 4.0.</strong></p>
+    <p>Binário: APROVADO ou W.O. Não tem meio termo.</p>
+    <p style="margin-top:16px;"><a href="manifesto.html" style="color:var(--verde-claro);text-decoration:none;font-weight:700;">← Ler o Manifesto</a> · <a href="index.html" style="color:var(--verde-claro);text-decoration:none;font-weight:700;">← Voltar</a></p>
+  </div>
+
+</div>
+
+</body>
+</html>
