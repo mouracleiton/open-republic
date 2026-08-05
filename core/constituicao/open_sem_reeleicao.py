@@ -43,10 +43,38 @@ class TipoCargo(Enum):
     SECRETARIO = "secretario"  # cargo técnico, nao eletivo
 
 
+class NivelCargo(Enum):
+    """Hierarquia de cargos eletivos."""
+    VEREADOR = 1
+    DEPUTADO_ESTADUAL = 2
+    DEPUTADO_FEDERAL = 3
+    PREFEITO_CAPITAL = 4
+    PREFEITO_INTERIOR = 3
+    SENADOR = 5
+    GOVERNADOR = 6
+    PRESIDENTE = 7
+    MINISTRO = 5      # cargo tecnico, equivale a senador
+    SECRETARIO = 4    # cargo tecnico
+
+
+HIERARQUIA: Dict[TipoCargo, int] = {
+    TipoCargo.VEREADOR: 1,
+    TipoCargo.DEPUTADO_ESTADUAL: 2,
+    TipoCargo.DEPUTADO_FEDERAL: 3,
+    TipoCargo.PREFEITO: 3,
+    TipoCargo.SENADOR: 5,
+    TipoCargo.GOVERNADOR: 6,
+    TipoCargo.PRESIDENTE: 7,
+    TipoCargo.MINISTRO: 5,
+    TipoCargo.SECRETARIO: 4,
+}
+
+
 class StatusReeleicao(Enum):
     BLOQUEADO = "bloqueado"        # teve cargo ELETIVO igual, nao pode
     AUTORIZADO = "autorizado"       # cargo novo ou nunca teve cargo
     VAMPIRO = "vampiro"             # teve cargo, vacilou, quer voltar ao MESMO
+    REBAIXADO = "rebaixado"         # cargo diferente MAS menor (vampiro que aceita menos)
 
 
 @dataclass
@@ -74,10 +102,10 @@ class AvaliacaoReeleicao:
     @property
     def endossado(self) -> bool:
         """OpenRepublic endossa esta candidatura?"""
-        return self.status != StatusReeleicao.BLOQUEADO and self.status != StatusReeleicao.VAMPIRO
+        return self.status not in (StatusReeleicao.BLOQUEADO, StatusReeleicao.VAMPIRO, StatusReeleicao.REBAIXADO)
 
     def resumo(self) -> str:
-        icon = {"bloqueado": "🚫", "autorizado": "✅", "vampiro": "🧛"}.get(self.status.value, "?")
+        icon = {"bloqueado": "🚫", "autorizado": "✅", "vampiro": "🧛", "rebaixado": "📉"}.get(self.status.value, "?")
         return f"{icon} {self.nome}: {self.status.value.upper()} — {self.motivo}"
 
 
@@ -143,11 +171,24 @@ def avaliar_reeleicao(
             f"Teve a chance. Não entregou. Bloqueado para qualquer cargo."
         )
 
-    # Teve outro cargo, resolveu (ou sem dado), quer cargo DIFERENTE
+    # Verificar hierarquia: cargo desejado é MENOR que o que teve?
+    nivel_desejado = HIERARQUIA.get(cargo_desejado, 0)
+    nivel_maximo_teve = max(HIERARQUIA.get(c.cargo, 0) for c in outros_eletivos)
+
+    if nivel_desejado < nivel_maximo_teve:
+        cargo_maior = max(outros_eletivos, key=lambda c: HIERARQUIA.get(c.cargo, 0))
+        return AvaliacaoReeleicao(
+            nome, cargo_desejado, StatusReeleicao.REBAIXADO, cargos_anteriores,
+            f"Teve cargo {cargo_maior.cargo.value} (nivel {nivel_maximo_teve}) e quer "
+            f"{cargo_desejado.value} (nivel {nivel_desejado}). CARGO MENOR. "
+            f"Vampiro que aceita menos sangue. Bloqueado."
+        )
+
+    # Teve outro cargo, resolveu (ou sem dado), quer cargo DIFERENTE e MAIOR OU IGUAL
     return AvaliacaoReeleicao(
         nome, cargo_desejado, StatusReeleicao.AUTORIZADO, cargos_anteriores,
         f"Teve cargo(s) eletivo(s) antes ({', '.join(c.cargo.value for c in outros_eletivos)}). "
-        f"Cargo desejado é DIFERENTE. Autorizado — rotação, não vampiro."
+        f"Cargo desejado é DIFERENTE e de nivel >=. Autorizado — rotação, não vampiro."
     )
 
 
@@ -199,6 +240,21 @@ def _demo():
         # 7. Presidente quer reeleger (Dilma)
         ("PRESIDENTE QUER VOLTA (mock)", TipoCargo.PRESIDENTE, [
             CargoOcupado(TipoCargo.PRESIDENTE, "2011-2016", None, "Deposta em golpe"),
+        ]),
+
+        # 8. Governador quer deputado (rebaixamento)
+        ("GOVERNADOR -> DEPUTADO (mock)", TipoCargo.DEPUTADO_FEDERAL, [
+            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022", True, "Bom gestor"),
+        ]),
+
+        # 9. Senador quer deputado (rebaixamento)
+        ("SENADOR -> DEPUTADO (mock)", TipoCargo.DEPUTADO_FEDERAL, [
+            CargoOcupado(TipoCargo.SENADOR, "2019-2026", True, "Senador competente"),
+        ]),
+
+        # 10. Deputado quer senador (subiu = autorizado)
+        ("DEPUTADO -> SENADOR (mock)", TipoCargo.SENADOR, [
+            CargoOcupado(TipoCargo.DEPUTADO_FEDERAL, "2019-2022", True, "Bom deputado"),
         ]),
     ]
 
