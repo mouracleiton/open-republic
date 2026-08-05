@@ -1,32 +1,25 @@
 #!/usr/bin/env python3
 """
-OpenSemReeleicao -- Política: Sem Reeleição de Vampiros
-=========================================================
+OpenSemReeleicao -- Política: Uma Só Passagem
+================================================
 "Quem teve seu cargo, beleza. Agora vá fazer outra coisa da vida.
- Precisamos de gente nova, não de vampiros."
+ Não volta. Não troca. Não é indicado pra nada. Acabou."
 
-POLÍTICA OFICIAL DA OPENREPUBLIC:
+POLÍTICA OFICIAL DA OPENREPUBLIC — DEFINITIVA:
 
-1. NÃO HÁ ENDORSO A REELEIÇÃO.
-   Quem está no cargo e vacilou, não volta.
+1. QUEM TEVE CARGO POLÍTICO NÃO VOLTA.
+   Não reeleição. Não outro cargo. Não comissionado. Nada.
 
-2. SÓ NOVAS CANDIDATURAS SÃO ENDOSSADAS.
+2. SÓ QUEM NUNCA TEVE CARGO É ENDOSSADO.
+   Gente nova. Sem sangues sugadores.
 
-3. QUEM TEVE CARGO E RESOLVEU: VALEU. PASSA A VEZ.
-   Não é punição. É rotação. O cargo não é propriedade.
+3. NÃO É PUNIÇÃO. É ROTAÇÃO.
+   O cargo não é propriedade. Quem cumpriu, cumpriu. Obrigado. Próximo.
 
-4. QUEM TEVE CARGO E NÃO RESOLVEU (OMISSÃO): NÃO VOLTA NUNCA.
-   Teve a chance. Não entregou. Próximo.
-
-5. EXCEÇÃO: CARGO TÉCNICO DIFERENTE.
-   Quem foi deputado pode ser governador (cargo novo).
-   Quem foi governador pode ser ministro (cargo novo).
-   Mas deputado -> deputado = bloqueado.
-
-O BLOQUEIO É BINÁRIO. NÃO TEM TERMO MÉDIO. NÃO TEM "MAS Dessa VEZ".
+O BLOQUEIO É ABSOLUTO. NÃO TEM EXCEÇÃO. NÃO TERMO MÉDIO. NÃO "MAS DESSA VEZ".
 """
 from __future__ import annotations
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 from enum import Enum
 from dataclasses import dataclass, field
 
@@ -39,156 +32,63 @@ class TipoCargo(Enum):
     DEPUTADO_ESTADUAL = "deputado_estadual"
     PREFEITO = "prefeito"
     VEREADOR = "vereador"
-    MINISTRO = "ministro"  # cargo técnico, nao eletivo
-    SECRETARIO = "secretario"  # cargo técnico, nao eletivo
+    MINISTRO = "ministro"
+    SECRETARIO = "secretario"
 
 
-class NivelCargo(Enum):
-    """Hierarquia de cargos eletivos."""
-    VEREADOR = 1
-    DEPUTADO_ESTADUAL = 2
-    DEPUTADO_FEDERAL = 3
-    PREFEITO_CAPITAL = 4
-    PREFEITO_INTERIOR = 3
-    SENADOR = 5
-    GOVERNADOR = 6
-    PRESIDENTE = 7
-    MINISTRO = 5      # cargo tecnico, equivale a senador
-    SECRETARIO = 4    # cargo tecnico
-
-
-HIERARQUIA: Dict[TipoCargo, int] = {
-    TipoCargo.VEREADOR: 1,
-    TipoCargo.DEPUTADO_ESTADUAL: 2,
-    TipoCargo.DEPUTADO_FEDERAL: 3,
-    TipoCargo.PREFEITO: 3,
-    TipoCargo.SENADOR: 5,
-    TipoCargo.GOVERNADOR: 6,
-    TipoCargo.PRESIDENTE: 7,
-    TipoCargo.MINISTRO: 5,
-    TipoCargo.SECRETARIO: 4,
-}
-
-
-class StatusReeleicao(Enum):
-    BLOQUEADO = "bloqueado"        # teve cargo ELETIVO igual, nao pode
-    AUTORIZADO = "autorizado"       # cargo novo ou nunca teve cargo
-    VAMPIRO = "vampiro"             # teve cargo, vacilou, quer voltar ao MESMO
-    REBAIXADO = "rebaixado"         # cargo diferente MAS menor (vampiro que aceita menos)
+class StatusEndosso(Enum):
+    AUTORIZADO = "autorizado"   # nunca teve cargo -> gente nova
+    BLOQUEADO = "bloqueado"     # teve qualquer cargo -> acabou
 
 
 @dataclass
 class CargoOcupado:
-    """Um cargo que alguém já ocupou."""
     cargo: TipoCargo
-    periodo: str           # "2019-2022"
-    resolveu: Optional[bool] = None  # True = entregou, False = vacilou, None = sem dado
+    periodo: str
     observacao: str = ""
 
 
 @dataclass
-class AvaliacaoReeleicao:
-    """Resultado da avaliação de reeleição."""
+class AvaliacaoCandidatura:
     nome: str
     cargo_desejado: TipoCargo
-    status: StatusReeleicao
+    status: StatusEndosso
     cargos_anteriores: List[CargoOcupado]
     motivo: str
 
     @property
-    def bloqueado(self) -> bool:
-        return self.status == StatusReeleicao.BLOQUEADO
-
-    @property
     def endossado(self) -> bool:
-        """OpenRepublic endossa esta candidatura?"""
-        return self.status not in (StatusReeleicao.BLOQUEADO, StatusReeleicao.VAMPIRO, StatusReeleicao.REBAIXADO)
+        return self.status == StatusEndosso.AUTORIZADO
 
     def resumo(self) -> str:
-        icon = {"bloqueado": "🚫", "autorizado": "✅", "vampiro": "🧛", "rebaixado": "📉"}.get(self.status.value, "?")
+        icon = {"autorizado": "✅", "bloqueado": "🚫"}.get(self.status.value, "?")
         return f"{icon} {self.nome}: {self.status.value.upper()} — {self.motivo}"
 
 
-def avaliar_reeleicao(
+def avaliar_candidatura(
     nome: str,
     cargo_desejado: TipoCargo,
     cargos_anteriores: List[CargoOcupado],
-) -> AvaliacaoReeleicao:
+) -> AvaliacaoCandidatura:
     """
-    Avalia se alguém pode ser endossado para um cargo.
+    Avalia se alguém pode ser endossado.
 
-    REGRAS:
-    1. Mesmo cargo eletivo = BLOQUEADO (sem reeleição, ponto)
-    2. Mesmo cargo + não resolveu = VAMPIRO
-    3. Cargo diferente = AUTORIZADO (mesmo que teve outro cargo)
-    4. Nunca teve cargo = AUTORIZADO (gente nova)
+    REGRA ÚNICA: teve QUALQUER cargo político ou comissionado = BLOQUEADO.
+    Nunca teve = AUTORIZADO.
     """
-    cargos_eletivos = {
-        TipoCargo.PRESIDENTE, TipoCargo.GOVERNADOR, TipoCargo.SENADOR,
-        TipoCargo.DEPUTADO_FEDERAL, TipoCargo.DEPUTADO_ESTADUAL,
-        TipoCargo.PREFEITO, TipoCargo.VEREADOR,
-    }
-
-    # Verificar se já teve o MESMO cargo eletivo
-    mesmo_cargo = [c for c in cargos_anteriores if c.cargo == cargo_desejado]
-
-    if mesmo_cargo:
-        # Teve o mesmo cargo. Bloqueado.
-        # Se também vacilou (não resolveu), é VAMPIRO
-        vacilou = any(c.resolveu is False for c in mesmo_cargo)
-        if vacilou:
-            return AvaliacaoReeleicao(
-                nome, cargo_desejado, StatusReeleicao.VAMPIRO, cargos_anteriores,
-                f"Teve cargo {cargo_desejado.value} ({mesmo_cargo[0].periodo}), "
-                f"NÃO resolveu, quer voltar ao mesmo cargo. VAMPIRO. Bloqueado."
-            )
-        else:
-            return AvaliacaoReeleicao(
-                nome, cargo_desejado, StatusReeleicao.BLOQUEADO, cargos_anteriores,
-                f"Teve cargo {cargo_desejado.value} ({mesmo_cargo[0].periodo}). "
-                f"Política: sem reeleição. Passa a vez. Cargo novo é permitido."
-            )
-
-    # Verificar se teve OUTRO cargo eletivo
-    outros_eletivos = [c for c in cargos_anteriores if c.cargo in cargos_eletivos]
-
-    if not outros_eletivos:
-        # Nunca teve cargo eletivo = GENTE NOVA
-        return AvaliacaoReeleicao(
-            nome, cargo_desejado, StatusReeleicao.AUTORIZADO, cargos_anteriores,
-            "Nunca teve cargo eletivo. Gente nova. Endossado."
+    if cargos_anteriores:
+        cargos_str = ", ".join(
+            f"{c.cargo.value} ({c.periodo})" for c in cargos_anteriores
+        )
+        return AvaliacaoCandidatura(
+            nome, cargo_desejado, StatusEndosso.BLOQUEADO, cargos_anteriores,
+            f"Teve cargo(s): {cargos_str}. Política: uma só passagem. "
+            f"Não volta, não troca, não é indicado. Acabou."
         )
 
-    # Teve outro cargo eletivo (diferente do desejado)
-    # Verificar se vacilou no cargo anterior
-    vacilou_anterior = any(c.resolveu is False for c in outros_eletivos)
-
-    if vacilou_anterior:
-        c = [c for c in outros_eletivos if c.resolveu is False][0]
-        return AvaliacaoReeleicao(
-            nome, cargo_desejado, StatusReeleicao.BLOQUEADO, cargos_anteriores,
-            f"Teve cargo {c.cargo.value} ({c.periodo}) e NÃO resolveu. "
-            f"Teve a chance. Não entregou. Bloqueado para qualquer cargo."
-        )
-
-    # Verificar hierarquia: cargo desejado é MENOR que o que teve?
-    nivel_desejado = HIERARQUIA.get(cargo_desejado, 0)
-    nivel_maximo_teve = max(HIERARQUIA.get(c.cargo, 0) for c in outros_eletivos)
-
-    if nivel_desejado < nivel_maximo_teve:
-        cargo_maior = max(outros_eletivos, key=lambda c: HIERARQUIA.get(c.cargo, 0))
-        return AvaliacaoReeleicao(
-            nome, cargo_desejado, StatusReeleicao.REBAIXADO, cargos_anteriores,
-            f"Teve cargo {cargo_maior.cargo.value} (nivel {nivel_maximo_teve}) e quer "
-            f"{cargo_desejado.value} (nivel {nivel_desejado}). CARGO MENOR. "
-            f"Vampiro que aceita menos sangue. Bloqueado."
-        )
-
-    # Teve outro cargo, resolveu (ou sem dado), quer cargo DIFERENTE e MAIOR OU IGUAL
-    return AvaliacaoReeleicao(
-        nome, cargo_desejado, StatusReeleicao.AUTORIZADO, cargos_anteriores,
-        f"Teve cargo(s) eletivo(s) antes ({', '.join(c.cargo.value for c in outros_eletivos)}). "
-        f"Cargo desejado é DIFERENTE e de nivel >=. Autorizado — rotação, não vampiro."
+    return AvaliacaoCandidatura(
+        nome, cargo_desejado, StatusEndosso.AUTORIZADO, cargos_anteriores,
+        "Nunca teve cargo político. Gente nova. Endossado."
     )
 
 
@@ -198,68 +98,36 @@ def avaliar_reeleicao(
 
 def _demo():
     print("=" * 70)
-    print("OPEN SEM REELEIÇÃO — POLÍTICA OFICIAL")
+    print("OPEN SEM REELEIÇÃO — UMA SÓ PASSAGEM")
     print("=" * 70)
     print()
-    print("REGRA: NÃO HÁ ENDORSO A REELEIÇÃO.")
-    print("  Quem teve cargo e vacilou, não volta.")
-    print("  Só novas candidaturas são endossadas.")
-    print("  Quem teve cargo e resolveu: valeu. Passa a vez.")
-    print("  Quem teve cargo e não resolveu: bloqueado pra sempre.")
+    print("REGRA ÚNICA:")
+    print("  Quem teve cargo NÃO VOLTA.")
+    print("  Não reeleição. Não outro cargo. Não comissionado. Nada.")
+    print("  Só gente nova é endossada.")
     print()
 
     casos = [
-        # 1. Gente nova
-        ("GENTE NOVA (mock)", TipoCargo.DEPUTADO_FEDERAL, []),
-
-        # 2. Deputado quer reeleger (resolveu)
-        ("DEPUTADO QUE ENTREGOU (mock)", TipoCargo.DEPUTADO_FEDERAL, [
-            CargoOcupado(TipoCargo.DEPUTADO_FEDERAL, "2019-2022", True, "Aprovou leis úteis"),
+        ("GENTE NOVA", TipoCargo.DEPUTADO_FEDERAL, []),
+        ("EX-DEPUTADO QUER SENADOR", TipoCargo.SENADOR, [
+            CargoOcupado(TipoCargo.DEPUTADO_FEDERAL, "2019-2022"),
         ]),
-
-        # 3. Deputado quer reeleger (vacilou)
-        ("DEPUTADO VAMPIRO (mock)", TipoCargo.DEPUTADO_FEDERAL, [
-            CargoOcupado(TipoCargo.DEPUTADO_FEDERAL, "2019-2022", False, "Não fez nada"),
+        ("EX-GOVERNADOR QUER MINISTRO", TipoCargo.MINISTRO, [
+            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022"),
         ]),
-
-        # 4. Governador quer senador (cargo novo)
-        ("GOVERNADOR -> SENADOR (mock)", TipoCargo.SENADOR, [
-            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022", True, "IDEB subiu"),
+        ("EX-VEREADOR QUER DEPUTADO", TipoCargo.DEPUTADO_FEDERAL, [
+            CargoOcupado(TipoCargo.VEREADOR, "2017-2020"),
         ]),
-
-        # 5. Governador quer reeleger
-        ("GOVERNADOR QUER REELEIÇÃO (mock)", TipoCargo.GOVERNADOR, [
-            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022", True, "Bom gestor"),
+        ("EX-PRESIDENTE QUER QUALQUER COISA", TipoCargo.SENADOR, [
+            CargoOcupado(TipoCargo.PRESIDENTE, "2011-2016"),
         ]),
-
-        # 6. Governador vacilou quer outro cargo
-        ("GOVERNADOR QUE VACILOU (mock)", TipoCargo.SENADOR, [
-            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022", False, "Obras paradas"),
-        ]),
-
-        # 7. Presidente quer reeleger (Dilma)
-        ("PRESIDENTE QUER VOLTA (mock)", TipoCargo.PRESIDENTE, [
-            CargoOcupado(TipoCargo.PRESIDENTE, "2011-2016", None, "Deposta em golpe"),
-        ]),
-
-        # 8. Governador quer deputado (rebaixamento)
-        ("GOVERNADOR -> DEPUTADO (mock)", TipoCargo.DEPUTADO_FEDERAL, [
-            CargoOcupado(TipoCargo.GOVERNADOR, "2015-2022", True, "Bom gestor"),
-        ]),
-
-        # 9. Senador quer deputado (rebaixamento)
-        ("SENADOR -> DEPUTADO (mock)", TipoCargo.DEPUTADO_FEDERAL, [
-            CargoOcupado(TipoCargo.SENADOR, "2019-2026", True, "Senador competente"),
-        ]),
-
-        # 10. Deputado quer senador (subiu = autorizado)
-        ("DEPUTADO -> SENADOR (mock)", TipoCargo.SENADOR, [
-            CargoOcupado(TipoCargo.DEPUTADO_FEDERAL, "2019-2022", True, "Bom deputado"),
+        ("EX-SECRETARIO QUER DEPUTADO", TipoCargo.DEPUTADO_FEDERAL, [
+            CargoOcupado(TipoCargo.SECRETARIO, "2019-2022"),
         ]),
     ]
 
     for nome, cargo, historico in casos:
-        r = avaliar_reeleicao(nome, cargo, historico)
+        r = avaliar_candidatura(nome, cargo, historico)
         print(f"  {r.resumo()}")
         print(f"    Endossado: {r.endossado}")
         print()
