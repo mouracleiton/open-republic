@@ -3,387 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenRepublic — Carrosseis Instagram · Raio X</title>
+<title>OpenRepublic — Carrosséis Instagram</title>
 <style>
-  :root {
-    --verde: #1A5E3F;
-    --azul: #0A2540;
-    --preto: #1A1A1A;
-    --branco: #F5F5F0;
-    --vermelho: #8B1A1A;
-    --amarelo: #D4A017;
-    --terra: #8B5E3C;
-    --ciano: #3D5A80;
-    --laranja: #C44536;
-    --verde-claro: #2D6A4F;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #0d1117;
-    color: #e6edf3;
-    padding: 40px 20px;
-  }
-  .header {
-    max-width: 1200px;
-    margin: 0 auto 60px;
-    text-align: center;
-  }
-  .header h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, var(--verde), var(--ciano));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .header p {
-    color: #8b949e;
-    font-size: 0.9rem;
-  }
-  .frente-section {
-    max-width: 1200px;
-    margin: 0 auto 80px;
-  }
-  .frente-titulo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin-bottom: 8px;
-    padding: 12px 20px;
-    border-radius: 12px;
-    display: inline-block;
-  }
-  .frente-sub {
-    color: #8b949e;
-    font-size: 0.85rem;
-    margin-bottom: 24px;
-    padding-left: 20px;
-  }
-  .carousel {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 20px 4px;
-    scroll-behavior: smooth;
-  }
-  .carousel::-webkit-scrollbar { height: 6px; }
-  .carousel::-webkit-scrollbar-track { background: #161b22; border-radius: 3px; }
-  .carousel::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
-  .slide {
-    flex: 0 0 370px;
-    height: 370px;
-    scroll-snap-align: start;
-    border-radius: 16px;
-    padding: 32px 28px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
-  /* Slide index dots */
-  .slide-num {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.4);
-    font-weight: 700;
-  }
-  /* COVER slides */
-  .slide-cover {
-    flex: 0 0 370px;
-    height: 460px;
-    justify-content: space-between;
-  }
-  .slide-cover .logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: white;
-  }
-  .slide-cover h2 {
-    font-size: 1.6rem;
-    line-height: 1.2;
-    font-weight: 900;
-  }
-  .slide-cover .tag {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    margin-bottom: 8px;
-  }
-  .slide-cover .footer-cover {
-    font-size: 0.7rem;
-    opacity: 0.5;
-  }
-  /* Content slides */
-  .slide .slide-label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.6;
-    margin-bottom: 4px;
-  }
-  .slide h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 12px;
-    line-height: 1.15;
-  }
-  .slide .stat {
-    font-size: 2.5rem;
-    font-weight: 900;
-    line-height: 1;
-    margin: 8px 0;
-  }
-  .slide .stat-label {
-    font-size: 0.75rem;
-    opacity: 0.7;
-  }
-  .slide p {
-    font-size: 0.8rem;
-    line-height: 1.5;
-    opacity: 0.85;
-  }
-  .slide ul {
-    list-style: none;
-    margin-top: 8px;
-  }
-  .slide ul li {
-    font-size: 0.78rem;
-    padding: 4px 0;
-    opacity: 0.8;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .slide ul li:last-child { border-bottom: none; }
-  .slide .gap-box {
-    margin-top: auto;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 0.72rem;
-    line-height: 1.4;
-  }
-  .slide .pill {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
+:root {
+  --verde: #1A5E3F; --azul: #0A2540; --preto: #1A1A1A; --branco: #F5F5F0;
+  --vermelho: #8B1A1A; --amarelo: #D4A017; --terra: #8B5E3C;
+  --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1117; color:#e6edf3; padding:40px 20px; }
+.header { max-width:1200px; margin:0 auto 60px; text-align:center; }
+.header h1 { font-size:clamp(1.2rem,5vw,1.8rem); font-weight:900; margin-bottom:8px; color:var(--amarelo); }
+.header p { font-size:0.8rem; color:#8b949e; }
+.header .hint { margin-top:8px; font-size:0.7rem; color:#484f58; }
 
-  /* === COLOR THEMES PER FRENTE === */
-  .frente-emergencia .slide-cover { background: linear-gradient(160deg, #8B1A1A, #8B1A1A); }
-  .frente-emergencia .slide-content { background: #1C1012; border: 1px solid #3D1A1A; }
-  .frente-emergencia .gap-box { background: rgba(139,26,26,0.15); }
-  .frente-emergencia .pill { background: rgba(139,26,26,0.2); color: #FF6B6B; }
+.carousel {
+  display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:16px 0 24px; max-width:1200px; margin:0 auto;
+  scrollbar-width:thin; scrollbar-color:#30363d #0d1117;
+}
+.carousel::-webkit-scrollbar { height:8px; }
+.carousel::-webkit-scrollbar-track { background:#0d1117; }
+.carousel::-webkit-scrollbar-thumb { background:#30363d; border-radius:4px; }
 
-  .frente-infra .slide-cover { background: linear-gradient(160deg, #264653, #2A9D8F); }
-  .frente-infra .slide-content { background: #0D1B1A; border: 1px solid #1A3530; }
-  .frente-infra .gap-box { background: rgba(42,157,143,0.15); }
-  .frente-infra .pill { background: rgba(42,157,143,0.2); color: #4ECDC4; }
+.slide {
+  flex:0 0 320px; height:560px; scroll-snap-align:start;
+  border-radius:16px; padding:28px 24px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.slide-num {
+  position:absolute; top:16px; right:16px;
+  font-size:0.65rem; color:rgba(255,255,255,0.3); font-weight:700;
+}
 
-  .frente-desenvolvimento .slide-cover { background: linear-gradient(160deg, #0A2540, #3D5A80); }
-  .frente-desenvolvimento .slide-content { background: #0A1520; border: 1px solid #102535; }
-  .frente-desenvolvimento .gap-box { background: rgba(61,90,128,0.15); }
-  .frente-desenvolvimento .pill { background: rgba(61,90,128,0.2); color: #48CAE4; }
+/* COVER */
+.slide-cover { justify-content:space-between; }
+.slide-cover .logo {
+  width:56px; height:56px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; font-weight:900; color:white;
+}
+.slide-cover h2 { font-size:1.5rem; line-height:1.2; font-weight:900; color:white; }
+.slide-cover .tag { font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; opacity:0.7; color:white; margin-bottom:6px; }
+.slide-cover .dados { font-size:0.72rem; color:rgba(255,255,255,0.6); line-height:1.5; margin-top:8px; }
+.slide-cover .footer-cover { font-size:0.65rem; color:rgba(255,255,255,0.35); margin-top:16px; }
 
-  .frente-soberania .slide-cover { background: linear-gradient(160deg, #5A3E1A, #D4A017); }
-  .frente-soberania .slide-content { background: #1A1505; border: 1px solid #2D2510; }
-  .frente-soberania .gap-box { background: rgba(212,160,23,0.15); }
-  .frente-soberania .pill { background: rgba(212,160,23,0.2); color: #FFD60A; }
+/* CONTENT */
+.slide-content { background:#161b22; border:1px solid #30363d; }
+.slide .pill {
+  display:inline-block; padding:3px 10px; border-radius:20px;
+  font-size:0.65rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.5px; margin-bottom:12px;
+}
+.slide h3 { font-size:1.15rem; font-weight:800; margin-bottom:10px; line-height:1.2; }
+.slide .stat { font-size:2.2rem; font-weight:900; line-height:1; margin:8px 0; }
+.slide .stat-label { font-size:0.7rem; color:#8b949e; }
+.slide p { font-size:0.78rem; line-height:1.5; color:#8b949e; }
+.slide ul { list-style:none; margin-top:8px; }
+.slide ul li { font-size:0.75rem; padding:3px 0; color:#e6edf3; }
+.slide .gap-box { margin-top:auto; padding:10px; border-radius:8px; font-size:0.72rem; line-height:1.4; }
 
-  .frente-justica .slide-cover { background: linear-gradient(160deg, #1A1A2E, #6A0572); }
-  .frente-justica .slide-content { background: #150D1A; border: 1px solid #2A1A30; }
-  .frente-justica .gap-box { background: rgba(106,76,147,0.15); }
-  .frente-justica .pill { background: rgba(106,76,147,0.2); color: #6A4C93; }
+/* FRENTES COLORS */
+.frente-manifesto .slide-cover { background:linear-gradient(160deg, #0A2540, #1A5E3F); }
+.frente-manifesto .slide-content { background:#0D1A12; border:1px solid #1A2D20; }
+.frente-manifesto .gap-box { background:rgba(26,94,63,0.15); }
+.frente-manifesto .pill { background:rgba(26,94,63,0.2); color:#2D6A4F; }
 
-  .frente-futuro .slide-cover { background: linear-gradient(160deg, #1A5E3F, #2D6A4F); }
-  .frente-futuro .slide-content { background: #0D1A12; border: 1px solid #1A2D20; }
-  .frente-futuro .gap-box { background: rgba(45,106,79,0.15); }
-  .frente-futuro .pill { background: rgba(45,106,79,0.2); color: #2D6A4F; }
+.frente-emergencia .slide-cover { background:linear-gradient(160deg, #8B1A1A, #4A0E0E); }
+.frente-emergencia .slide-content { background:#1A0D0D; border:1px solid #2A1515; }
+.frente-emergencia .gap-box { background:rgba(139,26,26,0.15); }
+.frente-emergencia .pill { background:rgba(139,26,26,0.2); color:#C44536; }
 
-  /* CTA slide */
-  .slide-cta {
-    background: #0A2540 !important;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .slide-cta h3 {
-    font-size: 1.4rem;
-    margin-bottom: 16px;
-  }
-  .slide-cta p {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    margin-bottom: 16px;
-  }
+.frente-representatividade .slide-cover { background:linear-gradient(160deg, #2D6A4F, #1A5E3F); }
+.frente-representatividade .slide-content { background:#0D1A12; border:1px solid #1A2D20; }
+.frente-representatividade .gap-box { background:rgba(45,106,79,0.15); }
+.frente-representatividade .pill { background:rgba(45,106,79,0.2); color:#2D6A4F; }
 
-  .nav-hint {
-    text-align: center;
-    color: #484f58;
-    font-size: 0.7rem;
-    margin-top: 12px;
-  }
+.frente-etiquetas .slide-cover { background:linear-gradient(160deg, #D4A017, #8B6A0A); }
+.frente-etiquetas .slide-content { background:#1A1608; border:1px solid #2A2410; }
+.frente-etiquetas .gap-box { background:rgba(212,160,23,0.15); }
+.frente-etiquetas .pill { background:rgba(212,160,23,0.2); color:#D4A017; }
+
+.frente-governo .slide-cover { background:linear-gradient(160deg, #6A4C93, #3D2A5A); }
+.frente-governo .slide-content { background:#120D1A; border:1px solid #221830; }
+.frente-governo .gap-box { background:rgba(106,76,147,0.15); }
+.frente-governo .pill { background:rgba(106,76,147,0.2); color:#6A4C93; }
+
+.frente-estados .slide-cover { background:linear-gradient(160deg, #3D5A80, #0A2540); }
+.frente-estados .slide-content { background:#0D1218; border:1px solid #1A2430; }
+.frente-estados .gap-box { background:rgba(61,90,128,0.15); }
+.frente-estados .pill { background:rgba(61,90,128,0.2); color:#3D5A80; }
+
+/* CTA */
+.slide-cta { background:#0A2540 !important; justify-content:center; align-items:center; text-align:center; }
+.slide-cta h3 { font-size:1.3rem; margin-bottom:16px; color:white; }
+.slide-cta p { font-size:0.8rem; opacity:0.7; margin-bottom:12px; color:#8b949e; }
+
+.frente-section { max-width:1200px; margin:0 auto 60px; }
+.frente-titulo {
+  font-size:1rem; font-weight:900; padding:8px 16px; border-radius:8px;
+  display:inline-block; margin-bottom:8px;
+}
+.frente-sub { font-size:0.78rem; color:#8b949e; margin-bottom:16px; }
+.nav-hint { text-align:center; color:#484f58; font-size:0.7rem; margin-top:12px; }
 </style>
 </head>
 <body>
-<!-- HEADER -->
-<header class="sticky top-0 z-50" style="background:#0d1117; border-bottom:1px solid #30363d;">
-  <div style="max-width:1000px; margin:0 auto; padding:8px 16px; display:flex; align-items:center; justify-content:between;">
-    <a href="index.html" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:#8b949e;">
-      <div style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:white; font-size:14px; background:linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
-      <span style="font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">OpenRepublic</span>
+
+<header style="border-bottom:1px solid #30363d;position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);padding:8px 0;">
+  <div style="max-width:1000px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#8b949e;">
+      <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
+      <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
     </a>
-    <a href="index.html" style="margin-left:auto; font-size:11px; color:#2D6A4F; text-decoration:none; font-weight:bold;">← Voltar</a>
+    <a href="index.html" style="font-size:11px;color:#2D6A4F;text-decoration:none;font-weight:bold;">&larr; Voltar</a>
   </div>
 </header>
 
-
 <div class="header">
-  <h1>RAIO X DO BRASIL — Carrosseis Instagram</h1>
-  <p>6 frentes de ataque · 18 exames · Dados pré-compilados OpenRepublic · github.com/mouracleiton/open-republic</p>
-  <p style="margin-top:8px; font-size:0.7rem; color:#484f58;">Arraste horizontalmente →</p>
+  <h1>CARROSSÉIS OPENREPUBLIC</h1>
+  <p>6 frentes · 8 princípios · 33 etiquetas · 31 tags de representatividade · Dados completos</p>
+  <p class="hint">Arraste horizontalmente →</p>
 </div>
 
-<!-- CARROSSEIS SERAO GERADOS AQUI -->
 <div id="carrosseis"></div>
 
 <script>
 const FRENTES = [
   {
+    id: "manifesto",
+    nome: "MANIFESTO",
+    cor: "#1A5E3F",
+    corClass: "frente-manifesto",
+    tagline: "Não é partido. É medição.",
+    descricao: "O IBGE pergunta ao diretor. Nós perguntamos ao chão.",
+    dados_chave: "8 princípios · Partido é ferramenta. População é fim.",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"PRINCÍPIO 1", titulo:"A MÉTRICA É UMA", stat:"33M", statLabel:"PASSAM FOME", texto:"Quantas pessoas pararam de sofrer? Não importa o partido. Importa: a fome acabou?" },
+      { tipo:"content", pill:"PRINCÍPIO 2", titulo:"OPINIÃO É OPINIÃO. DADO É DADO.", texto:"Fatos são feitos em cima de análise de dados reais. Números não mentem. Se o gestor não publica = #CaixaPreta." },
+      { tipo:"content", pill:"PRINCÍPIO 3", titulo:"CAPACIDADE SEM ALINHAMENTO NÃO SERVE", texto:"Score × alinhamento com o Raio X. Corte 4.0 binário: APROVADO ou W.O." },
+      { tipo:"content", pill:"PRINCÍPIO 4", titulo:"SEM PROPOSTA = W.O.", texto:"Gate WO: COMO, QUEM, CUSTO, PRAZO, MÉTRICA, FONTE, DIAGNÓSTICO. Falta 1 = W.O." },
+      { tipo:"content", pill:"PRINCÍPIO 5", titulo:"TRANSPARÊNCIA RADICAL", texto:"Nada escondido. Log público. Caixa-preta proibida. Dados em formato machine-readable." },
+      { tipo:"content", pill:"PRINCÍPIO 6", titulo:"REPRESENTATIVIDADE REAL", stat:"56%", statLabel:"DA POPULAÇÃO É NEGRA", texto:"Se o poder não parece a população, não é representação. É apropriação." },
+      { tipo:"content", pill:"PRINCÍPIO 7", titulo:"OMISSÃO É PUNITIVA", texto:"Teve cargo + problema existia + não resolveu = -0.50. Resolveu = +0.30. Um vacilo = bloqueado pra sempre." },
+      { tipo:"content", pill:"PRINCÍPIO 8", titulo:"REELEIÇÃO SÓ EM 2030", texto:"2026: sem reeleição. Gente nova, sem vampiros. 2030: reeleição por mérito. Quem entregou volta, quem vacilou nunca mais." },
+      { tipo:"cta" },
+    ]
+  },
+  {
     id: "emergencia",
-    nome: "EMERGÊNCIA DE VIDA",
+    nome: "EMERGÊNCIA NACIONAL",
     cor: "#8B1A1A",
     corClass: "frente-emergencia",
-    tagline: "Vidas em risco AGORA. Tratar antes de diagnosticar.",
-    descricao: "Violência, saúde e fome. São as 3 emergências nacionais onde brasileiros morrem TODO DIA enquanto esperamos dados.",
-    dados_chave: "33M passam fome · 21.7 homicidios/100k · Dengue 2024: 6M casos",
+    tagline: "Vidas em risco AGORA.",
+    descricao: "5 emergências nacionais onde brasileiros morrem TODO DIA.",
+    dados_chave: "33M fome · 47.5k homicídios · 35M sem água · 100M sem esgoto · 80% trigo importado",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"🚨 EMERGÊNCIA", titulo:"VIOLÊNCIA", stat:"47.500", statLabel:"HOMICÍDIOS/ANO", texto:"6.000 mortes por polícia/ano. Fonte: FBSP 2024.", gap:"Taxa de elucidação de crimes: baixíssima. Impunidade reina." },
+      { tipo:"content", pill:"🚨 EMERGÊNCIA", titulo:"SAÚDE", stat:"6M", statLabel:"CASOS DE DENGUE 2024", texto:"4% do PIB (OCDE: 8%). Filas intermináveis. Fonte: MS, CNJ 2024.", gap:"Mortalidade infantil subnotificada. Medicamentos em falta." },
+      { tipo:"content", pill:"🚨 EMERGÊNCIA", titulo:"ALIMENTAÇÃO", stat:"33M", statLabel:"COM FOME", texto:"125M em insegurança alimentar. Fonte: VIGISAN 2024.", gap:"IBGE mede fome bienal. Fome muda em dias, não em anos." },
+      { tipo:"content", pill:"🚨 EMERGÊNCIA", titulo:"ÁGUA", stat:"35M", statLabel:"SEM ÁGUA POTÁVEL", texto:"9M sem água tratada. Fonte: SNIS 2024.", gap:"SNIS é auto-relato da empresa. Qualidade não é verificada." },
+      { tipo:"content", pill:"🚨 EMERGÊNCIA", titulo:"SOBERANIA ALIMENTAR", stat:"80%", statLabel:"TRIGO IMPORTADO", texto:"Dependência de fertilizantes também. Fonte: CONAB 2024.", gap:"Se corta importação, o pão some. Nenhum plano resolve em <4 anos." },
+      { tipo:"cta" },
+    ]
   },
   {
-    id: "infra",
-    nome: "INFRAESTRUTURA DE SOBREVIVÊNCIA",
-    cor: "#2A9D8F",
-    corClass: "frente-infra",
-    tagline: "Sem água, luz e teto, nenhum outro exame importa.",
-    descricao: "Saneamento, energia e habitação. O básico que ainda falha para milhões de brasileiros.",
-    dados_chave: "47% sem esgoto · ~200k sem luz · Déficit habitacional: 5.8M",
-  },
-  {
-    id: "desenvolvimento",
-    nome: "DESENVOLVIMENTO HUMANO",
-    cor: "#3D5A80",
-    corClass: "frente-desenvolvimento",
-    tagline: "Educação e emprego: a única saída que não é pela porta dos fundos.",
-    descricao: "Sem escola que ensina e trabalho que paga, o Brasil gira em círculo.",
-    dados_chave: "PISA 393/410/403 vs OCDE 472 · 7.9% desemprego · 50% não leem no 7º ano",
-  },
-  {
-    id: "soberania",
-    nome: "SOBERANIA ECONÔMICA",
-    cor: "#D4A017",
-    corClass: "frente-soberania",
-    tagline: "Quem controla o preço da sua comida controla seu voto.",
-    descricao: "Inflação de alimentos, transporte público e produção de comida. O bolso do brasileiro.",
-    dados_chave: "Arroz +50% · Feijão +30% · 2h+ em transporte · Agricultura familiar produz 70% da comida com 30% do crédito",
-  },
-  {
-    id: "justica",
-    nome: "JUSTIÇA E INCLUSÃO",
-    cor: "#6A4C93",
-    corClass: "frente-justica",
-    tagline: "37.5 milhões de brasileiros invisíveis. O sistema fingiu que não viu.",
-    descricao: "Indígenas, quilombolas, ribeirinhos, dependentes químicos. Quem o IBGE não conta.",
-    dados_chave: "570 crianças Yanomami mortas (2022-23) · Apenas 17% dos dependentes têm tratamento · População de rua cresceu 38%",
-  },
-  {
-    id: "futuro",
-    nome: "FUTURO E AMBIENTE",
+    id: "representatividade",
+    nome: "REPRESENTATIVIDADE",
     cor: "#2D6A4F",
-    corClass: "frente-futuro",
-    tagline: "Desmatamento não para. Internet não chega. Quem decide o amanhã?",
-    descricao: "Amazônia, conectividade e censo demográfico. O futuro do Brasil está em jogo.",
-    dados_chave: "13.235 km² desmatados (2023) · 70% zona rural sem internet · Censo IBGE: 2-3 anos de atraso",
+    corClass: "frente-representatividade",
+    tagline: "O poder deve parecer a população.",
+    descricao: "31 tags em 5 eixos. Medimos o gap entre quem governa e quem é governado.",
+    dados_chave: "56% negro · 50% mulher · 70% ganha abaixo da média",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"FENOTÍPICO", titulo:"COR/RAÇA (IBGE)", stat:"45,3%", statLabel:"PARDO + 10,6% PRETO", texto:"Branco 43,5%. Amarelo 0,4%. Indígena 0,2%. A maioria NÃO é branca." },
+      { tipo:"content", pill:"SOCIOECONÔMICO", titulo:"CLASSE E RENDA", stat:"R$ 1.600", statLabel:"MEDIANA (P50)", texto:"P10: R$ 300 (fome). P99: R$ 25.000 (elite). A média mente: 70% ganha abaixo dela." },
+      { tipo:"content", pill:"GAP RACIAL", titulo:"NEGRO GANHA 56% DO BRANCO", stat:"1.79x", statLabel:"GAP RACIAL MÉDIO", texto:"PIOR ESTADO: DF (2.19x). Negro ganha menos em TODOS os 27 estados." },
+      { tipo:"content", pill:"GEOGRÁFICO", titulo:"8 REGIÕES CULTURAIS", stat:"30%", statLabel:"SUDESTE METROPOLITANO", texto:"Norte 8,5% · NE Litoral 18% · NE Sertão 10% · CO Agro 7,8% · Sul 13,7%" },
+      { tipo:"content", pill:"EXCLUSÃO", titulo:"QUEM FICA DE FORA", stat:"30%", statLabel:"EXCLUSÃO DIGITAL", texto:"35% urbano periferia. 12% extrema pobreza. 15% migrante interno." },
+      { tipo:"content", pill:"META", titulo:"SCORE DE REPRESENTATIVIDADE", texto:"Composição política vs população real. Score 0-100. Sub-representação punida 1.5x. Se falta preto no poder, o próximo indicado DEVE ser preto." },
+      { tipo:"cta" },
+    ]
+  },
+  {
+    id: "etiquetas",
+    nome: "ETIQUETAS POLÍTICAS",
+    cor: "#D4A017",
+    corClass: "frente-etiquetas",
+    tagline: "33 rótulos. 9 pilares. Sem onde se esconder.",
+    descricao: "Não é bonito nem feio. É #ProtetorVulneravel ou #ElitistaExcludente.",
+    dados_chave: "Impacto no score: -0.30 a +0.25 por etiqueta",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"GESTÃO FISCAL", titulo:"#ResponsavelFiscal", texto:"+0.15. Contas equilibradas, divida/PIB caindo.", gap:"#GastadorCompulsivo -0.20. Deficit estrutural sem receita." },
+      { tipo:"content", pill:"TRANSPARÊNCIA", titulo:"#VidroTransparente", texto:"+0.20. Agenda pública, auditoria voluntária.", gap:"#CaixaPreta -0.30. Patrimônio inconsistente, licitação dispensada." },
+      { tipo:"content", pill:"EFICIÊNCIA", titulo:"#ExecutorEficiente", texto:"+0.15. Obras no prazo, baixos aditivos.", gap:"#ParalisadoCronico -0.20. Obras paradas, rotatividade >40%." },
+      { tipo:"content", pill:"IMPACTO SOCIAL", titulo:"#ProtetorVulneravel", texto:"+0.25. Indicadores do decil mais pobre melhorando.", gap:"#ElitistaExcludente -0.30. Beneficia topo enquanto base piora." },
+      { tipo:"content", pill:"VERDADE", titulo:"#BaseadoEmEvidencias", texto:"+0.15. Cita fonte verificável, admite erro.", gap:"#NegacionistaDados -0.25. Cria 'dados alternativos' sem metodologia." },
+      { tipo:"content", pill:"CAMADA 0", titulo:"OMISSÃO / COMISSÃO", stat:"-0.50", statLabel:"TEVE CARGO E NÃO RESOLVEU", texto:"Resolveu = +0.30. Um vacilo em qualquer cargo = bloqueado pra sempre." },
+      { tipo:"cta" },
+    ]
+  },
+  {
+    id: "governo",
+    nome: "GOVERNO DILMA + JONES",
+    cor: "#6A4C93",
+    corClass: "frente-governo",
+    tagline: "Co-presidência. Ninguém governa sozinho.",
+    descricao: "Presidente: Dilma (técnica + voto de minerva). Vice: Jones (rua + comunicação).",
+    dados_chave: "Nada passa sem AMBOS. Sensor ilumina, não decide.",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"PRESIDENTE", titulo:"DILMA ROUSSEFF", stat:"4.50", statLabel:"SCORE (APROVADA)", texto:"Única presidente mulher. Deposta em golpe sem crime. Voto de minerva." },
+      { tipo:"content", pill:"VICE", titulo:"JONES MANOEL", stat:"2.50", statLabel:"SCORE (EM ANÁLISE)", texto:"Comunicação ~2M inscritos. 10 anos de coerência. Habilidade: rua." },
+      { tipo:"content", pill:"CO-PRESIDÊNCIA", titulo:"DUPLO COMANDO", texto:"Sanção e veto exigem AMBOS. Presidente tem palavra final em empate. Sensor ILUMINA, não decide. Decidir = crime." },
+      { tipo:"content", pill:"PT EXTERNO", titulo:"LULA: PONTE POLÍTICA", texto:"Não entra no governo. Opera de fora: ministérios que conseguir + Senado + Camara. Maquina a serviço do programa, não o contrário." },
+      { tipo:"content", pill:"CARGOS", titulo:"PROCURA-SE: 1.626 CARGOS", stat:"1.626", statLabel:"VAGAS ABERTAS", texto:"27 governador · 27 senador · 513 dep. federal · 1.059 dep. estadual. Gate WO obrigatório. Cotas: 50% mulher, 56% negro." },
+      { tipo:"cta" },
+    ]
+  },
+  {
+    id: "estados",
+    nome: "27 ESTADOS, 27 INFERNOS",
+    cor: "#3D5A80",
+    corClass: "frente-estados",
+    tagline: "Cada estado com seu inferno. Clica no mapa.",
+    descricao: "106 problemas · 48 emergências · 7 estados críticos · 18 eixos do Raio X por estado.",
+    dados_chave: "PIOR: MA (mediana R$ 550, 12% indigência) · AC (120x desigualdade)",
+    slides: [
+      { tipo:"cover" },
+      { tipo:"content", pill:"NORTE", titulo:"CRÍTICO: AC, AM, PA, RR", stat:"19M", statLabel:"POPULAÇÃO", texto:"Desmatamento · Yanomami · Narcotráfico · Miséria · Trabalho escravo" },
+      { tipo:"content", pill:"NORDESTE", titulo:"CRÍTICO: MA, AL, BA", stat:"57M", statLabel:"POPULAÇÃO", texto:"Fome · Seca · Analfabetismo · Violência · Racismo estrutural" },
+      { tipo:"content", pill:"SUDESTE", titulo:"CRÍTICO: SP, RJ", stat:"88M", statLabel:"POPULAÇÃO (43% BRASIL)", texto:"Violência periferia · Polícia mata · Crack · Habitação · Transporte" },
+      { tipo:"content", pill:"SUL", titulo:"ALERTA: RS", stat:"31M", statLabel:"POPULAÇÃO", texto:"500k desabrigados (enchente 2024). Melhor distribuição mas 3% indigência." },
+      { tipo:"content", pill:"CENTRO-OESTE", titulo:"ALERTA: MT, DF", stat:"17M", statLabel:"POPULAÇÃO", texto:"MT: maior desmatamento + escravidão. DF: gap racial 2.19x (pior do país)." },
+      { tipo:"content", pill:"AÇÃO", titulo:"CADA CANDIDATO TRAZ PROPOSTA", texto:"Briefing estadual no mapa interativo. 18 eixos por estado. Sem proposta executável = W.O." },
+      { tipo:"cta" },
+    ]
   },
 ];
 
-const EXAMES = [{"dominio": "violencia", "frente_id": "emergencia", "exame_rotulo": "Toxicologico: violencia, drogas, crime", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 50, "indicadores": ["homicidios (tempo real)", "tiroteio (localizacao)", "violencia domestica (denuncia)", "violencia policial", "faccao/territorio", "desaparecidos"], "gap": "Nao sabemos onde tiroteio acontece em tempo real. SINESP tem 6-12h de atraso.", "custo": "R$ 6M/ano (infra + app)"}, {"dominio": "saude", "frente_id": "emergencia", "exame_rotulo": "Exame de Sangue: amostra profunda (sensor + medicao)", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 50, "indicadores": ["mortalidade infantil (tempo real)", "mortalidade materna", "fila SUS", "medicamento disponivel", "postos funcionando", "doencas endemicas (dengue, malaria)", "saude mental", "desnutricao infantil"], "gap": "Mortalidade infantil real e subnotificada. Dengue 2024: >6M casos, 4.000+ mortes. Fila SUS nao existe como metrica.", "custo": "R$ 12M/ano"}, {"dominio": "alimentacao", "frente_id": "emergencia", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "Emergencia: vidas em risco AGORA", "urgencia_id": "u1", "automacao_pct": 25, "indicadores": ["fome real (0 refeicoes/dia)", "inseguranca alimentar", "merenda escolar (verificar entrega)", "cesta basica por bairro"], "gap": "2o VIGISAN (2022): 33M com fome, 125M em IA. IBGE mede bienal. Fome muda em dias.", "custo": "R$ 4M/ano"}, {"dominio": "agua", "frente_id": "infra", "exame_rotulo": "Exame de Urina: o que o sistema excreta (agua, esgoto)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 50, "indicadores": ["quem tem agua potavel (medido)", "quantos dias/semana chega", "cloro residual (medido)", "esgoto: rede/fossa/nada", "qualidade do rio (PH, turbidez, coliformes)"], "gap": "35M sem agua tratada (PNAD 2022). SNIS e auto-relato da empresa. Esgoto: <55% de cobertura.", "custo": "R$ 9M/ano (sensores + campo)"}, {"dominio": "ambiente", "frente_id": "futuro", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 100, "indicadores": ["queimada (foco, area)", "desmatamento", "qualidade do ar (PM2.5)", "rio (PH, turbidez, mercurio)", "lixo (destino real)"], "gap": "Sabe onde queima. Nao sabe quem queima. 2024: pior seca+queimada em 2 decadas. Falta cruzar com CAR.", "custo": "R$ 2M/ano (maioria OSINT gratis)"}, {"dominio": "educacao", "frente_id": "desenvolvimento", "exame_rotulo": "Ressonancia: como pensa (educacao, letramento)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 75, "indicadores": ["ver open_censo_escolar.py", "analfabetismo funcional real", "evasao", "professor presente (verificado)", "escola com agua/luz/internet"], "gap": "INEP diz 6 salas. Realidade: 3. Ninguem foi verificar. SAEB 2021: 70% nao sabem matematica basica.", "custo": "R$ 16M/ano"}, {"dominio": "indigena", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Urgente: deteriorando rapido", "urgencia_id": "u2", "automacao_pct": 75, "indicadores": ["populacao por etnia", "terra demarcada vs invadida", "malario/desnutricao", "garimpo ilegal (mercurio)", "madeireira ilegal", "escola/saude indigena"], "gap": "Censo 2022: 1.7M indigenas (27% fora terras). Garimpo Yanomami cresce sem ninguem ver.", "custo": "R$ 4M/ano"}, {"dominio": "emprego", "frente_id": "desenvolvimento", "exame_rotulo": "Eletrocardiograma: coracao (economia, emprego)", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 50, "indicadores": ["ocupacao formal vs informal", "salario real (nao carteira)", "trabalho infantil", "trabalho escravo", "app-worker (Uber/iFood)", "desemprego real"], "gap": "Informal e 40% da forca de trabalho. PNAD estima por amostra. Desemprego PNAD 2024: ~6.5%.", "custo": "R$ 3M/ano"}, {"dominio": "inflacao", "frente_id": "soberania", "exame_rotulo": "Pressao Arterial: inflacao, custo de vida", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 75, "indicadores": ["preco arroz/feijao/oleo/leite por bairro", "gas/onibus/luz/remedio", "cesta basica por cidade", "IPCA periferia"], "gap": "IPCA mede 16 capitais. Periferia e interior: invisivel. IPCA 2024 acumulado ~4.5%.", "custo": "R$ 2M/ano"}, {"dominio": "energia", "frente_id": "infra", "exame_rotulo": "Checkup Geral: habitacao, infraestrutura", "urgencia": "Alta: precisa saber quanto antes", "urgencia_id": "u3", "automacao_pct": 75, "indicadores": ["quem tem luz", "quantas horas/dia", "qualidade (pisca?)", "preco da conta", "quem tem geladeira", "energia solar comunitaria", "gato (roubo energia)"], "gap": "PNAD 2022: 1.8M sem energia. Amazonia: 600 mil sem luz. Qualidade nunca medida.", "custo": "R$ 4M/ano"}, {"dominio": "habitacao", "frente_id": "infra", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 50, "indicadores": ["tipo de construcao", "material", "favela vs formal", "sem-teto (contagem real)", "despejo"], "gap": "Sem-teto nao existe no IBGE. Favela: 17.9M (Censo 2022). Cresce sem medicao.", "custo": "R$ 3M/ano"}, {"dominio": "transporte", "frente_id": "soberania", "exame_rotulo": "Teste de Esforco: mobilidade (transporte)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 75, "indicadores": ["tempo casa->trabalho", "frequencia onibus", "lotacao", "bicicleta como transporte", "estrada: asfalto/terra/rio"], "gap": "Tempo de deslocamento periferia->centro nunca medido. IBGE mobility: >1h/dia media metropole.", "custo": "R$ 2M/ano"}, {"dominio": "agro", "frente_id": "futuro", "exame_rotulo": "Biopsia: tecido vivo (ambiente, biodiversidade)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 100, "indicadores": ["area plantada", "producao", "familiar vs agronegocio", "agrotoxico no rio", "trabalho escravo rural"], "gap": "Censo agro e decadal (2017 foi o ultimo completo). Agronegocio muda em meses.", "custo": "R$ 2M/ano"}, {"dominio": "quilombola", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 75, "indicadores": ["populacao", "territorio certificado vs ameacado", "saude/escola/agua/luz", "ameaca (grileiro)"], "gap": "Censo 2022: 1.3M quilombolas. Titulacao: <15% dos territorios.", "custo": "R$ 2M/ano"}, {"dominio": "ribeirinha", "frente_id": "justica", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Rotina: verificar periodicamente", "urgencia_id": "u4", "automacao_pct": 25, "indicadores": ["populacao por comunidade", "acesso (barco, dias ate cidade)", "saude (malario?)", "energia (solar?)", "agua (rio? potavel?)"], "gap": "500.000+ invisiveis. IBGE nao chega. So de barco.", "custo": "R$ 5M/ano (logistica)"}, {"dominio": "populacao", "frente_id": "futuro", "exame_rotulo": "Biometria: quem e o paciente (populacao, ID)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 50, "indicadores": ["contagem populacional", "faixa etaria", "genero", "raca/cor", "migracao"], "gap": "Censo 2022 (divulgado 2023): 203.1M. Base legal: censo decenal. 4.5M subnotificados/n cobertos.", "custo": "R$ 5M/ano"}, {"dominio": "registro", "frente_id": "futuro", "exame_rotulo": "Genetico: raca, origem, migracao (sem juizo)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 50, "indicadores": ["nascimento (certidao digital)", "obito (causa real)", "casamento", "SEM cartorio (indigena/ribeirinho)"], "gap": "Indigena sem certidao. Obito sem causa. Ribeirinho sem cartorio. Sub-registro civil ~10%.", "custo": "R$ 3M/ano"}, {"dominio": "geografia", "frente_id": "futuro", "exame_rotulo": "Raio X: ver atraves (OSINT satelite)", "urgencia": "Baseline: referencia pra comparar", "urgencia_id": "u5", "automacao_pct": 100, "indicadores": ["mapa atualizado", "rua aberta vs fechada", "ponte existe vs caida", "limite municipal"], "gap": "Mapa IBGE desatualizado. Rua nova nao aparece. OSM melhor mas com gaps no rural.", "custo": "R$ 1M/ano"}];
-
 function renderCarrosseis() {
   var container = document.getElementById('carrosseis');
-
   container.innerHTML = FRENTES.map(function(f) {
-    var examesDaFrente = EXAMES.filter(function(e) {
-      return e.frente_id === f.id;
-    });
-
-    // COVER slide
-    var coverSlide =
-      '<div class="carousel">' +
-        '<div class="slide slide-cover ' + f.corClass.replace('frente-','slide-cover ').trim() + '" style="background: none;">' +
-          '<div class="' + f.corClass + '" style="width:100%;height:100%;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between;">' +
-            '<div>' +
-              '<div class="logo" style="background:rgba(255,255,255,0.15);">R</div>' +
-              '<div style="margin-top:24px;">' +
-                '<p class="tag">FRENTE DE ATAQUE</p>' +
-                '<h2 style="color:white;">' + f.nome + '</h2>' +
-              '</div>' +
-            '</div>' +
-            '<div>' +
-              '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;font-weight:600;margin-bottom:12px;">' + f.tagline + '</p>' +
-              '<p style="color:rgba(255,255,255,0.6);font-size:0.7rem;line-height:1.5;">' + f.dados_chave + '</p>' +
-              '<p class="footer-cover" style="color:rgba(255,255,255,0.4);margin-top:16px;">@openrepublic · github.com/mouracleiton/open-republic</p>' +
+    var slides = f.slides.map(function(s, i) {
+      if (s.tipo === 'cover') {
+        return '<div class="slide slide-cover ' + f.corClass + '">' +
+          '<div>' +
+            '<div class="logo" style="background:rgba(255,255,255,0.15);">R</div>' +
+            '<div style="margin-top:24px;">' +
+              '<p class="tag">FRENTE OPENREPUBLIC</p>' +
+              '<h2>' + f.nome + '</h2>' +
             '</div>' +
           '</div>' +
+          '<div>' +
+            '<p style="color:rgba(255,255,255,0.9);font-size:0.85rem;font-weight:600;margin-bottom:12px;">' + f.tagline + '</p>' +
+            '<p class="dados">' + f.dados_chave + '</p>' +
+            '<p class="footer-cover">OpenRepublic · mouracleiton.github.io/open-republic</p>' +
+          '</div>' +
         '</div>';
-
-    // EXAME slides
-    var exameSlides = examesDaFrente.map(function(e, i) {
-      var urgColor = e.urgencia_id === 'u1' ? '#8B1A1A' : e.urgencia_id === 'u2' ? '#C44536' : e.urgencia_id === 'u3' ? '#F4A261' : '#2D6A4F';
-      return '<div class="slide slide-content ' + f.corClass + '">' +
-        '<span class="slide-num">' + (i+2) + '/' + (examesDaFrente.length + 2) + '</span>' +
-        '<div class="pill">' + e.urgencia + '</div>' +
-        '<h3>' + e.dominio.toUpperCase() + '</h3>' +
-        '<p class="slide-label">O QUE MEDE</p>' +
-        '<p>' + e.exame_rotulo + '</p>' +
-        '<div style="margin:16px 0;">' +
-          '<div class="stat-label">Automação</div>' +
-          '<div class="stat" style="font-size:1.8rem;color:' + (e.automacao_pct >= 75 ? '#2D6A4F' : e.automacao_pct >= 50 ? '#F4A261' : '#8B1A1A') + ';">' + e.automacao_pct + '%</div>' +
-        '</div>' +
-        '<ul>' +
-          e.indicadores.slice(0,4).map(function(ind) { return '<li>• ' + ind + '</li>'; }).join('') +
-        '</ul>' +
-        '<div class="gap-box">' +
-          '<strong>⚠ GAP:</strong> ' + e.gap.substring(0, 120) + (e.gap.length > 120 ? '...' : '') +
-        '</div>' +
-      '</div>';
+      }
+      if (s.tipo === 'cta') {
+        return '<div class="slide slide-cta ' + f.corClass + '" style="background:#0A2540;">' +
+          '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;color:white;margin-bottom:16px;">R</div>' +
+          '<h3>A métrica é uma:<br>quantas pessoas pararam de sofrer?</h3>' +
+          '<p>Partido é ferramenta. População é fim.</p>' +
+          '<p style="font-size:0.65rem;color:#484f58;">mouracleiton.github.io/open-republic</p>' +
+        '</div>';
+      }
+      // content slide
+      var html = '<div class="slide slide-content ' + f.corClass + '">' +
+        '<span class="slide-num">' + (i+1) + '/' + f.slides.length + '</span>' +
+        '<span class="pill">' + s.pill + '</span>' +
+        '<h3>' + s.titulo + '</h3>';
+      if (s.stat) {
+        html += '<div style="margin:8px 0;"><div class="stat" style="font-size:2rem;color:' + f.cor + ';">' + s.stat + '</div><div class="stat-label">' + (s.statLabel||'') + '</div></div>';
+      }
+      if (s.texto) html += '<p style="margin-top:8px;">' + s.texto + '</p>';
+      if (s.gap) html += '<div class="gap-box"><strong>⚠</strong> ' + s.gap + '</div>';
+      html += '</div>';
+      return html;
     }).join('');
 
-    // CTA slide
-    var ctaSlide =
-      '<div class="slide slide-cta ' + f.corClass + '" style="background:#0A2540;">' +
-        '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--verde),var(--ciano));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;color:white;margin-bottom:16px;">R</div>' +
-        '<h3 style="color:white;">O Raio X custa<br>R$ 0.42 por brasileiro/ano</h3>' +
-        '<p>Saber onde dói é o primeiro passo pra curar.</p>' +
-        '<p style="font-size:0.7rem;color:#484f58;">@openrepublic<br>github.com/mouracleiton/open-republic</p>' +
-      '</div>';
-
-    // Navigation dots
-    var navHint = '<p class="nav-hint">← Arraste para ver todos os ' + examesDaFrente.length + ' exames desta frente →</p>';
-
     return '<div class="frente-section">' +
-      '<div class="frente-titulo" style="background:' + f.cor + '22; color:' + f.cor + ';">' + f.nome + '</div>' +
+      '<div class="frente-titulo" style="background:' + f.cor + '22;color:' + f.cor + ';">' + f.nome + '</div>' +
       '<p class="frente-sub">' + f.descricao + '</p>' +
-      '<div class="carousel">' + coverSlide + exameSlides + ctaSlide + '</div>' +
-      navHint +
+      '<div class="carousel">' + slides + '</div>' +
+      '<p class="nav-hint">← Arraste para ver todos os ' + f.slides.length + ' slides →</p>' +
     '</div>';
   }).join('');
 }
