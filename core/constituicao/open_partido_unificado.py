@@ -1,140 +1,133 @@
 #!/usr/bin/env python3
 """
-OpenPartidoUnificado -- Partido Comunista Unificado do Brasil
-================================================================
-"Não soma o que cada partido quer. Soma o que resolve o problema."
-Pega o melhor de cada um. Descarta o resto. Um partido. Uma agenda.
+OpenPartidoUnificado -- Partido Comunista Unificado do Brasil (PCU-B)
+=======================================================================
+Sem siglas. Sem "eu sou do X". Só gente que sabe fazer algo servindo a um programa.
+A sigla morreu. O cargo fica. A habilidade fica. O nome fica.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 from collections import defaultdict
 
 
 # ============================================================
-# O QUE CADA PARTIDO APORTA DE MELHOR
+# PESSOAS COM HABILIDADES (sem sigla, sem partido)
 # ============================================================
 
 @dataclass
-class AportePartido:
-    """O melhor de cada partido, sem o pior."""
-    partido: str
-    lider: str
-    o_que_aporta: str          # o MELHOR que esse partido faz
-    a_quem_serve: str          # qual segmento da população
+class Pessoa:
+    """Uma pessoa que sabe fazer algo. Sem sigla."""
+    nome: str
+    origem: str                    # de onde veio (histórico, não identidade)
+    habilidade: str                # o que sabe fazer
+    serve_a: str                   # a quem serve
     score_capacidade: float
-    cargo_no_partido_unificado: str
-
-    # O que NÃO entra no partido unificado
-    descartado: str
+    cargo: str                     # o que faz no partido unificado
+    descartado: str                # o que NÃO entra (vício da origem)
 
 
-def _init_aportes() -> List[AportePartido]:
+def _init_pessoas() -> List[Pessoa]:
     return [
-        AportePartido("UP", "Samara Martins",
-            "Programa de 25 pontos. Diagnóstico 100%. Base MTST/periferia. Autossustentação.",
+        Pessoa("Samara Martins", "movimento popular",
+            "Programa de 25 pontos. Diagnóstico 100%. Base MTST/periferia.",
             "Famintos, periferia, sem-teto",
             1.50, "Secretaria-Geral do Programa",
             "Falta de equipe técnica (suprida pela coalizão)"),
 
-        AportePartido("PCB", "Jones Manoel",
-            "Comunicação (~2M). Análise econômica. 10 anos de coerência. Coerência socialista.",
-            "Juventude, trabalhadores, periferia",
+        Pessoa("Jones Manoel", "comunicação política",
+            "Comunicação (~2M). Análise econômica. 10 anos de coerência.",
+            "Juventude, trabalhadores",
             2.50, "Coordenação de Comunicação e Mobilização",
-            "Isolamento eleitoral (0 representantes)"),
+            "Intransigência eleitoral"),
 
-        AportePartido("PT", "Camilo Santana / Haddad",
-            "Máquina executiva. Ministério. Quadros técnicos. Experiência de governo.",
-            "Nordeste, idosos, trabalhador formal",
-            4.03, "Coordenação Executiva (Gestão Pública)",
-            "Reformismo/concessões ao capital (descartado)"),
+        Pessoa("Camilo Santana", "gestão pública",
+            "Governador 2x. IDEB subiu. Vacinação 95%. Sabe governar.",
+            "Nordeste, educação",
+            4.72, "Coordenação Executiva (Gestão)",
 
-        AportePartido("PSOL", "Sonia Guajajara",
-            "Direitos humanos. Indígena. LGBTQIA+. Mobilização de rua. Visibilidade.",
+            "Reformismo/concessões ao capital"),
+        Pessoa("Fernando Haddad", "gestão pública e economia",
+            "Ministro Fazenda. Prefeito SP. Ministro Educação. Técnico.",
+            "Trabalhador formal, economia",
+            4.03, "Coordenação Executiva (Gestão)",
+            "Reformismo/concessões ao capital"),
+
+        Pessoa("Sonia Guajajara", "direitos e diversidade",
+            "Liderança indígena. APIB. Ministério. Visibilidade.",
             "Indígenas, LGBTQIA+, mulheres",
             2.67, "Secretaria de Direitos e Diversidade",
-            "Fragmentação interna (descartado)"),
+            "Fragmentação interna"),
 
-        AportePartido("PCdoB", "Jandira Feghali",
-            "Saúde técnica. Mais Médicos. Educação. Quadros profissionais.",
-            "Idosos, SUS, estudantes",
-            3.00, "Secretaria de Saúde e Educação",
-            "Aliança automática com PT (absorvida)"),
+        Pessoa("Jandira Feghali", "saúde",
+            "Médica. Deputada. Coerência. Saúde pública.",
+            "Idosos, SUS",
+            3.00, "Secretaria de Saúde",
+            "Aliança automática com qualquer sigla"),
 
-        AportePartido("REDE", "Marina Silva",
-            "Ambiente. Cisternas. PPCDAm (-80%). PAA. CONSEA. Amazônia.",
-            "Nordeste rural, ribeirinhos, Amazônia",
+        Pessoa("Orlando Silva", "educação e esporte",
+            "Ministro Esporte. Professor. Educação popular.",
+            "Juventude, estudantes",
+            2.83, "Secretaria de Educação e Esporte",
+            "Sub-representação eleitoral"),
+
+        Pessoa("Marina Silva", "ambiente e soberania",
+            "Ministra. -80% desmatamento. Cisternas. PAA. CONSEA.",
+            "Nordeste rural, Amazônia, ribeirinhos",
             4.11, "Secretaria de Ambiente e Soberania",
             "Posição sobre drogas/aborto (descartada pela base)"),
 
-        AportePartido("PDT", "Ciro Gomes",
-            "Infraestrutura. Transposição. Ferrovias. Desenvolvimento nacional.",
-            "Nordeste, interior, trabalhador industrial",
+        Pessoa("Ciro Gomes", "infraestrutura",
+            "Governador. Ministro. Transposição. Ferrovias. Desenvolvimento.",
+            "Nordeste, interior, indústria",
             3.81, "Secretaria de Infraestrutura e Energia",
-            "Base empresarial/agrícola (descartada)"),
+            "Base empresarial/agrícola"),
 
-        AportePartido("PSTU", "—",
-            "Sindicalismo de base. Crítica anticapitalista. Mobilização operária.",
-            "Trabalhadores industriais",
-            1.30, "Secretaria Sindical (consultiva)",
-            "Intransigência eleitoral (descartada)"),
+        Pessoa("Flavio Dino", "justiça e segurança",
+            "Governador. Reduziu homicídios. Ministro Justiça. STF.",
+            "Nordeste, segurança pública",
+            4.14, "Secretaria de Justiça e Segurança",
+            "Centralização de poder"),
 
-        AportePartido("PCO", "—",
-            "Nada executivo. Apenas observador crítico.",
-            "Nenhum (sem base)",
-            1.20, "Observador (sem cargo)",
-            "Tudo (não aporta execução)"),
+        Pessoa("Paulo Paim", "trabalho e previdência",
+            "Senador 5x. Sindicalista. 30 anos direitos trabalhistas.",
+            "Trabalhadores, aposentados",
+            3.17, "Secretaria de Trabalho e Previdência",
+            "Tempo excessivo no mesmo cargo"),
+
+        Pessoa("Patrus Ananias", "cidades e habitação",
+            "Ministro Cidades 2x. Minha Casa Minha Vida. Saneamento.",
+            "Sem-moradia, periferia urbana",
+            3.29, "Secretaria de Cidades e Habitação",
+            "Filiação partidária automática"),
+
+        Pessoa("Erika Hilton", "direitos humanos",
+            "Deputada. Vereadora. Primeira transexual eleita.",
+            "LGBTQIA+, periferia",
+            1.67, "Subsecretaria de Direitos Humanos",
+            "Falta de experiência executiva"),
+
+        Pessoa("Luiza Erundina", "cultura",
+            "Prefeita SP. 30 anos coerência. Educação, saúde, cultura.",
+            "Cultura popular, periferia",
+            3.13, "Secretaria de Cultura",
+            "Idade (mas coerência compensa)"),
     ]
 
 
 # ============================================================
-# O PARTIDO UNIFICADO
-# ============================================================
-
-@dataclass
-class ComissaoCentral:
-    """A coordenação do partido unificado. Um cargo por função."""
-    cargo: str
-    ocupante_partido: str
-    ocupante_nome: str
-    funcao: str
-    score_capacidade: float
-
-
-COMISSAO_CENTRAL = [
-    ComissaoCentral("Secretaria-Geral", "UP", "Samara Martins",
-        "Coordena o programa. Nó central. Diagnóstico e direção.", 1.50),
-    ComissaoCentral("Comunicação", "PCB", "Jones Manoel",
-        "Comunica ao povo. Mobiliza. Cobre. 10 anos de coerência.", 2.50),
-    ComissaoCentral("Gestão Executiva", "PT", "Camilo Santana / Haddad",
-        "Máquina. Ministério. Quadros técnicos. Sabe governar.", 4.03),
-    ComissaoCentral("Direitos e Diversidade", "PSOL", "Sonia Guajajara",
-        "Indígena. LGBTQIA+. Mulheres. Rua.", 2.67),
-    ComissaoCentral("Saúde e Educação", "PCdoB", "Jandira Feghali",
-        "SUS. Mais Médicos. Escola. Quadros.", 3.00),
-    ComissaoCentral("Ambiente e Soberania", "REDE", "Marina Silva",
-        "Amazônia. Cisternas. PAA. -80% desmatamento.", 4.11),
-    ComissaoCentral("Infraestrutura", "PDT", "Ciro Gomes",
-        "Estradas. Ferrovias. Transposição. Energia.", 3.81),
-    ComissaoCentral("Sensores Independente", "—", "OpenRepublic",
-        "Raio X. Censo. Gate. Triage. Ilumina, não decide.", 5.00),
-]
-
-
-# ============================================================
-# O PROGRAMA UNIFICADO: O MELHOR DE CADA UM
+# O PROGRAMA: O QUE A COALIZÃO FAZ PELA POPULAÇÃO
 # ============================================================
 
 @dataclass
 class PoliticaUnificada:
-    """Uma política do programa unificado."""
+    """Uma política do programa. Sem sigla. Com nome de quem executa."""
     eixo: str
     titulo: str
     o_que_fazer: str
-    quem_aporta: str           # qual partido aporta a capacidade
-    quem_executa: str          # qual partido poe a mão na massa
+    quem_coordena: str           # nome da pessoa
+    quem_executa: str            # nome da pessoa
     custo: str
     prazo: str
     meta: str
@@ -148,134 +141,95 @@ class PoliticaUnificada:
 
 def _init_programa() -> List[PoliticaUnificada]:
     return [
-        # EMERGENCIAS
         PoliticaUnificada("alimentacao", "Fome Zero com rastreio individual",
             "PAA+CONSEA+VIGISAN+BF R$700+merenda local+rastreio criança-até-prato.",
-            "REDE (PAA/CONSEA) + PT (BF) + UP (rastreio)",
-            "REDE coordena. PT executa BF. UP executa rastreio.",
-            "R$ 50 bi/ano", "2 anos", "0 (fome zero)",
-            28.0, 85),
+            "Marina Silva", "Samara Martins",
+            "R$ 50 bi/ano", "2 anos", "0 (fome zero)", 28.0, 85),
 
         PoliticaUnificada("agua", "Água universal + cisternas + esgoto",
             "1M cisternas. Saneamento estatizado. 90% esgoto. Mercúrio zero.",
-            "REDE (cisternas) + PDT (infraestrutura)",
-            "REDE coordena. PDT constrói.",
-            "R$ 55 bi/ano", "4 anos", "0 sem água",
-            26.0, 75),
+            "Marina Silva", "Ciro Gomes",
+            "R$ 55 bi/ano", "4 anos", "0 sem água", 26.0, 75),
 
         PoliticaUnificada("violencia", "Desmilitarização + prevenção",
-            "PM->Comunitária. Prevenção>Repressão. Desarmamento. Conselhos populares.",
-            "PSOL (direitos) + PCdoB (saúde mental) + PT (transição)",
-            "PT executa transição. PSOL monitora direitos.",
-            "R$ 20 bi/ano", "4 anos", "<15.000 homicídios/ano",
-            28.5, 60),
+            "PM->Comunitária. Prevenção>Repressão. Desarmamento. Conselhos.",
+            "Flavio Dino", "Jones Manoel",
+            "R$ 20 bi/ano", "4 anos", "<15.000 homicídios/ano", 28.5, 60),
 
         PoliticaUnificada("saude", "SUS 8% PIB + Mais Médicos + fim planos",
-            "Dobrar SUS. Mais Médicos expandido. Fim planos. Dengue. Triagem.",
-            "PCdoB (SUS/Mais Médicos) + PT (ministério)",
-            "PCdoB coordena. PT aporta ministério.",
-            "R$ 80 bi/ano", "4 anos", "Fila <30 dias",
-            99.0, 70),
+            "Dobrar SUS. Mais Médicos. Fim planos. Dengue. Triagem.",
+            "Jandira Feghali", "Camilo Santana",
+            "R$ 80 bi/ano", "4 anos", "Fila <30 dias", 99.0, 70),
 
         PoliticaUnificada("soberania_alimentar", "Trigo + fertilizantes + sementes",
-            "Produção nacional de trigo. Fertilizantes nacionais. Sementes crioulas.",
-            "UP (reforma agrária) + PCB (planificação) + PT (EMBRAPA)",
-            "PT executa via EMBRAPA. UP reforma terra. PCB planifica.",
-            "R$ 20 bi/ano", "4 anos", "50% trigo nacional",
-            100.0, 50),
+            "Produção nacional. Fertilizantes. Sementes crioulas.",
+            "Samara Martins", "Camilo Santana",
+            "R$ 20 bi/ano", "4 anos", "50% trigo nacional", 100.0, 50),
 
-        # ALTA
-        PoliticaUnificada("educacao", "Escola integral + professor R$8k + censo próprio",
-            "Escola 7h-17h. Piso R$8k. Censo escolar. Currículo P1-P14 (cordel, capoeira).",
-            "PCdoB (educação) + PT (Camilo) + PCB (currículo popular)",
-            "PT executa. PCdoB coordena. PCB aporta currículo.",
-            "R$ 150 bi/ano", "4 anos", "PISA 450",
-            32.5, 65),
+        PoliticaUnificada("educacao", "Escola integral + professor R$8k + censo",
+            "Escola 7h-17h. Piso R$8k. Censo escolar. Cordel/capoeira.",
+            "Orlando Silva", "Camilo Santana",
+            "R$ 150 bi/ano", "4 anos", "PISA 450", 32.5, 65),
 
-        PoliticaUnificada("emprego", "Emprego garantido + jornada 6h + renda mínima",
-            "Programa Nacional de Emprego Popular. Jornada 6h. Renda mínima R$2.600.",
-            "PCB (coordena) + PT (executa obras) + PSTU (sindical)",
-            "PT executa. PCB coordena. PSTU mobiliza.",
-            "R$ 120 bi/ano", "4 anos", "<4% desemprego",
-            4.7, 55),
+        PoliticaUnificada("emprego", "Emprego garantido + jornada 6h + renda",
+            "Programa Nacional de Emprego. Jornada 6h. Renda mínima R$2.600.",
+            "Paulo Paim", "Camilo Santana",
+            "R$ 120 bi/ano", "4 anos", "<4% desemprego", 4.7, 55),
 
-        PoliticaUnificada("economia", "Nacionalização bancária + ISF + auditoria dívida",
-            "Nacionalização gradual. ISF 1%+R$10M. Auditoria. Planificação. Remessas.",
-            "PCB (planificação) + UP (programa) + PT (transição gradual)",
-            "PT executa transição. PCB coordena plano. UP aporta programa.",
-            "R$ 200 bi/ano ganho", "4 anos", "Spread <5%",
-            100.0, 50),
+        PoliticaUnificada("economia", "Nacionalização bancária + ISF + auditoria",
+            "Nacionalização gradual. ISF. Auditoria dívida. Planificação.",
+            "Fernando Haddad", "Samara Martins",
+            "R$ 200 bi/ano ganho", "4 anos", "Spread <5%", 100.0, 50),
 
-        # MÉDIA
         PoliticaUnificada("ambiente", "PPCDAm + Amazônia + extrativismo",
-            "PPCDAm reativado. Controle popular. Economia extrativista. Transição energética.",
-            "REDE (PPCDAm) + PSOL (indígena) + PDT (energia)",
-            "REDE coordena. PSOL protege terras. PDT faz transição.",
-            "R$ 30 bi/ano", "4 anos", "<3.000 km²/ano",
-            18.8, 75),
+            "PPCDAm. Controle popular. Extrativismo. Transição energética.",
+            "Marina Silva", "Sonia Guajajara",
+            "R$ 30 bi/ano", "4 anos", "<3.000 km²/ano", 18.8, 75),
 
         PoliticaUnificada("indigena", "Demarcação + saúde + escola bilíngue",
-            "251 terras. DSEI fortalecido. Escolas bilíngues. Mercúrio zero.",
-            "PSOL (Sonia) + REDE (apoio) + PCdoB (saúde)",
-            "PSOL coordena. PCdoB aporta saúde.",
-            "R$ 5 bi/ano", "2 anos", "251 demarcadas",
-            1.4, 80),
+            "251 terras. DSEI. Escolas bilíngues. Mercúrio zero.",
+            "Sonia Guajajara", "Jandira Feghali",
+            "R$ 5 bi/ano", "2 anos", "251 demarcadas", 1.4, 80),
 
-        PoliticaUnificada("agropecuaria", "Reforma agrária + agricultura familiar + fim agrotóxicos",
-            "Nacionalização da terra. 500M famílias. Cooperativas. Agroecologia.",
-            "UP (nacionalização) + REDE (familiar) + PCB (planificação)",
-            "UP coordena. REDE executa cooperativas. PCB planifica.",
-            "R$ 15 bi/ano", "4 anos", "Gini <0.6",
-            8.3, 55),
+        PoliticaUnificada("agropecuaria", "Reforma agrária + agricultura familiar",
+            "Nacionalização da terra. 500M famílias. Cooperativas.",
+            "Samara Martins", "Marina Silva",
+            "R$ 15 bi/ano", "4 anos", "Gini <0.6", 8.3, 55),
 
-        PoliticaUnificada("energia", "Reestatização + tarifa social + solar favela",
+        PoliticaUnificada("energia", "Reestatização + tarifa social + solar",
             "Petrobras 100% estatal. Tarifa social. Solar comunitária.",
-            "PDT (infraestrutura) + PCB (estatização) + REDE (solar)",
-            "PDT executa. PCB coordena estatização. REDE faz solar.",
-            "R$ 80 bi/ano", "4 anos", "Tarifa social universal",
-            60.0, 60),
+            "Ciro Gomes", "Marina Silva",
+            "R$ 80 bi/ano", "4 anos", "Tarifa social universal", 60.0, 60),
 
-        PoliticaUnificada("transporte", "Estatização + tarifa zero + frota elétrica + ferrovias",
-            "Municipalização. Tarifa zero. Frota elétrica BR. Ferrovias.",
-            "PDT (ferrovias) + UP (estatização)",
-            "PDT executa. UP coordena estatização.",
-            "R$ 40 bi/ano", "4 anos", "+50% passageiros",
-            32.5, 65),
+        PoliticaUnificada("transporte", "Estatização + tarifa zero + elétrico",
+            "Municipalização. Tarifa zero. Frota elétrica. Ferrovias.",
+            "Ciro Gomes", "Ciro Gomes",
+            "R$ 40 bi/ano", "4 anos", "+50% passageiros", 32.5, 65),
 
-        PoliticaUnificada("habitacao", "Imóveis vazios + 4M moradias + reforma urbana",
-            "Uso ou perda. Cooperativas. Caixa financiando. Reforma urbana.",
-            "UP (imóveis vazios) + PT (MCMV) + PSOL (reforma urbana)",
-            "PT executa construção. UP coordena ocupação.",
-            "R$ 35 bi/ano", "4 anos", "Déficit zero",
-            6.0, 75),
+        PoliticaUnificada("habitacao", "Imóveis vazios + 4M moradias + reforma",
+            "Uso ou perda. Cooperativas. Caixa. Reforma urbana.",
+            "Patrus Ananias", "Samara Martins",
+            "R$ 35 bi/ano", "4 anos", "Déficit zero", 6.0, 75),
 
         PoliticaUnificada("saneamento", "Estatização + coleta universal",
-            "Marco Legal revertido. Estatização. 90% esgoto. Coleta seletiva.",
-            "PT (estatização) + PDT (infraestrutura)",
-            "PT coordena. PDT constrói.",
-            "R$ 25 bi/ano", "4 anos", "90% esgoto",
-            70.0, 70),
+            "Marco Legal revertido. 90% esgoto. Coleta seletiva.",
+            "Patrus Ananias", "Ciro Gomes",
+            "R$ 25 bi/ano", "4 anos", "90% esgoto", 70.0, 70),
 
         PoliticaUnificada("drogas", "Redução de danos + descriminalização",
-            "Caps AD. Equipes de rua. Naloxona. Descriminalização do uso.",
-            "PSOL (direitos) + PCdoB (saúde)",
-            "PCdoB executa saúde. PSOL coordena política.",
-            "R$ 8 bi/ano", "4 anos", "100% com tratamento",
-            6.0, 60),
+            "Caps AD. Equipes de rua. Naloxona. Descriminalização.",
+            "Erika Hilton", "Jandira Feghali",
+            "R$ 8 bi/ano", "4 anos", "100% com tratamento", 6.0, 60),
 
-        PoliticaUnificada("cultura", "Cotização 40% + financiamento direto + cordel",
-            "Conteúdo 40% nacional. Bolsa direta. Cordel/capoeira no currículo.",
-            "PCB (nacionalização) + PSOL (cultura popular)",
-            "PCB coordena. PSOL executa cultura.",
-            "R$ 3 bi/ano", "2 anos", "50% nacional",
-            16.5, 55),
+        PoliticaUnificada("cultura", "Cotização 40% + financiamento direto",
+            "Conteúdo 40% nacional. Bolsa direta. Cordel/capoeira.",
+            "Luiza Erundina", "Jones Manoel",
+            "R$ 3 bi/ano", "2 anos", "50% nacional", 16.5, 55),
 
-        PoliticaUnificada("comunicacao", "Democratização + internet rural + fim doação empresa",
+        PoliticaUnificada("comunicacao", "Democratização + internet rural",
             "Quebra monopólio. Concessões públicas. Internet rural. Fim PJ.",
-            "PCB (democratização) + PSOL (apoio) + PT (internet)",
-            "PCB coordena. PT executa internet.",
-            "R$ 5 bi/ano", "4 anos", "Herfindahl <0.3",
-            35.0, 50),
+            "Jones Manoel", "Fernando Haddad",
+            "R$ 5 bi/ano", "4 anos", "Herfindahl <0.3", 35.0, 50),
     ]
 
 
@@ -285,36 +239,29 @@ def _init_programa() -> List[PoliticaUnificada]:
 
 class PartidoUnificado:
     """
-    Partido Comunista Unificado do Brasil.
-    Pega o melhor de cada um. Descarta o resto.
+    Partido Comunista Unificado do Brasil (PCU-B).
+    Sem siglas. Só gente. Só habilidade. Só programa.
     """
 
     def __init__(self):
-        self.aportes = _init_aportes()
-        self.comissao = COMISSAO_CENTRAL
+        self.pessoas = _init_pessoas()
         self.programa = _init_programa()
 
     def scorecard(self) -> Dict[str, Any]:
         total_sofrendo = sum(p.pessoas_resolvidas_milhoes / (p.cobertura_pct / 100) for p in self.programa)
         total_resolvido = sum(p.pessoas_resolvidas_milhoes for p in self.programa)
         n_resolvidos = sum(1 for p in self.programa if p.status == "RESOLVIDO")
-        n_parcial = sum(1 for p in self.programa if p.status == "PARCIAL")
-        n_falha = sum(1 for p in self.programa if p.status == "FALHA")
 
         return {
             "modulo": "open_partido_unificado",
-            "versao": "0.1.0-spec",
+            "versao": "0.2.0-spec (sem siglas)",
             "nome": "Partido Comunista Unificado do Brasil",
             "sigla": "PCU-B",
-            "n_partidos_fundadores": len(self.aportes),
-            "comissao_central": len(self.comissao),
-            "politicas_total": len(self.programa),
+            "pessoas": len(self.pessoas),
+            "politicas": len(self.programa),
             "eixos_resolvidos": n_resolvidos,
-            "eixos_parciais": n_parcial,
-            "eixos_falha": n_falha,
             "pessoas_resolvidas_milhoes": round(total_resolvido, 1),
             "cobertura_media": round(total_resolvido / total_sofrendo * 100, 1) if total_sofrendo else 0,
-            "custo_anual": "R$ ~520 bilhoes/ano (financiado por ISF + nacionalização + fim subsídios)",
         }
 
 
@@ -322,87 +269,69 @@ def _demo():
     pu = PartidoUnificado()
     sc = pu.scorecard()
 
-    print("=" * 95)
-    print(f"PARTIDO COMUNISTA UNIFICADO DO BRASIL (PCU-B)")
-    print(f"O melhor de 9 partidos. Descarta o resto. Um partido. Uma agenda.")
-    print("=" * 95)
+    print("=" * 90)
+    print("PARTIDO COMUNISTA UNIFICADO DO BRASIL (PCU-B)")
+    print("Sem siglas. Só gente. Só habilidade. Só programa.")
+    print("=" * 90)
 
     print(f"""
-  {sc['n_partidos_fundadores']} partidos fundadores -> 1 partido unificado
-  {sc['comissao_central']} cargos na Comissão Central
-  {sc['politicas_total']} políticas no programa unificado
-  Score médio da comissão: {sum(c.score_capacidade for c in pu.comissao) / len(pu.comissao):.2f}/5.0
+  {sc['pessoas']} pessoas. {sc['politicas']} políticas. 18 eixos.
+
+  A sigla morreu. O cargo fica. A habilidade fica. O nome fica.
+  Quem entra não entra como "membro do X".
+  Entra como gente que sabe fazer algo.
 
   PESSOAS RESOLVIDAS: {sc['pessoas_resolvidas_milhoes']} milhões
   COBERTURA MÉDIA: {sc['cobertura_media']}%
-
-  CUSTO ANUAL: {sc['custo_anual']}
 """)
 
-    print(f"{'='*95}")
-    print("COMISSÃO CENTRAL (o melhor de cada partido)")
-    print(f"{'='*95}")
-    for c in pu.comissao:
-        score_bar = "#" * int(c.score_capacidade)
-        print(f"\n  [{c.cargo}]")
-        print(f"    Partido: {c.ocupante_partido} | Nome: {c.ocupante_nome} | Score: {c.score_capacidade:.1f} [{score_bar}]")
-        print(f"    Função: {c.funcao}")
-
-    print(f"\n{'='*95}")
-    print("O QUE CADA PARTIDO APORTA (e o que é descartado)")
-    print(f"{'='*95}")
-    for a in pu.aportes:
-        print(f"\n  [{a.partido}] {a.lider} (score {a.score_capacidade:.1f})")
-        print(f"    APORTA: {a.o_que_aporta}")
-        print(f"    SERVE A: {a.a_quem_serve}")
-        print(f"    CARGO: {a.cargo_no_partido_unificado}")
-        print(f"    DESCARTADO: {a.descartado}")
-
-    print(f"\n{'='*95}")
-    print("PROGRAMA UNIFICADO: 18 EIXOS, O MELHOR DE CADA UM")
-    print(f"{'='*95}")
-    for p in pu.programa:
-        bar = "#" * int(p.cobertura_pct / 5)
-        flag = " *** RESOLVIDO" if p.status == "RESOLVIDO" else (" *** FALHA" if p.status == "FALHA" else "")
+    print(f"{'='*90}")
+    print("QUEM FAZ O QUE (sem sigla, sem partido, sem 'eu')")
+    print(f"{'='*90}")
+    for p in pu.pessoas:
+        bar = "#" * int(p.score_capacidade)
         print(f"""
-  [{p.eixo.upper()}] {p.titulo} {flag}
-    FAZER: {p.o_que_fazer[:75]}
-    APORTA: {p.quem_aporta}
-    EXECUTA: {p.quem_executa}
-    CUSTO: {p.custo} | PRAZO: {p.prazo} | META: {p.meta}
-    RESOLVE: {p.pessoas_resolvidas_milhoes:.1f}M ({p.cobertura_pct}%) [{bar}]""")
+  [{p.cargo}]
+    NOME: {p.nome} (score {p.score_capacidade:.1f}) [{bar}]
+    VEIO DE: {p.origem}
+    SABE FAZER: {p.habilidade}
+    SERVE A: {p.serve_a}
+    DESCARTADO: {p.descartado}""")
 
-    print(f"\n{'='*95}")
+    print(f"\n{'='*90}")
+    print("PROGRAMA: QUEM EXECUTA O QUÊ")
+    print(f"{'='*90}")
+    for pol in pu.programa:
+        bar = "#" * int(pol.cobertura_pct / 5)
+        flag = " *** RESOLVIDO" if pol.status == "RESOLVIDO" else ""
+        print(f"""
+  [{pol.eixo.upper()}] {pol.titulo} {flag}
+    FAZER: {pol.o_que_fazer[:70]}
+    COORDENA: {pol.quem_coordena}
+    EXECUTA: {pol.quem_executa}
+    CUSTO: {pol.custo} | PRAZO: {pol.prazo} | META: {pol.meta}
+    RESOLVE: {pol.pessoas_resolvidas_milhoes:.1f}M ({pol.cobertura_pct}%) [{bar}]""")
+
+    print(f"\n{'='*90}")
     print("VEREDITO")
-    print(f"{'='*95}")
+    print(f"{'='*90}")
     print(f"""
-  9 partidos viraram 1.
+  {sc['pessoas']} pessoas com habilidades servindo a {sc['politicas']} políticas.
 
-  COMISSÃO CENTRAL:
-    Secretaria-Geral: UP (Samara) -- programa
-    Comunicação: PCB (Jones) -- mobilização
-    Executivo: PT (Camilo/Haddad) -- governo
-    Direitos: PSOL (Sonia) -- indígena/diversidade
-    Saúde/Educação: PCdoB (Jandira) -- SUS
-    Ambiente: REDE (Marina) -- Amazônia
-    Infraestrutura: PDT (Ciro) -- estradas/energia
-    Sensor: OpenRepublic -- Raio X
+  Não existe "eu sou do PT". Não existe "eu sou do PCB".
+  Existe: "eu sei fazer X e vou fazer X pelo programa".
 
-  O QUE MUDA:
-    PT perde o reformismo. Ganha máquina executiva.
-    PCB perde o isolamento. Ganha canal de 2M.
-    UP perde a falta de equipe. Ganha programa de 25 pontos.
-    PSOL perde fragmentação. Ganha foco em direitos.
-    PCdoB perde aliança automática. Ganha saúde + educação.
-    REDE perde divergência em drogas. Ganha Amazônia.
-    PDT perde base empresarial. Ganha infraestrutura nacional.
-
-  NINGUÉM FAZ SOZINHO. TODOS FAZEM JUNTOS.
+  Samara coordena o programa. Não como "da UP". Como quem escreveu 25 pontos.
+  Jones comunica. Não como "do PCB". Como quem tem 2M e 10 anos de coerência.
+  Camilo governa. Não como "do PT". Como quem fez IDEB subir.
+  Marina cuida da Amazônia. Não como "da REDE". Como quem reduziu desmatamento 80%.
+  Ciro constrói. Não como "do PDT". Como fez a transposição.
 
   A única métrica: {sc['pessoas_resolvidas_milhoes']:.0f} milhões param de sofrer.
-  Falta: {(100 - sc['cobertura_media']):.0f}% ainda sofrendo.
+  Falta: {100 - sc['cobertura_media']:.0f}% ainda sofrendo.
 
   Partido é ferramenta. População é fim.
+  Não existe eu. Existe o que falta resolver.
 """)
 
 
