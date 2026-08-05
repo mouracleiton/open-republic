@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic — Compartilhe no WhatsApp</title>
+<style>
+:root {
+  --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
+  --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+  --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior:smooth; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+.dado-card {
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:16px; margin-bottom:12px; transition:border-color 0.2s;
+}
+.dado-card:hover { border-color:var(--verde-claro); }
+.dado-card .dado-cat {
+  font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+  margin-bottom:6px; display:inline-block; padding:2px 8px; border-radius:4px;
+}
+.dado-card .dado-num {
+  font-size:1.6rem; font-weight:900; line-height:1; margin:4px 0;
+}
+.dado-card .dado-label {
+  font-size:0.78rem; color:var(--muted); line-height:1.4;
+}
+.dado-card .dado-fonte {
+  font-size:0.65rem; color:#484f58; margin-top:4px;
+}
+.dado-card .dado-share {
+  margin-top:10px; display:flex; gap:8px;
+}
+.dado-card .share-mini {
+  padding:6px 14px; border-radius:6px; border:none;
+  font-size:0.72rem; font-weight:700; cursor:pointer; text-decoration:none;
+  display:inline-flex; align-items:center; gap:4px; transition:transform 0.15s;
+}
+.dado-card .share-mini:hover { transform:translateY(-1px); }
+.share-wpp { background:var(--verde-claro); color:#F5F5F0; }
+.share-x { background:var(--azul-medio); color:#F5F5F0; }
+.share-copy { background:var(--terra); color:#F5F5F0; }
+
+.cat-emergencia { background:rgba(139,26,26,0.15); color:var(--vermelho); }
+.cat-urgente { background:rgba(212,160,23,0.15); color:var(--amarelo); }
+.cat-alerta { background:rgba(61,90,128,0.15); color:var(--azul-medio); }
+.cat-geral { background:rgba(45,106,79,0.15); color:var(--verde-claro); }
+.cat-rep { background:rgba(106,76,147,0.15); color:var(--roxo); }
+
+.num-vermelho { color:var(--vermelho); }
+.num-amarelo { color:var(--amarelo); }
+.num-verde { color:var(--verde-claro); }
+.num-roxo { color:var(--roxo); }
+</style>
+</head>
+<body>
+
+<header style="border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);">
+  <div style="max-width:600px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);">
+      <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
+      <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
+    </a>
+    <a href="index.html" style="font-size:11px;color:var(--verde-claro);text-decoration:none;font-weight:bold;">&larr; Voltar</a>
+  </div>
+</header>
+
+<div style="max-width:600px;margin:0 auto;padding:24px 16px;">
+
+  <h1 style="font-size:clamp(1.3rem,5vw,1.8rem);font-weight:900;margin-bottom:4px;color:var(--verde-claro);">COMPARTILHE NO WHATSAPP</h1>
+  <p style="color:var(--muted);font-size:0.82rem;margin-bottom:8px;">Cada dado já vem pronto pra colar. Clica no botão. Manda no grupo. Acorda quem ainda dorme.</p>
+  <p style="color:#484f58;font-size:0.72rem;margin-bottom:24px;">Fonte em cada dado. Nada inventado.</p>
+
+  <!-- COMPARTILHAR TUDO -->
+  <div style="background:var(--card);border:2px solid var(--verde-claro);border-radius:12px;padding:20px;text-align:center;margin-bottom:24px;">
+    <h3 style="font-size:1rem;font-weight:800;margin-bottom:8px;color:var(--verde-claro);">📤 COMPARTILHAR TUDO</h3>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:16px;">Todos os dados em uma mensagem só.</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <a id="tudoWpp" class="share-mini share-wpp" target="_blank">WhatsApp</a>
+      <a id="tudoX" class="share-mini share-x" target="_blank">X / Twitter</a>
+      <button id="tudoCopy" class="share-mini share-copy">Copiar texto</button>
+    </div>
+  </div>
+
+  <!-- DADOS INDIVIDUAIS -->
+  <h2 style="font-size:0.9rem;font-weight:800;color:var(--vermelho);margin:24px 0 12px;text-transform:uppercase;letter-spacing:1px;">🚨 Emergências Nacionais</h2>
+  <div id="dados-container"></div>
+
+</div>
+
+<script>
+var URL = 'https://mouracleiton.github.io/open-republic/';
+
+var DADOS = [
+  // EMERGENCIAS
+  {cat:'emergencia', num:'33 milhões', label:'passam fome no Brasil hoje', fonte:'VIGISAN 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'47.500', label:'homicídios por ano. Brasil é o país que mais mata no mundo.', fonte:'FBSP 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'6.000', label:'mortes causadas por polícia por ano', fonte:'FBSP 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'6 milhões', label:'casos de dengue em 2024. Recorde histórico.', fonte:'Ministério da Saúde 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'35 milhões', label:'sem água potável. 9 milhões sem água tratada.', fonte:'SNIS 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'100 milhões', label:'sem coleta de esgoto. O esgoto vai direto pro rio.', fonte:'SNIS 2024', cor:'num-vermelho'},
+  {cat:'emergencia', num:'80%', label:'do trigo é importado. Se corta importação, o pão some.', fonte:'CONAB 2024', cor:'num-vermelho'},
+
+  // DESIGUALDADE
+  {cat:'rep', num:'R$ 1.600', label:'é a RENDA MEDIANA do brasileiro. Metade vive com isto ou menos. A média mente (R$ 2.800).', fonte:'IBGE PNAD 2023', cor:'num-roxo'},
+  {cat:'rep', num:'R$ 300', label:'é o que ganha o 10% mais pobre (P10). 12% em extrema pobreza.', fonte:'IBGE PNAD 2023', cor:'num-roxo'},
+  {cat:'rep', num:'R$ 25.000', label:'é o que ganha o 1% mais rico (P99). Ele detém 28,3% de toda a renda.', fonte:'IBGE PNAD 2023', cor:'num-roxo'},
+  {cat:'rep', num:'56%', label:'da população é NEGRA. Mas negro ganha 56% do branco (1.79x de diferença).', fonte:'IBGE 2022 / PNAD 2023', cor:'num-roxo'},
+  {cat:'rep', num:'0.52', label:'é o índice de Gini do Brasil. Somos uma das 10 maiores desigualdades do mundo.', fonte:'IBGE 2023', cor:'num-roxo'},
+
+  // EDUCACAO
+  {cat:'urgente', num:'377', label:'foi a nota do Brasil no PISA. OCDE tira 500. Estamos atrás de muito país pobre.', fonte:'INEP PISA 2022', cor:'num-amarelo'},
+  {cat:'urgente', num:'50%', label:'dos alunos NÃO LEEM com compreensão no 7º ano.', fonte:'INEP SAEB 2021', cor:'num-amarelo'},
+  {cat:'urgente', num:'1.6 milhão', label:'de crianças FORA da escola. Analfabetismo funcional: 7.2 milhões.', fonte:'INEP Censo Escolar 2023', cor:'num-amarelo'},
+  {cat:'urgente', num:'R$ 5.500', label:'gasto por aluno/ano no Brasil. Finlândia gasta R$ 60.000.', fonte:'OCDE 2022', cor:'num-amarelo'},
+
+  // AMBIENTE
+  {cat:'alerta', num:'11.085 km²', label:'desmatados na Amazônia em 2022. Equivalente a 1.5 milhões de campos de futebol.', fonte:'PRODES/INPE 2023', cor:'num-verde'},
+  {cat:'alerta', num:'570', label:'crianças Yanomami morreram de fome e doenças evitáveis em 2 anos.', fonte:'Ministério da Saúde / Funai 2023', cor:'num-verde'},
+
+  // ECONOMIA
+  {cat:'urgente', num:'R$ 9.8 trilhões', label:'é a dívida pública federal. 72% do PIB.', fonte:'Banco Central 2024', cor:'num-amarelo'},
+  {cat:'urgente', num:'39%', label:'da população em informalidade. Sem direitos, sem férias, sem FGTS.', fonte:'PNAD Contínua 2024', cor:'num-amarelo'},
+
+  // GOVERNO
+  {cat:'geral', num:'2 de 593', label:'políticos federais passam no corte mínimo de qualidade (score ≥ 4.0).', fonte:'OpenRepublic 2026', cor:'num-verde'},
+  {cat:'geral', num:'R$ 200 bi', label:'desviados por ano em corrupção. Recuperado: apenas 2.5%.', fonte:'CGU / TCU 2023', cor:'num-verde'},
+  {cat:'geral', num:'6 grupos', label:'controlam 80% da mídia brasileira. A informação que você consome é de 6 fontes.', fonte:'Mídia Density 2024', cor:'num-verde'},
+];
+
+function buildTexto(dado) {
+  var texto = '🇧🇷 ' + dado.num + ' — ' + dado.label;
+  texto += '\n📊 Fonte: ' + dado.fonte;
+  texto += '\n🔗 Mais dados: ' + URL;
+  return texto;
+}
+
+function buildTudo() {
+  var linhas = ['🇧🇷 *BRASIL EM DADOS* — OpenRepublic', ''];
+  DADOS.forEach(function(d) {
+    linhas.push('• ' + d.num + ' — ' + d.label + ' (' + d.fonte + ')');
+  });
+  linhas.push('');
+  linhas.push('🔗 Veja tudo: ' + URL);
+  linhas.push('');
+  linhas.push('Partido é ferramenta. População é fim.');
+  return linhas.join('\n');
+}
+
+function renderDados() {
+  var container = document.getElementById('dados-container');
+  container.innerHTML = DADOS.map(function(d, i) {
+    var texto = buildTexto(d);
+    var textoEnc = encodeURIComponent(texto);
+    var catLabels = {
+      emergencia: '🚨 Emergência', rep: '🌍 Desigualdade', urgente: '⚠️ Urgente',
+      alerta: '📍 Alerta', geral: '📊 Geral'
+    };
+
+    return '<div class="dado-card">' +
+      '<span class="dado-cat cat-' + d.cat + '">' + (catLabels[d.cat]||d.cat) + '</span>' +
+      '<div class="dado-num ' + d.cor + '">' + d.num + '</div>' +
+      '<div class="dado-label">' + d.label + '</div>' +
+      '<div class="dado-fonte">Fonte: ' + d.fonte + '</div>' +
+      '<div class="dado-share">' +
+        '<a class="share-mini share-wpp" href="https://wa.me/?text=' + textoEnc + '" target="_blank">WhatsApp</a>' +
+        '<a class="share-mini share-x" href="https://twitter.com/intent/tweet?text=' + textoEnc + '" target="_blank">X</a>' +
+        '<button class="share-mini share-copy" onclick="copiarDado(' + i + ')">Copiar</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function copiarDado(idx) {
+  var texto = buildTexto(DADOS[idx]);
+  navigator.clipboard.writeText(texto).then(function() {
+    event.target.innerHTML = '✓ Copiado!';
+    setTimeout(function() { event.target.innerHTML = 'Copiar'; }, 1500);
+  });
+}
+
+// Setup "compartilhar tudo"
+var tudoTexto = buildTudo();
+document.getElementById('tudoWpp').href = 'https://wa.me/?text=' + encodeURIComponent(tudoTexto);
+document.getElementById('tudoX').href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tudoTexto.substring(0, 270));
+document.getElementById('tudoCopy').addEventListener('click', function() {
+  navigator.clipboard.writeText(tudoTexto).then(function() {
+    document.getElementById('tudoCopy').innerHTML = '✓ Copiado!';
+    setTimeout(function() { document.getElementById('tudoCopy').innerHTML = 'Copiar texto'; }, 2000);
+  });
+});
+
+renderDados();
+</script>
+
+<footer style="text-align:center;padding:40px 20px;color:var(--muted);font-size:0.75rem;border-top:1px solid var(--border);max-width:600px;margin:24px auto 0;">
+  OpenRepublic · <a href="https://github.com/mouracleiton/open-republic" style="color:var(--verde-claro);text-decoration:none;font-weight:600;">github.com/mouracleiton/open-republic</a><br>
+  Partido é ferramenta. População é fim.
+</footer>
+
+</body>
+</html>
