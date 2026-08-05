@@ -68,18 +68,16 @@ def _init_regras() -> List[RegraConstitucional]:
             "Presidente decide o desempate. Vice não.",
             True),
 
-        RegraConstitucional("Art. 2", "PRESIDENTE É MULHER NEGRA",
-            "O cargo de Presidente é RESERVADO para mulher negra. "
-            "Não é cota simbólica. É correção de 524 anos de poder "
-            "branco, masculino e patriarcal. "
-            "Chapa sem presidente mulher negra = W.O. (impedimento).",
+        RegraConstitucional("Art. 2", "PRESIDENTE E VICE",
+            "Presidente: Dilma Rousseff. Mulher. Experiência executiva. "
+            "Vice: Jones Manoel. Comunicação. Mobilização. "
+            "Ambos com poder de sanção e veto. Presidente tem voto de minerva.",
             True),
 
-        RegraConstitucional("Art. 2-A", "VICE É O ÚLTIMO PRESIDENTE",
-            "O Vice-Presidente é o presidente recém-saído (último mandato). "
-            "Cargo de transição: aporta experiência executiva. "
-            "Mesmo poder de veto e sanção. "
-            "Não é decoração: é garantia de continuidade + freio.",
+        RegraConstitucional("Art. 2-A", "VICE É CO-PILOTO",
+            "O Vice não é decoração. Tem poder real de sanção e veto. "
+            "Aporta comunicação e mobilização popular. "
+            "Sem voto de minerva. Em empate, presidente decide.",
             True),
 
         RegraConstitucional("Art. 3", "DUPLO COMANDO",
@@ -137,22 +135,19 @@ def _init_co_presidencia() -> List[CoPresidente]:
     return [
         CoPresidente(
             cargo="Presidente",
-            nome="[MOCK - DEVE ser mulher negra]",
-            obrigatoria_mulher_negra=True,
+            nome="Dilma Rousseff",
+            obrigatoria_mulher_negra=False,
             poder=[TipoPoder.SANCAO, TipoPoder.VETO, TipoPoder.DECRETO,
                    TipoPoder.INDICACAO, TipoPoder.ORCAMENTO, TipoPoder.DESEMPATE],
-            restricoes="LEI: cargo reservado para mulher negra. "
-                       "Chapa sem presidente mulher negra = impugnação (W.O.). "
-                       "VOTO DE MINERVA em caso de discordância com Vice."),
+            restricoes="Presidente. VOTO DE MINERVA em caso de discordância com Vice."),
 
         CoPresidente(
             cargo="Vice-Presidente",
-            nome="[MOCK - último presidente, cargo de transição]",
+            nome="Jones Manoel",
             obrigatoria_mulher_negra=False,
             poder=[TipoPoder.SANCAO, TipoPoder.VETO, TipoPoder.DECRETO,
                    TipoPoder.INDICACAO, TipoPoder.ORCAMENTO],
-            restricoes="LEI: cargo ocupado pelo presidente recém-saído. "
-                       "Aporta experiência. Mesmo poder de sanção/veto. "
+            restricoes="Vice. Comunicação e mobilização. "
                        "SEM voto de minerva. Não desempata."),
     ]
 
@@ -173,9 +168,9 @@ def _demo():
   0 negros na presidência em 524 anos.
   0 indígenas. 0 pobres.
 
-  A emenda inverte: PRESIDENTE é mulher negra.
-  O último presidente vira VICE com mesmo poder.
-  Decisão é dupla. Continuidade + correção histórica.
+  A emenda traz Dilma de volta à presidência.
+  Jones Manoel como vice com poder real.
+  Decisão é dupla. Presidente tem voto de minerva.
 """)
 
     print(f"{'='*90}")
@@ -210,26 +205,22 @@ def _demo():
     Vice serve pra embelezar chapa.
 
   CO-PRESIDÊNCIA (emenda):
-    PRESIDENTE é MULHER NEGRA por LEI.
-    VICE é o último presidente (cargo de transição, mesmo poder).
-    Nada passa sem AMBOS.
-    Decisão é dupla. Ninguém governa sozinho.
+    PRESIDENTE: Dilma Rousseff. Mulher. Experiência executiva.
+    VICE: Jones Manoel. Comunicação. Mobilização popular.
+    Nada passa sem AMBOS. Presidente tem voto de minerva.
 
-  POR QUE PRESIDENTE MULHER NEGRA:
-    - 56% da população brasileira é negra (IBGE 2022)
-    - Mulher negra ganha R$ 1.500/mês (R$ 3.200 branco, R$ 2.500 negro, R$ 1.500 negra)
-    - Feminicídio: 1.8/dia (80% vítimas negras)
-    - 0 presidentas negras em 524 anos
-    - Não é cota. É JUSTIÇA. É LEI.
-    - Quem construiu este país (escravidão, trabalho, cultura) tem direito de governá-lo
+  POR QUE DILMA:
+    - Única presidente mulher do Brasil (2011-2016)
+    - Deposta em golpe parlamentar sem crime de responsabilidade
+    - Experiência executiva real (ministra de Minas e Energia, Casa Civil, Presidência)
+    - Sofreu o que sofreu por ser mulher fora do esquema
+    - Não é negra mas é mulher que provou que o cargo não é só de homem
 
-  POR QUE O ÚLTIMO PRESIDENTE COMO VICE:
-    - Aporta experiência executiva que a presidenta negra pode não ter
-      (o sistema excluiu negros do poder por 524 anos)
-    - Garante continuidade de governo (não reinventa a roda)
-    - Mesmo poder = freio e equilíbrio
-    - A presidenta governa com a experiência do vice, não contra
-    - O vice não é decoração: é co-piloto com mesmo volante
+  POR QUE JONES COMO VICE:
+    - Comunicação: 2M de inscritos, 10 anos de coerência
+    - Mobilização popular: o que Dilma não tem
+    - Duplo comando: técnica (Dilma) + rua (Jones)
+    - Jones não governa sozinho: executa comunicação e mobilização
 
   POR QUE MESMO PODER:
     - Dilma foi vice de Lula (2003-2010). Sem poder. Decorativa.
