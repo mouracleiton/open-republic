@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MISSÃO: SALVAR O BRASIL — Prazo: 5 de Agosto de 2026</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
   :root {
     --verde: #1A5E3F;
@@ -195,9 +194,6 @@
     body { padding-bottom: 0; }
   }
 
-  .chart-mobile { height: 260px !important; }
-  @media (min-width: 768px) { .chart-mobile { height: 320px !important; } }
-
   summary { list-style: none; }
   summary::-webkit-details-marker { display: none; }
   summary::after { content: ' ▼'; font-size: 0.7rem; opacity: 0.5; }
@@ -325,28 +321,6 @@
   <div id="tasks-sistema"></div>
 </section>
 
-<!-- CHARTS -->
-<section class="max-w-4xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#00B4D8;">DADOS DA MISSAO</h2>
-  <p class="section-sub">O que os dados mostram. Use como municao.</p>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-    <div class="card p-4">
-      <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficiencia: o dinheiro e bem gasto?</h3>
-      <div id="chart-eficiencia" class="chart-mobile"></div>
-    </div>
-    <div class="card p-4">
-      <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Eficacia: o problema foi resolvido?</h3>
-      <div id="chart-eficacia" class="chart-mobile"></div>
-    </div>
-  </div>
-
-  <div class="card p-4 mb-4">
-    <h3 class="text-sm font-bold mb-2 text-[#8b949e] uppercase">Comparativo: Governos Anteriores x Plano Samara (UP)</h3>
-    <div id="chart-comparativo" class="chart-mobile"></div>
-  </div>
-</section>
-
 <!-- VEREDITO FINAL -->
 <section class="max-w-4xl mx-auto px-4 pb-12">
   <div class="card p-6" style="border: 2px solid #C77DFF;">
@@ -371,7 +345,6 @@
   <a href="#tarefa-1"><span class="nav-icon">🚨</span><span>Emergencias</span></a>
   <a href="#tarefa-6"><span class="nav-icon">✂️</span><span>Cortes</span></a>
   <a href="#tarefa-14"><span class="nav-icon">⚙️</span><span>Sistema</span></a>
-  <a href="#chart-comparativo"><span class="nav-icon">📊</span><span>Dados</span></a>
 </nav>
 
 <!-- EMBEDDED DATA -->
@@ -563,86 +536,12 @@ function updateProgress() {
 }
 
 // ============================================================
-// CHARTS
-// ============================================================
-function renderCharts() {
-  if (typeof echarts === 'undefined') return;
-  if (!__DATA__ || !__DATA__.politicas) return;
-  try {
-    var pols = __DATA__.politicas;
-
-    // Eficiencia
-    var efEl = document.getElementById('chart-eficiencia');
-    if (efEl) {
-      var efCounts = {};
-      pols.forEach(function(p) { var e = p.eficiencia || 'N/D'; efCounts[e] = (efCounts[e]||0)+1; });
-      var efColors = {'alta':'#52B788','media':'#D4A017','baixa':'#E76F51','nula':'#D62828'};
-      echarts.init(efEl).setOption({
-        tooltip: {trigger:'item', textStyle:{color:'#e6edf3'}},
-        series: [{type:'pie', radius:['35%','65%'],
-          data: Object.keys(efCounts).map(function(k) {return {name:k, value:efCounts[k], itemStyle:{color:efColors[k]||'#8b949e'}};}),
-          label: {color:'#8b949e', fontSize:10}}]
-      });
-    }
-
-    // Eficacia
-    var egEl = document.getElementById('chart-eficacia');
-    if (egEl) {
-      var egCounts = {};
-      pols.forEach(function(p) { var e = p.eficacia || 'N/D'; egCounts[e] = (egCounts[e]||0)+1; });
-      var egColors = {'resolve':'#52B788','minima':'#D4A017','nao_resolve':'#E76F51','parcial':'#D4A017'};
-      echarts.init(egEl).setOption({
-        tooltip: {trigger:'item', textStyle:{color:'#e6edf3'}},
-        series: [{type:'pie', radius:['35%','65%'],
-          data: Object.keys(egCounts).map(function(k) {return {name:k.replace('_',' '), value:egCounts[k], itemStyle:{color:egColors[k]||'#8b949e'}};}),
-          label: {color:'#8b949e', fontSize:10}}]
-      });
-    }
-
-    // Comparativo
-    var compEl = document.getElementById('chart-comparativo');
-    if (compEl && __DATA__.comparativo) {
-      var comp = __DATA__.comparativo;
-      var dominios = ['violencia','saude','alimentacao','agua','educacao','emprego','inflacao','ambiente','habitacao','transporte','energia','indigena','drogas','saneamento','cultura','comunicacao','agropecuaria','seguranca_alimentar'];
-      var govScores = dominios.map(function(d) {
-        var found = (comp.governos_anteriores||[]).find(function(g){return g.area===d;});
-        if(!found)return 0; if(found.veredito==='RESOLVEU')return 5; if(found.veredito==='PARCIAL')return 3; return 1;
-      });
-      var samaraScores = dominios.map(function(d) {
-        return (comp.samara_propostas||[]).find(function(p){return p.area===d;}) ? 5 : 0;
-      });
-      echarts.init(compEl).setOption({
-        tooltip:{trigger:'axis',axisPointer:{type:'shadow'},textStyle:{color:'#e6edf3',fontSize:11}},
-        legend:{data:['Governos (real)','Samara+OpenRepublic (simulacao)'],textStyle:{color:'#8b949e',fontSize:10},top:0},
-        grid:{left:'3%',right:'4%',bottom:'3%',top:'15%',containLabel:true},
-        xAxis:{type:'category',data:dominios.map(function(d){return d.charAt(0).toUpperCase()+d.slice(1);}),axisLabel:{color:'#8b949e',fontSize:8,rotate:45},axisLine:{lineStyle:{color:'#30363d'}}},
-        yAxis:{type:'value',max:5,axisLabel:{color:'#8b949e',fontSize:10},splitLine:{lineStyle:{color:'#21262d'}}},
-        series:[
-          {name:'Governos (real)',type:'bar',data:govScores,itemStyle:{color:'#D62828'}},
-          {name:'Samara+OpenRepublic (simulacao)',type:'bar',data:samaraScores,itemStyle:{color:'#52B788'}}
-        ]
-      });
-    }
-
-    window.addEventListener('resize', function() {
-      document.querySelectorAll('[id^="chart-"]').forEach(function(el) {
-        var inst = echarts.getInstanceByDom(el);
-        if (inst) inst.resize();
-      });
-    });
-  } catch(e) {
-    console.error('Chart error:', e);
-  }
-}
-
-// ============================================================
 // INIT
 // ============================================================
 function init() {
   renderAllTasks();
   updateProgress();
-  renderCharts();
-}
+  }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
