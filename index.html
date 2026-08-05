@@ -3,137 +3,411 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenRepublic - Brasil em Dados</title>
+<title>OpenRepublic — O Brasil em Dados</title>
+<meta name="description" content="Sistema de medição política independente. O sensor ilumina. O povo cobra. Partido é ferramenta. População é fim.">
 <style>
   :root {
     --verde: #1A5E3F;
     --azul: #0A2540;
+    --preto: #1A1A1A;
+    --branco: #F5F5F0;
     --vermelho: #8B1A1A;
     --amarelo: #D4A017;
     --terra: #8B5E3C;
     --verde-claro: #2D6A4F;
+    --azul-medio: #3D5A80;
+    --roxo: #6A4C93;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: #0d1117;
     color: #e6edf3;
-    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
   }
+
+  /* HERO */
   .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 60px 20px 40px;
-    background: linear-gradient(135deg, #0A2540, #1A5E3F);
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0A2540 0%, #1A5E3F 100%);
+    position: relative;
   }
-  .hero h1 { font-size: clamp(1.5rem, 6vw, 2.5rem); margin-bottom: 10px; }
-  .hero p { color: #8b949e; font-size: 0.9rem; max-width: 600px; margin: 0 auto 20px; }
-  .badge {
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(212,160,23,0.05) 0%, transparent 50%);
+  }
+  .hero-badge {
     display: inline-block;
-    padding: 4px 12px;
-    background: rgba(212,160,23,0.2);
+    padding: 6px 16px;
+    background: rgba(212,160,23,0.15);
     color: #D4A017;
+    border: 1px solid rgba(212,160,23,0.3);
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    z-index: 1;
   }
-  .links {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
+  .hero h1 {
+    font-size: clamp(2rem, 10vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 16px;
+    z-index: 1;
+    background: linear-gradient(135deg, #F5F5F0, #D4A017);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .tagline {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    color: #F5F5F0;
+    font-weight: 700;
+    margin-bottom: 8px;
+    z-index: 1;
+  }
+  .hero .subtagline {
+    font-size: 0.9rem;
+    color: #8b949e;
+    max-width: 600px;
+    margin: 0 auto 32px;
+    z-index: 1;
+  }
+
+  /* HERO STATS */
+  .hero-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 40px;
+  }
+  .hero-stat {
+    background: rgba(13,17,23,0.6);
+    border: 1px solid rgba(245,245,240,0.1);
+    border-radius: 12px;
+    padding: 20px 12px;
+    backdrop-filter: blur(4px);
+  }
+  .hero-stat .num {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 900;
+    color: #8B1A1A;
+    line-height: 1;
+  }
+  .hero-stat .num.green { color: #2D6A4F; }
+  .hero-stat .num.yellow { color: #D4A017; }
+  .hero-stat .label {
+    font-size: 0.7rem;
+    color: #8b949e;
+    margin-top: 6px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* CTA */
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 1;
+  }
+  .cta {
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta:hover { transform: translateY(-2px); }
+  .cta-primary {
+    background: #D4A017;
+    color: #0d1117;
+    box-shadow: 0 4px 20px rgba(212,160,23,0.3);
+  }
+  .cta-secondary {
+    background: rgba(245,245,240,0.08);
+    color: #F5F5F0;
+    border: 1px solid rgba(245,245,240,0.2);
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+  .section-title {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    color: #8b949e;
+    font-size: 0.85rem;
+    margin-bottom: 32px;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
   }
   .card {
     background: #161b22;
     border: 1px solid #30363d;
-    border-radius: 10px;
-    padding: 24px;
+    border-radius: 12px;
+    padding: 28px;
     text-decoration: none;
     color: #e6edf3;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
   }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    transition: opacity 0.2s;
+  }
+  .card-1::before { background: #8B1A1A; }
+  .card-2::before { background: #D4A017; }
+  .card-3::before { background: #3D5A80; }
+  .card-4::before { background: #6A4C93; }
   .card:hover {
-    transform: translateY(-2px);
-    border-color: var(--verde-claro);
+    transform: translateY(-4px);
+    border-color: #2D6A4F;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   }
+  .card-emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
   .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
-  .card p { font-size: 0.8rem; color: #8b949e; line-height: 1.5; }
-  .card .meta { font-size: 0.7rem; color: #2D6A4F; margin-top: 12px; font-weight: 700; }
-  .stats {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 12px;
+  .card p { font-size: 0.82rem; color: #8b949e; line-height: 1.55; }
+  .card .meta {
+    font-size: 0.68rem;
+    color: #2D6A4F;
+    margin-top: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  .stat {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    padding: 16px;
+
+  /* QUOTE */
+  .quote-section {
+    background: #0A2540;
+    padding: 80px 20px;
     text-align: center;
   }
-  .stat .num { font-size: 1.5rem; font-weight: 900; color: var(--vermelho); }
-  .stat .label { font-size: 0.7rem; color: #8b949e; margin-top: 4px; }
+  .quote {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .quote p {
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    font-weight: 700;
+    color: #F5F5F0;
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+  .quote .author {
+    font-size: 0.8rem;
+    color: #D4A017;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* HOW IT WORKS */
+  .how-it-works {
+    background: #161b22;
+    border-top: 1px solid #30363d;
+    border-bottom: 1px solid #30363d;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .step {
+    text-align: left;
+  }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #2D6A4F;
+    color: #F5F5F0;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+  .step h3 { font-size: 0.95rem; margin-bottom: 6px; }
+  .step p { font-size: 0.8rem; color: #8b949e; }
+
+  /* FOOTER */
   footer {
     text-align: center;
-    padding: 30px;
+    padding: 40px 20px;
     color: #8b949e;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     border-top: 1px solid #30363d;
   }
-  footer a { color: #2D6A4F; text-decoration: none; }
+  footer a { color: #2D6A4F; text-decoration: none; font-weight: 600; }
+  footer .heart { color: #8B1A1A; }
+
+  /* SCROLL INDICATOR */
+  .scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #8b949e;
+    font-size: 0.7rem;
+    z-index: 1;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="badge">Código aberto CC0</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Código aberto CC0 · Sem partido · Sem dono</div>
   <h1>OpenRepublic</h1>
-  <p>O IBGE pergunta ao diretor. Nós perguntamos ao chão.</p>
-  <p>Sistema de medição política independente. O sensor ilumina. O povo cobra.</p>
-</div>
+  <p class="tagline">O IBGE pergunta ao diretor. Nós perguntamos ao chão.</p>
+  <p class="subtagline">Sistema de medição política independente. O sensor ilumina. O povo cobra. Partido é ferramenta. População é fim.</p>
 
-<div class="stats">
-  <div class="stat"><div class="num">33M</div><div class="label">Com fome</div></div>
-  <div class="stat"><div class="num">47.5k</div><div class="label">Homicídios/ano</div></div>
-  <div class="stat"><div class="num">100M</div><div class="label">Sem esgoto</div></div>
-  <div class="stat"><div class="num">2/593</div><div class="label">Aprovados</div></div>
-</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">33M</div>
+      <div class="label">Com fome</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">47.5k</div>
+      <div class="label">Homicídios/ano</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">100M</div>
+      <div class="label">Sem esgoto</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num yellow">2/593</div>
+      <div class="label">Aprovados</div>
+    </div>
+  </div>
 
-<div class="links">
-  <a class="card" href="relatorio.html">
-    <h2>Relatório: Brasil 524 Anos</h2>
-    <p>História de 1500 a hoje. Raio X de 18 eixos. Briefing de 27 estados. Timeline interativa. Chapa Dilma + Jones. Procura-se: governadores, senadores, deputados.</p>
-    <div class="meta">relatorio.html</div>
-  </a>
+  <div class="cta-row">
+    <a href="relatorio.html" class="cta cta-primary">Ver o Raio X do Brasil</a>
+    <a href="prova_de_recuperacao.html" class="cta cta-secondary">Procura-se: 1.626 cargos</a>
+  </div>
 
-  <a class="card" href="prova_de_recuperacao.html">
-    <h2>Prova de Recuperação</h2>
-    <p>Frente Comunista Unida. Trabalho em grupo. 18 questões (1 por eixo do Raio X). Gate WO 7 critérios. Prazo: 5 de Agosto de 2026.</p>
-    <div class="meta">prova_de_recuperacao.html</div>
-  </a>
+  <div class="scroll-down">↓ role pra baixo</div>
+</section>
 
-  <a class="card" href="dashboard.html">
-    <h2>Dashboard Analítica</h2>
-    <p>6 abas: visão geral, triagem, exames, invisível, políticas, custos. Dados de 18 eixos do Raio X. 33 políticas avaliadas.</p>
-    <div class="meta">dashboard.html</div>
-  </a>
+<!-- COMO FUNCIONA -->
+<section class="how-it-works">
+  <div class="section">
+    <h2 class="section-title" style="color:#D4A017;">Como funciona</h2>
+    <p class="section-sub">Não é partido. Não é ONG. É um sistema de medição que faz o que nenhum governo fez em 524 anos.</p>
 
-  <a class="card" href="carrosseis.html">
-    <h2>Carrosséis Instagram</h2>
-    <p>6 frentes de ataque. 30 slides formato 1:1. Emergência de vida, infra, desenvolvimento, soberania, justiça, futuro.</p>
-    <div class="meta">carrosseis.html</div>
-  </a>
-</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>O Sensor mede</h3>
+        <p>Raio X de 18 eixos. Censo próprio. Gate WO de 7 critérios. Triagem VIDA/BOLSO/VOTO. Tudo com fonte.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>A frente propõe</h3>
+        <p>Toda política pública passa pelo Gate: COMO, QUEM, CUSTO, PRAZO, MÉTRICA, FONTE, DIAGNÓSTICO. Sem 1 = W.O.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>O governo executa</h3>
+        <p>Co-presidência: Dilma (técnica + voto de minerva) + Jones (rua + comunicação). Nada sem assinatura de ambos.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>O povo cobra</h3>
+        <p>Conselho do Povo com dado na mão. Protesto digital e físico. Sem dado, sem cobrança. Sem cobrança, sem pressão.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- PAGINAS -->
+<section class="section">
+  <h2 class="section-title" style="color:#2D6A4F;">O que tem dentro</h2>
+  <p class="section-sub">4 páginas públicas. Cada uma com um propósito. Tudo código aberto.</p>
+
+  <div class="cards-grid">
+    <a class="card card-1" href="relatorio.html">
+      <span class="card-emoji">📊</span>
+      <h2>Relatório: Brasil 524 Anos</h2>
+      <p>História de 1500 a hoje em timeline interativa. Raio X de 18 eixos com dado e fonte. Briefing de 27 estados. Chapa Dilma + Jones. Procura-se: governadores, senadores, deputados.</p>
+      <div class="meta">relatorio.html · 139KB</div>
+    </a>
+
+    <a class="card card-2" href="prova_de_recuperacao.html">
+      <span class="card-emoji">📋</span>
+      <h2>Prova de Recuperação</h2>
+      <p>Frente Comunista Unida. Trabalho em grupo. 18 questões (1 por eixo do Raio X). Gate WO com 7 critérios. Prazo: 5 de Agosto de 2026.</p>
+      <div class="meta">prova_de_recuperacao.html · 24KB</div>
+    </a>
+
+    <a class="card card-3" href="dashboard.html">
+      <span class="card-emoji">📈</span>
+      <h2>Dashboard Analítica</h2>
+      <p>6 abas: visão geral, triagem VIDA/BOLSO/VOTO, exames Raio X, invisível, políticas públicas, custos. 33 políticas avaliadas.</p>
+      <div class="meta">dashboard.html · 81KB</div>
+    </a>
+
+    <a class="card card-4" href="carrosseis.html">
+      <span class="card-emoji">📱</span>
+      <h2>Carrosséis Instagram</h2>
+      <p>6 frentes de ataque. 30 slides formato 1:1. Emergência de vida, infra, desenvolvimento, soberania, justiça, futuro.</p>
+      <div class="meta">carrosseis.html · 22KB</div>
+    </a>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="quote">
+    <p>"Partido é ferramenta. População é fim. Se você está mais preocupado com disputa interna do que com 33 milhões em insegurança alimentar, pare neste exato momento e vá fazer outra coisa da sua vida."</p>
+    <div class="author">— OpenRepublic</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
   OpenRepublic · <a href="https://github.com/mouracleiton/open-republic">github.com/mouracleiton/open-republic</a><br>
-  "Partido é ferramenta. População é fim."
+  Código aberto CC0 · Sem paywall · Sem partido · <span class="heart">A métrica é uma: quantas pessoas pararam de sofrer?</span><br>
+  Feito com <span class="heart">■</span> por quem pergunta ao chão
 </footer>
 
 </body>
