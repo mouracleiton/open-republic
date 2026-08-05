@@ -36,15 +36,31 @@ class Governador:
     alinhamento_raiox: str       # qual eixo do Raio X mais urgente no estado
     evidencia: str               # o que FEZ
     problema_estado: str         # maior problema do estado
+    perfil_requisito: str = ""   # perfil obrigatório do candidato
 
 
 def _init_governadores() -> List[Governador]:
     return [
         # NORTE
-        Governador("AC", "Acre", "[MOCK - a definir]",
-            "seringal", "extrativismo, ambiente",
-            0.0, StatusGov.VAZIO, "ambiente",
-            "A definir.", "Desmatamento + narcotráfico."),
+        Governador("AC", "Acre", "[MOCK - recrutamento estadual]",
+            "povo acreano", "sobrevivencia, quebra de cabide",
+            0.0, StatusGov.VAZIO, "violencia",
+            "Perfil definido. Nome pendente ate candidato real passar pelo Gate.",
+            "Miseria (23% abaixo R$300). Narcotrafico. Desmatamento. Funcionalismo inflado.",
+            perfil_requisito=(
+                "PERFIL DO GOVERNADOR DO ACRE:\n"
+                "  1. Nasceu no AC. Criado no AC. Nao importado.\n"
+                "  2. Viveu a miseria do estado (nao leu sobre -- viveu).\n"
+                "  3. Sabe como o povo sobrevive (porque sobreviveu junto).\n"
+                "  4. Quer quebrar o cabide de empregos publicos (nao proteger).\n"
+                "  5. Sem parente na politica (zero nepotismo).\n"
+                "  6. Sem parte do agronegocio madeireiro ou pecuarista.\n"
+                "  7. Sem ligacao com narcotrafico (rota Peru/Bolivia).\n"
+                "  8. Compromisso com auditoria total do funcionalismo.\n"
+                "  9. Compromisso com transparencia radical (Gate WO estadual).\n"
+                "  10. Compromisso com emprego REAL: cooperativa, extrativismo, pesca.\n"
+                "  REJEITA: cabide, nepotismo, agronegocio predatorio, narcotrafico."
+            )),
 
         Governador("AM", "Amazonas", "[MOCK - a definir]",
             "Amazônia", "floresta, povos originários",
