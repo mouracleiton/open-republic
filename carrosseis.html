@@ -106,6 +106,15 @@ body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1117; color:#e
 }
 .frente-sub { font-size:0.78rem; color:#8b949e; margin-bottom:16px; }
 .nav-hint { text-align:center; color:#484f58; font-size:0.7rem; margin-top:12px; }
+.slide-share { position:absolute; bottom:12px; right:12px; display:flex; gap:6px; z-index:10; opacity:0; transition:opacity 0.2s; }
+.slide:hover .slide-share { opacity:1; }
+.share-btn { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; cursor:pointer; border:none; text-decoration:none; color:white; transition:transform 0.15s; }
+.share-btn:hover { transform:scale(1.15); }
+.share-btn.wpp { background:#2D6A4F; }
+.share-btn.fb { background:#3D5A80; }
+.share-btn.x { background:#1A1A1A; }
+.share-btn.copy { background:#8B5E3C; }
+@media (max-width: 768px) { .slide-share { opacity:0.8; } .share-btn { width:28px; height:28px; font-size:0.7rem; } }
 </style>
 </head>
 <body>
@@ -246,6 +255,15 @@ const FRENTES = [
   },
 ];
 
+function copiarLink(btn, texto) {
+  navigator.clipboard.writeText(texto).then(function() {
+    var orig = btn.innerHTML;
+    btn.innerHTML = '\u2713';
+    btn.style.background = '#2D6A4F';
+    setTimeout(function() { btn.innerHTML = orig; btn.style.background = '#8B5E3C'; }, 1500);
+  });
+}
+
 function renderCarrosseis() {
   var container = document.getElementById('carrosseis');
   container.innerHTML = FRENTES.map(function(f) {
@@ -284,6 +302,13 @@ function renderCarrosseis() {
       }
       if (s.texto) html += '<p style="margin-top:8px;">' + s.texto + '</p>';
       if (s.gap) html += '<div class="gap-box"><strong>⚠</strong> ' + s.gap + '</div>';
+      var shareUrl = encodeURIComponent('https://mouracleiton.github.io/open-republic/');
+      var shareText = encodeURIComponent(f.nome + ': ' + s.titulo);
+      html += '<div class="slide-share">' +
+        '<a class="share-btn wpp" href="https://wa.me/?text=' + shareText + '%20' + shareUrl + '" target="_blank" title="WhatsApp">W</a>' +
+        '<a class="share-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=' + shareUrl + '" target="_blank" title="Facebook">f</a>' +
+        '<a class="share-btn x" href="https://twitter.com/intent/tweet?text=' + shareText + '&url=' + shareUrl + '" target="_blank" title="X">X</a>' +
+        '</div>';
       html += '</div>';
       return html;
     }).join('');
