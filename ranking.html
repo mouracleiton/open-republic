@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Ranking Políticos • Open Republic</title>
+<style>
+body{font-family:system-ui,Arial,sans-serif;margin:0;padding:20px;background:#0d1117;color:#e6edf3}
+h1{margin:0 0 16px;font-size:24px}
+.controls{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+input,select{padding:8px 12px;border-radius:6px;border:1px solid #30363d;background:#161b22;color:#e6edf3;font-size:14px}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden}
+th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #30363d}
+th{background:#30363d;cursor:pointer;user-select:none}
+th:hover{background:#8b949e}
+tr:hover{background:#30363d}
+.badge{padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600}
+.aprovado{background:#2D6A4F;color:#2D6A4F}
+.reprovado{background:#8B1A1A;color:#8B1A1A}
+.score{font-weight:700;color:#3D5A80}
+.filter-active{background:#3D5A80}
+</style>
+
+<style>
+:root {
+  --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
+  --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+}
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<header style="border-bottom:1px solid #30363d;position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);">
+  <div style="max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:between;">
+    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#8b949e;">
+      <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
+      <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
+    </a>
+    <a href="index.html" style="margin-left:auto;font-size:11px;color:#2D6A4F;text-decoration:none;font-weight:bold;">&larr; Voltar</a>
+  </div>
+</header>
+
+
+<h1>Ranking de Políticos (60)</h1>
+<div class="controls">
+  <input id="search" type="text" placeholder="Buscar nome..." style="min-width:260px">
+  <select id="status">
+    <option value="">Todos status</option>
+    <option value="APROVADO">APROVADO</option>
+    <option value="REPROVADO">REPROVADO</option>
+  </select>
+  <button onclick="resetFilters()" style="padding:8px 16px;border-radius:6px;border:1px solid #8b949e;background:#30363d;color:#e6edf3">Limpar filtros</button>
+</div>
+<table id="table">
+<thead>
+<tr>
+  <th onclick="sortTable(0)">Nome</th>
+  <th onclick="sortTable(1)">Score</th>
+  <th onclick="sortTable(2)">c1</th>
+  <th onclick="sortTable(3)">c2</th>
+  <th onclick="sortTable(4)">c3</th>
+  <th onclick="sortTable(5)">Status</th>
+  <th>Evidência</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+<script>
+const DATA = [{"nome":"Camilo Santana","score":4.72,"c1":0.89,"c2":1.0,"c3":1.0,"evidencia":"Governador CE 2x. IDEB subiu. Vacinacao 95%.","status":"APROVADO","alinhamento":{"educacao":0.9,"saude":0.7,"violencia":0.4}},{"nome":"Marina Silva","score":4.11,"c1":0.84,"c2":0.8,"c3":0.8,"evidencia":"Reduziu desmatamento 80%. Cisternas. PAA.","status":"APROVADO","alinhamento":{"ambiente":1.0,"agua":0.9,"alimentacao":0.9,"agropecuaria":0.8,"seguranca_alimentar":0.9}},{"nome":"Fernando Haddad","score":3.95,"c1":0.78,"c2":0.85,"c3":0.9,"evidencia":"Prefeito SP. Bolsa Fam\u00edlia. Fies.","status":"APROVADO","alinhamento":{"educacao":0.95,"economia":0.85,"saude":0.75}},{"nome":"Tarc\u00edsio de Freitas","score":3.88,"c1":0.82,"c2":0.9,"c3":0.75,"evidencia":"Ministro Infra. Rodovias. Portos.","status":"APROVADO","alinhamento":{"infraestrutura":0.95,"economia":0.8,"seguranca":0.7}},{"nome":"Simone Tebet","score":3.72,"c1":0.75,"c2":0.78,"c3":0.85,"evidencia":"Senadora MS. Plano Plurianual.","status":"APROVADO","alinhamento":{"planejamento":0.9,"orcamento":0.85,"desenvolvimento":0.7}},{"nome":"Ciro Gomes","score":3.65,"c1":0.71,"c2":0.82,"c3":0.8,"evidencia":"Ex-governador CE. Educa\u00e7\u00e3o 10 anos.","status":"APROVADO","alinhamento":{"educacao":0.95,"economia":0.75,"saude":0.65}},{"nome":"Geraldo Alckmin","score":3.58,"c1":0.69,"c2":0.8,"c3":0.78,"evidencia":"Ex-governador SP. SUS. Vacina\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"saude":0.9,"infraestrutura":0.85,"economia":0.7}},{"nome":"Rui Costa","score":3.51,"c1":0.68,"c2":0.75,"c3":0.82,"evidencia":"Governador BA. Educa\u00e7\u00e3o. Sa\u00fade.","status":"APROVADO","alinhamento":{"educacao":0.85,"saude":0.8,"seguranca":0.65}},{"nome":"Eduardo Leite","score":3.44,"c1":0.72,"c2":0.78,"c3":0.7,"evidencia":"Governador RS. Inova\u00e7\u00e3o. Educa\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"educacao":0.85,"economia":0.75,"tecnologia":0.8}},{"nome":"Helder Barbalho","score":3.38,"c1":0.65,"c2":0.72,"c3":0.85,"evidencia":"Governador PA. Amaz\u00f4nia. Bioeconomia.","status":"APROVADO","alinhamento":{"ambiente":0.9,"economia":0.75,"infraestrutura":0.7}},{"nome":"Renan Calheiros","score":2.95,"c1":0.55,"c2":0.65,"c3":0.75,"evidencia":"Senador AL. Longa trajet\u00f3ria.","status":"REPROVADO","alinhamento":{"politica":0.8,"economia":0.6}},{"nome":"Arthur Lira","score":2.88,"c1":0.58,"c2":0.6,"c3":0.7,"evidencia":"Presidente C\u00e2mara. Reforma Tribut\u00e1ria.","status":"REPROVADO","alinhamento":{"politica":0.85,"economia":0.7}},{"nome":"Rodrigo Pacheco","score":2.82,"c1":0.52,"c2":0.68,"c3":0.72,"evidencia":"Presidente Senado. Marco Legal.","status":"REPROVADO","alinhamento":{"politica":0.8,"direito":0.75}},{"nome":"Jair Bolsonaro","score":2.45,"c1":0.48,"c2":0.55,"c3":0.6,"evidencia":"Ex-presidente. Pandemia. Meio ambiente.","status":"REPROVADO","alinhamento":{"seguranca":0.7,"economia":0.55,"ambiente":0.3}},{"nome":"Lula da Silva","score":3.12,"c1":0.62,"c2":0.7,"c3":0.78,"evidencia":"Ex-presidente. Bolsa Fam\u00edlia. Prouni.","status":"APROVADO","alinhamento":{"social":0.9,"economia":0.65,"educacao":0.8}},{"nome":"Dilma Rousseff","score":2.68,"c1":0.5,"c2":0.62,"c3":0.68,"evidencia":"Ex-presidente. Impeachment. Economia.","status":"REPROVADO","alinhamento":{"economia":0.6,"politica":0.65}},{"nome":"Michel Temer","score":2.35,"c1":0.45,"c2":0.58,"c3":0.55,"evidencia":"Ex-presidente. Reforma Previd\u00eancia.","status":"REPROVADO","alinhamento":{"economia":0.7,"politica":0.5}},{"nome":"A\u00e9cio Neves","score":2.52,"c1":0.48,"c2":0.6,"c3":0.65,"evidencia":"Ex-governador MG. Fuga JBS.","status":"REPROVADO","alinhamento":{"economia":0.65,"politica":0.55}},{"nome":"Jos\u00e9 Serra","score":2.78,"c1":0.58,"c2":0.65,"c3":0.7,"evidencia":"Ex-governador SP. SUS. Educa\u00e7\u00e3o.","status":"REPROVADO","alinhamento":{"saude":0.85,"educacao":0.75}},{"nome":"M\u00e1rcio Fran\u00e7a","score":2.92,"c1":0.6,"c2":0.68,"c3":0.72,"evidencia":"Ex-governador SP. Transpar\u00eancia.","status":"REPROVADO","alinhamento":{"governanca":0.8,"economia":0.7}},{"nome":"Jo\u00e3o Doria","score":2.65,"c1":0.52,"c2":0.62,"c3":0.68,"evidencia":"Ex-governador SP. Coronavac. Privatiza\u00e7\u00f5es.","status":"REPROVADO","alinhamento":{"saude":0.75,"economia":0.65}},{"nome":"Wilson Witzel","score":2.18,"c1":0.42,"c2":0.5,"c3":0.58,"evidencia":"Ex-governador RJ. Opera\u00e7\u00e3o Calv\u00e1rio.","status":"REPROVADO","alinhamento":{"seguranca":0.6,"politica":0.4}},{"nome":"Cl\u00e1udio Castro","score":2.75,"c1":0.55,"c2":0.65,"c3":0.7,"evidencia":"Governador RJ. Seguran\u00e7a. Economia.","status":"REPROVADO","alinhamento":{"seguranca":0.75,"economia":0.7}},{"nome":"Romeu Zema","score":3.05,"c1":0.62,"c2":0.7,"c3":0.75,"evidencia":"Governador MG. Reforma administrativa.","status":"APROVADO","alinhamento":{"economia":0.85,"governanca":0.75}},{"nome":"Ibaneis Rocha","score":2.88,"c1":0.58,"c2":0.65,"c3":0.72,"evidencia":"Governador DF. Inova\u00e7\u00e3o. Educa\u00e7\u00e3o.","status":"REPROVADO","alinhamento":{"tecnologia":0.8,"educacao":0.7}},{"nome":"Mauro Mendes","score":3.18,"c1":0.65,"c2":0.72,"c3":0.78,"evidencia":"Governador MT. Agroneg\u00f3cio. Infra.","status":"APROVADO","alinhamento":{"economia":0.85,"infraestrutura":0.75}},{"nome":"Ant\u00f4nio Anastasia","score":2.92,"c1":0.6,"c2":0.68,"c3":0.72,"evidencia":"Senador MG. TCU. Contas p\u00fablicas.","status":"REPROVADO","alinhamento":{"governanca":0.8,"economia":0.7}},{"nome":"Randolfe Rodrigues","score":3.25,"c1":0.68,"c2":0.72,"c3":0.78,"evidencia":"Senador AP. Oposi\u00e7\u00e3o. Meio ambiente.","status":"APROVADO","alinhamento":{"ambiente":0.9,"politica":0.75}},{"nome":"Eliziane Gama","score":3.08,"c1":0.62,"c2":0.7,"c3":0.75,"evidencia":"Senadora MA. Combate \u00e0 corrup\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"politica":0.8,"governanca":0.75}},{"nome":"Alessandro Vieira","score":3.15,"c1":0.65,"c2":0.7,"c3":0.78,"evidencia":"Senador SE. Transpar\u00eancia. Lava Jato.","status":"APROVADO","alinhamento":{"governanca":0.85,"politica":0.75}},{"nome":"Fabiano Contarato","score":3.22,"c1":0.68,"c2":0.72,"c3":0.76,"evidencia":"Senador ES. Direitos humanos. LGBT.","status":"APROVADO","alinhamento":{"direitos":0.9,"politica":0.7}},{"nome":"Jorge Kajuru","score":2.45,"c1":0.48,"c2":0.55,"c3":0.65,"evidencia":"Senador GO. Den\u00fancias. Pol\u00eamicas.","status":"REPROVADO","alinhamento":{"politica":0.6,"comunicacao":0.7}},{"nome":"Fl\u00e1vio Bolsonaro","score":2.32,"c1":0.45,"c2":0.52,"c3":0.6,"evidencia":"Senador RJ. Fam\u00edlia. Mil\u00edcia.","status":"REPROVADO","alinhamento":{"politica":0.65,"seguranca":0.55}},{"nome":"S\u00e9rgio Moro","score":2.88,"c1":0.58,"c2":0.65,"c3":0.72,"evidencia":"Ex-juiz. Lava Jato. Ex-ministro.","status":"REPROVADO","alinhamento":{"justica":0.8,"politica":0.6}},{"nome":"Deltan Dallagnol","score":2.75,"c1":0.55,"c2":0.62,"c3":0.7,"evidencia":"Ex-procurador. Lava Jato. 10 medidas.","status":"REPROVADO","alinhamento":{"justica":0.85,"politica":0.55}},{"nome":"Gleisi Hoffmann","score":2.58,"c1":0.5,"c2":0.6,"c3":0.68,"evidencia":"Deputada PR. PT. Articula\u00e7\u00e3o.","status":"REPROVADO","alinhamento":{"politica":0.75,"partido":0.7}},{"nome":"Jandira Feghali","score":2.92,"c1":0.6,"c2":0.68,"c3":0.72,"evidencia":"Deputada RJ. Sa\u00fade. Direitos.","status":"REPROVADO","alinhamento":{"saude":0.85,"direitos":0.8}},{"nome":"Marcelo Freixo","score":3.05,"c1":0.62,"c2":0.7,"c3":0.75,"evidencia":"Deputado RJ. Seguran\u00e7a. Direitos humanos.","status":"APROVADO","alinhamento":{"seguranca":0.8,"direitos":0.85}},{"nome":"Tabata Amaral","score":3.18,"c1":0.68,"c2":0.72,"c3":0.76,"evidencia":"Deputada SP. Educa\u00e7\u00e3o. Juventude.","status":"APROVADO","alinhamento":{"educacao":0.9,"juventude":0.85}},{"nome":"Kim Kataguiri","score":2.68,"c1":0.52,"c2":0.6,"c3":0.7,"evidencia":"Deputado SP. MBL. Liberalismo.","status":"REPROVADO","alinhamento":{"economia":0.75,"politica":0.6}},{"nome":"Guilherme Boulos","score":2.95,"c1":0.6,"c2":0.68,"c3":0.72,"evidencia":"Deputado SP. MTST. Moradia.","status":"REPROVADO","alinhamento":{"moradia":0.9,"direitos":0.8}},{"nome":"S\u00f4nia Guajajara","score":3.28,"c1":0.7,"c2":0.72,"c3":0.78,"evidencia":"Ministra Povos Ind\u00edgenas. Demarca\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"indigenas":0.95,"ambiente":0.85}},{"nome":"Silvio Almeida","score":3.12,"c1":0.65,"c2":0.7,"c3":0.75,"evidencia":"Ministro Direitos Humanos. Igualdade racial.","status":"APROVADO","alinhamento":{"direitos":0.9,"igualdade":0.85}},{"nome":"Nisia Trindade","score":3.35,"c1":0.72,"c2":0.75,"c3":0.78,"evidencia":"Ministra Sa\u00fade. SUS. Vacina\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"saude":0.95,"ciencia":0.85}},{"nome":"Luciana Santos","score":2.88,"c1":0.58,"c2":0.65,"c3":0.72,"evidencia":"Ministra Ci\u00eancia. Inova\u00e7\u00e3o. 5G.","status":"REPROVADO","alinhamento":{"ciencia":0.85,"tecnologia":0.8}},{"nome":"Margareth Menezes","score":2.95,"c1":0.6,"c2":0.68,"c3":0.72,"evidencia":"Ministra Cultura. Lei Rouanet. Editais.","status":"REPROVADO","alinhamento":{"cultura":0.9,"comunicacao":0.7}},{"nome":"Ana Moser","score":3.02,"c1":0.62,"c2":0.7,"c3":0.74,"evidencia":"Ministra Esporte. Olimpiadas. Base.","status":"APROVADO","alinhamento":{"esporte":0.9,"juventude":0.75}},{"nome":"Daniel Alves","score":2.12,"c1":0.4,"c2":0.48,"c3":0.55,"evidencia":"Ex-jogador. Acusado agress\u00e3o sexual.","status":"REPROVADO","alinhamento":{"esporte":0.5,"etica":0.3}},{"nome":"Neymar Jr","score":2.35,"c1":0.45,"c2":0.52,"c3":0.6,"evidencia":"Jogador. Pol\u00eamicas. Impostos.","status":"REPROVADO","alinhamento":{"esporte":0.6,"comunicacao":0.7}},{"nome":"Pel\u00e9","score":3.45,"c1":0.72,"c2":0.78,"c3":0.82,"evidencia":"Rei do futebol. Legado. Educa\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"esporte":0.95,"educacao":0.8}},{"nome":"Oscar Niemeyer","score":3.52,"c1":0.75,"c2":0.8,"c3":0.82,"evidencia":"Arquiteto. Bras\u00edlia. Pampulha.","status":"APROVADO","alinhamento":{"cultura":0.95,"arquitetura":0.9}},{"nome":"Lina Bo Bardi","score":3.48,"c1":0.72,"c2":0.78,"c3":0.82,"evidencia":"Arquiteta. MASP. Sesc Pomp\u00e9ia.","status":"APROVADO","alinhamento":{"cultura":0.9,"arquitetura":0.95}},{"nome":"Milton Santos","score":3.55,"c1":0.75,"c2":0.8,"c3":0.82,"evidencia":"Ge\u00f3grafo. Territ\u00f3rio. Globaliza\u00e7\u00e3o.","status":"APROVADO","alinhamento":{"geografia":0.95,"pensamento":0.9}},{"nome":"Paulo Freire","score":3.62,"c1":0.78,"c2":0.82,"c3":0.82,"evidencia":"Educador. Pedagogia do oprimido.","status":"APROVADO","alinhamento":{"educacao":0.98,"pensamento":0.9}},{"nome":"Anielle Franco","score":3.08,"c1":0.65,"c2":0.7,"c3":0.74,"evidencia":"Ministra Igualdade Racial. Marielle.","status":"APROVADO","alinhamento":{"igualdade":0.9,"direitos":0.85}},{"nome":"Luiz Marinho","score":2.82,"c1":0.55,"c2":0.65,"c3":0.72,"evidencia":"Ministro Trabalho. Previd\u00eancia. Sindicatos.","status":"REPROVADO","alinhamento":{"trabalho":0.8,"economia":0.65}}];
+
+let sortCol = -1;
+let sortAsc = true;
+
+function renderTable(filtered) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  filtered.forEach(p => {
+    const tr = document.createElement('tr');
+    const statusClass = p.status === 'APROVADO' ? 'aprovado' : 'reprovado';
+    tr.innerHTML = `
+      <td><strong>${p.nome}</strong></td>
+      <td class="score">${p.score.toFixed(2)}</td>
+      <td>${p.c1.toFixed(2)}</td>
+      <td>${p.c2.toFixed(2)}</td>
+      <td>${p.c3.toFixed(2)}</td>
+      <td><span class="badge ${statusClass}">${p.status}</span></td>
+      <td style="font-size:13px;max-width:420px">${p.evidencia}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterAndSort() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const st = document.getElementById('status').value;
+  let filtered = DATA.filter(p => {
+    const matchName = !q || p.nome.toLowerCase().includes(q);
+    const matchStatus = !st || p.status === st;
+    return matchName && matchStatus;
+  });
+  if (sortCol !== -1) {
+    const keyMap = ['nome','score','c1','c2','c3','status'];
+    const k = keyMap[sortCol];
+    filtered.sort((a,b) => {
+      let va = a[k], vb = b[k];
+      if (typeof va === 'string') {
+        return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+      }
+      return sortAsc ? va - vb : vb - va;
+    });
+  }
+  renderTable(filtered);
+}
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = col !== 0; }
+  filterAndSort();
+}
+
+function resetFilters() {
+  document.getElementById('search').value = '';
+  document.getElementById('status').value = '';
+  sortCol = -1;
+  filterAndSort();
+}
+
+document.getElementById('search').addEventListener('input', filterAndSort);
+document.getElementById('status').addEventListener('change', filterAndSort);
+
+renderTable(DATA);
+</script>
+</body>
+</html>

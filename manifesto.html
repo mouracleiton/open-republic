@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MANIFESTO — Open Republic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+
+  :root {
+    --bg: #0A2540;
+    --fg: #F5F5F0;
+    --accent: #D4A017;
+    --muted: #666;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.1;
+    overflow-x: hidden;
+  }
+
+  .manifesto {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 24px 200px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 120px;
+  }
+  .header .label {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(4.2rem, 9vw, 7.5rem);
+    font-weight: 900;
+    line-height: .92;
+    letter-spacing: -4px;
+  }
+  .header .sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-top: 24px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section {
+    margin-bottom: 140px;
+  }
+  .section:last-child { margin-bottom: 0; }
+
+  .statement {
+    font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 48px;
+  }
+  .statement:last-child { margin-bottom: 0; }
+
+  .statement .highlight {
+    color: var(--accent);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 48px;
+    margin-top: 60px;
+  }
+
+  .block {
+    border-left: 3px solid var(--accent);
+    padding-left: 24px;
+  }
+  .block p {
+    font-size: 1.35rem;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  .final {
+    text-align: center;
+    padding: 100px 20px;
+    border-top: 1px solid #222;
+    margin-top: 100px;
+  }
+  .final h2 {
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 32px;
+  }
+  .cta {
+    display: inline-block;
+    background: var(--accent);
+    color: #0A2540;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 18px 48px;
+    text-decoration: none;
+    border-radius: 9999px;
+    margin-top: 40px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 60px 20px 40px;
+    font-size: .875rem;
+    color: var(--muted);
+  }
+</style>
+
+<style>
+:root {
+  --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
+  --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
+}
+</style>
+</head>
+<body>
+  <div class="manifesto">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="label">OPEN REPUBLIC</div>
+      <h1>MANIFESTO</h1>
+      <p class="sub">O Brasil não precisa de mais promessas.<br>Precisa de dados. De verdade. De luz.</p>
+    </div>
+
+    <!-- CORE -->
+    <div class="section">
+      <div class="statement">Partido é ferramenta.<br>População é fim.</div>
+      <div class="statement">O sensor ilumina.<br>O povo cobra.</div>
+    </div>
+
+    <!-- PRINCIPLES -->
+    <div class="section">
+      <div class="grid">
+        <div class="block">
+          <p><span class="highlight">Transparência radical</span> não é opção. É pré-requisito de soberania.</p>
+        </div>
+        <div class="block">
+          <p>Dados públicos são oxigênio. Quem os esconde sufoca a República.</p>
+        </div>
+        <div class="block">
+          <p>Medir é resistir. O que não é medido é manipulado.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECLARATION -->
+    <div class="section">
+      <div class="statement">Não somos oposição.<br>Somos <span class="highlight">oposição ao opaco</span>.</div>
+      <div class="statement">Não pedimos confiança.<br>Exigimos verificação.</div>
+    </div>
+
+    <!-- FINAL -->
+    <div class="final">
+      <h2>Este é o nosso<br>contrato com o Brasil.</h2>
+      <a href="index.html" class="cta">VER OS DADOS →</a>
+    </div>
+
+    <div class="footer">
+      Open Republic • 2026
+    </div>
+  </div>
+</body>
+</html>
