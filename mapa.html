@@ -237,8 +237,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var svg = document.getElementById('mapa-brasil');
   if (svg) {
     svg.addEventListener('click', function(e) {
-      var target = e.target.closest('path[data-uf]');
-      if (target) showEstado(target.getAttribute('data-uf'));
+      var el = e.target;
+      // Walk up the DOM to find path with data-uf (SVG closest is unreliable)
+      while (el && el !== svg) {
+        if (el.tagName === 'path' && el.getAttribute('data-uf')) {
+          showEstado(el.getAttribute('data-uf'));
+          return;
+        }
+        el = el.parentNode;
+      }
     });
   }
 });
