@@ -47,17 +47,11 @@ def _init_pessoas() -> List[Pessoa]:
             2.50, "Coordenação de Comunicação e Mobilização",
             "Intransigência eleitoral"),
 
-        Pessoa("Camilo Santana", "gestão pública (educação)",
-            "Governador 2x. IDEB subiu. Vacinação 95%. Sabe governar educação.",
-            "Nordeste, educação",
-            4.72, "Secretaria de Educação",
-            "Restrição: sem cargo de chefe de Estado (definido pelo sensor)"),
-
-        Pessoa("Fernando Haddad", "economia e planejamento",
-            "Ministro Fazenda. Prefeito SP. Técnico. Planificação econômica.",
-            "Trabalhador formal, economia",
-            4.03, "Secretaria de Economia e Planejamento",
-            "Restrição: sem cargo de chefe de Estado (definido pelo sensor)"),
+        Pessoa("Orlando Silva", "educação e esporte",
+            "Ministro Esporte. Professor. Educação popular.",
+            "Juventude, estudantes",
+            2.83, "Secretaria de Educação e Esporte",
+            "Sub-representação eleitoral"),
 
         Pessoa("Sonia Guajajara", "direitos e diversidade",
             "Liderança indígena. APIB. Ministério. Visibilidade.",
@@ -70,12 +64,6 @@ def _init_pessoas() -> List[Pessoa]:
             "Idosos, SUS",
             3.00, "Secretaria de Saúde",
             "Aliança automática com qualquer sigla"),
-
-        Pessoa("Orlando Silva", "educação e esporte",
-            "Ministro Esporte. Professor. Educação popular.",
-            "Juventude, estudantes",
-            2.83, "Secretaria de Educação e Esporte",
-            "Sub-representação eleitoral"),
 
         Pessoa("Marina Silva", "ambiente e soberania",
             "Ministra. -80% desmatamento. Cisternas. PAA. CONSEA.",
@@ -163,27 +151,27 @@ def _init_programa() -> List[PoliticaUnificada]:
 
         PoliticaUnificada("saude", "SUS 8% PIB + Mais Médicos + fim planos",
             "Dobrar SUS. Mais Médicos. Fim planos. Dengue. Triagem.",
-            "Jandira Feghali", "Camilo Santana",
+            "Jandira Feghali", "Orlando Silva",
             "R$ 80 bi/ano", "4 anos", "Fila <30 dias", 99.0, 70),
 
         PoliticaUnificada("soberania_alimentar", "Trigo + fertilizantes + sementes",
             "Produção nacional. Fertilizantes. Sementes crioulas.",
-            "Samara Martins", "Camilo Santana",
+            "Samara Martins", "Marina Silva",
             "R$ 20 bi/ano", "4 anos", "50% trigo nacional", 100.0, 50),
 
         PoliticaUnificada("educacao", "Escola integral + professor R$8k + censo",
             "Escola 7h-17h. Piso R$8k. Censo escolar. Cordel/capoeira.",
-            "Orlando Silva", "Camilo Santana",
+            "Orlando Silva", "Orlando Silva",
             "R$ 150 bi/ano", "4 anos", "PISA 450", 32.5, 65),
 
         PoliticaUnificada("emprego", "Emprego garantido + jornada 6h + renda",
             "Programa Nacional de Emprego. Jornada 6h. Renda mínima R$2.600.",
-            "Paulo Paim", "Camilo Santana",
+            "Paulo Paim", "Ciro Gomes",
             "R$ 120 bi/ano", "4 anos", "<4% desemprego", 4.7, 55),
 
         PoliticaUnificada("economia", "Nacionalização bancária + ISF + auditoria",
             "Nacionalização gradual. ISF. Auditoria dívida. Planificação.",
-            "Fernando Haddad", "Samara Martins",
+            "Samara Martins", "Samara Martins",
             "R$ 200 bi/ano ganho", "4 anos", "Spread <5%", 100.0, 50),
 
         PoliticaUnificada("ambiente", "PPCDAm + Amazônia + extrativismo",
@@ -233,7 +221,7 @@ def _init_programa() -> List[PoliticaUnificada]:
 
         PoliticaUnificada("comunicacao", "Democratização + internet rural",
             "Quebra monopólio. Concessões públicas. Internet rural. Fim PJ.",
-            "Jones Manoel", "Fernando Haddad",
+            "Jones Manoel", "Samara Martins",
             "R$ 5 bi/ano", "4 anos", "Herfindahl <0.3", 35.0, 50),
     ]
 
@@ -333,7 +321,7 @@ def _demo():
 
   Samara coordena o programa. Não como "da UP". Como quem escreveu 25 pontos.
   Jones comunica. Não como "do PCB". Como quem tem 2M e 10 anos de coerência.
-  Camilo executa educação. Não como "do PT". Como quem fez IDEB subir.
+  Orlando executa educação. Não como "do PCdoB". Como professor e ministro.
   Marina cuida da Amazônia. Não como "da REDE". Como quem reduziu desmatamento 80%.
   Ciro constrói. Não como "do PDT". Como fez a transposição.
 
