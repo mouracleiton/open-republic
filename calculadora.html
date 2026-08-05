@@ -1,290 +1,302 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Pontuação • Open Republic</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --primary: #6A4C93;
-        }
-        
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .font-display {
-            font-family: 'Space Grotesk', 'Inter', sans-serif;
-            font-weight: 600;
-        }
-
-        .slider {
-            accent-color: #6A4C93;
-        }
-
-        .score-value {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .formula {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        }
-
-        .result-card {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                       box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRepublic - Calculadora de Score</title>
 <style>
 :root {
   --verde: #1A5E3F; --azul: #0A2540; --vermelho: #8B1A1A; --amarelo: #D4A017;
   --terra: #8B5E3C; --verde-claro: #2D6A4F; --azul-medio: #3D5A80; --roxo: #6A4C93;
 }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1117; color:#e6edf3; line-height:1.6; }
+.section-title { font-size:clamp(1.1rem,4vw,1.5rem); font-weight:900; margin-bottom:4px; }
+.section-sub { color:#8b949e; font-size:0.82rem; margin-bottom:20px; }
+.formula-box { font-family:ui-monospace,monospace; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:12px; font-size:0.78rem; color:#8b949e; margin-bottom:20px; }
+.formula-box code { color:#D4A017; }
+
+/* Sliders */
+.slider-group { margin-bottom:20px; }
+.slider-group h3 { font-size:0.85rem; font-weight:700; margin-bottom:8px; color:#D4A017; }
+.slider-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.slider-row label { font-size:0.75rem; color:#8b949e; width:140px; flex-shrink:0; }
+.slider-row input[type=range] { flex:1; height:6px; -webkit-appearance:none; appearance:none; background:#30363d; border-radius:3px; outline:none; }
+.slider-row input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:var(--verde-claro); cursor:pointer; border:2px solid #0d1117; }
+.slider-row input[type=range]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:var(--verde-claro); cursor:pointer; border:2px solid #0d1117; }
+.slider-row .val { font-size:0.75rem; color:#e6edf3; font-weight:700; width:30px; text-align:right; }
+
+/* Toggle etiquetas */
+.etiqueta-toggle {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:5px 10px; border-radius:6px; border:1px solid #30363d;
+  background:#161b22; color:#8b949e; font-size:0.7rem; font-weight:600;
+  cursor:pointer; transition:all 0.15s; user-select:none; margin:3px;
+}
+.etiqueta-toggle:hover { border-color:#8b949e; }
+.etiqueta-toggle.active.positiva { background:rgba(45,106,79,0.2); border-color:#2D6A4F; color:#2D6A4F; }
+.etiqueta-toggle.active.negativa { background:rgba(139,26,26,0.2); border-color:#8B1A1A; color:#C44536; }
+
+/* Score gauge */
+.gauge-container { text-align:center; padding:30px 20px; background:#161b22; border:1px solid #30363d; border-radius:12px; margin-bottom:20px; }
+.gauge-score { font-size:clamp(3rem,12vw,5rem); font-weight:900; line-height:1; transition:color 0.3s; }
+.gauge-score.wo { color:#8B1A1A; }
+.gauge-score.aprovado { color:#2D6A4F; }
+.gauge-bar { width:100%; height:12px; background:#30363d; border-radius:6px; margin:16px auto; max-width:400px; overflow:hidden; }
+.gauge-bar-fill { height:100%; border-radius:6px; transition:width 0.3s, background 0.3s; }
+.gauge-bar-fill.wo { background:linear-gradient(90deg,#8B1A1A,#C44536); }
+.gauge-bar-fill.aprovado { background:linear-gradient(90deg,#2D6A4F,#1A5E3F); }
+.gauge-corte { position:relative; height:20px; max-width:400px; margin:0 auto; }
+.gauge-corte-mark { position:absolute; left:80%; top:0; width:2px; height:20px; background:#D4A017; }
+.gauge-corte-label { position:absolute; left:80%; top:22px; transform:translateX(-50%); font-size:0.65rem; color:#D4A017; font-weight:700; white-space:nowrap; }
+.gauge-status { font-size:0.9rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-top:8px; }
+.gauge-status.wo { color:#8B1A1A; }
+.gauge-status.aprovado { color:#2D6A4F; }
+.gauge-explicacao { font-size:0.72rem; color:#8b949e; margin-top:12px; text-align:left; max-width:500px; margin:12px auto 0; }
+
+/* Omissao */
+.omissao-box { background:rgba(139,26,26,0.06); border:1px solid #30363d; border-radius:8px; padding:16px; margin-bottom:16px; }
+.omissao-box h3 { font-size:0.85rem; font-weight:700; color:#8B1A1A; margin-bottom:8px; }
+.omissao-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.omissao-row label { font-size:0.75rem; color:#8b949e; width:100px; }
+.omissao-row input, .omissao-row select { background:#0d1117; border:1px solid #30363d; color:#e6edf3; border-radius:4px; padding:6px 8px; font-size:0.75rem; flex:1; }
+
+.pilar-section { margin-bottom:20px; }
+.pilar-section h4 { font-size:0.78rem; font-weight:700; color:#3D5A80; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
 </style>
 </head>
-<body class="bg-zinc-950 text-zinc-200">
-<!-- HEADER -->
+<body>
+
 <header style="border-bottom:1px solid #30363d;position:sticky;top:0;z-index:50;background:rgba(13,17,23,0.95);backdrop-filter:blur(4px);">
-  <div style="max-width:900px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:between;">
+  <div style="max-width:700px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
     <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#8b949e;">
       <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;font-size:14px;background:linear-gradient(135deg,#0A2540,#8B5E3C,#1A5E3F);">R</div>
       <span style="font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">OpenRepublic</span>
     </a>
-    <a href="index.html" style="margin-left:auto;font-size:11px;color:#2D6A4F;text-decoration:none;font-weight:bold;">&larr; Voltar</a>
+    <a href="index.html" style="font-size:11px;color:#2D6A4F;text-decoration:none;font-weight:bold;">&larr; Voltar</a>
   </div>
 </header>
 
+<div style="max-width:700px;margin:0 auto;padding:24px 16px;">
 
-    <div class="max-w-2xl mx-auto p-6">
-        <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
-            <div>
-                <div class="flex items-center gap-x-3">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-calculator text-white text-2xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-display text-3xl font-semibold tracking-tighter">Calculadora</h1>
-                        <p class="text-zinc-400 text-sm">Pontuação Interativa</p>
-                    </div>
-                </div>
-            </div>
-            <div class="px-3 py-1.5 bg-zinc-900 rounded-2xl text-xs font-medium flex items-center gap-x-2 border border-zinc-800">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span class="text-emerald-400">AO VIVO</span>
-            </div>
-        </div>
+  <h1 class="section-title" style="color:#D4A017;">CALCULADORA DE SCORE</h1>
+  <p class="section-sub">Mexe nos sliders. Liga as etiquetas. Veja na hora se passa no corte 4.0.</p>
 
-        <!-- Main Card -->
-        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-2xl">
-            
-            <!-- Sliders -->
-            <div class="space-y-8">
-                
-                <!-- Nota 1 -->
-                <div>
-                    <div class="flex justify-between items-baseline mb-3">
-                        <div class="flex items-center gap-x-2">
-                            <i class="fa-solid fa-book text-indigo-400 w-4"></i>
-                            <span class="font-medium">Nota 1 — Prova</span>
-                        </div>
-                        <div class="font-mono text-xl font-semibold tabular-nums w-16 text-right" id="value1">7.5</div>
-                    </div>
-                    <input type="range" id="slider1" 
-                           class="slider w-full accent-indigo-500" 
-                           min="0" max="10" step="0.1" value="7.5"
-                           oninput="updateCalculadora()">
-                    <div class="flex justify-between text-[10px] text-zinc-500 mt-1">
-                        <div>0</div>
-                        <div>10</div>
-                    </div>
-                </div>
+  <div class="formula-box">
+    <strong>FORMULA:</strong> <code>SCORE = C1&times;3 + C2&times;2 + C3&times;1) / 6 &times; 5 + ETIQUETAS + CAMADA_0</code><br>
+    <strong>CAMADA 0:</strong> Teve cargo + problema existia + nao resolveu = <code>-0.50</code> | resolveu = <code>+0.30</code><br>
+    <strong>CORTE:</strong> 4.0. Binario: <code>APROVADO</code> ou <code>W.O.</code>
+  </div>
 
-                <!-- Nota 2 -->
-                <div>
-                    <div class="flex justify-between items-baseline mb-3">
-                        <div class="flex items-center gap-x-2">
-                            <i class="fa-solid fa-flask text-violet-400 w-4"></i>
-                            <span class="font-medium">Nota 2 — Trabalho</span>
-                        </div>
-                        <div class="font-mono text-xl font-semibold tabular-nums w-16 text-right" id="value2">8.0</div>
-                    </div>
-                    <input type="range" id="slider2" 
-                           class="slider w-full accent-violet-500" 
-                           min="0" max="10" step="0.1" value="8.0"
-                           oninput="updateCalculadora()">
-                    <div class="flex justify-between text-[10px] text-zinc-500 mt-1">
-                        <div>0</div>
-                        <div>10</div>
-                    </div>
-                </div>
-
-                <!-- Nota 3 -->
-                <div>
-                    <div class="flex justify-between items-baseline mb-3">
-                        <div class="flex items-center gap-x-2">
-                            <i class="fa-solid fa-users text-emerald-400 w-4"></i>
-                            <span class="font-medium">Nota 3 — Participação</span>
-                        </div>
-                        <div class="font-mono text-xl font-semibold tabular-nums w-16 text-right" id="value3">9.0</div>
-                    </div>
-                    <input type="range" id="slider3" 
-                           class="slider w-full accent-emerald-500" 
-                           min="0" max="10" step="0.1" value="9.0"
-                           oninput="updateCalculadora()">
-                    <div class="flex justify-between text-[10px] text-zinc-500 mt-1">
-                        <div>0</div>
-                        <div>10</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Formula Section -->
-            <div class="mt-10 pt-8 border-t border-zinc-800">
-                <div class="text-xs uppercase tracking-[1px] text-zinc-500 mb-3 px-1">FÓRMULA EM TEMPO REAL</div>
-                
-                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 font-mono text-sm">
-                    <div class="flex items-center gap-x-2 text-zinc-400">
-                        <span class="font-semibold text-white">Score</span> = 
-                        <span class="text-indigo-400">(N1 × 0.4)</span> + 
-                        <span class="text-violet-400">(N2 × 0.35)</span> + 
-                        <span class="text-emerald-400">(N3 × 0.25)</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Result -->
-            <div class="mt-8">
-                <div class="text-xs uppercase tracking-[1px] text-zinc-500 mb-2 px-1">RESULTADO FINAL</div>
-                
-                <div class="result-card bg-zinc-950 border border-zinc-700 hover:border-indigo-500/30 rounded-3xl p-6 flex items-center justify-between">
-                    <div>
-                        <div class="text-sm text-zinc-400">Pontuação Total</div>
-                        <div id="result" 
-                             class="font-display text-6xl font-semibold tabular-nums tracking-tighter text-white">8.35</div>
-                    </div>
-                    
-                    <div class="text-right">
-                        <div id="status" 
-                             class="inline-flex items-center gap-x-1.5 px-4 py-1.5 rounded-2xl text-sm font-medium bg-emerald-900/60 text-emerald-400 border border-emerald-800">
-                            <i class="fa-solid fa-check text-xs"></i>
-                            <span>APROVADO</span>
-                        </div>
-                        <div class="text-[10px] text-zinc-500 mt-1">mínimo: 6.0</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Actions -->
-            <div class="flex gap-3 mt-6">
-                <button onclick="resetCalculadora()" 
-                        class="flex-1 py-3 text-sm font-medium bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 transition-colors rounded-2xl flex items-center justify-center gap-x-2">
-                    <i class="fa-solid fa-undo text-xs"></i>
-                    <span>Resetar</span>
-                </button>
-                
-                <button onclick="copyResult()" 
-                        class="flex-1 py-3 text-sm font-medium bg-white text-zinc-900 hover:bg-zinc-100 transition-colors rounded-2xl flex items-center justify-center gap-x-2">
-                    <i class="fa-solid fa-copy text-xs"></i>
-                    <span>Copiar resultado</span>
-                </button>
-            </div>
-        </div>
-        
-        <div class="text-center text-[10px] text-zinc-500 mt-6">
-            Atualização em tempo real • Open Republic
-        </div>
+  <!-- GAUGE -->
+  <div class="gauge-container">
+    <div class="gauge-score wo" id="score-display">0.00</div>
+    <div class="gauge-status wo" id="status-display">W.O.</div>
+    <div class="gauge-bar">
+      <div class="gauge-bar-fill wo" id="gauge-fill" style="width:0%"></div>
     </div>
+    <div class="gauge-corte">
+      <div class="gauge-corte-mark"></div>
+      <div class="gauge-corte-label">CORTE 4.0</div>
+    </div>
+    <div class="gauge-explicacao" id="explicacao-display">Mexe nos sliders e etiquetas pra ver o score mudar.</div>
+  </div>
 
-    <script>
-        function updateCalculadora() {
-            // Get current values
-            const n1 = parseFloat(document.getElementById('slider1').value);
-            const n2 = parseFloat(document.getElementById('slider2').value);
-            const n3 = parseFloat(document.getElementById('slider3').value);
-            
-            // Update display values
-            document.getElementById('value1').textContent = n1.toFixed(1);
-            document.getElementById('value2').textContent = n2.toFixed(1);
-            document.getElementById('value3').textContent = n3.toFixed(1);
-            
-            // Calculate weighted score (real-time formula)
-            const score = (n1 * 0.4) + (n2 * 0.35) + (n3 * 0.25);
-            const roundedScore = score.toFixed(2);
-            
-            // Update result
-            const resultEl = document.getElementById('result');
-            resultEl.textContent = roundedScore;
-            
-            // Update status
-            const statusEl = document.getElementById('status');
-            
-            if (score >= 7.0) {
-                statusEl.innerHTML = `<i class="fa-solid fa-check text-xs"></i><span>APROVADO</span>`;
-                statusEl.className = `inline-flex items-center gap-x-1.5 px-4 py-1.5 rounded-2xl text-sm font-medium bg-emerald-900/60 text-emerald-400 border border-emerald-800`;
-            } else if (score >= 6.0) {
-                statusEl.innerHTML = `<i class="fa-solid fa-exclamation text-xs"></i><span>RECUPERAÇÃO</span>`;
-                statusEl.className = `inline-flex items-center gap-x-1.5 px-4 py-1.5 rounded-2xl text-sm font-medium bg-amber-900/60 text-amber-400 border border-amber-800`;
-            } else {
-                statusEl.innerHTML = `<i class="fa-solid fa-times text-xs"></i><span>REPROVADO</span>`;
-                statusEl.className = `inline-flex items-center gap-x-1.5 px-4 py-1.5 rounded-2xl text-sm font-medium bg-red-900/60 text-red-400 border border-red-800`;
-            }
+  <!-- C1 -->
+  <div class="slider-group">
+    <h3>C1 - CAPACIDADE DE EXECUCAO (peso 3)</h3>
+    <div class="slider-row"><label>Fez funcionar</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c1" oninput="calc()"><span class="val" id="c1-0">0</span></div>
+    <div class="slider-row"><label>Liderou projeto</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c1" oninput="calc()"><span class="val" id="c1-1">0</span></div>
+    <div class="slider-row"><label>Escalou impacto</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c1" oninput="calc()"><span class="val" id="c1-2">0</span></div>
+    <div class="slider-row"><label>Sob pressao</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c1" oninput="calc()"><span class="val" id="c1-3">0</span></div>
+    <div class="slider-row"><label>Repetido (2+)</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c1" oninput="calc()"><span class="val" id="c1-4">0</span></div>
+  </div>
+
+  <!-- C2 -->
+  <div class="slider-group">
+    <h3>C2 - EXPERIENCIA CORRELATA (peso 2)</h3>
+    <div class="slider-row"><label>Gestao publica</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c2" oninput="calc()"><span class="val" id="c2-0">0</span></div>
+    <div class="slider-row"><label>Setor privado</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c2" oninput="calc()"><span class="val" id="c2-1">0</span></div>
+    <div class="slider-row"><label>Movimento social</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c2" oninput="calc()"><span class="val" id="c2-2">0</span></div>
+    <div class="slider-row"><label>Academico/tec</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c2" oninput="calc()"><span class="val" id="c2-3">0</span></div>
+    <div class="slider-row"><label>Internacional</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c2" oninput="calc()"><span class="val" id="c2-4">0</span></div>
+  </div>
+
+  <!-- C3 -->
+  <div class="slider-group">
+    <h3>C3 - PREDICAO DE FUTURO (peso 1)</h3>
+    <div class="slider-row"><label>Plano detalhado</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c3" oninput="calc()"><span class="val" id="c3-0">0</span></div>
+    <div class="slider-row"><label>Equipe tecnica</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c3" oninput="calc()"><span class="val" id="c3-1">0</span></div>
+    <div class="slider-row"><label>Coerencia historica</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c3" oninput="calc()"><span class="val" id="c3-2">0</span></div>
+    <div class="slider-row"><label>Base eleitoral</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c3" oninput="calc()"><span class="val" id="c3-3">0</span></div>
+    <div class="slider-row"><label>Capacidade coalizao</label><input type="range" min="0" max="1" step="0.1" value="0" data-c="c3" oninput="calc()"><span class="val" id="c3-4">0</span></div>
+  </div>
+
+  <!-- ETIQUETAS -->
+  <div class="slider-group">
+    <h3>ETIQUETAS (33 rotulos em 9 pilares)</h3>
+    <p style="font-size:0.72rem;color:#8b949e;margin-bottom:12px;">Clica pra ativar/desativar. Verde = positiva, vermelho = negativa.</p>
+    <div id="etiquetas-container"></div>
+  </div>
+
+  <!-- CAMADA 0 -->
+  <div class="omissao-box">
+    <h3>CAMADA 0: OMISSAO / COMISSAO</h3>
+    <div class="omissao-row">
+      <label>Teve cargo?</label>
+      <select id="omissao-cargo" onchange="calc()">
+        <option value="nao">Nao</option>
+        <option value="sim">Sim</option>
+      </select>
+    </div>
+    <div class="omissao-row" id="omissao-details" style="display:none;">
+      <label>Resolveu?</label>
+      <select id="omissao-resolveu" onchange="calc()">
+        <option value="nao">NAO resolveu (Omissao: -0.50)</option>
+        <option value="sim">Resolveu (Comissao: +0.30)</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:20px 0;color:#8b949e;font-size:0.72rem;">
+    Partido e ferramenta. Populacao e fim.<br>Score >= 4.0 = APROVADO. Menor = W.O.
+  </div>
+
+</div>
+
+<script>
+var ETIQUETAS = {"responsavel_fiscal": {"hashtag": "#ResponsavelFiscal", "nome": "Responsavel Fiscal", "pilar": "gestao_fiscal", "polaridade": "positiva", "impacto": 0.15}, "gastador_compulsivo": {"hashtag": "#GastadorCompulsivo", "nome": "Gastador Compulsivo", "pilar": "gestao_fiscal", "polaridade": "negativa", "impacto": -0.2}, "incentivador_produtivo": {"hashtag": "#IncentivadorProdutivo", "nome": "Incentivador Produtivo", "pilar": "gestao_fiscal", "polaridade": "positiva", "impacto": 0.1}, "barreira_burocratica": {"hashtag": "#BarreiraBurocratica", "nome": "Barreira Burocratica", "pilar": "gestao_fiscal", "polaridade": "negativa", "impacto": -0.1}, "caixa_preta": {"hashtag": "#CaixaPreta", "nome": "Caixa Preta", "pilar": "transparencia", "polaridade": "negativa", "impacto": -0.3}, "vidro_transparente": {"hashtag": "#VidroTransparente", "nome": "Vidro Transparente", "pilar": "transparencia", "polaridade": "positiva", "impacto": 0.2}, "conflito_interesse": {"hashtag": "#ConflitoInteresseAtivo", "nome": "Conflito de Interesses", "pilar": "transparencia", "polaridade": "negativa", "impacto": -0.25}, "blindado_etico": {"hashtag": "#BlindadoEtico", "nome": "Blindado Etico", "pilar": "transparencia", "polaridade": "positiva", "impacto": 0.15}, "fazedor_lei_util": {"hashtag": "#FazedorDeLeiUtil", "nome": "Fazedor de Lei Util", "pilar": "eficiencia", "polaridade": "positiva", "impacto": 0.2}, "autor_lei_simbolica": {"hashtag": "#AutorDeLeiSimbolica", "nome": "Autor de Lei Simbolica", "pilar": "eficiencia", "polaridade": "negativa", "impacto": -0.1}, "executor_eficiente": {"hashtag": "#ExecutorEficiente", "nome": "Executor Eficiente", "pilar": "eficiencia", "polaridade": "positiva", "impacto": 0.15}, "paralisado_cronico": {"hashtag": "#ParalisadoCronico", "nome": "Paralisado Cronico", "pilar": "eficiencia", "polaridade": "negativa", "impacto": -0.2}, "coerente_programatico": {"hashtag": "#CoerenteProgramatico", "nome": "Coerente Programatico", "pilar": "impacto_social", "polaridade": "positiva", "impacto": 0.15}, "camaleao_oportunista": {"hashtag": "#CamaleaoOportunista", "nome": "Camaleao Oportunista", "pilar": "impacto_social", "polaridade": "negativa", "impacto": -0.25}, "protetor_vulneravel": {"hashtag": "#ProtetorVulneravel", "nome": "Protetor do Vulneravel", "pilar": "impacto_social", "polaridade": "positiva", "impacto": 0.25}, "elitista_excludente": {"hashtag": "#ElitistaExcludente", "nome": "Elitista Excludente", "pilar": "impacto_social", "polaridade": "negativa", "impacto": -0.3}, "meritocratico_tecnico": {"hashtag": "#MeritocraticoTecnico", "nome": "Meritocratico Tecnico", "pilar": "capacidade_tecnica", "polaridade": "positiva", "impacto": 0.15}, "apadrinhado_politico": {"hashtag": "#ApadrinhadoPolitico", "nome": "Apadrinhado Politico", "pilar": "capacidade_tecnica", "polaridade": "negativa", "impacto": -0.25}, "gestor_de_crise": {"hashtag": "#GestorDeCrise", "nome": "Gestor de Crise", "pilar": "capacidade_tecnica", "polaridade": "positiva", "impacto": 0.1}, "planejador_estrategico": {"hashtag": "#PlanejadorEstrategico", "nome": "Planejador Estrategico", "pilar": "capacidade_tecnica", "polaridade": "positiva", "impacto": 0.15}, "baseado_em_evidencias": {"hashtag": "#BaseadoEmEvidencias", "nome": "Baseado em Evidencias", "pilar": "verdade_dados", "polaridade": "positiva", "impacto": 0.15}, "ideologico_rigido": {"hashtag": "#IdeologicoRigido", "nome": "Ideologico Rigido", "pilar": "verdade_dados", "polaridade": "negativa", "impacto": -0.15}, "negacionista_dados": {"hashtag": "#NegacionistaDados", "nome": "Negacionista de Dados", "pilar": "verdade_dados", "polaridade": "negativa", "impacto": -0.25}, "populista_numerico": {"hashtag": "#PopulistaNumerico", "nome": "Populista Numerico", "pilar": "verdade_dados", "polaridade": "negativa", "impacto": -0.1}, "visao_legado": {"hashtag": "#VisaoLegado", "nome": "Visao de Legado", "pilar": "sustentabilidade", "polaridade": "positiva", "impacto": 0.15}, "curto_prazista": {"hashtag": "#CurtoPrazista", "nome": "Curto Prazista", "pilar": "sustentabilidade", "polaridade": "negativa", "impacto": -0.15}, "predador_recursos": {"hashtag": "#PredadorRecursos", "nome": "Predador de Recursos", "pilar": "sustentabilidade", "polaridade": "negativa", "impacto": -0.25}, "ouvidor_ativo": {"hashtag": "#OuvidorAtivo", "nome": "Ouvidor Ativo", "pilar": "dialogo", "polaridade": "positiva", "impacto": 0.1}, "surdo_institucional": {"hashtag": "#SurdoInstitucional", "nome": "Surdo Institucional", "pilar": "dialogo", "polaridade": "negativa", "impacto": -0.15}, "polarizador_toxico": {"hashtag": "#PolarizadorToxico", "nome": "Polarizador Toxico", "pilar": "dialogo", "polaridade": "negativa", "impacto": -0.3}, "conciliador_pragmatico": {"hashtag": "#ConciliadorPragmatico", "nome": "Conciliador Pragmatico", "pilar": "dialogo", "polaridade": "positiva", "impacto": 0.1}, "estado_digital": {"hashtag": "#EstadoDigital", "nome": "Estado Digital", "pilar": "inovacao", "polaridade": "positiva", "impacto": 0.1}, "analogico_obsoleto": {"hashtag": "#AnalogicoObsoleto", "nome": "Analogico Obsoleto", "pilar": "inovacao", "polaridade": "negativa", "impacto": -0.1}};
+
+var PILARES_LABELS = {"gestao_fiscal": "Gestao Fiscal", "transparencia": "Transparencia e Integridade", "eficiencia": "Eficiencia", "impacto_social": "Impacto Social", "capacidade_tecnica": "Capacidade Tecnica", "verdade_dados": "Verdade e Dados", "sustentabilidade": "Sustentabilidade", "dialogo": "Dialogo", "inovacao": "Inovacao Digital"};
+
+var PILARES_ORDEM = ["gestao_fiscal","transparencia","eficiencia","impacto_social","capacidade_tecnica","verdade_dados","sustentabilidade","dialogo","inovacao"];
+
+var activeEtiquetas = {};
+
+// Build etiqueta toggles grouped by pilar
+(function() {
+  var container = document.getElementById('etiquetas-container');
+  PILARES_ORDEM.forEach(function(pilarId) {
+    var ets = Object.keys(ETIQUETAS).filter(function(eid) { return ETIQUETAS[eid].pilar === pilarId; });
+    if (ets.length === 0) return;
+    var section = document.createElement('div');
+    section.className = 'pilar-section';
+    var h4 = document.createElement('h4');
+    h4.textContent = PILARES_LABELS[pilarId] || pilarId;
+    section.appendChild(h4);
+    ets.forEach(function(eid) {
+      var e = ETIQUETAS[eid];
+      var btn = document.createElement('span');
+      btn.className = 'etiqueta-toggle ' + e.polaridade;
+      btn.setAttribute('data-eid', eid);
+      btn.textContent = e.hashtag;
+      btn.onclick = function() {
+        if (activeEtiquetas[eid]) {
+          delete activeEtiquetas[eid];
+          btn.classList.remove('active');
+        } else {
+          activeEtiquetas[eid] = true;
+          btn.classList.add('active');
         }
-        
-        function resetCalculadora() {
-            document.getElementById('slider1').value = 7.5;
-            document.getElementById('slider2').value = 8.0;
-            document.getElementById('slider3').value = 9.0;
-            updateCalculadora();
-        }
-        
-        function copyResult() {
-            const score = document.getElementById('result').textContent;
-            navigator.clipboard.writeText(score).then(() => {
-                const btns = document.querySelectorAll('button');
-                const originalText = btns[1].innerHTML;
-                btns[1].innerHTML = `<i class="fa-solid fa-check text-xs"></i> <span>Copiado!</span>`;
-                
-                setTimeout(() => {
-                    btns[1].innerHTML = originalText;
-                }, 1400);
-            });
-        }
-        
-        // Initialize on load
-        function init() {
-            // Set initial values
-            document.getElementById('slider1').value = 7.5;
-            document.getElementById('slider2').value = 8.0;
-            document.getElementById('slider3').value = 9.0;
-            
-            // First calculation
-            updateCalculadora();
-            
-            // Keyboard support
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'r' || e.key === 'R') {
-                    resetCalculadora();
-                }
-            });
-            
-            // Easter egg: click result to animate
-            document.getElementById('result').addEventListener('click', function() {
-                this.style.transitionDuration = '50ms';
-                this.style.transform = 'scale(0.85)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                    this.style.transitionDuration = '200ms';
-                }, 80);
-            });
-        }
-        
-        window.onload = init;
-    </script>
+        calc();
+      };
+      section.appendChild(btn);
+    });
+    container.appendChild(section);
+  });
+})();
+
+function calc() {
+  // Update slider labels
+  ['c1','c2','c3'].forEach(function(c) {
+    var sliders = document.querySelectorAll('input[data-c="' + c + '"]');
+    sliders.forEach(function(s, i) {
+      document.getElementById(c + '-' + i).textContent = parseFloat(s.value).toFixed(1);
+    });
+  });
+
+  // Calculate C1, C2, C3
+  function avg(prefix) {
+    var sliders = document.querySelectorAll('input[data-c="' + prefix + '"]');
+    var sum = 0;
+    sliders.forEach(function(s) { sum += parseFloat(s.value); });
+    return sliders.length > 0 ? sum / sliders.length : 0;
+  }
+  var c1 = avg('c1');
+  var c2 = avg('c2');
+  var c3 = avg('c3');
+
+  // Base score
+  var base = (c1 * 3 + c2 * 2 + c3 * 1) / 6 * 5;
+
+  // Etiquetas
+  var etiquetaImpacto = 0;
+  var etiquetaNomes = [];
+  Object.keys(activeEtiquetas).forEach(function(eid) {
+    var e = ETIQUETAS[eid];
+    etiquetaImpacto += e.impacto;
+    etiquetaNomes.push(e.hashtag + ' (' + (e.impacto > 0 ? '+' : '') + e.impacto.toFixed(2) + ')');
+  });
+
+  // Camada 0
+  var omissaoImpacto = 0;
+  var omissaoTexto = '';
+  var cargo = document.getElementById('omissao-cargo').value;
+  var details = document.getElementById('omissao-details');
+  details.style.display = cargo === 'sim' ? 'flex' : 'none';
+  if (cargo === 'sim') {
+    var resolveu = document.getElementById('omissao-resolveu').value;
+    if (resolveu === 'nao') {
+      omissaoImpacto = -0.50;
+      omissaoTexto = 'Omissao: teve cargo, problema existia e NAO resolveu. -0.50';
+    } else {
+      omissaoImpacto = 0.30;
+      omissaoTexto = 'Comissao: teve cargo e resolveu. +0.30';
+    }
+  }
+
+  // Final
+  var final = base + etiquetaImpacto + omissaoImpacto;
+  final = Math.max(0, Math.min(5, final));
+
+  // Display
+  var scoreEl = document.getElementById('score-display');
+  var statusEl = document.getElementById('status-display');
+  var fillEl = document.getElementById('gauge-fill');
+  var expEl = document.getElementById('explicacao-display');
+
+  scoreEl.textContent = final.toFixed(2);
+  var aprovado = final >= 4.0;
+  var pct = (final / 5 * 100);
+
+  if (aprovado) {
+    scoreEl.className = 'gauge-score aprovado';
+    statusEl.className = 'gauge-status aprovado';
+    statusEl.textContent = 'APROVADO';
+    fillEl.className = 'gauge-bar-fill aprovado';
+  } else {
+    scoreEl.className = 'gauge-score wo';
+    statusEl.className = 'gauge-status wo';
+    statusEl.textContent = 'W.O.';
+    fillEl.className = 'gauge-bar-fill wo';
+  }
+  fillEl.style.width = pct + '%';
+
+  // Explicacao
+  var parts = [];
+  parts.push('Base: C1=' + c1.toFixed(2) + ' C2=' + c2.toFixed(2) + ' C3=' + c3.toFixed(2) + ' = ' + base.toFixed(2));
+  if (etiquetaNomes.length > 0) {
+    parts.push('Etiquetas (' + etiquetaNomes.length + '): ' + etiquetaImpacto.toFixed(2) + ' [' + etiquetaNomes.join(', ') + ']');
+  }
+  if (omissaoTexto) {
+    parts.push(omissaoTexto);
+  }
+  parts.push('FINAL: ' + final.toFixed(2) + (aprovado ? ' APROVADO' : ' W.O.'));
+  expEl.innerHTML = parts.join('<br>');
+}
+
+calc();
+</script>
+
 </body>
 </html>
