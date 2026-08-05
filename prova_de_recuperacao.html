@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova de Recuperação — Frente Comunista Unida</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; }
+  .info-box { background: rgba(0,180,216,0.06); border-left: 3px solid #00B4D8; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
+  .danger-box { background: rgba(214,40,40,0.06); border-left: 3px solid #D62828; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
+  .red-box { background: rgba(214,40,40,0.08); border: 2px solid #D62828; border-radius: 8px; padding: 16px; }
+  .data-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #21262d; gap: 12px; }
+  .data-row:last-child { border-bottom: none; }
+  .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
+  .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 16px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; }
+  .pill-UP { background: rgba(214,40,40,0.2); color: #D62828; }
+  .pill-PT { background: rgba(212,160,23,0.2); color: #D4A017; }
+  .pill-PSOL { background: rgba(199,125,255,0.2); color: #C77DFF; }
+  .pill-PCB { background: rgba(214,40,40,0.15); color: #E76F51; }
+  .pill-PCdoB { background: rgba(82,183,136,0.2); color: #52B788; }
+  .pill-PSTU { background: rgba(0,180,216,0.2); color: #00B4D8; }
+  .pill-REDE { background: rgba(82,183,136,0.15); color: #52B788; }
+  .pill-PDT { background: rgba(212,160,23,0.15); color: #D4A017; }
+  .pill-PCO { background: rgba(139,94,60,0.2); color: #8B5E3C; }
+  .section-title { font-size: clamp(1rem, 5vw, 1.25rem); font-weight: 800; margin-bottom: 4px; }
+  .section-sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 16px; }
+  .role-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+  .task-item { padding: 10px 0; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
+  .task-item:last-child { border-bottom: none; }
+  .task-num { display: inline-block; width: 28px; height: 28px; background: #D62828; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.75rem; margin-right: 8px; flex-shrink: 0; }
+  @media print { body { background: white; color: black; } .card { border: 1px solid #ccc; } }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- CABEÇALHO DA PROVA -->
+<header class="border-b-2 border-[#D62828] bg-[#0d1117]">
+  <div class="max-w-3xl mx-auto px-4 py-6">
+    <div class="text-center">
+      <p class="text-xs text-[#8b949e] uppercase tracking-widest mb-2">OpenRepublic · Sistema de Avaliação Política</p>
+      <h1 class="text-xl md:text-3xl font-black mb-2">PROVA DE RECUPERAÇÃO</h1>
+      <p class="text-sm md:text-base font-bold" style="color:#D62828;">FRENTE COMUNISTA UNIDA — PLANO DE GOVERNO</p>
+      <p class="text-xs text-[#8b949e] mt-2">Trabalho em Grupo · Força-Tarefa · UP como nó central da coalizão</p>
+    </div>
+    <div class="mt-6 red-box text-center">
+      <p class="text-sm font-bold text-[#e6edf3]">PRAZO DE ENTREGA: 5 DE AGOSTO DE 2026</p>
+      <p class="text-xs text-[#8b949e] mt-1">Sem trabalho individual. Sem copiar do vizinho. O Brasil não aceita cola.</p>
+    </div>
+  </div>
+</header>
+
+<!-- ENUNCIADO -->
+<section class="max-w-3xl mx-auto px-4 py-6">
+  <div class="info-box mb-6">
+    <strong>ENUNCIADO.</strong> A Frente Comunista Unida precisa de um Plano de Governo. O Brasil está em crise:
+    33 milhões passando fome, 47.500 homicídios/ano, PISA 377, 100 milhões sem esgoto, R$ 9.8 trilhões de dívida.
+    O partido Unidade Popular (UP), liderado por Samara Martins, é o nó central da coalizão. Os demais partidos
+    (PT, PSOL, PCB, PCdoB, PSTU, PCO, REDE, PDT) são nós satélites que aportam capacidade em áreas específicas.
+    <br><br>
+    <strong>SUA MISSÃO:</strong> Em grupo, desenvolver políticas públicas para os 18 eixos do Raio X do Brasil.
+    Cada política DEVE passar pelo Checklist W.O. (7 critérios). Cada política DEVE ter fonte validada.
+    Cada política DEVE creditar qual partido aporta a capacidade executiva.
+    <br><br>
+    <strong>NÃO SE ACEITA:</strong> "vamos melhorar", "ampliar", "fortalecer", "dialogar". Sem COMO, QUANTO,
+    PRAZO e MÉTRICA = W.O. automático. O tabuleiro é virado.
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+    <div class="card p-4 text-center" style="border-top: 3px solid #D62828;">
+      <p class="text-2xl font-black" style="color:#D62828;">18</p>
+      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Eixos do Raio X</p>
+    </div>
+    <div class="card p-4 text-center" style="border-top: 3px solid #D4A017;">
+      <p class="text-2xl font-black" style="color:#D4A017;">9</p>
+      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Partidos Coalizão</p>
+    </div>
+    <div class="card p-4 text-center" style="border-top: 3px solid #00B4D8;">
+      <p class="text-2xl font-black" style="color:#00B4D8;">7</p>
+      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Critérios Gate W.O.</p>
+    </div>
+    <div class="card p-4 text-center" style="border-top: 3px solid #C77DFF;">
+      <p class="text-2xl font-black" style="color:#C77DFF;">4.0</p>
+      <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Nota de Corte</p>
+    </div>
+  </div>
+</section>
+
+<!-- ESTRUTURA DA COALIZÃO -->
+<section class="max-w-3xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#D62828;">ESTRUTURA DA COALIZÃO</h2>
+  <p class="section-sub">UP é o nó central. Cada partido satélite aporta capacidade onde rende.</p>
+
+  <div class="card p-4 mb-4">
+    <h3 class="text-sm font-bold mb-3"><span class="pill pill-UP">UP · NÓ CENTRAL</span> Samara Martins — Coordenação Geral</h3>
+    <div class="data-row"><span class="data-label">Função</span><span class="data-value">Nó central da coalizão. Diagnóstico 100%, direção 100%</span></div>
+    <div class="data-row"><span class="data-label">Base</span><span class="data-value">MTST, periferia, trabalhadores. Autossustentação financeira.</span></div>
+    <div class="data-row"><span class="data-label">Programa</span><span class="data-value">25 propostas (programa UP). Cobre 13 dos 18 eixos do Raio X.</span></div>
+    <div class="data-row"><span class="data-label">Gap</span><span class="data-value" style="color:#D62828;">Execução 0% (sem equipe técnica). Precisa dos satélites.</span></div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PT">PT</span> Execução Governista</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Gestão pública, ministérios, máquina</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Casa Civil, Fazenda, Saúde</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PT é social-democrata, UP é socialista. Rixa histórica.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PSOL">PSOL</span> Rua e Movimento</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Mobilização, direitos humanos, comunicação</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Direitos Humanos, Mulheres, Cultura</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PSOL quer autonomia. Não se dissolve no PT.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCB">PCB</span> Teoria e Análise</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Análise econômica, estrutura, jornalismo (Jones Manoel)</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Comunicação, Economia, Educação política</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">PCB não abre mão do socialismo. PT exige reformismo.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCdoB">PCdoB</span> Técnica e Educação</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Saúde, educação, ciência. Quadros técnicos.</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Saúde (Jandira Feghali), Esporte (Orlando Silva)</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#52B788;">Já opera na base governista. Compatível.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-REDE">REDE</span> Ambiente</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Ambiente, água, Amazônia. Marina Silva.</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Meio Ambiente, Agrária Familiar</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">Marina é evangelica. Divergência em aborto/drogas.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PDT">PDT</span> Infraestrutura</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Ciro Gomes. Integração regional, transposição.</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Integração Regional, Energia, Transporte</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D4A017;">Ciro x Lula. Rivalidade presidencial histórica.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PSTU">PSTU</span> Crítica e Mobilização</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Sindicalismo, crítica anticapitalista</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Trabalho (consultivo), mobilização de rua</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D62828;">PSTU acusa PT de traição. Rixa histórica.</span></div>
+    </div>
+    <div class="role-card">
+      <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCO">PCO</span> Observador</h3>
+      <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Crítica. Sem quadro executivo.</span></div>
+      <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Observador da coalizão</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D62828;">Não participa de governo burguês. FrontOutside.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTÕES DA PROVA -->
+<section class="max-w-3xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#D4A017;">QUESTÕES DA PROVA (18 EIXOS)</h2>
+  <p class="section-sub">Cada questão = 1 eixo do Raio X. Cada grupo desenvolve 1 política pública. Cada política passa pelo Gate W.O.</p>
+
+  <div class="danger-box mb-6">
+    <strong>REGRAS:</strong><br>
+    1. Cada grupo tem 3-5 membros de partidos diferentes.<br>
+    2. A política DEVE ter: COMO, QUEM, CUSTO, PRAZO, MÉTRICA, FONTE, DIAGNÓSTICO.<br>
+    3. A política DEVE creditar qual partido aporta a capacidade executiva.<br>
+    4. Sem fonte validada = OPINIÃO, não FATO. W.O.<br>
+    5. A política NÃO pode contradizer o programa da UP (nó central).<br>
+    6. A política DEVE respeitar as 9 cotas definidas pelo povo (gênero 50%, raça 56%, etc).<br>
+    7. Se a coalizão discordar, o Raio X decide qual eixo é mais urgente. O povo cobra.
+  </div>
+
+  <div class="card p-4">
+    <div class="task-item"><span class="task-num">1</span> <strong>VIOLÊNCIA</strong> (EMERGÊNCIA · 47.500 homicídios/ano). Desenvolva política de segurança pública que passe no Gate W.O. <em>Crédito: qual partido lidera a execução?</em></div>
+    <div class="task-item"><span class="task-num">2</span> <strong>SAÚDE</strong> (EMERGÊNCIA · Dengue 6M, SUS subfinanciado). Desenvolva política de saúde universal. <em>Crédito: PCdoB (Jandira) ou PT?</em></div>
+    <div class="task-item"><span class="task-num">3</span> <strong>ALIMENTAÇÃO</strong> (EMERGÊNCIA · 33M com fome). Desenvolva política de segurança alimentar com rastreio individual. <em>Crédito: REDE (Marina/CONSEA) ou PT (BF)?</em></div>
+    <div class="task-item"><span class="task-num">4</span> <strong>ÁGUA</strong> (EMERGÊNCIA · 35M sem água). Desenvolva política de universalização. <em>Crédito: REDE (Cisternas)?</em></div>
+    <div class="task-item"><span class="task-num">5</span> <strong>SOBERANIA ALIMENTAR</strong> (EMERGÊNCIA · 80% trigo importado). Desenvolva política de produção nacional. <em>Crédito: UP (reforma agrária) ou PCB (planificação)?</em></div>
+    <div class="task-item"><span class="task-num">6</span> <strong>EDUCAÇÃO</strong> (ALTA · PISA 377). Desenvolva política educacional com escola integral. <em>Crédito: PCdoB ou PT (Camilo Santana)?</em></div>
+    <div class="task-item"><span class="task-num">7</span> <strong>EMPREGO</strong> (ALTA · 7.9% desemprego). Desenvolva política de emprego. <em>Crédito: PCB (Jones Manoel) ou PSTU?</em></div>
+    <div class="task-item"><span class="task-num">8</span> <strong>ECONOMIA</strong> (ALTA · R$ 9.8T dívida). Desenvolva política econômica. <em>Crédito: PCB (nacionalização) ou PT (arcabouço)?</em></div>
+    <div class="task-item"><span class="task-num">9</span> <strong>AMBIENTE</strong> (MÉDIA · 13.235 km²/ano). Desenvolva política ambiental. <em>Crédito: REDE (Marina, PPCDAm -80%).</em></div>
+    <div class="task-item"><span class="task-num">10</span> <strong>POVOS ORIGINÁRIOS</strong> (MÉDIA · 251 terras). Desenvolva política indígena. <em>Crédito: PSOL (Sonia Guajajara).</em></div>
+    <div class="task-item"><span class="task-num">11</span> <strong>AGROPECUÁRIA/TERRA</strong> (MÉDIA · Gini 0.85). Desenvolva política de reforma agrária. <em>Crédito: UP (nacionalização) ou MST?</em></div>
+    <div class="task-item"><span class="task-num">12</span> <strong>ENERGIA</strong> (MÉDIA · tarifas altas). Desenvolva política energética. <em>Crédito: PDT (transposição) ou PCB (estatização)?</em></div>
+    <div class="task-item"><span class="task-num">13</span> <strong>TRANSPORTE</strong> (MÉDIA · 30 mortes/dia). Desenvolva política de mobilidade. <em>Crédito: PDT ou UP (estatização)?</em></div>
+    <div class="task-item"><span class="task-num">14</span> <strong>HABITAÇÃO</strong> (MÉDIA · 8M sem moradia). Desenvolva política habitacional. <em>Crédito: PT (Patrus, MCMV) ou UP (imóveis vazios)?</em></div>
+    <div class="task-item"><span class="task-num">15</span> <strong>SANEAMENTO</strong> (MÉDIA · 100M sem esgoto). Desenvolva política de saneamento. <em>Crédito: PT (Marco Legal revertido)?</em></div>
+    <div class="task-item"><span class="task-num">16</span> <strong>DROGAS</strong> (MÉDIA · 17% sem tratamento). Desenvolva política de redução de danos. <em>Crédito: PSOL ou PCdoB?</em></div>
+    <div class="task-item"><span class="task-num">17</span> <strong>CULTURA</strong> (MONITORAR · 80% estrangeiro). Desenvolva política cultural. <em>Crédito: PSOL (Erundina) ou PCB (nacionalização)?</em></div>
+    <div class="task-item"><span class="task-num">18</span> <strong>COMUNICAÇÃO</strong> (MONITORAR · 6 grupos = 80%). Desenvolva política de democratização. <em>Crédito: PCB (Jones) ou PSOL?</em></div>
+  </div>
+</section>
+
+<!-- GABARITO DO GATE W.O. -->
+<section class="max-w-3xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#00B4D8;">GABARITO: CHECKLIST W.O. (7 CRITÉRIOS)</h2>
+  <p class="section-sub">Toda política DEVE responder estas 7 perguntas. Falta 1 crítica = W.O.</p>
+  <div class="card p-4">
+    <div class="task-item"><span class="task-num">1</span> <strong>COMO</strong> será executado? (peso 3) — Mecanismo concreto, não "vamos ampliar".</div>
+    <div class="task-item"><span class="task-num">2</span> <strong>QUEM</strong> é o responsável? (peso 3) — Partido/ministério/conselho identificado.</div>
+    <div class="task-item"><span class="task-num">3</span> <strong>QUANTO CUSTA</strong>? (peso 3) — Valor em R$ com fonte.</div>
+    <div class="task-item"><span class="task-num">4</span> <strong>COMO OS DADOS FORAM MANIPULADOS</strong>? (peso 2) — Transparência metodológica.</div>
+    <div class="task-item"><span class="task-num">5</span> <strong>QUAL O PRAZO</strong>? (peso 2) — Marco verificável, não "a médio prazo".</div>
+    <div class="task-item"><span class="task-num">6</span> <strong>QUEM É AFETADO</strong>? (jequeri) — Quem ganha, quem perde.</div>
+    <div class="task-item"><span class="task-num">7</span> <strong>COMO MEDIR O RESULTADO</strong>? (jequeri) — Métrica concreta.</div>
+  </div>
+</section>
+
+<!-- FORMAÇÃO DOS GRUPOS -->
+<section class="max-w-3xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#C77DFF;">FORMAÇÃO DOS GRUPOS DE TRABALHO</h2>
+  <p class="section-sub">Divisão por eixo. Cada grupo mistura partidos. Ninguém faz sozinho.</p>
+  <div class="card p-4">
+    <div class="task-item"><strong>GRUPO 1 — EMERGÊNCIAS (Eixos 1-5):</strong> 1 membro UP + 1 REDE + 1 PT + 1 PCB. Força-tarefa: vidas em risco AGORA.</div>
+    <div class="task-item"><strong>GRUPO 2 — DESENVOLVIMENTO HUMANO (Eixos 6-7):</strong> 1 PCdoB + 1 PT + 1 PSOL + 1 PSTU.</div>
+    <div class="task-item"><strong>GRUPO 3 — ECONOMIA E SOBERANIA (Eixos 8, 12):</strong> 1 PCB + 1 PT + 1 PDT + 1 UP.</div>
+    <div class="task-item"><strong>GRUPO 4 — TERRA E AMBIENTE (Eixos 9, 11):</strong> 1 REDE + 1 UP + 1 PSOL + 1 PCB.</div>
+    <div class="task-item"><strong>GRUPO 5 — INFRAESTRUTURA (Eixos 13-15):</strong> 1 PDT + 1 PT + 1 UP + 1 PCdoB.</div>
+    <div class="task-item"><strong>GRUPO 6 — DIREITOS (Eixos 10, 16):</strong> 1 PSOL + 1 PCdoB + 1 UP.</div>
+    <div class="task-item"><strong>GRUPO 7 — CULTURA E COMUNICAÇÃO (Eixos 17-18):</strong> 1 PCB + 1 PSOL + 1 UP.</div>
+  </div>
+</section>
+
+<!-- CRITÉRIOS DE AVALIAÇÃO -->
+<section class="max-w-3xl mx-auto px-4 pb-8">
+  <h2 class="section-title" style="color:#52B788;">CRITÉRIOS DE AVALIAÇÃO</h2>
+  <div class="card p-4">
+    <div class="data-row"><span class="data-label">Nota máxima</span><span class="data-value">5.0</span></div>
+    <div class="data-row"><span class="data-label">Nota de corte</span><span class="data-value" style="color:#52B788;">≥ 4.0 APROVADO</span></div>
+    <div class="data-row"><span class="data-label">< 4.0</span><span class="data-value" style="color:#D62828;">W.O. (recuperação)</span></div>
+    <div class="data-row"><span class="data-label">Gate WO (7/7)</span><span class="data-value">3.0 pontos (obrigatório)</span></div>
+    <div class="data-row"><span class="data-label">Fonte validada (FATO)</span><span class="data-value">1.0 ponto</span></div>
+    <div class="data-row"><span class="data-label">Crédito partidário claro</span><span class="data-value">0.5 ponto</span></div>
+    <div class="data-row"><span class="data-label">Respeita cotas do povo</span><span class="data-value">0.5 ponto</span></div>
+  </div>
+</section>
+
+<!-- AVISO FINAL -->
+<section class="max-w-3xl mx-auto px-4 pb-12">
+  <div class="card p-6" style="border: 2px solid #D62828;">
+    <h2 class="text-lg font-black mb-4" style="color:#D62828;">OBSERVAÇÕES DO PROFESSOR</h2>
+    <div class="space-y-3 text-sm text-[#e6edf3]">
+      <p>O Brasil não é um país pobre. Tem R$ 11.5 trilhões de PIB. Tem R$ 500 bilhões gastos em políticas públicas por ano. O problema é que 94% das políticas não resolvem e 99.7% dos políticos não têm capacidade comprovada.</p>
+      <p>Esta prova não é sobre ideologia. É sobre EXECUÇÃO. O Gate W.O. não mede se você é de esquerda ou direita. Mede se você sabe COMO fazer, QUANTO custa, QUEM executa e COMO mede.</p>
+      <p>A UP tem o diagnóstico mais amplo (13 de 18 eixos cobertos). Mas não tem equipe técnica. A coalizão precisa suprir isso. Cada partido aporta onde rende. Ninguém faz tudo. Ninguém fica de fora.</p>
+      <p><strong>Se a coalizão não entregar 18 políticas aprovadas (≥4.0) até 5 de Agosto de 2026, o Brasil continua como está.</strong> 33 milhões com fome. 47.500 assassinatos. PISA 377.</p>
+      <p>O dado existe. A política existe. Falta COBRAR.</p>
+    </div>
+    <div class="mt-6 pt-6 border-t border-[#30363d]">
+      <p class="text-xs text-[#8b949e]">OpenRepublic · Código aberto CC0 · github.com/mouracleiton/open-republic</p>
+      <p class="text-xs text-[#8b949e] mt-1">"Política é xadrez, não dama. Se a proposta não responder as 7 perguntas, o tabuleiro é virado."</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
