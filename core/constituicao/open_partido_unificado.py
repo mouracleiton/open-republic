@@ -333,7 +333,7 @@ def _demo():
 
   Samara coordena o programa. Não como "da UP". Como quem escreveu 25 pontos.
   Jones comunica. Não como "do PCB". Como quem tem 2M e 10 anos de coerência.
-  Camilo governa. Não como "do PT". Como quem fez IDEB subir.
+  Camilo executa educação. Não como "do PT". Como quem fez IDEB subir.
   Marina cuida da Amazônia. Não como "da REDE". Como quem reduziu desmatamento 80%.
   Ciro constrói. Não como "do PDT". Como fez a transposição.
 
