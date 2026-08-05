@@ -44,6 +44,7 @@ class TipoPoder(Enum):
     DECRETO = "decreto"          # medida provisória
     INDICACAO = "indicacao"      # nomear ministro
     ORCAMENTO = "orcamento"      # definir verba
+    DESEMPATE = "desempate"      # voto de minerva (presidente only)
     MEDICAO = "medicao"          # medir resultado
     COBRANCA = "cobranca"        # cobrar promessa
 
@@ -59,11 +60,12 @@ class RegraConstitucional:
 
 def _init_regras() -> List[RegraConstitucional]:
     return [
-        RegraConstitucional("Art. 1", "MESMO PODER",
+        RegraConstitucional("Art. 1", "MESMO PODER (com voto de minerva)",
             "Presidente e Vice têm poder IDÊNTICO de sanção e veto. "
             "Nenhuma lei é sancionada sem assinatura de AMBOS. "
             "Nenhuma lei é vetada sem recusa de AMBOS. "
-            "Um não governa sem o outro.",
+            "EM CASO DE DISCORDÂNCIA: Presidente tem VOTO DE MINERVA. "
+            "Presidente decide o desempate. Vice não.",
             True),
 
         RegraConstitucional("Art. 2", "PRESIDENTE É MULHER NEGRA",
@@ -138,9 +140,10 @@ def _init_co_presidencia() -> List[CoPresidente]:
             nome="[MOCK - DEVE ser mulher negra]",
             obrigatoria_mulher_negra=True,
             poder=[TipoPoder.SANCAO, TipoPoder.VETO, TipoPoder.DECRETO,
-                   TipoPoder.INDICACAO, TipoPoder.ORCAMENTO],
+                   TipoPoder.INDICACAO, TipoPoder.ORCAMENTO, TipoPoder.DESEMPATE],
             restricoes="LEI: cargo reservado para mulher negra. "
-                       "Chapa sem presidente mulher negra = impugnação (W.O.)."),
+                       "Chapa sem presidente mulher negra = impugnação (W.O.). "
+                       "VOTO DE MINERVA em caso de discordância com Vice."),
 
         CoPresidente(
             cargo="Vice-Presidente",
@@ -149,7 +152,8 @@ def _init_co_presidencia() -> List[CoPresidente]:
             poder=[TipoPoder.SANCAO, TipoPoder.VETO, TipoPoder.DECRETO,
                    TipoPoder.INDICACAO, TipoPoder.ORCAMENTO],
             restricoes="LEI: cargo ocupado pelo presidente recém-saído. "
-                       "Aporta experiência. Mesmo poder. Não governa sozinho."),
+                       "Aporta experiência. Mesmo poder de sanção/veto. "
+                       "SEM voto de minerva. Não desempata."),
     ]
 
 
