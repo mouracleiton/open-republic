@@ -15,21 +15,21 @@
     margin: 0;
   }
   .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; }
-  .info-box { background: rgba(0,180,216,0.06); border-left: 3px solid #00B4D8; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
-  .danger-box { background: rgba(214,40,40,0.06); border-left: 3px solid #D62828; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
-  .red-box { background: rgba(214,40,40,0.08); border: 2px solid #D62828; border-radius: 8px; padding: 16px; }
+  .info-box { background: rgba(61,90,128,0.06); border-left: 3px solid #3D5A80; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
+  .danger-box { background: rgba(139,26,26,0.06); border-left: 3px solid #8B1A1A; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: #8b949e; }
+  .red-box { background: rgba(139,26,26,0.08); border: 2px solid #8B1A1A; border-radius: 8px; padding: 16px; }
   .data-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #21262d; gap: 12px; }
   .data-row:last-child { border-bottom: none; }
   .data-label { font-size: 0.78rem; color: #8b949e; font-weight: 600; flex-shrink: 0; }
   .data-value { font-size: 0.82rem; color: #e6edf3; text-align: right; font-weight: 700; }
   .pill { display: inline-block; padding: 2px 8px; border-radius: 16px; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; }
-  .pill-UP { background: rgba(214,40,40,0.2); color: #D62828; }
+  .pill-UP { background: rgba(139,26,26,0.2); color: #8B1A1A; }
   .pill-PT { background: rgba(212,160,23,0.2); color: #D4A017; }
-  .pill-PSOL { background: rgba(199,125,255,0.2); color: #C77DFF; }
-  .pill-PCB { background: rgba(214,40,40,0.15); color: #E76F51; }
-  .pill-PCdoB { background: rgba(82,183,136,0.2); color: #52B788; }
-  .pill-PSTU { background: rgba(0,180,216,0.2); color: #00B4D8; }
-  .pill-REDE { background: rgba(82,183,136,0.15); color: #52B788; }
+  .pill-PSOL { background: rgba(106,76,147,0.2); color: #6A4C93; }
+  .pill-PCB { background: rgba(139,26,26,0.15); color: #C44536; }
+  .pill-PCdoB { background: rgba(45,106,79,0.2); color: #2D6A4F; }
+  .pill-PSTU { background: rgba(61,90,128,0.2); color: #3D5A80; }
+  .pill-REDE { background: rgba(45,106,79,0.15); color: #2D6A4F; }
   .pill-PDT { background: rgba(212,160,23,0.15); color: #D4A017; }
   .pill-PCO { background: rgba(139,94,60,0.2); color: #8B5E3C; }
   .section-title { font-size: clamp(1rem, 5vw, 1.25rem); font-weight: 800; margin-bottom: 4px; }
@@ -37,19 +37,30 @@
   .role-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
   .task-item { padding: 10px 0; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
   .task-item:last-child { border-bottom: none; }
-  .task-num { display: inline-block; width: 28px; height: 28px; background: #D62828; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.75rem; margin-right: 8px; flex-shrink: 0; }
+  .task-num { display: inline-block; width: 28px; height: 28px; background: #8B1A1A; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700; font-size: 0.75rem; margin-right: 8px; flex-shrink: 0; }
   @media print { body { background: white; color: black; } .card { border: 1px solid #ccc; } }
 </style>
 </head>
 <body class="min-h-screen">
 
 <!-- CABEÇALHO DA PROVA -->
-<header class="border-b-2 border-[#D62828] bg-[#0d1117]">
+<header class="border-b-2 border-[#8B1A1A] bg-[#0d1117] sticky top-0 z-50">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2 text-[#8b949e] hover:text-[#e6edf3] transition-colors">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm flex-shrink-0" style="background: linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
+      <span class="text-xs font-bold uppercase tracking-wider">OpenRepublic</span>
+    </a>
+    <a href="index.html" class="text-xs text-[#2D6A4F] hover:text-[#D4A017] transition-colors font-bold">← Voltar</a>
+  </div>
+</header>
+
+<!-- CABEÇALHO DA PROVA (original abaixo) -->
+<div class="border-b-2 border-[#8B1A1A] bg-[#0d1117]">
   <div class="max-w-3xl mx-auto px-4 py-6">
     <div class="text-center">
       <p class="text-xs text-[#8b949e] uppercase tracking-widest mb-2">OpenRepublic · Sistema de Avaliação Política</p>
       <h1 class="text-xl md:text-3xl font-black mb-2">PROVA DE RECUPERAÇÃO</h1>
-      <p class="text-sm md:text-base font-bold" style="color:#D62828;">FRENTE COMUNISTA UNIDA — PLANO DE GOVERNO</p>
+      <p class="text-sm md:text-base font-bold" style="color:#8B1A1A;">FRENTE COMUNISTA UNIDA — PLANO DE GOVERNO</p>
       <p class="text-xs text-[#8b949e] mt-2">Liderança do Projeto: Jones Manoel — Vice-Presidente da República</p>
       <p class="text-xs text-[#8b949e]">Presidente: Dilma Rousseff · Co-Presidência com voto de minerva</p>
     </div>
@@ -77,20 +88,20 @@
   </div>
 
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-    <div class="card p-4 text-center" style="border-top: 3px solid #D62828;">
-      <p class="text-2xl font-black" style="color:#D62828;">18</p>
+    <div class="card p-4 text-center" style="border-top: 3px solid #8B1A1A;">
+      <p class="text-2xl font-black" style="color:#8B1A1A;">18</p>
       <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Eixos do Raio X</p>
     </div>
     <div class="card p-4 text-center" style="border-top: 3px solid #D4A017;">
       <p class="text-2xl font-black" style="color:#D4A017;">9</p>
       <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Partidos Coalizão</p>
     </div>
-    <div class="card p-4 text-center" style="border-top: 3px solid #00B4D8;">
-      <p class="text-2xl font-black" style="color:#00B4D8;">7</p>
+    <div class="card p-4 text-center" style="border-top: 3px solid #3D5A80;">
+      <p class="text-2xl font-black" style="color:#3D5A80;">7</p>
       <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Critérios Gate W.O.</p>
     </div>
-    <div class="card p-4 text-center" style="border-top: 3px solid #C77DFF;">
-      <p class="text-2xl font-black" style="color:#C77DFF;">4.0</p>
+    <div class="card p-4 text-center" style="border-top: 3px solid #6A4C93;">
+      <p class="text-2xl font-black" style="color:#6A4C93;">4.0</p>
       <p class="text-xs text-[#8b949e] mt-1 uppercase font-semibold">Nota de Corte</p>
     </div>
   </div>
@@ -98,16 +109,16 @@
 
 <!-- ESTRUTURA DA COALIZÃO -->
 <section class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#D62828;">ESTRUTURA DA COALIZÃO</h2>
+  <h2 class="section-title" style="color:#8B1A1A;">ESTRUTURA DA COALIZÃO</h2>
   <p class="section-sub">UP é o nó central. Cada partido satélite aporta capacidade onde rende.</p>
 
   <div class="card p-4 mb-4">
     <h3 class="text-sm font-bold mb-3"><span class="pill pill-PCB">PCB · LIDERANÇA</span> Jones Manoel — Encabeça o Projeto</h3>
     <div class="data-row"><span class="data-label">Função</span><span class="data-value">Coordena a frente. Comunica. Cobre. Mobiliza.</span></div>
     <div class="data-row"><span class="data-label">Base</span><span class="data-value">Canal ~2M inscritos. 10+ anos de comunicação política. PCB.</span></div>
-    <div class="data-row"><span class="data-label">Score capacidade</span><span class="data-value" style="color:#E76F51;">2.50 (WO em execução, APROVADO em comunicação)</span></div>
+    <div class="data-row"><span class="data-label">Score capacidade</span><span class="data-value" style="color:#C44536;">2.50 (WO em execução, APROVADO em comunicação)</span></div>
     <div class="data-row"><span class="data-label">Propostas Gate</span><span class="data-value">5 propostas, 0 aprovadas (todas OPINIAO, sem detalhamento)</span></div>
-    <div class="data-row"><span class="data-label">Diagnóstico + Direção</span><span class="data-value" style="color:#52B788;">100% coerente. Entende o problema. Aponta a direção certa.</span></div>
+    <div class="data-row"><span class="data-label">Diagnóstico + Direção</span><span class="data-value" style="color:#2D6A4F;">100% coerente. Entende o problema. Aponta a direção certa.</span></div>
     <div class="data-row"><span class="data-label">O que precisa</span><span class="data-value">A coalizão supre a execução que falta. Jones não faz sozinho.</span></div>
   </div>
 
@@ -115,7 +126,7 @@
     <h3 class="text-sm font-bold mb-3"><span class="pill pill-UP">UP · NÓ CENTRAL</span> Samara Martins — Programa Base da Coalizão</h3>
     <div class="data-row"><span class="data-label">Função</span><span class="data-value">Nó central. Diagnóstico 100%, direção 100%. Programa de 25 pontos.</span></div>
     <div class="data-row"><span class="data-label">Base</span><span class="data-value">MTST, periferia, trabalhadores. Autossustentação financeira.</span></div>
-    <div class="data-row"><span class="data-label">Gap</span><span class="data-value" style="color:#D62828;">Execução 0% (sem equipe técnica). Precisa dos satélites.</span></div>
+    <div class="data-row"><span class="data-label">Gap</span><span class="data-value" style="color:#8B1A1A;">Execução 0% (sem equipe técnica). Precisa dos satélites.</span></div>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -141,7 +152,7 @@
       <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCdoB">PCdoB</span> Técnica e Educação</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Saúde, educação, ciência. Quadros técnicos.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Saúde (Jandira Feghali), Esporte (Orlando Silva)</span></div>
-      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#52B788;">Já opera na base governista. Compatível.</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#2D6A4F;">Já opera na base governista. Compatível.</span></div>
     </div>
     <div class="role-card">
       <h3 class="text-sm font-bold mb-2"><span class="pill pill-REDE">REDE</span> Ambiente</h3>
@@ -159,13 +170,13 @@
       <h3 class="text-sm font-bold mb-2"><span class="pill pill-PSTU">PSTU</span> Crítica e Mobilização</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Sindicalismo, crítica anticapitalista</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Trabalho (consultivo), mobilização de rua</span></div>
-      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D62828;">PSTU acusa PT de traição. Rixa histórica.</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#8B1A1A;">PSTU acusa PT de traição. Rixa histórica.</span></div>
     </div>
     <div class="role-card">
       <h3 class="text-sm font-bold mb-2"><span class="pill pill-PCO">PCO</span> Observador</h3>
       <div class="data-row"><span class="data-label">Aporta</span><span class="data-value text-left">Crítica. Sem quadro executivo.</span></div>
       <div class="data-row"><span class="data-label">Melhor fit</span><span class="data-value text-left">Observador da coalizão</span></div>
-      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#D62828;">Não participa de governo burguês. FrontOutside.</span></div>
+      <div class="data-row"><span class="data-label">Tensão</span><span class="data-value text-left" style="color:#8B1A1A;">Não participa de governo burguês. FrontOutside.</span></div>
     </div>
   </div>
 </section>
@@ -210,7 +221,7 @@
 
 <!-- GABARITO DO GATE W.O. -->
 <section class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#00B4D8;">GABARITO: CHECKLIST W.O. (7 CRITÉRIOS)</h2>
+  <h2 class="section-title" style="color:#3D5A80;">GABARITO: CHECKLIST W.O. (7 CRITÉRIOS)</h2>
   <p class="section-sub">Toda política DEVE responder estas 7 perguntas. Falta 1 crítica = W.O.</p>
   <div class="card p-4">
     <div class="task-item"><span class="task-num">1</span> <strong>COMO</strong> será executado? (peso 3) — Mecanismo concreto, não "vamos ampliar".</div>
@@ -225,7 +236,7 @@
 
 <!-- FORMAÇÃO DOS GRUPOS -->
 <section class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#C77DFF;">FORMAÇÃO DOS GRUPOS DE TRABALHO</h2>
+  <h2 class="section-title" style="color:#6A4C93;">FORMAÇÃO DOS GRUPOS DE TRABALHO</h2>
   <p class="section-sub">Divisão por eixo. Cada grupo mistura partidos. Ninguém faz sozinho.</p>
   <div class="card p-4">
     <div class="task-item"><strong>GRUPO 1 — EMERGÊNCIAS (Eixos 1-5):</strong> Jones Manoel (coordena) + 1 REDE + 1 PT + 1 UP. Força-tarefa: vidas em risco AGORA.</div>
@@ -240,11 +251,11 @@
 
 <!-- CRITÉRIOS DE AVALIAÇÃO -->
 <section class="max-w-3xl mx-auto px-4 pb-8">
-  <h2 class="section-title" style="color:#52B788;">CRITÉRIOS DE AVALIAÇÃO</h2>
+  <h2 class="section-title" style="color:#2D6A4F;">CRITÉRIOS DE AVALIAÇÃO</h2>
   <div class="card p-4">
     <div class="data-row"><span class="data-label">Nota máxima</span><span class="data-value">5.0</span></div>
-    <div class="data-row"><span class="data-label">Nota de corte</span><span class="data-value" style="color:#52B788;">≥ 4.0 APROVADO</span></div>
-    <div class="data-row"><span class="data-label">< 4.0</span><span class="data-value" style="color:#D62828;">W.O. (recuperação)</span></div>
+    <div class="data-row"><span class="data-label">Nota de corte</span><span class="data-value" style="color:#2D6A4F;">≥ 4.0 APROVADO</span></div>
+    <div class="data-row"><span class="data-label">< 4.0</span><span class="data-value" style="color:#8B1A1A;">W.O. (recuperação)</span></div>
     <div class="data-row"><span class="data-label">Gate WO (7/7)</span><span class="data-value">3.0 pontos (obrigatório)</span></div>
     <div class="data-row"><span class="data-label">Fonte validada (FATO)</span><span class="data-value">1.0 ponto</span></div>
     <div class="data-row"><span class="data-label">Crédito partidário claro</span><span class="data-value">0.5 ponto</span></div>
@@ -254,8 +265,8 @@
 
 <!-- AVISO FINAL -->
 <section class="max-w-3xl mx-auto px-4 pb-12">
-  <div class="card p-6" style="border: 2px solid #D62828;">
-    <h2 class="text-lg font-black mb-4" style="color:#D62828;">OBSERVAÇÕES DO PROFESSOR</h2>
+  <div class="card p-6" style="border: 2px solid #8B1A1A;">
+    <h2 class="text-lg font-black mb-4" style="color:#8B1A1A;">OBSERVAÇÕES DO PROFESSOR</h2>
     <div class="space-y-3 text-sm text-[#e6edf3]">
       <p>O Brasil não é um país pobre. Tem R$ 11.5 trilhões de PIB. Tem R$ 500 bilhões gastos em políticas públicas por ano. O problema é que 94% das políticas não resolvem e 99.7% dos políticos não têm capacidade comprovada.</p>
       <p>Esta prova não é sobre ideologia. É sobre EXECUÇÃO. O Gate W.O. não mede se você é de esquerda ou direita. Mede se você sabe COMO fazer, QUANTO custa, QUEM executa e COMO mede.</p>

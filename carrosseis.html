@@ -10,12 +10,12 @@
     --azul: #0A2540;
     --preto: #1A1A1A;
     --branco: #F5F5F0;
-    --vermelho: #D62828;
+    --vermelho: #8B1A1A;
     --amarelo: #D4A017;
     --terra: #8B5E3C;
-    --ciano: #00B4D8;
-    --laranja: #E76F51;
-    --verde-claro: #52B788;
+    --ciano: #3D5A80;
+    --laranja: #C44536;
+    --verde-claro: #2D6A4F;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -180,20 +180,20 @@
   }
 
   /* === COLOR THEMES PER FRENTE === */
-  .frente-emergencia .slide-cover { background: linear-gradient(160deg, #8B1A1A, #D62828); }
+  .frente-emergencia .slide-cover { background: linear-gradient(160deg, #8B1A1A, #8B1A1A); }
   .frente-emergencia .slide-content { background: #1C1012; border: 1px solid #3D1A1A; }
-  .frente-emergencia .gap-box { background: rgba(214,40,40,0.15); }
-  .frente-emergencia .pill { background: rgba(214,40,40,0.2); color: #FF6B6B; }
+  .frente-emergencia .gap-box { background: rgba(139,26,26,0.15); }
+  .frente-emergencia .pill { background: rgba(139,26,26,0.2); color: #FF6B6B; }
 
   .frente-infra .slide-cover { background: linear-gradient(160deg, #264653, #2A9D8F); }
   .frente-infra .slide-content { background: #0D1B1A; border: 1px solid #1A3530; }
   .frente-infra .gap-box { background: rgba(42,157,143,0.15); }
   .frente-infra .pill { background: rgba(42,157,143,0.2); color: #4ECDC4; }
 
-  .frente-desenvolvimento .slide-cover { background: linear-gradient(160deg, #0A2540, #00B4D8); }
+  .frente-desenvolvimento .slide-cover { background: linear-gradient(160deg, #0A2540, #3D5A80); }
   .frente-desenvolvimento .slide-content { background: #0A1520; border: 1px solid #102535; }
-  .frente-desenvolvimento .gap-box { background: rgba(0,180,216,0.15); }
-  .frente-desenvolvimento .pill { background: rgba(0,180,216,0.2); color: #48CAE4; }
+  .frente-desenvolvimento .gap-box { background: rgba(61,90,128,0.15); }
+  .frente-desenvolvimento .pill { background: rgba(61,90,128,0.2); color: #48CAE4; }
 
   .frente-soberania .slide-cover { background: linear-gradient(160deg, #5A3E1A, #D4A017); }
   .frente-soberania .slide-content { background: #1A1505; border: 1px solid #2D2510; }
@@ -202,13 +202,13 @@
 
   .frente-justica .slide-cover { background: linear-gradient(160deg, #1A1A2E, #6A0572); }
   .frente-justica .slide-content { background: #150D1A; border: 1px solid #2A1A30; }
-  .frente-justica .gap-box { background: rgba(199,125,255,0.15); }
-  .frente-justica .pill { background: rgba(199,125,255,0.2); color: #C77DFF; }
+  .frente-justica .gap-box { background: rgba(106,76,147,0.15); }
+  .frente-justica .pill { background: rgba(106,76,147,0.2); color: #6A4C93; }
 
-  .frente-futuro .slide-cover { background: linear-gradient(160deg, #1A5E3F, #52B788); }
+  .frente-futuro .slide-cover { background: linear-gradient(160deg, #1A5E3F, #2D6A4F); }
   .frente-futuro .slide-content { background: #0D1A12; border: 1px solid #1A2D20; }
-  .frente-futuro .gap-box { background: rgba(82,183,136,0.15); }
-  .frente-futuro .pill { background: rgba(82,183,136,0.2); color: #52B788; }
+  .frente-futuro .gap-box { background: rgba(45,106,79,0.15); }
+  .frente-futuro .pill { background: rgba(45,106,79,0.2); color: #2D6A4F; }
 
   /* CTA slide */
   .slide-cta {
@@ -236,6 +236,17 @@
 </style>
 </head>
 <body>
+<!-- HEADER -->
+<header class="sticky top-0 z-50" style="background:#0d1117; border-bottom:1px solid #30363d;">
+  <div style="max-width:1000px; margin:0 auto; padding:8px 16px; display:flex; align-items:center; justify-content:between;">
+    <a href="index.html" style="display:flex; align-items:center; gap:8px; text-decoration:none; color:#8b949e;">
+      <div style="width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold; color:white; font-size:14px; background:linear-gradient(135deg, #8B5E3C, #1A5E3F);">R</div>
+      <span style="font-size:11px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">OpenRepublic</span>
+    </a>
+    <a href="index.html" style="margin-left:auto; font-size:11px; color:#2D6A4F; text-decoration:none; font-weight:bold;">← Voltar</a>
+  </div>
+</header>
+
 
 <div class="header">
   <h1>RAIO X DO BRASIL — Carrosseis Instagram</h1>
@@ -251,7 +262,7 @@ const FRENTES = [
   {
     id: "emergencia",
     nome: "EMERGÊNCIA DE VIDA",
-    cor: "#D62828",
+    cor: "#8B1A1A",
     corClass: "frente-emergencia",
     tagline: "Vidas em risco AGORA. Tratar antes de diagnosticar.",
     descricao: "Violência, saúde e fome. São as 3 emergências nacionais onde brasileiros morrem TODO DIA enquanto esperamos dados.",
@@ -269,7 +280,7 @@ const FRENTES = [
   {
     id: "desenvolvimento",
     nome: "DESENVOLVIMENTO HUMANO",
-    cor: "#00B4D8",
+    cor: "#3D5A80",
     corClass: "frente-desenvolvimento",
     tagline: "Educação e emprego: a única saída que não é pela porta dos fundos.",
     descricao: "Sem escola que ensina e trabalho que paga, o Brasil gira em círculo.",
@@ -287,7 +298,7 @@ const FRENTES = [
   {
     id: "justica",
     nome: "JUSTIÇA E INCLUSÃO",
-    cor: "#C77DFF",
+    cor: "#6A4C93",
     corClass: "frente-justica",
     tagline: "37.5 milhões de brasileiros invisíveis. O sistema fingiu que não viu.",
     descricao: "Indígenas, quilombolas, ribeirinhos, dependentes químicos. Quem o IBGE não conta.",
@@ -296,7 +307,7 @@ const FRENTES = [
   {
     id: "futuro",
     nome: "FUTURO E AMBIENTE",
-    cor: "#52B788",
+    cor: "#2D6A4F",
     corClass: "frente-futuro",
     tagline: "Desmatamento não para. Internet não chega. Quem decide o amanhã?",
     descricao: "Amazônia, conectividade e censo demográfico. O futuro do Brasil está em jogo.",
@@ -336,7 +347,7 @@ function renderCarrosseis() {
 
     // EXAME slides
     var exameSlides = examesDaFrente.map(function(e, i) {
-      var urgColor = e.urgencia_id === 'u1' ? '#D62828' : e.urgencia_id === 'u2' ? '#E76F51' : e.urgencia_id === 'u3' ? '#F4A261' : '#52B788';
+      var urgColor = e.urgencia_id === 'u1' ? '#8B1A1A' : e.urgencia_id === 'u2' ? '#C44536' : e.urgencia_id === 'u3' ? '#F4A261' : '#2D6A4F';
       return '<div class="slide slide-content ' + f.corClass + '">' +
         '<span class="slide-num">' + (i+2) + '/' + (examesDaFrente.length + 2) + '</span>' +
         '<div class="pill">' + e.urgencia + '</div>' +
@@ -345,7 +356,7 @@ function renderCarrosseis() {
         '<p>' + e.exame_rotulo + '</p>' +
         '<div style="margin:16px 0;">' +
           '<div class="stat-label">Automação</div>' +
-          '<div class="stat" style="font-size:1.8rem;color:' + (e.automacao_pct >= 75 ? '#52B788' : e.automacao_pct >= 50 ? '#F4A261' : '#D62828') + ';">' + e.automacao_pct + '%</div>' +
+          '<div class="stat" style="font-size:1.8rem;color:' + (e.automacao_pct >= 75 ? '#2D6A4F' : e.automacao_pct >= 50 ? '#F4A261' : '#8B1A1A') + ';">' + e.automacao_pct + '%</div>' +
         '</div>' +
         '<ul>' +
           e.indicadores.slice(0,4).map(function(ind) { return '<li>• ' + ind + '</li>'; }).join('') +
