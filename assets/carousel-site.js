@@ -51,12 +51,6 @@
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   }
 
-  function shade(hex, f) {
-    const { r, g, b } = hexToRgb(hex);
-    const c = (v) => Math.max(0, Math.min(255, Math.round(v * f)));
-    return `rgb(${c(r)}, ${c(g)}, ${c(b)})`;
-  }
-
   function isLight(hex) {
     const { r, g, b } = hexToRgb(hex);
     return (0.299 * r + 0.587 * g + 0.114 * b) > 160;
@@ -258,24 +252,16 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     }
   }
 
-  function drawPage(ctx, label, cx, y) {
-    ctx.font = `600 ${Math.round(ctx.canvas.width / 40)}px ${FONT_SANS}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.fillText(label, cx, y);
-  }
-
-  function drawHandleFooter(ctx, W, H, color, light) {
+  function drawHandleFooter(ctx, W, H) {
     const size = Math.round(W * 0.055);
-    ctx.fillStyle = light ? 'rgba(255,255,255,0.92)' : 'rgba(27,27,27,0.82)';
+    ctx.fillStyle = '#F5F5F6';
     ctx.font = `700 ${Math.round(W * 0.045)}px ${FONT_DISP}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const label = normalizeHandle(state.handle);
     ctx.fillText(label, W / 2, H - size * 1.5);
-    // linha fina
-    ctx.fillStyle = light ? 'rgba(255,255,255,0.35)' : 'rgba(27,27,27,0.25)';
+    // linha fina de acento vermelho
+    ctx.fillStyle = '#C00810';
     const w = ctx.measureText(label).width;
     ctx.fillRect(W / 2 - w / 2, H - size * 2.15, w, Math.max(2, size * 0.05));
   }
@@ -295,27 +281,30 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     const W = ctx.canvas.width;
     const H = ctx.canvas.height;
     const color = opts.color;
-    const light = isLight(color);
 
-    // fundo com gradiente
+    // fundo preto com gradiente sutil
     const g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, color);
-    g.addColorStop(1, shade(color, 0.78));
+    g.addColorStop(0, '#000000');
+    g.addColorStop(1, '#16161B');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
+    // barra de acento vermelha no topo
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, W, Math.max(10, W * 0.02));
+
     const pad = W * 0.08;
     const logoSize = W * 0.13;
-    drawLogo(ctx, pad, pad, logoSize, color);
+    drawLogo(ctx, pad, pad, logoSize, '#000000');
 
-    ctx.fillStyle = light ? 'rgba(27,27,27,0.7)' : 'rgba(255,255,255,0.85)';
+    ctx.fillStyle = color;
     ctx.font = `700 ${Math.round(W * 0.05)}px ${FONT_SANS}`;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillText(`CARROSSEL ${i + 1}/${total}`, W - pad, pad + logoSize / 2);
 
     // título
-    ctx.fillStyle = light ? '#18181B' : '#fff';
+    ctx.fillStyle = '#F5F5F6';
     ctx.font = `700 ${Math.round(W * 0.085)}px ${FONT_DISP}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -328,7 +317,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
 
     // tagline
     ctx.font = `500 ${Math.round(W * 0.042)}px ${FONT_SANS}`;
-    ctx.fillStyle = light ? 'rgba(27,27,27,0.75)' : 'rgba(255,255,255,0.9)';
+    ctx.fillStyle = '#9A9AA3';
     y += W * 0.04;
     wrapText(ctx, car.tagline, W - pad * 1.5).forEach((ln) => {
       ctx.fillText(ln, W / 2, y);
@@ -339,37 +328,53 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     const chips = String(car.dados_chave || '').split(/[·;]/).map((s) => s.trim()).filter(Boolean).slice(0, 3);
     if (chips.length) {
       const maxW = W - pad * 2;
-      ctx.font = `600 ${Math.round(W * 0.032)}px ${FONT_SANS}`;
-      const chipH = W * 0.075;
+      let chipFont = Math.round(W * 0.032);
+      let chipH = W * 0.075;
       const gapX = W * 0.02;
-      const gapY = W * 0.03;
-      const widths = chips.map((c) => Math.min(ctx.measureText(c).width + W * 0.05, maxW));
-      // empacota em linhas de largura <= maxW
-      const rows = [];
-      let row = [];
-      let rowW = 0;
-      chips.forEach((c, ci) => {
-        const w = widths[ci];
-        if (row.length && rowW + gapX + w > maxW) {
-          rows.push(row);
-          row = [];
-          rowW = 0;
-        }
-        row.push(ci);
-        rowW += w + (row.length > 1 ? gapX : 0);
-      });
-      if (row.length) rows.push(row);
+      let gapY = W * 0.03;
+      ctx.font = `600 ${chipFont}px ${FONT_SANS}`;
+      const footerLimit = H - W * 0.135;
+      // compacta chips até caber acima do rodapé
+      let widths;
+      let rows;
+      for (let attempt = 0; attempt < 4; attempt++) {
+        widths = chips.map((c) => Math.min(ctx.measureText(c).width + W * 0.05, maxW));
+        // empacota em linhas de largura <= maxW
+        rows = [];
+        let row = [];
+        let rowW = 0;
+        chips.forEach((c, ci) => {
+          const w = widths[ci];
+          if (row.length && rowW + gapX + w > maxW) {
+            rows.push(row);
+            row = [];
+            rowW = 0;
+          }
+          row.push(ci);
+          rowW += w + (row.length > 1 ? gapX : 0);
+        });
+        if (row.length) rows.push(row);
+        const blockBottom = y + rows.length * (chipH + gapY) - gapY + chipH / 2;
+        if (blockBottom <= footerLimit) break;
+        chipFont = Math.round(chipFont * 0.86);
+        chipH *= 0.86;
+        gapY *= 0.86;
+        ctx.font = `600 ${chipFont}px ${FONT_SANS}`;
+      }
 
       y += W * 0.05;
       rows.forEach((r, ri) => {
-        const rw = widths.reduce((a, ci) => a + widths[ci], 0) + gapX * (r.length - 1);
+        const rw = r.reduce((a, ci) => a + widths[ci], 0) + gapX * (r.length - 1);
         let x = W / 2 - rw / 2;
         const cy = y + ri * (chipH + gapY);
         r.forEach((ci) => {
-          ctx.fillStyle = light ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.16)';
+          ctx.fillStyle = 'rgba(255,255,255,0.06)';
           roundRect(ctx, x, cy - chipH / 2, widths[ci], chipH, chipH / 2);
           ctx.fill();
-          ctx.fillStyle = light ? '#18181B' : '#fff';
+          ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+          ctx.lineWidth = Math.max(2, W * 0.004);
+          ctx.stroke();
+          ctx.fillStyle = color;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(chips[ci], x + widths[ci] / 2, cy + 1);
@@ -378,8 +383,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       });
     }
 
-    drawHandleFooter(ctx, W, H, color, light);
-    drawWatermark(ctx, W, H, color);
+    drawHandleFooter(ctx, W, H);
+    drawWatermark(ctx, W, H, '#000000');
   }
 
   function drawContentSlide(ctx, car, slide, i, total, opts) {
@@ -479,37 +484,46 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     const W = ctx.canvas.width;
     const H = ctx.canvas.height;
     const color = opts.color;
-    const light = isLight(color);
 
+    // fundo preto com gradiente sutil
     const g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, color);
-    g.addColorStop(1, shade(color, 0.78));
+    g.addColorStop(0, '#000000');
+    g.addColorStop(1, '#16161B');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
+
+    // barra de acento vermelha no topo
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, W, Math.max(10, W * 0.02));
 
     const cx = W / 2;
     const pad = W * 0.08;
     const logoSize = W * 0.2;
-    drawLogo(ctx, cx - logoSize * (1080 / 592.1) / 2, H * 0.14, logoSize, color);
+    drawLogo(ctx, cx - logoSize * (1080 / 592.1) / 2, H * 0.14, logoSize, '#000000');
 
-    drawPage(ctx, `CARROSSEL ${i + 1}/${total}`, cx, H * 0.11);
+    ctx.fillStyle = color;
+    ctx.font = `700 ${Math.round(W * 0.045)}px ${FONT_SANS}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`CARROSSEL ${i + 1}/${total}`, cx, H * 0.11);
 
-    ctx.fillStyle = light ? '#18181B' : '#fff';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     ctx.font = `600 ${Math.round(W * 0.045)}px ${FONT_SANS}`;
+    ctx.fillStyle = color;
     ctx.fillText('SIGA E COMPARTILHE', cx, H * 0.5);
 
+    ctx.fillStyle = '#F5F5F6';
     ctx.font = `700 ${Math.round(W * 0.09)}px ${FONT_DISP}`;
     ctx.fillText(normalizeHandle(state.handle), cx, H * 0.62);
 
     ctx.font = `500 ${Math.round(W * 0.034)}px ${FONT_SANS}`;
-    ctx.fillStyle = light ? 'rgba(27,27,27,0.7)' : 'rgba(255,255,255,0.85)';
+    ctx.fillStyle = '#9A9AA3';
     ctx.fillText('SALVE · COMPARTILHE · ESPALHE', cx, H * 0.74);
 
-    drawHandleFooter(ctx, W, H, color, light);
-    drawWatermark(ctx, W, H, color);
+    drawHandleFooter(ctx, W, H);
+    drawWatermark(ctx, W, H, '#000000');
   }
 
   function renderSlide(car, slide, i, total, opts) {

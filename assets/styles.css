@@ -4,14 +4,14 @@
    ============================================================ */
 
 :root {
-  --paper: #0B0B0F;
-  --paper-2: #141419;
-  --card: #101015;
-  --ink: #F5F5F6;
-  --ink-soft: #B4B4BC;
-  --ink-faint: #787880;
-  --line: #26262D;
-  --line-strong: #3A3A44;
+  --paper: #000000;
+  --paper-2: #0F0F13;
+  --card: #0B0B0E;
+  --ink: #FFFFFF;
+  --ink-soft: #D4D4DA;
+  --ink-faint: #909096;
+  --line: #202026;
+  --line-strong: #33333B;
 
   --coral: #C00810;
   --coral-deep: #8A0509;
@@ -26,8 +26,8 @@
   --disp: 'Inter', system-ui, sans-serif;
 
   --radius: 14px;
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
-  --shadow-lift: 0 18px 50px rgba(0, 0, 0, 0.55);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.55);
+  --shadow-lift: 0 18px 50px rgba(0, 0, 0, 0.65);
 }
 
 * { box-sizing: border-box; }
@@ -55,7 +55,7 @@ body {
 ::selection { background: var(--coral); color: #fff; }
 
 :focus-visible {
-  outline: 2px solid var(--teal);
+  outline: 2px solid var(--coral);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -71,7 +71,8 @@ code {
 /* ---------- Barra de marca (Unidade Popular) ---------- */
 
 .brand-bar {
-  background: #C00810;
+  background: #000000;
+  border-bottom: 3px solid #C00810;
   padding: 12px 0;
 }
 
@@ -901,7 +902,7 @@ code {
 
 .btn-ghost {
   background: transparent;
-  color: var(--teal);
+  color: var(--ink);
   border-color: var(--line-strong);
 }
 
