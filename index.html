@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>O Brasil em dados — 2024/2025</title>
-  <meta name="description" content="Um retrato editorial do país a partir de dados públicos oficiais. Mobile-first, desenhado com D3.js.">
-  <meta property="og:title" content="O Brasil em dados — 2024/2025">
-  <meta property="og:description" content="Números verificáveis de fontes públicas, contados em infográficos editoriais.">
+  <title>Baixe micro-carrosseis prontos para o Instagram</title>
+  <meta name="description" content="20 micro-carrosseis de propaganda com dados públicos oficiais. Customize o @, a logo e as cores e baixe por postagem em PNG (1080px).">
+  <meta property="og:title" content="Baixe micro-carrosseis prontos para o Instagram">
+  <meta property="og:description" content="Customize @, logo e cores e baixe cada postagem pronta para publicar.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,19 +16,62 @@
 
   <header class="masthead">
     <div class="container">
-      <p class="kicker masthead-kicker">Dados públicos · 2024/2025</p>
-      <h1 class="masthead-title">O Brasil em <em>números</em> reais</h1>
-      <p class="lede">Dezenas de seções de dados verificáveis de fontes oficiais. Sem opinião: o que a medição conta quando ninguém está olhando.</p>
-      <div class="stat-grid" id="hero-stats" role="list"></div>
+      <p class="kicker masthead-kicker">Assets de propaganda · 1080px · download grátis</p>
+      <h1 class="masthead-title">Micro-carrosseis prontos para o <em>Instagram</em></h1>
+      <p class="lede">Vinte posts em PNG, prontos para publicar. Customize o @ da sua rede, a logo e as cores — e baixe cada postagem inteira em um clique.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#carr-grid">Baixar carrosseis</a>
+      </div>
     </div>
   </header>
 
   <main>
 
-    <section class="chapter" id="ch-raiox">
+    <section class="chapter" id="ch-carrosseis">
       <div class="container">
         <header class="chapter-head">
           <span class="chapter-no">01</span>
+          <p class="kicker">Central de downloads</p>
+          <h2>Baixe por postagem</h2>
+          <p class="chapter-lede">Defina o @ da sua rede, envie sua logo e escolha as cores. Cada post é um carrossel completo — baixe o ZIP com todos os slides em PNG 1080px.</p>
+        </header>
+
+        <div class="customizer">
+          <div class="customizer-row">
+            <label class="field">
+              <span class="field-label">@ da sua rede</span>
+              <input type="text" id="carr-handle" value="@seuperfil" placeholder="@seuperfil" spellcheck="false" autocomplete="off">
+            </label>
+            <label class="field">
+              <span class="field-label">Logo (opcional)</span>
+              <span class="file-row">
+                <input type="file" id="carr-logo" accept="image/*">
+                <button type="button" class="btn btn-ghost" id="carr-logo-clear">Remover</button>
+              </span>
+            </label>
+            <label class="field">
+              <span class="field-label">Formato</span>
+              <select id="carr-format">
+                <option value="square">1080×1080 (quadrado)</option>
+                <option value="vertical">1080×1350 (4:5 retrato)</option>
+              </select>
+            </label>
+            <div class="field field-actions">
+              <span class="field-label">&nbsp;</span>
+              <button type="button" class="btn btn-ghost" id="carr-reset">Restaurar padrão</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="carr-grid" id="carr-grid" role="list"></div>
+        <p class="caption">20 carrosseis de propaganda · dados de fontes públicas oficiais · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch-raiox">
+      <div class="container">
+        <header class="chapter-head">
+          <span class="chapter-no">02</span>
           <p class="kicker">O raio-x do país</p>
           <h2>Dezoito exames que ninguém faz</h2>
           <p class="chapter-lede">18 domínios vitais. Um checkup nacional que custaria uma fração do censo — e revelaria, em tempo real, onde o país falha.</p>
@@ -42,7 +85,7 @@
     <section class="chapter" id="ch-orcamento">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">02</span>
+          <span class="chapter-no">03</span>
           <p class="kicker">Para onde vai o dinheiro</p>
           <h2>O orçamento é um plano</h2>
           <p class="chapter-lede">Orçamento é escolha. Cada barra abaixo é uma decisão tomada em nome de todos — e revela prioridades.</p>
@@ -55,7 +98,7 @@
     <section class="chapter" id="ch-renda">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">03</span>
+          <span class="chapter-no">04</span>
           <p class="kicker">A escada da renda</p>
           <h2>De 300 a 25 mil</h2>
           <p class="chapter-lede">A distribuição de renda não é uma fila — é uma escada. Do degrau de quem ganha R$ 300 ao topo de quem ganha R$ 25.000.</p>
@@ -68,7 +111,7 @@
     <section class="chapter" id="ch-racial">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">04</span>
+          <span class="chapter-no">05</span>
           <p class="kicker">A cor do abismo</p>
           <h2>Desigualdade que tem rosto</h2>
           <p class="chapter-lede">Nos dez por cento mais pobres, a maioria é negra. No um por cento mais rico, quase ninguém. O abismo é estrutural.</p>
@@ -81,7 +124,7 @@
     <section class="chapter" id="ch-violencia">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">05</span>
+          <span class="chapter-no">06</span>
           <p class="kicker">A violência por estado</p>
           <h2>Onde a vida acaba mais cedo</h2>
           <p class="chapter-lede">A taxa de homicídios varia brutalmente entre os estados. Onde o Estado não chega, a morte chega primeiro.</p>
@@ -95,7 +138,7 @@
     <section class="chapter" id="ch-ocde">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">06</span>
+          <span class="chapter-no">07</span>
           <p class="kicker">O país no espelho do mundo</p>
           <h2>Brasil vs. países ricos</h2>
           <p class="chapter-lede">Na educação e na saúde, a distância é de 5×. Na violência e na desigualdade, o abismo é para o lado oposto.</p>
@@ -108,7 +151,7 @@
     <section class="chapter" id="ch-fatos">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">07</span>
+          <span class="chapter-no">08</span>
           <p class="kicker">Números que gritam</p>
           <h2>O mosaico dos fatos</h2>
           <p class="chapter-lede">Números isolados, com fonte. Toque nas categorias para filtrar o mosaico.</p>
@@ -121,7 +164,7 @@
     <section class="chapter" id="ch-timeline">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">08</span>
+          <span class="chapter-no">09</span>
           <p class="kicker">A linha do tempo</p>
           <h2>Quinhentos anos, capítulo a capítulo</h2>
           <p class="chapter-lede">O presente não caiu do céu. Ele foi construído, evento por evento — e cada um ainda ecoa hoje.</p>
@@ -133,7 +176,7 @@
         <section class="chapter" id="ch-dossies">
       <div class="container">
         <header class="chapter-head">
-          <span class="chapter-no">09</span>
+          <span class="chapter-no">10</span>
           <p class="kicker">Quem manda, de perto</p>
           <h2>Dossiês de políticos ativos</h2>
           <p class="chapter-lede">14 perfis factuais compilados de fontes públicas oficiais e imprensa de referência. Toque em cada cartão para abrir o dossiê completo.</p>
@@ -1958,7 +2001,7 @@
   <footer class="footer">
     <div class="container">
       <p class="kicker">Método &amp; fontes</p>
-      <p class="footer-note">Todos os números vêm de fontes públicas oficiais listadas abaixo. Cada visualização nasce de um JSON local (<code>dados_api.json</code>) e usa um bloco de dados de exemplo quando o arquivo não está disponível.</p>
+      <p class="footer-note">Todos os números vêm de fontes públicas oficiais listadas abaixo. Os carrosseis da Central de Downloads são gerados no seu navegador (canvas) e baixados em PNG 1080px — sem upload para servidor.</p>
       <ul class="sources" id="sources"></ul>
       <p class="footer-meta">Feito com D3.js · mobile-first · dados abertos, código aberto</p>
     </div>
@@ -1967,6 +2010,8 @@
   <div id="tip" class="tip" aria-hidden="true"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="assets/carrosseis.js"></script>
+  <script src="assets/carousel-site.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
