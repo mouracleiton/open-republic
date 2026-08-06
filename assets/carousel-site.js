@@ -452,9 +452,10 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       scale *= 0.9;
     }
 
-    // desenha
-    let y = bodyTop;
-    ctx.textAlign = 'left';
+    // altura total na escala final (para centralizar verticalmente)
+    const totalH = heightAt(scale);
+    let y = bodyTop + (maxBody - totalH) / 2;
+    ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     for (const b of blocks) {
       const size = Math.round(b.size * scale);
@@ -462,7 +463,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       ctx.font = `${b.weight} ${size}px ${b.family}`;
       const lines = wrapText(ctx, b.text, maxW);
       for (const ln of lines) {
-        ctx.fillText(ln, pad, y);
+        ctx.fillText(ln, W / 2, y);
         y += size * b.lh;
       }
       if (lines.length) y += b.gap * scale;
