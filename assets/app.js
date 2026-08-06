@@ -13,15 +13,15 @@ const $ = (sel, el = document) => el.querySelector(sel);
 const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
 const PALETTE = {
-  coral: '#E4572E',
-  coralDeep: '#C2471F',
+  coral: '#C00810',
+  coralDeep: '#8A0509',
   amber: '#E9A13B',
   orange: '#D97E2B',
   teal: '#0E7C7B',
   violet: '#6C5B9E',
   green: '#2F8F4E',
   steel: '#5B6B7A',
-  ink: '#1B1B1B',
+  ink: '#18181B',
   inkFaint: '#8A8377',
   paper: '#F7F4ED',
 };
