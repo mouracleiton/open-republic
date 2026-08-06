@@ -1297,7 +1297,130 @@ function renderSources(data) {
 }
 
 /* ------------------------------------------------------------
-   16. Init
+   16. Dossiês de políticos
+   ------------------------------------------------------------ */
+
+const ND_TEXT = 'Dados não disponíveis no banco de dados atual';
+
+function isND(s) {
+  return /dados n[aã]o dispon[ií]veis no banco de dados atual/i.test(String(s || ''));
+}
+
+const ndSpan = () => `<span class="doss-nd">${ND_TEXT}.</span>`;
+
+// Item de lista para a categoria de um dossiê.
+function dossItem(s, html) {
+  if (isND(s)) return `<li class="doss-nd">${ND_TEXT}.</li>`;
+  return `<li>${html || clean(s)}</li>`;
+}
+
+function dossBlock(title, lis) {
+  if (!lis) return '';
+  return `
+    <div class="doss-block">
+      <h4 class="doss-block-title">${title}</h4>
+      <ul class="doss-list">${lis}</ul>
+    </div>`;
+}
+
+function dossStr(title, v) {
+  const s = clean(v);
+  if (!s) return '';
+  if (isND(s)) return dossBlock(title, dossItem(s));
+  return `
+    <div class="doss-block">
+      <h4 class="doss-block-title">${title}</h4>
+      <p class="doss-text">${s}</p>
+    </div>`;
+}
+
+function renderDossies(data) {
+  const dossie = data.dossie_politicos;
+  const pols = (dossie?.politicos || []).filter((p) => p && p.nome);
+  const grid = $('#dossier-grid');
+  if (!pols.length || !grid) return;
+
+  grid.innerHTML = pols.map((p) => {
+    const nome = clean(p.nome);
+    const cargo = clean(p.cargo_atual);
+    const partido = clean(p.partido_atual);
+    const estado = clean(p.estado);
+
+    const traj = p.perfil_trajetoria || {};
+    const bens = p.bens_patrimonio || {};
+    const fin = p.financiamento_gastos || {};
+    const atu = p.atuacao_legislativa || {};
+    const alian = p.aliancas_bases || {};
+    const jud = p.questoes_judiciais_eticas || {};
+    const img = p.relevancia_imagem_publica || {};
+
+    const evolucao = (bens.evolucao || []).map((b) => {
+      const ano = clean(b.ano);
+      const valor = clean(b.valor);
+      const main = clean(b.principais_bens);
+      const parts = [ano && `<strong>${ano}</strong>`];
+      parts.push(isND(valor) ? ndSpan() : valor);
+      if (main) parts.push(isND(main) ? ndSpan() : main);
+      return `<li>${parts.filter(Boolean).join(' · ')}</li>`;
+    }).join('');
+
+    const doadores = (fin.doadores_principais || []).map((d) => {
+      const tipo = clean(d.tipo);
+      const nomeD = clean(d.nome);
+      const valor = clean(d.valor);
+      if (isND(nomeD) && isND(valor)) return `<li>${ndSpan()}</li>`;
+      const tag = tipo && !isND(tipo) ? `<span class="doss-tag">${tipo}</span> ` : '';
+      const nomeHtml = isND(nomeD) ? ndSpan() : `<strong>${nomeD}</strong>`;
+      const valorHtml = isND(valor) ? ndSpan() : `<span class="doss-value">${valor}</span>`;
+      return `<li>${tag}${nomeHtml} ${valorHtml}</li>`;
+    }).join('');
+
+    const sections = [
+      dossStr('Origem e trajetória', traj.origem),
+      dossStr('Formação', traj.formacao_academica),
+      dossBlock('Filiações partidárias', (traj.filiacoes_partidarias || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Cargos públicos', (traj.cargos_publicos || []).map((s) => dossItem(s)).join('')),
+      evolucao ? dossBlock('Evolução patrimonial (declarada)', evolucao) : '',
+      dossBlock('Questionamentos sobre patrimônio', (bens.questionamentos || []).map((s) => dossItem(s)).join('')),
+      doadores ? dossBlock('Doadores principais', doadores) : '',
+      dossStr('Verba de gabinete / CEAP', fin.ceap_verba_gabinete),
+      dossBlock('Glosas e irregularidades', (fin.glosas_irregularidades || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Proposições e atuação', (atu.proposicoes_principais || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Votações', (atu.votacoes || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Bancadas', (alian.bancadas || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Aliados e bases', (alian.aliados || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Processos (TSE/TCU)', (jud.processos_tse_tcu || []).map((s) => dossItem(s)).join('')),
+      dossBlock('Inquéritos e denúncias', (jud.inqueritos_denuncias || []).map((s) => dossItem(s)).join('')),
+      dossStr('Lei da Ficha Limpa', jud.ficha_limpa),
+      dossBlock('Polêmicas', (img.polemicas || []).map((s) => dossItem(s)).join('')),
+      dossStr('Pesquisas de opinião', img.avaliacao_pesquisas),
+    ].filter(Boolean).join('');
+
+    return `
+      <details class="doss-card" data-politico="${nome}">
+        <summary>
+          <span class="doss-chev" aria-hidden="true"></span>
+          <span class="doss-main">
+            <span class="doss-name">${nome}</span>
+            <span class="doss-cargo">${cargo}</span>
+          </span>
+          <span class="doss-badges">
+            <span class="doss-badge">${partido || 'Sem partido'}</span>
+            <span class="doss-badge doss-badge-uf">${estado || ''}</span>
+          </span>
+        </summary>
+        <div class="doss-body">${sections}</div>
+      </details>`;
+  }).join('');
+
+  const cap = $('#cap-dossies');
+  if (cap && dossie?.metadados) {
+    cap.innerHTML = `<strong>${pols.length} dossiês</strong> — ${clean(dossie.metadados.aviso)}<br>${clean(dossie.metadados.metodo)}`;
+  }
+}
+
+/* ------------------------------------------------------------
+   17. Init
    ------------------------------------------------------------ */
 
 function renderRaioXLegend(data) {
@@ -1332,6 +1455,7 @@ async function init() {
   renderTimeline(data);
   renderSources(data);
   renderStateStrip(data);
+  renderDossies(data);
 }
 
 document.addEventListener('DOMContentLoaded', init);

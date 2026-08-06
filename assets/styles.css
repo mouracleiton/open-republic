@@ -665,6 +665,188 @@ code {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ---------- Dossiês de políticos ---------- */
+
+.dossier-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  max-width: 820px;
+}
+
+.doss-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  overflow: hidden;
+}
+
+.doss-card summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 18px 16px;
+  transition: background 0.2s ease;
+}
+
+.doss-card summary::-webkit-details-marker { display: none; }
+
+.doss-card summary:hover { background: var(--paper-2); }
+
+.doss-chev {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--disp);
+  font-weight: 600;
+  color: var(--teal);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
+}
+
+.doss-chev::after { content: "+"; }
+
+.doss-card[open] .doss-chev {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+  transform: rotate(180deg);
+}
+
+.doss-card[open] .doss-chev::after { content: "−"; }
+
+.doss-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.doss-name {
+  font-family: var(--disp);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.doss-cargo {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.doss-badges {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.doss-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--violet);
+  border: 1px solid var(--line-strong);
+  background: var(--paper-2);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.doss-badge-uf { color: var(--teal); }
+
+.doss-body {
+  padding: 18px 18px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.doss-body > .doss-block + .doss-block { margin-top: 16px; }
+
+.doss-block-title {
+  margin: 0 0 6px;
+  font-family: var(--disp);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.doss-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+}
+
+.doss-list li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.doss-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+.doss-list li.doss-nd {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.doss-list li.doss-nd::before { background: var(--line-strong); }
+
+.doss-list .doss-nd {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.doss-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.doss-text.doss-nd { color: var(--ink-faint); font-style: italic; }
+
+.doss-value { color: var(--ink-soft); }
+
+.doss-tag {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--coral);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 1px 7px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
 .masthead-kicker, .masthead-title, .lede { animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .masthead-title { animation-delay: 0.08s; }
 .lede { animation-delay: 0.16s; }
@@ -688,6 +870,9 @@ code {
   .racial-gap { grid-column: 1 / -1; }
   .masthead { padding: 96px 0 64px; }
   .chapter { padding: 84px 0 92px; }
+  .doss-name { font-size: 19px; }
+  .doss-card summary { padding: 20px 22px 18px; }
+  .doss-body { padding: 20px 22px 24px; }
 }
 
 /* ============================================================
