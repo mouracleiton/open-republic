@@ -393,7 +393,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     const maxBody = bodyBottom - bodyTop;
     const maxW = W - pad * 2;
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#0B0B0F';
     ctx.fillRect(0, 0, W, H);
 
     // barra superior
@@ -422,10 +422,10 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
 
     // blocos de conteúdo
     const blocks = [];
-    if (slide.titulo) blocks.push({ text: slide.titulo, size: W * 0.062, weight: 700, family: FONT_DISP, fill: '#18181B', lh: 1.14, gap: W * 0.015 });
+    if (slide.titulo) blocks.push({ text: slide.titulo, size: W * 0.062, weight: 700, family: FONT_DISP, fill: '#F5F5F6', lh: 1.14, gap: W * 0.015 });
     if (slide.stat) blocks.push({ text: slide.stat, size: W * 0.135, weight: 700, family: FONT_DISP, fill: color, lh: 1.08, gap: W * 0.005 });
-    if (slide.statLabel) blocks.push({ text: slide.statLabel, size: W * 0.036, weight: 700, family: FONT_SANS, fill: '#18181B', lh: 1.15, gap: W * 0.012 });
-    if (slide.texto) blocks.push({ text: slide.texto, size: W * 0.038, weight: 500, family: FONT_SANS, fill: '#4A4A50', lh: 1.28, gap: W * 0.014 });
+    if (slide.statLabel) blocks.push({ text: slide.statLabel, size: W * 0.036, weight: 700, family: FONT_SANS, fill: '#F5F5F6', lh: 1.15, gap: W * 0.012 });
+    if (slide.texto) blocks.push({ text: slide.texto, size: W * 0.038, weight: 500, family: FONT_SANS, fill: '#B4B4BC', lh: 1.28, gap: W * 0.014 });
     if (slide.gap) blocks.push({ text: '“' + slide.gap + '”', size: W * 0.034, weight: 600, family: FONT_SANS, fill: color, lh: 1.24, gap: W * 0.016 });
 
     // mede altura necessária em uma dada escala
@@ -464,15 +464,15 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     }
 
     // rodapé: handle + logo
-    ctx.fillStyle = isLight(color) ? 'rgba(27,27,27,0.06)' : 'rgba(27,27,27,0.08)';
+    ctx.fillStyle = isLight(color) ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.07)';
     ctx.fillRect(0, H - footerH, W, footerH);
-    drawLogo(ctx, pad, H - footerH / 2 - W * 0.05, W * 0.1, '#ffffff');
+    drawLogo(ctx, pad, H - footerH / 2 - W * 0.05, W * 0.1, '#0B0B0F');
     ctx.fillStyle = '#8A8A91';
     ctx.font = `700 ${Math.round(W * 0.035)}px ${FONT_DISP}`;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillText(normalizeHandle(state.handle), W - pad, H - footerH / 2);
-    drawWatermark(ctx, W, H, '#ffffff');
+    drawWatermark(ctx, W, H, '#0B0B0F');
   }
 
   function drawCtaSlide(ctx, car, i, total, opts) {

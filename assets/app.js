@@ -21,9 +21,9 @@ const PALETTE = {
   violet: '#6C5B9E',
   green: '#2F8F4E',
   steel: '#5B6B7A',
-  ink: '#18181B',
-  inkFaint: '#8A8377',
-  paper: '#F7F4ED',
+  ink: '#F5F5F6',
+  inkFaint: '#787880',
+  paper: '#0B0B0F',
 };
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
