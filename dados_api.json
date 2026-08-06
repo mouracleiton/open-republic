@@ -101,12 +101,12 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
     },
     "co_presidencia": {
       "presidente": {
-        "nome": "Dilma Rousseff",
-        "descricao": "Score 4.50. Única presidente mulher. Deposta em golpe sem crime. Voto de minerva (palavra final em empate)."
+        "nome": "Samara Martins",
+        "descricao": "UP. Nó central da Frente. Diagnóstico 100%, direção 100%. Candidata à Presidência da República."
       },
       "vice": {
-        "nome": "Jones Manoel",
-        "descricao": "Comunicação e mobilização. 2M inscritos. 10 anos de coerência. Duplo comando: técnica (Dilma) + rua (Jones)."
+        "nome": "Raquel Brício",
+        "descricao": "Vice da chapa presidencial. Mobilização e juventude."
       }
     },
     "citacao": "Se você está mais preocupado com disputa interna do que com 33 milhões em insegurança alimentar, pare neste exato momento e vá fazer outra coisa da sua vida."
@@ -1521,7 +1521,7 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
     },
     {
       "id": "governo",
-      "nome": "GOVERNO DILMA + JONES",
+      "nome": "GOVERNO SAMARA + RAQUEL",
       "cor": "#6A4C93",
       "tagline": "Co-presidência. Ninguém governa sozinho.",
       "dados_chave": "Nada passa sem AMBOS. Sensor ilumina, não decide.",
@@ -1532,18 +1532,18 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
         {
           "tipo": "content",
           "pill": "PRESIDENTE",
-          "titulo": "DILMA ROUSSEFF",
-          "stat": "4.50",
-          "statLabel": "SCORE (APROVADA)",
-          "texto": "Única presidente mulher. Voto de minerva."
+          "titulo": "SAMARA MARTINS",
+          "stat": "—",
+          "statLabel": "CANDIDATA PRESIDENCIAL",
+          "texto": "UP. Nó central da Frente. Diagnóstico 100%, direção 100%."
         },
         {
           "tipo": "content",
           "pill": "VICE",
-          "titulo": "JONES MANOEL",
-          "stat": "2.50",
-          "statLabel": "SCORE (EM ANÁLISE)",
-          "texto": "Comunicação ~2M inscritos. Habilidade: rua."
+          "titulo": "RAQUEL BRÍCIO",
+          "stat": "—",
+          "statLabel": "VICE DA CHAPA",
+          "texto": "Mobilização e juventude."
         },
         {
           "tipo": "content",
@@ -3069,10 +3069,10 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
     "aprovados": [
       {
         "rank": 1,
-        "nome": "Dilma Rousseff",
+        "nome": "Samara Martins",
         "cargo": "Presidente da República (chapa OpenRepublic)",
-        "partido": "PT",
-        "estado": "MG",
+        "partido": "UP",
+        "estado": "SP",
         "score": 4.5,
         "status": "APROVADA",
         "c1_execucao": 4.8,
@@ -3083,7 +3083,7 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
           "#BaseadoEmEvidências"
         ],
         "etiquetas_negativas": [],
-        "evidencia": "Única presidente mulher. Deposta em golpe parlamentar sem crime de responsabilidade (2016). PAC, Minas&Energia, Casa Civil.",
+        "evidencia": "UP. Nó central da Frente. Diagnóstico 100%, direção 100%.",
         "poder_especial": "Voto de minerva (palavra final em empate)"
       },
       {
@@ -3218,9 +3218,9 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
       },
       {
         "rank": 10,
-        "nome": "Jones Manoel",
+        "nome": "Raquel Brício",
         "cargo": "Vice-Presidente (chapa OpenRepublic)",
-        "partido": "PCB",
+        "partido": "UP",
         "estado": "SP",
         "score": 2.5,
         "status": "EM_ANÁLISE (entra por habilidade)",
@@ -3228,7 +3228,7 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
         "c2_experiencia": 2.5,
         "c3_predicao": 3,
         "etiquetas_positivas": [],
-        "evidencia": "Comunicação ~2M inscritos. 10 anos coerência. Habilidade: rua + mobilização.",
+        "evidencia": "Vice da chapa presidencial. Mobilização e juventude.",
         "nota": "Score abaixo do corte, entra por habilidade específica (comunicação/mobilização)"
       }
     ],
