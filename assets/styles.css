@@ -1085,3 +1085,137 @@ code {
   .customizer-row { grid-template-columns: 1.4fr 1fr 0.8fr auto; }
   .carr-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ============================================================
+   Máquina de propaganda
+   ============================================================ */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 26px;
+}
+
+.tab-btn {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-soft);
+  font: 600 14px var(--disp);
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+.tab-btn.is-active {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+}
+
+.tab-panel { display: none; }
+.tab-panel.is-active { display: block; animation: rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+.machine-bar {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+@media (min-width: 640px) {
+  .machine-bar { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}
+
+.machine-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.msg-list { display: grid; gap: 14px; margin-top: 6px; }
+
+.msg-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 14px 16px;
+}
+
+.msg-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 8px;
+}
+
+.msg-label {
+  font: 700 13px var(--disp);
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.msg-meta {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.msg-text {
+  margin: 0 0 12px;
+  font: 500 14px/1.6 var(--sans);
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.msg-text-sm { font-size: 12.5px; }
+
+.msg-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.msg-actions .btn { padding: 8px 14px; font-size: 13px; }
+
+.btn-copy.is-copied,
+.btn.is-copied {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.prompt-out {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--paper-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: 500 13px/1.6 var(--sans);
+  padding: 14px;
+  resize: vertical;
+}
+
+.prompt-out:focus {
+  outline: none;
+  border-color: var(--coral);
+}
+
+.saved-title {
+  margin: 28px 0 12px;
+  font: 700 18px var(--disp);
+  color: var(--ink);
+}
+
+.field input[type="range"] {
+  width: 100%;
+  accent-color: var(--coral);
+}
+
+.machine-select {
+  min-width: 220px;
+}
