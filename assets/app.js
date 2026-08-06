@@ -1,6 +1,6 @@
 /* ============================================================
    O Brasil em dados — motor de visualizações (D3.js)
-   Mobile-first · dados de `dados_api_v2.json` com fallback mock
+   Mobile-first · dados de `dados_api.json` com fallback mock
    ============================================================ */
 
 'use strict';
@@ -346,7 +346,7 @@ const MOCK_DATA = {
 
 async function loadData() {
   try {
-    const res = await fetch('dados_api_v2.json', { cache: 'no-cache' });
+    const res = await fetch('dados_api.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
     // O JSON real começa com um cabeçalho de texto explicativo.
