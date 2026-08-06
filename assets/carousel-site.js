@@ -8,6 +8,7 @@
 
 (function () {
   const CARROSSEIS = window.CARROSSEIS || [];
+  let DOSSIER_CARS = [];
   const $ = (sel, el) => (el || document).querySelector(sel);
   const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
 
@@ -550,7 +551,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
   }
 
   async function downloadPost(id, btn) {
-    const car = CARROSSEIS.find((c) => c.id === id);
+    const car = CARROSSEIS.find((c) => c.id === id) || DOSSIER_CARS.find((c) => c.id === id);
     if (!car) return;
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     const opts = { color: state.colors[id] || UP_RED };
@@ -691,7 +692,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
 
   function renderGrids() {
     renderGallery('#carr-grid', CARROSSEIS);
-    renderGallery('#doss-grid', buildDossierCars());
+    DOSSIER_CARS = buildDossierCars();
+    renderGallery('#doss-grid', DOSSIER_CARS);
   }
 
   /* -------------------- Painel de customização -------------------- */
@@ -758,6 +760,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     buildZip,
     crc32,
     renderSlide,
+    downloadPost,
     getState: () => state,
+    getDossierCars: () => DOSSIER_CARS,
   };
 })();
