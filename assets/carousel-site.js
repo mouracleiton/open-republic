@@ -261,6 +261,17 @@
     ctx.fillRect(W / 2 - w / 2, H - size * 2.15, w, Math.max(2, size * 0.05));
   }
 
+  function drawWatermark(ctx, W, H, light) {
+    ctx.save();
+    ctx.globalAlpha = 0.55;
+    ctx.font = `600 ${Math.round(W * 0.026)}px ${FONT_SANS}`;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'bottom';
+    ctx.fillStyle = light ? 'rgba(27,27,27,0.6)' : 'rgba(255,255,255,0.6)';
+    ctx.fillText('@professorcinza', W - W * 0.045, H - W * 0.032);
+    ctx.restore();
+  }
+
   function drawCoverSlide(ctx, car, i, total, opts) {
     const W = ctx.canvas.width;
     const H = ctx.canvas.height;
@@ -328,6 +339,7 @@
     }
 
     drawHandleFooter(ctx, W, H, color, light);
+    drawWatermark(ctx, W, H, light);
   }
 
   function drawContentSlide(ctx, car, slide, i, total, opts) {
@@ -420,6 +432,7 @@
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillText(normalizeHandle(state.handle), W - pad, H - footerH / 2);
+    drawWatermark(ctx, W, H, false);
   }
 
   function drawCtaSlide(ctx, car, i, total, opts) {
@@ -456,6 +469,7 @@
     ctx.fillText('SALVE · COMPARTILHE · ESPALHE', cx, H * 0.74);
 
     drawHandleFooter(ctx, W, H, color, light);
+    drawWatermark(ctx, W, H, light);
   }
 
   function renderSlide(car, slide, i, total, opts) {
