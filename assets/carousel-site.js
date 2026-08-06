@@ -81,7 +81,7 @@
     const words = String(text).split(/\s+/);
     const lines = [];
     let cur = '';
-    for (const w of words) {
+    const push = (w) => {
       const test = cur ? cur + ' ' + w : w;
       if (ctx.measureText(test).width > maxW && cur) {
         lines.push(cur);
@@ -89,6 +89,21 @@
       } else {
         cur = test;
       }
+    };
+    for (let w of words) {
+      // quebra palavras mais largas que a área disponível
+      while (w && ctx.measureText(w).width > maxW && w.length > 1) {
+        let lo = 1;
+        let hi = w.length;
+        while (lo < hi) {
+          const mid = (lo + hi + 1) >> 1;
+          if (ctx.measureText(w.slice(0, mid)).width <= maxW) lo = mid;
+          else hi = mid - 1;
+        }
+        push(w.slice(0, lo));
+        w = w.slice(lo);
+      }
+      if (w) push(w);
     }
     if (cur) lines.push(cur);
     return lines;
@@ -347,6 +362,11 @@
     const H = ctx.canvas.height;
     const color = opts.color;
     const pad = W * 0.08;
+    const footerH = W * 0.14;
+    const bodyTop = H * 0.16;
+    const bodyBottom = H - footerH - W * 0.02;
+    const maxBody = bodyBottom - bodyTop;
+    const maxW = W - pad * 2;
 
     ctx.fillStyle = '#fffdf8';
     ctx.fillRect(0, 0, W, H);
@@ -358,7 +378,7 @@
     // pill
     if (slide.pill) {
       ctx.font = `700 ${Math.round(W * 0.036)}px ${FONT_SANS}`;
-      const pw = ctx.measureText(slide.pill).width + W * 0.06;
+      const pw = Math.min(ctx.measureText(slide.pill).width + W * 0.06, maxW);
       const ph = W * 0.08;
       ctx.fillStyle = color;
       roundRect(ctx, pad, pad + W * 0.02, pw, ph, ph / 2);
@@ -375,55 +395,50 @@
     ctx.textBaseline = 'middle';
     ctx.fillText(`CARROSSEL ${i + 1}/${total}`, W - pad, pad);
 
-    // título
-    ctx.fillStyle = '#1b1b1b';
-    ctx.font = `700 ${Math.round(W * 0.06)}px ${FONT_DISP}`;
+    // blocos de conteúdo
+    const blocks = [];
+    if (slide.titulo) blocks.push({ text: slide.titulo, size: W * 0.062, weight: 700, family: FONT_DISP, fill: '#1b1b1b', lh: 1.14, gap: W * 0.015 });
+    if (slide.stat) blocks.push({ text: slide.stat, size: W * 0.135, weight: 700, family: FONT_DISP, fill: color, lh: 1.08, gap: W * 0.005 });
+    if (slide.statLabel) blocks.push({ text: slide.statLabel, size: W * 0.036, weight: 700, family: FONT_SANS, fill: '#1b1b1b', lh: 1.15, gap: W * 0.012 });
+    if (slide.texto) blocks.push({ text: slide.texto, size: W * 0.038, weight: 500, family: FONT_SANS, fill: '#5c574f', lh: 1.28, gap: W * 0.014 });
+    if (slide.gap) blocks.push({ text: '“' + slide.gap + '”', size: W * 0.034, weight: 600, family: FONT_SANS, fill: color, lh: 1.24, gap: W * 0.016 });
+
+    // mede altura necessária em uma dada escala
+    const heightAt = (scale) => {
+      let y = 0;
+      for (const b of blocks) {
+        ctx.font = `${b.weight} ${Math.round(b.size * scale)}px ${b.family}`;
+        const n = wrapText(ctx, b.text, maxW).length;
+        y += n * b.size * scale * b.lh;
+        if (n) y += b.gap * scale;
+      }
+      return y;
+    };
+
+    // reduz a escala até caber no corpo disponível
+    let scale = 1;
+    for (let k = 0; k < 12; k++) {
+      if (heightAt(scale) <= maxBody) break;
+      scale *= 0.9;
+    }
+
+    // desenha
+    let y = bodyTop;
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    let y = H * 0.18;
-    wrapText(ctx, slide.titulo, W - pad * 2).slice(0, 2).forEach((ln) => {
-      ctx.fillText(ln, pad, y);
-      y += W * 0.075;
-    });
-    y += W * 0.035;
-
-    // stat grande
-    if (slide.stat) {
-      ctx.fillStyle = color;
-      ctx.font = `700 ${Math.round(W * 0.14)}px ${FONT_DISP}`;
-      ctx.fillText(slide.stat, pad, y);
-      y += W * 0.15;
-    }
-    if (slide.statLabel) {
-      ctx.fillStyle = '#1b1b1b';
-      ctx.font = `700 ${Math.round(W * 0.035)}px ${FONT_SANS}`;
-      ctx.fillText(slide.statLabel, pad, y);
-      y += W * 0.055;
-    }
-
-    // texto
-    if (slide.texto) {
-      ctx.fillStyle = '#5c574f';
-      ctx.font = `500 ${Math.round(W * 0.038)}px ${FONT_SANS}`;
-      wrapText(ctx, slide.texto, W - pad * 2).slice(0, 3).forEach((ln) => {
+    for (const b of blocks) {
+      const size = Math.round(b.size * scale);
+      ctx.fillStyle = b.fill;
+      ctx.font = `${b.weight} ${size}px ${b.family}`;
+      const lines = wrapText(ctx, b.text, maxW);
+      for (const ln of lines) {
         ctx.fillText(ln, pad, y);
-        y += W * 0.048;
-      });
-    }
-
-    // gap
-    if (slide.gap) {
-      y += W * 0.02;
-      ctx.fillStyle = color;
-      ctx.font = `600 ${Math.round(W * 0.032)}px ${FONT_SANS}`;
-      wrapText(ctx, '“' + slide.gap + '”', W - pad * 2).slice(0, 2).forEach((ln) => {
-        ctx.fillText(ln, pad, y);
-        y += W * 0.04;
-      });
+        y += size * b.lh;
+      }
+      if (lines.length) y += b.gap * scale;
     }
 
     // rodapé: handle + logo
-    const footerH = W * 0.14;
     ctx.fillStyle = isLight(color) ? 'rgba(27,27,27,0.06)' : 'rgba(27,27,27,0.08)';
     ctx.fillRect(0, H - footerH, W, footerH);
     drawLogo(ctx, pad, H - footerH / 2 - W * 0.05, W * 0.1);
