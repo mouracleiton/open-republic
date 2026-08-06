@@ -1974,6 +1974,7 @@
 
         <div class="tabs" role="tablist" aria-label="Máquina de propaganda">
           <button class="tab-btn is-active" data-tab="tab-imagens" role="tab" aria-selected="true">Imagens</button>
+          <button class="tab-btn" data-tab="tab-dossies" role="tab" aria-selected="false">Dossiês</button>
           <button class="tab-btn" data-tab="tab-whatsapp" role="tab" aria-selected="false">WhatsApp</button>
           <button class="tab-btn" data-tab="tab-x" role="tab" aria-selected="false">X (Twitter)</button>
           <button class="tab-btn" data-tab="tab-mensagens" role="tab" aria-selected="false">Mensagens</button>
@@ -1982,29 +1983,34 @@
           <button class="tab-btn" data-tab="tab-dossie" role="tab" aria-selected="false">Dossiê contra</button>
         </div>
 
-        <div class="tab-panel is-active" id="tab-imagens">
-          <div class="customizer">
-            <div class="customizer-row">
-              <label class="field">
-                <span class="field-label">@ da sua rede</span>
-                <input type="text" id="carr-handle" value="@seuperfil" placeholder="@seuperfil" spellcheck="false" autocomplete="off">
-              </label>
-              <label class="field">
-                <span class="field-label">Formato</span>
-                <select id="carr-format">
-                  <option value="square">1080×1080 (quadrado)</option>
-                  <option value="vertical">1080×1350 (4:5 retrato)</option>
-                </select>
-              </label>
-              <div class="field field-actions">
-                <span class="field-label">&nbsp;</span>
-                <button type="button" class="btn btn-ghost" id="carr-reset">Restaurar padrão</button>
-              </div>
+        <div class="customizer">
+          <div class="customizer-row">
+            <label class="field">
+              <span class="field-label">@ da sua rede</span>
+              <input type="text" id="carr-handle" value="@seuperfil" placeholder="@seuperfil" spellcheck="false" autocomplete="off">
+            </label>
+            <label class="field">
+              <span class="field-label">Formato</span>
+              <select id="carr-format">
+                <option value="square">1080×1080 (quadrado)</option>
+                <option value="vertical">1080×1350 (4:5 retrato)</option>
+              </select>
+            </label>
+            <div class="field field-actions">
+              <span class="field-label">&nbsp;</span>
+              <button type="button" class="btn btn-ghost" id="carr-reset">Restaurar padrão</button>
             </div>
           </div>
+        </div>
 
+        <div class="tab-panel is-active" id="tab-imagens">
           <div class="carr-grid" id="carr-grid" role="list"></div>
           <p class="caption">20 carrosseis de propaganda · dados de fontes públicas oficiais · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
+        </div>
+
+        <div class="tab-panel" id="tab-dossies">
+          <div class="carr-grid" id="doss-grid" role="list"></div>
+          <p class="caption">14 carrosseis de dossiê · um por político com dados públicos oficiais · fatos citados, sem inventar · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
         </div>
 
         <div class="tab-panel" id="tab-whatsapp">

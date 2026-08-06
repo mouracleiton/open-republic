@@ -572,6 +572,72 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     }
   }
 
+  /* -------------------- Carrosséis de dossiês -------------------- */
+
+  const DOSSIER_PILLS = [
+    ['Evolução patrimonial (declarada)', 'PATRIMÔNIO'],
+    ['Questionamentos sobre patrimônio', 'PATRIMÔNIO QUESTIONADO'],
+    ['Doadores principais', 'QUEM PAGOU'],
+    ['Processos (TSE/TCU)', 'PROCESSOS'],
+    ['Lei da Ficha Limpa', 'FICHA LIMPA'],
+    ['Inquéritos e denúncias', 'INQUÉRITOS'],
+    ['Glosas e irregularidades', 'GLOSAS'],
+    ['Polêmicas', 'POLÊMICAS'],
+  ];
+
+  function dossierBlockFacts(el, title) {
+    const out = [];
+    $$('.doss-block', el).forEach((block) => {
+      const h = $('.doss-block-title', block);
+      if (!h || !String(h.textContent).trim().startsWith(title)) return;
+      $$('li, p', block).forEach((n) => {
+        let s = String(n.textContent).trim().replace(/\s+/g, ' ');
+        s = s.replace(/\s*Dados não disponíveis[^.]*\./gi, '').trim();
+        s = s.replace(/^[-•]+\s*/, '');
+        if (!s || /não disponíve/i.test(s)) return;
+        out.push(s);
+      });
+    });
+    return out;
+  }
+
+  function shortHeadline(s) {
+    const words = String(s).split(/\s+/).slice(0, 5).join(' ');
+    const t = words.replace(/[,;:]/g, '').toUpperCase();
+    return t.length > 36 ? t.slice(0, 35) + '…' : t;
+  }
+
+  function dossierSlug(name) {
+    return 'doss_' + String(name).toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+
+  function buildDossierCars() {
+    return $$('.doss-card[data-politico]').map((el) => {
+      const name = el.getAttribute('data-politico');
+      const slides = [{ tipo: 'cover' }];
+      const chips = [];
+      DOSSIER_PILLS.forEach(([title, pill]) => {
+        dossierBlockFacts(el, title).slice(0, 1).forEach((f) => {
+          slides.push({ tipo: 'content', pill, titulo: shortHeadline(f), texto: f });
+          chips.push(shortHeadline(f));
+        });
+      });
+      if (slides.length === 1) {
+        slides.push({ tipo: 'content', pill: 'DOSSIÊ', titulo: 'SEM FATOS', texto: 'Dados não disponíveis no banco de dados atual.' });
+      }
+      slides.push({ tipo: 'cta' });
+      return {
+        id: dossierSlug(name),
+        nome: String(name).toUpperCase(),
+        tagline: 'Dossiê com fontes públicas oficiais.',
+        dados_chave: chips.slice(0, 3).join(' · '),
+        slides,
+      };
+    });
+  }
+
   /* -------------------- Galeria -------------------- */
 
   function cardHTML(car) {
@@ -596,13 +662,13 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       </article>`;
   }
 
-  function renderGallery() {
-    const grid = $('#carr-grid');
+  function renderGallery(gridSel, cars) {
+    const grid = $(gridSel);
     if (!grid) return;
-    grid.innerHTML = CARROSSEIS.map(cardHTML).join('');
+    grid.innerHTML = cars.map(cardHTML).join('');
 
     // previews (cover em tamanho reduzido)
-    CARROSSEIS.forEach((car) => {
+    cars.forEach((car) => {
       const canvas = $(`[data-canvas="${car.id}"]`, grid);
       if (!canvas) return;
       const opts = { color: state.colors[car.id] || UP_RED };
@@ -618,9 +684,14 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     grid.querySelectorAll('[data-color]').forEach((input) => {
       input.addEventListener('input', () => {
         state.colors[input.getAttribute('data-color')] = input.value;
-        renderGallery();
+        renderGrids();
       });
     });
+  }
+
+  function renderGrids() {
+    renderGallery('#carr-grid', CARROSSEIS);
+    renderGallery('#doss-grid', buildDossierCars());
   }
 
   /* -------------------- Painel de customização -------------------- */
@@ -636,7 +707,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     if (handle) handle.value = state.handle;
     const format = $('#carr-format');
     if (format) format.value = state.format;
-    renderGallery();
+    renderGrids();
   }
 
   function bindPanel() {
@@ -646,7 +717,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       handle.addEventListener('input', () => {
         state.handle = normalizeHandle(handle.value);
         ls.set('handle', state.handle);
-        renderGallery();
+        renderGrids();
       });
     }
 
@@ -656,7 +727,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       format.addEventListener('change', () => {
         state.format = format.value;
         ls.set('format', state.format);
-        renderGallery();
+        renderGrids();
       });
     }
 
@@ -674,7 +745,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     }
     if (!CARROSSEIS.length) return;
     bindPanel();
-    renderGallery();
+    renderGrids();
   }
 
   if (document.readyState === 'loading') {
