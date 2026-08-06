@@ -1979,6 +1979,7 @@
           <button class="tab-btn" data-tab="tab-mensagens" role="tab" aria-selected="false">Mensagens</button>
           <button class="tab-btn" data-tab="tab-audio" role="tab" aria-selected="false">Áudio</button>
           <button class="tab-btn" data-tab="tab-prompts" role="tab" aria-selected="false">Prompts</button>
+          <button class="tab-btn" data-tab="tab-dossie" role="tab" aria-selected="false">Dossiê contra</button>
         </div>
 
         <div class="tab-panel is-active" id="tab-imagens">
@@ -2124,6 +2125,73 @@
           </div>
           <h3 class="saved-title">Prompts salvos</h3>
           <div class="msg-list" id="pr-saved"></div>
+        </div>
+
+        <div class="tab-panel" id="tab-dossie">
+          <p class="caption">Propaganda de oposição baseada nos dossiês factuais (fontes públicas oficiais: TSE, Senado, Câmara, STF, TCU, CGU). Escolha o político e o ângulo — tudo é citado do dossiê, não inventado.</p>
+          <div class="machine-bar">
+            <label class="field">
+              <span class="field-label">Político</span>
+              <select id="do-politico" class="machine-select"></select>
+            </label>
+            <label class="field">
+              <span class="field-label">Ângulo</span>
+              <select id="do-angulo" class="machine-select">
+                <option value="patrimonio">Patrimônio e riqueza</option>
+                <option value="fundos">Fundos públicos (doações)</option>
+                <option value="processos">Processos e ficha limpa</option>
+                <option value="polemicas">Polêmicas e denúncias</option>
+                <option value="glosas">Glosas e irregularidades</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">@ da sua rede</span>
+              <input type="text" id="do-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
+            </label>
+          </div>
+
+          <article class="msg-card">
+            <div class="msg-head">
+              <span class="msg-label" id="do-name">—</span>
+              <span class="msg-meta">Fatos citados do dossiê</span>
+            </div>
+            <ul class="doss-facts" id="do-facts"></ul>
+          </article>
+
+          <div class="msg-list" id="do-list"></div>
+
+          <h3 class="saved-title">Roteiro contra — prompt</h3>
+          <div class="machine-bar">
+            <label class="field">
+              <span class="field-label">Plataforma</span>
+              <select id="do-platform" class="machine-select">
+                <option value="TikTok">TikTok</option>
+                <option value="YouTube">YouTube</option>
+                <option value="Instagram Reels">Instagram Reels</option>
+                <option value="X (Twitter)">X (Twitter)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">Duração</span>
+              <select id="do-duration" class="machine-select">
+                <option value="30s">30s</option>
+                <option value="60s">60s</option>
+                <option value="90s">90s</option>
+                <option value="3 min">3 min</option>
+                <option value="5 min">5 min</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field-label">Tom</span>
+              <input type="text" id="do-tone" value="direto, irônico, sempre citando a fonte">
+            </label>
+          </div>
+          <textarea class="prompt-out" id="do-out" rows="10" readonly></textarea>
+          <div class="machine-actions">
+            <button type="button" class="btn btn-primary" id="do-copy">Copiar prompt</button>
+            <button type="button" class="btn btn-ghost" id="do-save">Salvar no site</button>
+          </div>
+          <p class="caption">O prompt salvo aparece em "Prompts" — aba acima. Confira sempre a fonte primária antes de publicar.</p>
         </div>
 
       </div>

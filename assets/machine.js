@@ -176,6 +176,111 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
     }
   }
 
+  /* -------------------- Dossiê contra -------------------- */
+
+  const DOSSIER_BLOCKS = {
+    patrimonio: ['Evolução patrimonial (declarada)', 'Questionamentos sobre patrimônio'],
+    fundos: ['Doadores principais'],
+    processos: ['Processos (TSE/TCU)', 'Lei da Ficha Limpa', 'Inquéritos e denúncias'],
+    polemicas: ['Polêmicas', 'Denúncias', 'Inquéritos e denúncias'],
+    glosas: ['Glosas e irregularidades'],
+  };
+
+  function cleanFact(t) {
+    let s = String(t).trim().replace(/\s+/g, ' ');
+    s = s.replace(/\s*Dados não disponíveis[^.]*\./gi, '').trim();
+    s = s.replace(/^[-•]+\s*/, '');
+    if (!s || /não disponíve/i.test(s)) return '';
+    return s;
+  }
+
+  function dossierCards() {
+    return $$('.doss-card').map((el) => ({ name: el.getAttribute('data-politico'), el }));
+  }
+
+  function dossierFacts(name, angle) {
+    const card = dossierCards().find((c) => c.name === name);
+    if (!card) return [];
+    const out = [];
+    (DOSSIER_BLOCKS[angle] || DOSSIER_BLOCKS.patrimonio).forEach((title) => {
+      $$('.doss-block', card.el).forEach((block) => {
+        const h = $('.doss-block-title', block);
+        if (!h || !String(h.textContent).trim().startsWith(title)) return;
+        $$('li, p', block).forEach((n) => {
+          const f = cleanFact(n.textContent);
+          if (f) out.push(f);
+        });
+      });
+    });
+    return out.slice(0, 6);
+  }
+
+  function shortenName(name) {
+    const parts = String(name).split(' ').filter(Boolean);
+    if (parts.length <= 2) return name;
+    return `${parts[0]} ${parts[parts.length - 1]}`;
+  }
+
+  function dossierMessages(facts, name, handle) {
+    const short = shortenName(name);
+    const f1 = facts[0] || '';
+    const f2 = facts[1] || '';
+    return [
+      {
+        label: 'WhatsApp · oposição',
+        text: `🚨 Antes de decidir, vale lembrar sobre ${short}:\n\n• ${f1}\n${f2 ? `• ${f2}` : ''}\n\nIsso é dado público, não fofoca. O outro lado teve décadas pra explicar.\n\n${handle}`,
+      },
+      {
+        label: 'WhatsApp · pergunta',
+        text: `O que ${short} fez ou vai fazer pra resolver isso?\n\n${f1}\n\nSiga ${handle} e confira os números.`,
+      },
+      {
+        label: 'X (Twitter)',
+        text: trunc280(`${short}: ${f1}\n\nFonte pública. Siga ${handle}.`),
+      },
+      {
+        label: 'Mensagem pro grupo',
+        text: `Gente, antes de votar vale conferir o histórico:\n\n${short}: ${f1} ${f2 ? f2 : ''}\n\nTudo de fontes públicas. Segue o ${handle}.`,
+      },
+    ];
+  }
+
+  function dossierPrompt(facts, name, platform, duration, tone, handle) {
+    const short = shortenName(name);
+    const factsList = facts.map((f) => `- ${f}`).join('\n');
+    if (platform === 'X (Twitter)') {
+      return `Escreva 3 posts de oposição sobre ${short} para X (Twitter).
+
+Fatos verificados (fontes públicas oficiais):
+${factsList}
+
+Regras:
+- Cada post com até 280 caracteres.
+- Tom: ${tone}.
+- Ao menos um post com a pergunta "O que ${short} fez ou vai fazer pra resolver isso?"
+- Cite a fonte pública em cada post.
+- Um post deve convidar a seguir ${handle}.
+
+Formato de saída: lista numerada com os 3 posts.`;
+    }
+    return `Crie um roteiro de vídeo de oposição para ${platform} (${duration}) sobre: por que não eleger ${short}.
+
+Fatos verificados (fontes públicas oficiais):
+${factsList}
+
+Público-alvo: eleitor comum, mobile-first.
+Tom: ${tone}.
+
+Estrutura obrigatória:
+1. Gancho nos primeiros 3 segundos — "O que ${short} fez ou vai fazer pra resolver isso?"
+2. Apresente 2-3 fatos, um por cena, com a fonte na tela.
+3. Feche convidando a seguir ${handle}.
+
+Inclua: narração off, legenda por cena, sugestão de trilha e transições.
+
+Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
+  }
+
   /* -------------------- Render -------------------- */
 
   function renderList(sel, items) {
@@ -209,6 +314,7 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
     fillAudioTexts();
     renderPromptOut();
     renderSavedPrompts();
+    renderDossier();
   }
 
   function fillTopicSelect(sel) {
@@ -225,8 +331,7 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
     textSel.innerHTML = texts.map((t, i) => `<option value="${i}">${esc(t.label)}</option>`).join('');
   }
 
-  function renderPromptOut() {
-    const out = $('#pr-out');
+  function renderPromptOut() {    const out = $('#pr-out');
     if (!out) return '';
     const car = carById($('#pr-topic') && $('#pr-topic').value);
     out.value = buildPrompt(
@@ -272,7 +377,7 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
 
   /* -------------------- Handles -------------------- */
 
-  const HANDLE_IDS = ['carr-handle', 'wa-handle', 'x-handle', 'msg-handle'];
+  const HANDLE_IDS = ['carr-handle', 'wa-handle', 'x-handle', 'msg-handle', 'do-handle'];
 
   function syncHandles(src) {
     const val = normHandle(src.value);
@@ -379,6 +484,87 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
     });
   }
 
+  /* -------------------- Dossiê -------------------- */
+
+  function renderDossier() {
+    const politico = $('#do-politico');
+    const angulo = $('#do-angulo');
+    if (!politico || !angulo) return;
+
+    if (!politico.options.length) {
+      const cards = dossierCards();
+      politico.innerHTML = cards.map((c) => `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('');
+    }
+
+    const name = politico.value;
+    const angle = angulo.value;
+    const handle = normHandle(currentHandle());
+    const facts = dossierFacts(name, angle);
+
+    const nameEl = $('#do-name');
+    if (nameEl) nameEl.textContent = name;
+
+    const factsEl = $('#do-facts');
+    if (factsEl) {
+      factsEl.innerHTML = facts.length
+        ? facts.map((f) => `<li>${esc(f)}</li>`).join('')
+        : '<li>Sem fatos disponíveis para este ângulo.</li>';
+    }
+
+    renderList('#do-list', dossierMessages(facts, name, handle));
+
+    const out = $('#do-out');
+    if (out) {
+      out.value = dossierPrompt(
+        facts,
+        name,
+        ($('#do-platform') || {}).value || 'TikTok',
+        ($('#do-duration') || {}).value || '60s',
+        (($('#do-tone') || {}).value || '').trim() || 'direto, irônico, sempre citando a fonte',
+        handle
+      );
+    }
+  }
+
+  function dossierInit() {
+    const politico = $('#do-politico');
+    const angulo = $('#do-angulo');
+    const platform = $('#do-platform');
+    const duration = $('#do-duration');
+    const tone = $('#do-tone');
+    const copy = $('#do-copy');
+    const save = $('#do-save');
+
+    if (politico) politico.addEventListener('change', renderDossier);
+    if (angulo) angulo.addEventListener('change', renderDossier);
+    if (platform) platform.addEventListener('change', renderDossier);
+    if (duration) duration.addEventListener('change', renderDossier);
+    if (tone) tone.addEventListener('input', renderDossier);
+
+    if (copy) copy.addEventListener('click', () => {
+      const out = $('#do-out');
+      if (out) copyText(out.value, copy);
+    });
+
+    if (save) save.addEventListener('click', () => {
+      const out = $('#do-out');
+      if (!out || !out.value) return;
+      const nameEl = $('#do-politico');
+      const list = loadPrompts();
+      list.unshift({
+        name: `Roteiro contra · ${shortenName((nameEl && nameEl.value) || 'político')}`,
+        platform: ((platform || {}).value || 'TikTok') + ' · ' + ((angulo || {}).value || 'patrimonio'),
+        text: out.value,
+        ts: new Date().toLocaleDateString('pt-BR'),
+      });
+      savePrompts(list);
+      renderSavedPrompts();
+      const prev = save.textContent;
+      save.textContent = 'Salvo ✓';
+      setTimeout(() => { save.textContent = prev; }, 1400);
+    });
+  }
+
   /* -------------------- Init -------------------- */
 
   function init() {
@@ -399,6 +585,7 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
 
     audioInit();
     promptsInit();
+    dossierInit();
     renderAll();
   }
 

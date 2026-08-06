@@ -1219,3 +1219,17 @@ code {
 .machine-select {
   min-width: 220px;
 }
+
+.doss-facts {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.doss-facts li {
+  font: 500 13px/1.6 var(--sans);
+  color: var(--ink-soft);
+}
+
+.doss-facts li::marker { color: var(--coral); }
