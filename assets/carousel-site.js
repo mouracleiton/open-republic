@@ -331,25 +331,46 @@
       y += W * 0.05;
     });
 
-    // dados_chave como chips
+    // dados_chave como chips (empilham em linhas quando faltar espaço)
     const chips = String(car.dados_chave || '').split(/[·;]/).map((s) => s.trim()).filter(Boolean).slice(0, 3);
     if (chips.length) {
+      const maxW = W - pad * 2;
       ctx.font = `600 ${Math.round(W * 0.032)}px ${FONT_SANS}`;
       const chipH = W * 0.075;
-      const gap = W * 0.02;
-      const widths = chips.map((c) => ctx.measureText(c).width + W * 0.05);
-      const totalW = widths.reduce((a, b) => a + b, 0) + gap * (chips.length - 1);
-      let x = W / 2 - totalW / 2;
-      y += W * 0.05;
+      const gapX = W * 0.02;
+      const gapY = W * 0.03;
+      const widths = chips.map((c) => Math.min(ctx.measureText(c).width + W * 0.05, maxW));
+      // empacota em linhas de largura <= maxW
+      const rows = [];
+      let row = [];
+      let rowW = 0;
       chips.forEach((c, ci) => {
-        ctx.fillStyle = light ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.16)';
-        roundRect(ctx, x, y - chipH / 2, widths[ci], chipH, chipH / 2);
-        ctx.fill();
-        ctx.fillStyle = light ? '#1b1b1b' : '#fff';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(c, x + widths[ci] / 2, y + 1);
-        x += widths[ci] + gap;
+        const w = widths[ci];
+        if (row.length && rowW + gapX + w > maxW) {
+          rows.push(row);
+          row = [];
+          rowW = 0;
+        }
+        row.push(ci);
+        rowW += w + (row.length > 1 ? gapX : 0);
+      });
+      if (row.length) rows.push(row);
+
+      y += W * 0.05;
+      rows.forEach((r, ri) => {
+        const rw = widths.reduce((a, ci) => a + widths[ci], 0) + gapX * (r.length - 1);
+        let x = W / 2 - rw / 2;
+        const cy = y + ri * (chipH + gapY);
+        r.forEach((ci) => {
+          ctx.fillStyle = light ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.16)';
+          roundRect(ctx, x, cy - chipH / 2, widths[ci], chipH, chipH / 2);
+          ctx.fill();
+          ctx.fillStyle = light ? '#1b1b1b' : '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(chips[ci], x + widths[ci] / 2, cy + 1);
+          x += widths[ci] + gapX;
+        });
       });
     }
 
