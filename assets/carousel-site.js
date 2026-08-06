@@ -239,6 +239,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
   }
 
   const FONT_DISP = '"Space Grotesk", Inter, system-ui, sans-serif';
+  const UP_RED = '#C00810';
   const FONT_SANS = 'Inter, system-ui, sans-serif';
 
   function drawLogo(ctx, x, y, size, bg) {
@@ -253,7 +254,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       ctx.restore();
     } else {
       // logo padrão: wordmark da Unidade Popular (adaptativo ao fundo)
-      drawUpLogo(ctx, x, y, size * (1080 / 592.1), size, isLight(bg || '#000') ? '#C00810' : '#fff');
+      drawUpLogo(ctx, x, y, size * (1080 / 592.1), size, isLight(bg || '#000') ? UP_RED : '#fff');
     }
   }
 
@@ -539,7 +540,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     const car = CARROSSEIS.find((c) => c.id === id);
     if (!car) return;
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
-    const opts = { color: state.colors[id] || car.cor };
+    const opts = { color: state.colors[id] || UP_RED };
     if (btn) { btn.disabled = true; btn.textContent = 'Gerando…'; }
     try {
       const files = [];
@@ -561,7 +562,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
   /* -------------------- Galeria -------------------- */
 
   function cardHTML(car) {
-    const color = state.colors[car.id] || car.cor;
+    const color = state.colors[car.id] || UP_RED;
     return `
       <article class="carr-card" data-id="${esc(car.id)}">
         <div class="carr-preview">
@@ -591,7 +592,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     CARROSSEIS.forEach((car) => {
       const canvas = $(`[data-canvas="${car.id}"]`, grid);
       if (!canvas) return;
-      const opts = { color: state.colors[car.id] || car.cor };
+      const opts = { color: state.colors[car.id] || UP_RED };
       canvas.width = 540;
       canvas.height = Math.round(540 * (FORMATS[state.format].h / FORMATS[state.format].w));
       const ctx = canvas.getContext('2d');
