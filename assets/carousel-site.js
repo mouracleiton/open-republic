@@ -499,29 +499,40 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
 
     const cx = W / 2;
     const pad = W * 0.08;
-    const logoSize = W * 0.2;
-    drawLogo(ctx, cx - logoSize * (1080 / 592.1) / 2, H * 0.14, logoSize, '#000000');
+    const logoSize = W * 0.16;
+    drawLogo(ctx, cx - logoSize * (1080 / 592.1) / 2, H * 0.17, logoSize, '#000000');
 
     ctx.fillStyle = color;
     ctx.font = `700 ${Math.round(W * 0.045)}px ${FONT_SANS}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(`CARROSSEL ${i + 1}/${total}`, cx, H * 0.11);
+    ctx.fillText(`CARROSSEL ${i + 1}/${total}`, cx, H * 0.10);
 
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    // pergunta provocadora: o que o outro lado faz pra resolver
+    ctx.fillStyle = '#F5F5F6';
+    ctx.font = `700 ${Math.round(W * 0.048)}px ${FONT_DISP}`;
+    const question = 'O QUE O OUTRO PARTIDO FEZ OU VAI FAZER PRA RESOLVER ISSO?';
+    const qLines = wrapText(ctx, question, W - pad * 1.4);
+    qLines.forEach((ln, li) => {
+      ctx.fillText(ln, cx, H * 0.40 + li * W * 0.075);
+    });
 
-    ctx.font = `600 ${Math.round(W * 0.045)}px ${FONT_SANS}`;
+    // chamada para seguir o nosso lado
     ctx.fillStyle = color;
-    ctx.fillText('SIGA E COMPARTILHE', cx, H * 0.5);
+    ctx.font = `700 ${Math.round(W * 0.042)}px ${FONT_SANS}`;
+    ctx.fillText('SE QUER SABER O NOSSO LADO, NOS SIGA.', cx, H * 0.57);
 
     ctx.fillStyle = '#F5F5F6';
     ctx.font = `700 ${Math.round(W * 0.09)}px ${FONT_DISP}`;
-    ctx.fillText(normalizeHandle(state.handle), cx, H * 0.62);
+    ctx.fillText(normalizeHandle(state.handle), cx, H * 0.70);
 
-    ctx.font = `500 ${Math.round(W * 0.034)}px ${FONT_SANS}`;
+    ctx.fillStyle = color;
+    ctx.font = `700 ${Math.round(W * 0.04)}px ${FONT_SANS}`;
+    ctx.fillText('SIGA E COMPARTILHE', cx, H * 0.80);
+
+    ctx.font = `500 ${Math.round(W * 0.032)}px ${FONT_SANS}`;
     ctx.fillStyle = '#9A9AA3';
-    ctx.fillText('SALVE · COMPARTILHE · ESPALHE', cx, H * 0.74);
+    ctx.fillText('SALVE · COMPARTILHE · ESPALHE', cx, H * 0.855);
 
     drawHandleFooter(ctx, W, H);
     drawWatermark(ctx, W, H, '#000000');
