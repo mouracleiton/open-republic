@@ -1,25 +1,25 @@
-Arquivo JSON unificado do projeto OpenRepublic, enriquecido com dados públicos de fontes oficiais.
-
-ATUALIZAÇÃO v7 (06/08/2026):
-- 40 seções temáticas completas
-- 27 estados mapeados
-- 18 eixos do Raio X Nacional
-- 17 políticas públicas avaliadas
-- 19 políticos no ranking
-- 19 casos no ranking de dinheiro público
-- 11 áreas de orçamento público
-- 8 propostas executáveis com Gate WO
-- 41 eventos na timeline histórica
-- 20 carrosséis para Instagram
-- 99 dados de compartilhamento WhatsApp
-- 14 dossiês detalhados de políticos ativos + 511 deputados em candidatura em 2026
-- Frases prontas para debate, hashtags oficiais, manchetes para mídia
-
-Pesquisa em fontes oficiais (TSE, STF, congresso) para os dossiês de políticos; campos sem fonte verificada marcados explicitamente.
-
-Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, FBSP, INEP, DATASUS, ANVISA, NIC.br, ANTRA, Ministério do Trabalho, Portal da Transparência, EPE, ONS, INCRA, CPT, CNJ, UNIAD, ACNUR, Ministério da Defesa, SIPRI, Receita Federal, IBPT, Mobilize Brasil, CNPq, CAPES, MinC, Funai, CIMI, MST, CUT, ABGLT.
-
 {
+  "_meta": {
+    "descricao": "Arquivo JSON unificado do projeto OpenRepublic, enriquecido com dados públicos de fontes oficiais.",
+    "atualizacao": "v7 (06/08/2026)",
+    "resumo": [
+      "40 seções temáticas completas",
+      "27 estados mapeados",
+      "18 eixos do Raio X Nacional",
+      "17 políticas públicas avaliadas",
+      "19 políticos no ranking",
+      "19 casos no ranking de dinheiro público",
+      "11 áreas de orçamento público",
+      "8 propostas executáveis com Gate WO",
+      "41 eventos na timeline histórica",
+      "20 carrosséis para Instagram",
+      "99 dados de compartilhamento WhatsApp",
+      "14 dossiês detalhados de políticos ativos + 511 deputados em candidatura em 2026",
+      "Frases prontas para debate, hashtags oficiais, manchetes para mídia"
+    ],
+    "nota_dossies": "Pesquisa em fontes oficiais (TSE, STF, congresso) para os dossiês de políticos; campos sem fonte verificada marcados explicitamente.",
+    "fontes_principais": "IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, FBSP, INEP, DATASUS, ANVISA, NIC.br, ANTRA, Ministério do Trabalho, Portal da Transparência, EPE, ONS, INCRA, CPT, CNJ, UNIAD, ACNUR, Ministério da Defesa, SIPRI, Receita Federal, IBPT, Mobilize Brasil, CNPq, CAPES, MinC, Funai, CIMI, MST, CUT, ABGLT."
+  },
   "projeto": "OpenRepublic",
   "url_base": "https://mouracleiton.github.io/open-republic/",
   "manifesto": {
@@ -27,7 +27,10 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
       "badge": "Código aberto CC0 · Sem partido · Sem dono",
       "titulo": "NÃO É PARTIDO. É MEDIÇÃO.",
       "tagline": "O IBGE pergunta ao diretor. Nós perguntamos ao chão.",
-      "subtagline": "Sistema de medição política independente. O sensor ilumina. O povo cobra. Partido é ferramenta. População é fim."
+      "subtagline": "Sistema de medição política independente. O sensor ilumina. O povo cobra. Partido é ferramenta. População é fim.",
+      "masthead_kicker": "Dados públicos oficiais + máquina de propaganda · download grátis",
+      "masthead_titulo": "Os dados primeiro. <em>A propaganda depois.</em>",
+      "masthead_lede": "Nove capítulos de números com fonte — e uma máquina de propaganda com imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok."
     },
     "principios": [
       {
@@ -1533,7 +1536,7 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
           "tipo": "content",
           "pill": "PRESIDENTE",
           "titulo": "SAMARA MARTINS",
-          "stat": "—",
+          "stat": "UP",
           "statLabel": "CANDIDATA PRESIDENCIAL",
           "texto": "UP. Nó central da Frente. Diagnóstico 100%, direção 100%."
         },
@@ -1541,7 +1544,7 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
           "tipo": "content",
           "pill": "VICE",
           "titulo": "RAQUEL BRÍCIO",
-          "stat": "—",
+          "stat": "UP",
           "statLabel": "VICE DA CHAPA",
           "texto": "Mobilização e juventude."
         },
@@ -3434,12 +3437,12 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
         {
           "partido": "União Brasil",
           "valor_indicado": "R$ 177,4 milhões (2 senadores)",
-          "observacao": ""
+          "observacao": "2º maior valor por senador"
         },
         {
           "partido": "PT",
           "valor_indicado": "R$ 148,6 milhões (2 senadores)",
-          "observacao": ""
+          "observacao": "3º maior valor por senador"
         }
       ],
       "evolucao_anual": [
@@ -38684,5 +38687,85 @@ Fontes principais: IBGE, INPE, TSE, CGU, TCU, MPF, STF, Lava Jato, OCDE, PNUD, F
         }
       }
     ]
+  },
+  "capitulos": {
+    "ch-raiox": {
+      "numero": "01",
+      "kicker": "O raio-x do país",
+      "titulo": "Dezoito exames que ninguém faz",
+      "lede": "18 domínios vitais. Um checkup nacional que custaria uma fração do censo — e revelaria, em tempo real, onde o país falha."
+    },
+    "ch-orcamento": {
+      "numero": "02",
+      "kicker": "Para onde vai o dinheiro",
+      "titulo": "O orçamento é um plano",
+      "lede": "Orçamento é escolha. Cada barra abaixo é uma decisão tomada em nome de todos — e revela prioridades."
+    },
+    "ch-renda": {
+      "numero": "03",
+      "kicker": "A escada da renda",
+      "titulo": "De 300 a 25 mil",
+      "lede": "A distribuição de renda não é uma fila — é uma escada. Do degrau de quem ganha R$ 300 ao topo de quem ganha R$ 25.000."
+    },
+    "ch-racial": {
+      "numero": "04",
+      "kicker": "A cor do abismo",
+      "titulo": "Desigualdade que tem rosto",
+      "lede": "Nos dez por cento mais pobres, a maioria é negra. No um por cento mais rico, quase ninguém. O abismo é estrutural."
+    },
+    "ch-violencia": {
+      "numero": "05",
+      "kicker": "A violência por estado",
+      "titulo": "Onde a vida acaba mais cedo",
+      "lede": "A taxa de homicídios varia brutalmente entre os estados. Onde o Estado não chega, a morte chega primeiro."
+    },
+    "ch-ocde": {
+      "numero": "06",
+      "kicker": "O país no espelho do mundo",
+      "titulo": "Brasil vs. países ricos",
+      "lede": "Na educação e na saúde, a distância é de 5×. Na violência e na desigualdade, o abismo é para o lado oposto."
+    },
+    "ch-fatos": {
+      "numero": "07",
+      "kicker": "Números que gritam",
+      "titulo": "O mosaico dos fatos",
+      "lede": "Números isolados, com fonte. Toque nas categorias para filtrar o mosaico."
+    },
+    "ch-timeline": {
+      "numero": "08",
+      "kicker": "A linha do tempo",
+      "titulo": "Quinhentos anos, capítulo a capítulo",
+      "lede": "O presente não caiu do céu. Ele foi construído, evento por evento — e cada um ainda ecoa hoje."
+    },
+    "ch-dossies": {
+      "numero": "09",
+      "kicker": "Quem manda, de perto",
+      "titulo": "Dossiês de políticos ativos",
+      "lede": "525 perfis de políticos ativos: 14 com dados factuais detalhados (fontes oficiais e imprensa de referência) e 511 deputados em candidatura em 2026 (nome, partido e cargo; dados detalhados em compilação). Toque em cada cartão para abrir o dossiê completo."
+    },
+    "ch-propaganda": {
+      "numero": "10",
+      "kicker": "A máquina de propaganda",
+      "titulo": "Dados que saem da tela",
+      "lede": "Imagens, mensagens, áudio e roteiros prontos para espalhar — com o @ da sua rede em cada peça. Tudo gerado no seu navegador, sem upload para servidor."
+    },
+    "ch-mais-valia": {
+      "numero": "11",
+      "kicker": "Ferramenta · letramento político",
+      "titulo": "Calculadora de Mais-Valia",
+      "lede": "Descubra, em qualquer bloco de tempo, quanto da sua jornada você trabalha para você e quanto trabalha de graça para o patrão. Baseado na teoria de Karl Marx."
+    },
+    "ch-glossario": {
+      "numero": "12",
+      "kicker": "Educação popular · letramento político",
+      "titulo": "Glossário comunista",
+      "lede": "O fundamental, em linguagem simples. Sem jargão acadêmico, sem complicação — para entender a conversa que os donos do poder fazem questão de manter distante do povo."
+    },
+    "ch-tutoriais": {
+      "numero": "13",
+      "kicker": "Manuais práticos · organização popular",
+      "titulo": "Tutoriais de organização",
+      "lede": "Quatro manuais práticos: como se unir e filiar-se, como organizar uma greve na lei brasileira, como produzir conteúdo para redes sociais, e como fazer letramento político presencial. Toque em cada manual para abrir."
+    }
   }
 }

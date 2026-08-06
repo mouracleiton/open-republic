@@ -179,192 +179,21 @@ function makeChart(selector, draw) {
 }
 
 /* ------------------------------------------------------------
-   4. Mock Data (fallback)
-   Formato espelhado do JSON real. O fetch é substituído por
-   este bloco quando o arquivo não está disponível (erro CORS,
-   servidor offline, etc.).
-   ------------------------------------------------------------ */
-
-const MOCK_DATA = {
-  raio_x_nacional: {
-    metricas: { total_exames: 18, pct_automatizavel_medio: 69 },
-    custo: {
-      total_anual_milhoes: 'R$ 85 milhões',
-      comparativo_ibge_censo: '4% do Censo IBGE 2022',
-    },
-    exames: [
-      { dominio: 'violencia', urgencia_rotulo: 'Emergencia', automacao_pct: 50, freq: 'tempo real', custo: 'R$ 6M/ano', gap: 'Registros oficiais chegam com 6–12h de atraso.' },
-      { dominio: 'saude', urgencia_rotulo: 'Emergencia', automacao_pct: 50, freq: 'semanal', custo: 'R$ 12M/ano', gap: 'Mortalidade infantil real é subnotificada.' },
-      { dominio: 'alimentacao', urgencia_rotulo: 'Emergencia', automacao_pct: 25, freq: 'mensal', custo: 'R$ 4M/ano', gap: 'A fome muda em dias; o censo leva anos.' },
-      { dominio: 'agua', urgencia_rotulo: 'Urgente', automacao_pct: 50, freq: 'semanal', custo: 'R$ 9M/ano', gap: 'Dezenas de milhões sem água tratada.' },
-      { dominio: 'ambiente', urgencia_rotulo: 'Urgente', automacao_pct: 100, freq: 'semanal', custo: 'R$ 2M/ano', gap: 'Sabe-se onde queima; não se sabe quem queima.' },
-      { dominio: 'educacao', urgencia_rotulo: 'Urgente', automacao_pct: 75, freq: 'semestral', custo: 'R$ 16M/ano', gap: 'O censo escolar diz 6 salas; a realidade, 3.' },
-      { dominio: 'indigena', urgencia_rotulo: 'Urgente', automacao_pct: 75, freq: 'semestral', custo: 'R$ 4M/ano', gap: 'O garimpo cresce sem ninguém ver.' },
-      { dominio: 'habitacao', urgencia_rotulo: 'Urgente', automacao_pct: 50, freq: 'trimestral', custo: 'R$ 5M/ano', gap: 'Deficit habitacional desatualizado há anos.' },
-      { dominio: 'transporte', urgencia_rotulo: 'Urgente', automacao_pct: 60, freq: 'mensal', custo: 'R$ 4M/ano', gap: 'A tarifa come quase um terço da renda.' },
-      { dominio: 'emprego', urgencia_rotulo: 'Urgente', automacao_pct: 90, freq: 'mensal', custo: 'R$ 3M/ano', gap: 'Informalidade e subocupação submedidas.' },
-      { dominio: 'energia', urgencia_rotulo: 'Automatizavel', automacao_pct: 100, freq: 'tempo real', custo: 'R$ 2M/ano', gap: 'Milhões sem luz; acesso rural invisível.' },
-      { dominio: 'comunicacao', urgencia_rotulo: 'Automatizavel', automacao_pct: 100, freq: 'semanal', custo: 'R$ 2M/ano', gap: 'Poucos grupos dominam a mídia nacional.' },
-      { dominio: 'seguranca_alimentar', urgencia_rotulo: 'Emergencia', automacao_pct: 40, freq: 'mensal', custo: 'R$ 5M/ano', gap: 'Soberania alimentar não é medida por estado.' },
-      { dominio: 'saneamento', urgencia_rotulo: 'Urgente', automacao_pct: 80, freq: 'mensal', custo: 'R$ 4M/ano', gap: 'Dezenas de milhões sem esgoto coletado.' },
-      { dominio: 'economia_orcamento', urgencia_rotulo: 'Automatizavel', automacao_pct: 100, freq: 'tempo real', custo: 'R$ 1M/ano', gap: 'Os juros consomem quase um quarto do orçamento.' },
-      { dominio: 'justica', urgencia_rotulo: 'Urgente', automacao_pct: 60, freq: 'mensal', custo: 'R$ 4M/ano', gap: 'Processos se arrastam por anos.' },
-      { dominio: 'direitos_mulher', urgencia_rotulo: 'Emergencia', automacao_pct: 40, freq: 'mensal', custo: 'R$ 3M/ano', gap: 'Um feminicídio a cada poucas horas.' },
-      { dominio: 'racismo_igualdade', urgencia_rotulo: 'Urgente', automacao_pct: 60, freq: 'trimestral', custo: 'R$ 2M/ano', gap: 'O abismo racial não é medido com frequência.' },
-    ],
-  },
-
-  orcamento_publico: {
-    resumo_geral: {
-      orcamento_uniao_2025: 'R$ 5,7 trilhões',
-      divida_publica_federal: 'R$ 9,8 trilhões (72% do PIB)',
-      gasto_juros_divida_2024: '~R$ 700 bilhões (segunda maior despesa)',
-    },
-    despesas_por_area_2025: [
-      { area: 'Previdência Social', valor: 'R$ 972 bilhões', pct_orcamento: '34%', veredito: 'NEUTRO' },
-      { area: 'Juros da Dívida', valor: '~R$ 700 bilhões', pct_orcamento: '24%', veredito: 'FALHOU' },
-      { area: 'Pessoal e Encargos Sociais', valor: 'R$ 391 bilhões', pct_orcamento: '13.7%', veredito: 'ALERTA' },
-      { area: 'Saúde', valor: 'R$ 245 bilhões', pct_orcamento: '8.5%', veredito: 'PARCIAL' },
-      { area: 'Educação', valor: 'R$ 226 bilhões', pct_orcamento: '7.9%', veredito: 'PARCIAL' },
-      { area: 'Bolsa Família', valor: 'R$ 167,2 bilhões', pct_orcamento: '5.8%', veredito: 'PARCIAL' },
-      { area: 'Defesa / Militar', valor: 'R$ 158 bilhões', pct_orcamento: '5.5%', veredito: 'ALERTA' },
-      { area: 'Assistência Social (exceto BF)', valor: 'R$ 40 bilhões', pct_orcamento: '1.4%', veredito: 'RESOLVE' },
-      { area: 'Segurança Pública', valor: 'R$ 20 bilhões', pct_orcamento: '0.7%', veredito: 'PARCIAL' },
-      { area: 'Ciência e Tecnologia', valor: 'R$ 12 bilhões', pct_orcamento: '0.4%', veredito: 'FALHOU' },
-      { area: 'Cultura', valor: 'R$ 3 bilhões', pct_orcamento: '0.1%', veredito: 'SUBFINANCIADO' },
-    ],
-  },
-
-  trabalho_renda: {
-    resumo: {
-      renda_mediana_mensal: 'R$ 1.600 (P50)',
-      renda_p10: 'R$ 300',
-      renda_p99: 'R$ 25.000',
-    },
-    distribuicao_renda_decil: [
-      { decil: 'P10 (10% mais pobre)', renda: 'R$ 300/mês', pct_populacao: '10% (fome)' },
-      { decil: 'P25', renda: 'R$ 600/mês' },
-      { decil: 'P50 (mediana)', renda: 'R$ 1.600/mês', pct_populacao: '50%' },
-      { decil: 'P75', renda: 'R$ 3.000/mês' },
-      { decil: 'P90', renda: 'R$ 6.500/mês' },
-      { decil: 'P99 (1% mais rico)', renda: 'R$ 25.000/mês', pct_populacao: '1% (detém 28,3% da renda)' },
-    ],
-    desigualdade_racial_renda: {
-      renda_negro_vs_branco: 'Negro ganha 56% do branco (gap 1,79x)',
-      pobres_pct_negro: '70% dos 10% mais pobres são negros',
-      ricos_pct_negro: '17% dos 1% mais ricos são negros',
-    },
-  },
-
-  violencia_detalhada: {
-    resumo: {
-      homicidios_2023: '45.747 (125/dia)',
-      taxa_homicidios_2023: '21,2 por 100 mil',
-    },
-    ranking_homicidios_por_estado_top10_2023: [
-      { rank: 1, estado: 'RR', taxa: '38,1' },
-      { rank: 2, estado: 'AP', taxa: '33,8' },
-      { rank: 3, estado: 'AM', taxa: '32,5' },
-      { rank: 4, estado: 'CE', taxa: '30,2' },
-      { rank: 5, estado: 'BA', taxa: '29,6' },
-      { rank: 6, estado: 'SE', taxa: '28,4' },
-      { rank: 7, estado: 'PE', taxa: '27,9' },
-      { rank: 8, estado: 'RN', taxa: '26,7' },
-      { rank: 9, estado: 'PB', taxa: '25,8' },
-      { rank: 10, estado: 'ES', taxa: '24,9' },
-    ],
-  },
-
-  comparativo_internacional: {
-    brasil_vs_ocde: [
-      { indicador: 'PIB per capita', brasil: 'US$ 9.000', ocde_media: 'US$ 45.000', gap: '5x menor' },
-      { indicador: 'Gini', brasil: '0.52', ocde_media: '0.31', gap: 'Desigualdade 1,7x pior' },
-      { indicador: 'Homicídios/100mil', brasil: '21,2', ocde_media: '2,5', gap: '8x mais violento' },
-      { indicador: 'Gasto saúde %PIB', brasil: '4%', ocde_media: '8%', gap: '-50%' },
-      { indicador: 'Gasto aluno/ano', brasil: 'R$ 5.500', ocde_media: 'R$ 30.000', gap: '5,5x menos' },
-      { indicador: 'Encarceramento/100mil', brasil: '350', ocde_media: '130', gap: '2,7x mais' },
-      { indicador: 'Mortalidade infantil/1k', brasil: '12,4', ocde_media: '3,5', gap: '3,5x mais' },
-    ],
-  },
-
-  mapa_estados: {
-    AC: { nome: 'Acre', status: 'CRITICO' }, AL: { nome: 'Alagoas', status: 'CRITICO' },
-    AM: { nome: 'Amazonas', status: 'CRITICO' }, BA: { nome: 'Bahia', status: 'CRITICO' },
-    CE: { nome: 'Ceará', status: 'ALERTA' }, DF: { nome: 'Distrito Federal', status: 'ALERTA' },
-    MA: { nome: 'Maranhão', status: 'CRITICO' }, MT: { nome: 'Mato Grosso', status: 'ALERTA' },
-    PA: { nome: 'Pará', status: 'CRITICO' }, RJ: { nome: 'Rio de Janeiro', status: 'CRITICO' },
-    RS: { nome: 'Rio Grande do Sul', status: 'ALERTA' }, SP: { nome: 'São Paulo', status: 'ALERTA' },
-    AP: { nome: 'Amapá', status: 'CRITICO' }, ES: { nome: 'Espírito Santo', status: 'OK' },
-    GO: { nome: 'Goiás', status: 'ALERTA' }, MG: { nome: 'Minas Gerais', status: 'ALERTA' },
-    MS: { nome: 'Mato Grosso do Sul', status: 'ALERTA' }, PB: { nome: 'Paraíba', status: 'ALERTA' },
-    PE: { nome: 'Pernambuco', status: 'CRITICO' }, PI: { nome: 'Piauí', status: 'CRITICO' },
-    PR: { nome: 'Paraná', status: 'OK' }, RN: { nome: 'Rio Grande do Norte', status: 'ALERTA' },
-    RO: { nome: 'Rondônia', status: 'CRITICO' }, RR: { nome: 'Roraima', status: 'CRITICO' },
-    SC: { nome: 'Santa Catarina', status: 'OK' }, SE: { nome: 'Sergipe', status: 'CRITICO' },
-    TO: { nome: 'Tocantins', status: 'CRITICO' },
-  },
-
-  compartilhamento_whatsapp: [
-    { cat: 'emergencia', num: '33 milhões', label: 'passam fome no país hoje', fonte: 'VIGISAN 2024', cor: 'num-vermelho' },
-    { cat: 'emergencia', num: '47.500', label: 'homicídios por ano', fonte: 'FBSP 2024', cor: 'num-vermelho' },
-    { cat: 'emergencia', num: '6.000', label: 'mortes causadas por polícia por ano', fonte: 'FBSP 2024', cor: 'num-vermelho' },
-    { cat: 'emergencia', num: '6 milhões', label: 'casos de dengue em 2024. Recorde.', fonte: 'Ministério da Saúde 2024', cor: 'num-vermelho' },
-    { cat: 'emergencia', num: '35 milhões', label: 'sem água potável', fonte: 'SNIS 2024', cor: 'num-vermelho' },
-    { cat: 'emergencia', num: '100 milhões', label: 'sem coleta de esgoto', fonte: 'SNIS 2024', cor: 'num-vermelho' },
-    { cat: 'rep', num: 'R$ 1.600', label: 'é a renda mediana mensal. A média (R$ 2.800) mente.', fonte: 'IBGE PNAD 2023', cor: 'num-roxo' },
-    { cat: 'rep', num: 'R$ 300', label: 'é a renda de quem está na base: os 10% mais pobres.', fonte: 'IBGE PNAD 2023', cor: 'num-roxo' },
-    { cat: 'rep', num: '28,3%', label: 'de toda a renda está nas mãos do 1% mais rico.', fonte: 'IBGE PNAD 2023', cor: 'num-roxo' },
-    { cat: 'urgente', num: '1,65 milhão', label: 'de crianças entre 5 e 17 anos trabalham', fonte: 'IBGE / PNUD 2024', cor: 'num-amarelo' },
-    { cat: 'urgente', num: '~900 mil', label: 'pessoas encarceradas. 70% são negras.', fonte: 'Depen / Sisdepen 2024', cor: 'num-amarelo' },
-    { cat: 'urgente', num: 'R$ 700 bi', label: 'por ano é o que custam os juros da dívida', fonte: 'Banco Central 2024', cor: 'num-amarelo' },
-    { cat: 'alerta', num: 'R$ 5.500', label: 'por aluno por ano — contra R$ 30 mil na média rica.', fonte: 'OCDE / INEP 2023', cor: 'num-verde' },
-    { cat: 'alerta', num: '4%', label: 'do PIB em saúde — metade do que gastam países ricos.', fonte: 'Ministério da Saúde / OCDE 2023', cor: 'num-verde' },
-    { cat: 'geral', num: '0.760', label: 'é o IDH — 89º no mundo, com PIB de oitava economia.', fonte: 'PNUD 2023', cor: 'num-roxo' },
-  ],
-
-  historia_timeline_expandida: {
-    eventos: [
-      { ano: '1500', evento: 'Chegada de Cabral', descricao: 'Início da extração de pau-brasil.', impacto_hoje: 'Modelo extrativo nasce aqui.' },
-      { ano: '1532', evento: 'Primeiro engenho de açúcar', descricao: 'São Vicente. Início da escravidão africana.', impacto_hoje: 'Monocultura + escravidão.' },
-      { ano: '1822', evento: 'Independência', descricao: 'A elite mantém as estruturas coloniais.', impacto_hoje: 'Sem reforma agrária.' },
-      { ano: '1888', evento: 'Abolição', descricao: 'Sem reparação nem acesso à terra.', impacto_hoje: 'Negros relegados à margem.' },
-      { ano: '1930', evento: 'Era Vargas', descricao: 'CLT, indústria, estado forte.', impacto_hoje: 'Direitos trabalhistas.' },
-      { ano: '1964', evento: 'Golpe militar', descricao: '21 anos de ditadura.', impacto_hoje: 'Desconfiança institucional.' },
-      { ano: '1988', evento: 'Constituição cidadã', descricao: 'SUS, direitos sociais.', impacto_hoje: 'Sistema de proteção subfinanciado.' },
-      { ano: '2016', evento: 'Teto de gastos', descricao: 'Congela despesas sociais por 20 anos.', impacto_hoje: 'Saúde e educação estranguladas.' },
-    ],
-  },
-
-  meta: {
-    fontes_principais: ['IBGE', 'INEP', 'DataSUS', 'FBSP', 'Atlas da Violência', 'SNIS', 'OCDE', 'PNUD', 'Banco Central', 'Ministério do Trabalho'],
-  },
-};
-
-/* ------------------------------------------------------------
-   5. Carregamento de dados
+   4. Carregamento de dados — única fonte: dados_api.json
+   Se o fetch falhar, retorna objeto vazio. Os renderizadores
+   usam optional chaining (?.) e || [] então nada quebra.
    ------------------------------------------------------------ */
 
 async function loadData() {
   try {
     const res = await fetch('dados_api.json', { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    // O JSON real começa com um cabeçalho de texto explicativo.
-    // O conteúdo válido inicia no primeiro '{'.
-    const start = text.indexOf('{');
-    if (start < 0) throw new Error('JSON não encontrado no arquivo');
-    const data = JSON.parse(text.slice(start));
-    console.log('[dados] JSON real carregado com sucesso.');
+    const data = await res.json();
+    console.log('[dados] JSON carregado com sucesso.');
     return data;
   } catch (err) {
-    // ─────────────────────────────────────────────────────────
-    // PONTO DE SUBSTITUIÇÃO
-    // Se o seu JSON tem outro nome/estrutura, ajuste o fetch acima
-    // e espelhe a nova forma em MOCK_DATA. Enquanto o fetch falhar,
-    // a página renderiza com o mock — nada quebra.
-    // ─────────────────────────────────────────────────────────
-    console.warn('[dados] fetch falhou, usando MOCK_DATA:', err.message);
-    return MOCK_DATA;
+    console.warn('[dados] fetch falhou:', err.message, '— retornando objeto vazio.');
+    return {};
   }
 }
 
@@ -391,17 +220,17 @@ function buildHero(data) {
   const fome = wa.find((f) => String(f.num).includes('33 milh')) || null;
 
   const d = {
-    divida: clean(data.orcamento_publico?.resumo_geral?.divida_publica_federal || 'R$ 9,8 trilhões'),
-    homicidios: clean(data.violencia_detalhada?.resumo?.homicidios_2023 || '45.747'),
-    renda: clean(data.trabalho_renda?.resumo?.renda_mediana_mensal || 'R$ 1.600 (P50)'),
+    divida: clean(data.orcamento_publico?.resumo_geral?.divida_publica_federal || ''),
+    homicidios: clean(data.violencia_detalhada?.resumo?.homicidios_2023 || ''),
+    renda: clean(data.trabalho_renda?.resumo?.renda_mediana_mensal || ''),
   };
 
   const stats = [
-    { target: toNum(d.divida), prefix: 'R$ ', suffix: ' tri', dec: 1, label: 'é a dívida pública federal', sub: clean(data.orcamento_publico?.resumo_geral?.gasto_juros_divida_2024 || 'Juros: segunda maior despesa') },
+    { target: toNum(d.divida), prefix: 'R$ ', suffix: ' tri', dec: 1, label: 'é a dívida pública federal', sub: clean(data.orcamento_publico?.resumo_geral?.gasto_juros_divida_2024 || '') },
     { target: toNum(d.homicidios), prefix: '', suffix: '', dec: 0, label: 'homicídios em um ano', sub: 'cerca de 125 por dia' },
-    { target: fome ? toNum(fome.num) : 33, prefix: '', suffix: ' milhões', dec: 0, label: 'pessoas passam fome hoje', sub: fome ? clean(fome.fonte) : 'VIGISAN 2024' },
+    { target: fome ? toNum(fome.num) : (toNum(wa.find((f) => String(f.num).match(/33/))?.num) || 0), prefix: '', suffix: ' milhões', dec: 0, label: 'pessoas passam fome hoje', sub: fome ? clean(fome.fonte) : '' },
     { target: toNum(d.renda), prefix: 'R$ ', suffix: '', dec: 0, label: 'é a renda mediana mensal', sub: 'metade da população vive com isso ou menos' },
-  ];
+  ].filter((s) => s.target > 0);
 
   stats.forEach((s, i) => {
     const el = document.createElement('div');
@@ -1296,9 +1125,47 @@ function renderSources(data) {
     .text((f) => clean(f));
 }
 
-/* ------------------------------------------------------------
-   16. Init
-   ------------------------------------------------------------ */
+/* ------------------------------------------------------------ */
+/* 17. Chapter headers — popula do JSON (capitulos)              */
+/* ------------------------------------------------------------ */
+
+function renderChapterHeaders(data) {
+  var caps = data.capitulos;
+  if (!caps) return;
+
+  for (var chId in caps) {
+    if (!Object.prototype.hasOwnProperty.call(caps, chId)) continue;
+    var c = caps[chId];
+    var section = document.getElementById(chId);
+    if (!section) continue;
+
+    var noEl = section.querySelector('.chapter-no');
+    var kickEl = section.querySelector('.chapter-head .kicker');
+    var titleEl = section.querySelector('.chapter-head h2');
+    var ledeEl = section.querySelector('.chapter-head .chapter-lede');
+
+    if (noEl && c.numero) noEl.textContent = c.numero;
+    if (kickEl && c.kicker) kickEl.textContent = c.kicker;
+    if (titleEl && c.titulo) titleEl.textContent = c.titulo;
+    if (ledeEl && c.lede) ledeEl.textContent = c.lede;
+  }
+
+  // Masthead (se existir no manifesto.hero)
+  var hero = data.manifesto && data.manifesto.hero;
+  if (!hero) return;
+
+  var mastKicker = document.querySelector('.masthead-kicker');
+  var mastTitle = document.querySelector('.masthead-title');
+  var mastLede = document.querySelector('.lede');
+
+  if (mastKicker && hero.masthead_kicker) mastKicker.textContent = hero.masthead_kicker;
+  if (mastTitle && hero.masthead_titulo) mastTitle.innerHTML = hero.masthead_titulo;
+  if (mastLede && hero.masthead_lede) mastLede.textContent = hero.masthead_lede;
+}
+
+/* ------------------------------------------------------------ */
+/* 16. Init                                                      */
+/* ------------------------------------------------------------ */
 
 function renderRaioXLegend(data) {
   const el = $('#raio-legend');
@@ -1319,6 +1186,9 @@ function renderRaioXLegend(data) {
 async function init() {
   const data = await loadData();
 
+  // Popula headers de capítulos e masthead a partir do JSON
+  renderChapterHeaders(data);
+
   buildHero(data);
   renderRaioXLegend(data);
   makeChart('#chart-raiox', (ctx) => renderRaioX(ctx, data));
@@ -1332,6 +1202,16 @@ async function init() {
   renderTimeline(data);
   renderSources(data);
   renderStateStrip(data);
+
+  // Capítulos dinâmicos: as 34 seções orfãs do JSON
+  if (window.initDataSections) {
+    window.initDataSections(data);
+  }
+
+  // Dossiês: renderiza os 525 políticos do JSON
+  if (window.renderDossies) {
+    window.renderDossies(data);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);

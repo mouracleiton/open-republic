@@ -757,6 +757,16 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     init();
   }
 
+  // Re-renderiza quando os carrosséis chegam do JSON (carregamento assíncrono)
+  document.addEventListener('carrosseis-loaded', function () {
+    if (typeof CARROSSEIS !== 'undefined' && window.CARROSSEIS) {
+      // Atualiza a referência local
+      // (carousel-site.js lê window.CARROSSEIS no init; se já passou, re-renderiza)
+      renderGrids();
+      console.log('[carousel-site] Re-renderizado com dados do JSON');
+    }
+  });
+
   window.CAROUSEL_SITE = {
     buildZip,
     crc32,
