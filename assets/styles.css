@@ -963,10 +963,6 @@ code {
   color: var(--ink-soft);
 }
 
-.file-row { display: flex; align-items: center; gap: 8px; }
-
-.file-row .btn { padding: 9px 14px; font-size: 12px; white-space: nowrap; }
-
 .field-actions .btn { width: 100%; }
 
 .carr-grid {

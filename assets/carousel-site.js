@@ -31,8 +31,6 @@
 
   const state = {
     handle: ls.get('handle', '@seuperfil'),
-    logo: null,          // Image
-    logoData: ls.get('logo', ''),
     format: ls.get('format', 'square'),
     colors: {},          // id -> cor customizada
   };
@@ -237,19 +235,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
   const FONT_SANS = 'Inter, system-ui, sans-serif';
 
   function drawLogo(ctx, x, y, size, bg) {
-    if (state.logo) {
-      const s = Math.max(size / state.logo.width, size / state.logo.height);
-      const dw = state.logo.width * s;
-      const dh = state.logo.height * s;
-      roundRect(ctx, x, y, size, size, size * 0.22);
-      ctx.save();
-      ctx.clip();
-      ctx.drawImage(state.logo, x - (dw - size) / 2, y - (dh - size) / 2, dw, dh);
-      ctx.restore();
-    } else {
-      // logo padrão: wordmark da Unidade Popular (adaptativo ao fundo)
-      drawUpLogo(ctx, x, y, size * (1080 / 592.1), size, isLight(bg || '#000') ? UP_RED : '#fff');
-    }
+    // wordmark da Unidade Popular (adaptativo ao fundo)
+    drawUpLogo(ctx, x, y, size * (1080 / 592.1), size, isLight(bg || '#000') ? UP_RED : '#fff');
   }
 
   function drawHandleFooter(ctx, W, H) {
@@ -640,12 +627,9 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
 
   function restoreDefaults() {
     state.handle = '@seuperfil';
-    state.logo = null;
-    state.logoData = '';
     state.format = 'square';
     state.colors = {};
     ls.set('handle', state.handle);
-    ls.set('logo', '');
     ls.set('format', 'square');
     ls.set('colors', '');
     const handle = $('#carr-handle');
@@ -666,37 +650,6 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
       });
     }
 
-    const logo = $('#carr-logo');
-    if (logo) {
-      logo.addEventListener('change', () => {
-        const file = logo.files && logo.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            state.logo = img;
-            state.logoData = String(e.target.result);
-            ls.set('logo', state.logoData);
-            renderGallery();
-          };
-          img.src = String(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    const logoClear = $('#carr-logo-clear');
-    if (logoClear) {
-      logoClear.addEventListener('click', () => {
-        state.logo = null;
-        state.logoData = '';
-        ls.set('logo', '');
-        if (logo) logo.value = '';
-        renderGallery();
-      });
-    }
-
     const format = $('#carr-format');
     if (format) {
       format.value = state.format;
@@ -711,16 +664,6 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     if (reset) reset.addEventListener('click', restoreDefaults);
   }
 
-  function restoreLogo() {
-    if (!state.logoData) return;
-    const img = new Image();
-    img.onload = () => {
-      state.logo = img;
-      renderGallery();
-    };
-    img.src = state.logoData;
-  }
-
   /* -------------------- Init -------------------- */
 
   function init() {
@@ -732,7 +675,6 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     if (!CARROSSEIS.length) return;
     bindPanel();
     renderGallery();
-    restoreLogo();
   }
 
   if (document.readyState === 'loading') {
