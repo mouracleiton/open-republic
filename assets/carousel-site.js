@@ -625,9 +625,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
           chips.push(shortHeadline(f));
         });
       });
-      if (slides.length === 1) {
-        slides.push({ tipo: 'content', pill: 'DOSSIÊ', titulo: 'SEM FATOS', texto: 'Dados não disponíveis no banco de dados atual.' });
-      }
+      // Pula políticos sem nenhum fato público — o carrossel só mostra quem tem dados.
+      if (slides.length === 1) return null;
       slides.push({ tipo: 'cta' });
       return {
         id: dossierSlug(name),
@@ -636,7 +635,7 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
         dados_chave: chips.slice(0, 3).join(' · '),
         slides,
       };
-    });
+    }).filter(Boolean);
   }
 
   /* -------------------- Galeria -------------------- */
@@ -694,6 +693,8 @@ const UP_LOGO_PATHS = ["M24.7,35.3c33.2,0,65.6,0,98.6,0c0,1.8,0,3.3,0,4.9c0.1,23
     renderGallery('#carr-grid', CARROSSEIS);
     DOSSIER_CARS = buildDossierCars();
     renderGallery('#doss-grid', DOSSIER_CARS);
+    const cap = $('#doss-caption');
+    if (cap) cap.textContent = `${DOSSIER_CARS.length} carrosséis de dossiê · um por político com fatos públicos oficiais citados, sem inventar · PNG 1080px por slide, baixados em um ZIP por postagem.`;
   }
 
   /* -------------------- Painel de customização -------------------- */
