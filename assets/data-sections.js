@@ -18,7 +18,7 @@
       no: 'A',
       kicker: 'Programa e método',
       title: 'O sistema OpenRepublic',
-      lede: 'Manifesto, critérios para candidatos, frente comunista unida e propostas executáveis com Gate WO.',
+      lede: 'O programa completo: o manifesto, o que se exige de um candidato, a frente comunista unida e propostas prontas para executar.',
       sections: ['manifesto', 'requisitos_politico', 'frente_comunista_unida', 'propostas_executaveis', 'procura_se_candidatos'],
     },
     {
@@ -33,7 +33,7 @@
       no: 'C',
       kicker: 'Políticos sob medição',
       title: 'Rankings e dossiês',
-      lede: 'Quem passa no corte 4.0, quem está em análise, quem está bloqueado. Dinheiro público, patrimônio e desvios.',
+      lede: 'Quem passa no corte, quem está em análise, quem está bloqueado. Quanto dinheiro público cada um mexe, quanto tem de patrimônio e onde há desvio.',
       sections: ['rankings_politicos', 'ranking_dinheiro_publico', 'dados_eleitorais'],
       special: 'rankings',
     },
@@ -41,58 +41,65 @@
       no: 'D',
       kicker: 'Vidas em risco',
       title: 'Saúde e educação',
-      lede: 'SUS subfinanciado, PISA 377, analfabetismo funcional. Rankings por estado, desigualdade racial, indicadores críticos.',
+      lede: 'Hospital sem dinheiro, aluno sem aprender, 1 em cada 4 adultos que não entende o que lê. Estado por estado e por cor, para você ver a diferença.',
       sections: ['saude_detalhada', 'educacao_detalhada'],
     },
     {
       no: 'E',
       kicker: 'Direitos e dignidade',
       title: 'Direitos humanos e moradia',
-      lede: 'Feminicídio, violência LGBTQIA+, racismo estrutural, déficit habitacional, saneamento e favelas.',
+      lede: 'Mulher morta por ser mulher, violência contra LGBTQIA+, racismo no dia a dia, falta de casa, falta de esgoto e favela.',
       sections: ['direitos_humanos', 'moradia_cidades'],
     },
     {
       no: 'F',
       kicker: 'Terra, energia e ambiente',
       title: 'Recursos e território',
-      lede: 'Concentração fundiária, matriz elétrica, desmatamento, agrotóxicos, pré-sal e povos originários.',
+      lede: 'Poucas famílias com quase toda a terra, floresta queimada, veneno na comida, pré-sal e povos que o Brasil esquece.',
       sections: ['ambiente_detalhado', 'reforma_agraria', 'energia_detalhada', 'povos_originarios'],
     },
     {
       no: 'G',
       kicker: 'Sistema e poder',
       title: 'Justiça, drogas e militarismo',
-      lede: 'Morosidade, encarceramento seletivo, redução de danos, gastos militares e polícia que mata.',
+      lede: 'Justiça que nunca chega, prisão cheia de pobre e negro, droga tratada como doença, dinheiro em arma e polícia que mata.',
       sections: ['sistema_justica', 'drogas_reducao_danos', 'militarismo'],
     },
     {
       no: 'H',
       kicker: 'Dinheiro e poder',
       title: 'Impostos, transporte e comunicação',
-      lede: 'Carga tributária regressiva, tarifa de ônibus que rouba o salário, concentração de mídia e exclusão digital.',
+      lede: 'Pobre paga mais imposto que rico, a tarifa de ônibus come o seu salário, poucos grupos mandam na informação e meio país segue sem internet.',
       sections: ['tributacao', 'transporte_mobilidade', 'midia_comunicacao'],
     },
     {
       no: 'I',
       kicker: 'Quem manda no Congresso',
       title: 'Bancadas, ciência e cultura',
-      lede: 'Bancada ruralista, evangélica e da bala. Ciência cortada. Cultura no osso. Movimentos sociais.',
+      lede: 'Quem manda no Congresso: a bancada do campo, a bancada da fé e a bancada da bala. Ciência sem verba, cultura no osso — e quem resiste.',
       sections: ['bancadas_parlamentares', 'ciencia_tecnologia', 'cultura', 'movimentos_sociais'],
     },
     {
       no: 'J',
       kicker: 'Brasil no mundo',
       title: 'Imigrantes e história',
-      lede: 'Refugiados venezuelanos, operação acolhida. 524 anos de Brasil em eras: extrativo, escravidão, ditadura.',
+      lede: 'Quem chega fugindo de guerra, os 524 anos de Brasil em eras — exploração, escravidão, ditadura — e o que sobrou de cada uma.',
       sections: ['imigrantes_refugiados', 'historia_brasil_524_anos'],
     },
     {
       no: 'K',
       kicker: 'Ferramentas de ação',
       title: 'Frases, hashtags e manchetes',
-      lede: 'Munição pronta para debate, redes sociais e imprensa. Hashtags oficiais do movimento. Carrosséis para Instagram.',
+      lede: 'Frases prontas para debate, hashtags, manchetes e carrosséis. Pega, personaliza e espalha.',
       sections: ['dados_para_acao', 'carrosseis_instagram'],
       special: 'acao',
+    },
+    {
+      no: 'L',
+      kicker: 'Estratégia de poder',
+      title: 'Mapa de contrapoder',
+      lede: 'Sem a presidência, onde o contrapoder dá retorno? Não é chegando em segundo — é travando Congresso, governadorias estratégicas e narrativa ao mesmo tempo. O mapa de onde construir poder efetivo.',
+      sections: ['mapa_contrapoder'],
     },
   ];
 
@@ -129,6 +136,7 @@
     imigrantes_refugiados: 'Imigrantes e refugiados',
     historia_brasil_524_anos: '524 anos de Brasil',
     dados_para_acao: 'Dados para ação',
+    mapa_contrapoder: 'Mapa de contrapoder',
   };
 
   // ============================================================
@@ -151,6 +159,325 @@
       .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   }
 
+  // Rótulos simples (linguagem do dia a dia) para as chaves técnicas das
+  // grades de resumo. Se a chave não estiver aqui, usa humanize().
+  var STAT_LABELS = {
+    gasto_pct_pib: 'Gasto com saúde (do PIB)',
+    gasto_per_capita_anual: 'Gasto com saúde por pessoa, por ano',
+    medicos_por_mil_habitantes: 'Médicos por mil habitantes',
+    enfermeiros_por_mil: 'Enfermeiros por mil habitantes',
+    leitos_sus_por_mil: 'Leitos do SUS por mil habitantes',
+    cobertura_atencao_basica: 'Pessoas com posto de saúde perto',
+    ideb_brasil_2023: 'Nota do ensino básico (Ideb 2023)',
+    meta_ideb_2023: 'Meta para o Ideb 2023',
+    pisa_brasil: 'Nota no teste internacional (PISA)',
+    gasto_por_aluno_ano: 'Gasto por aluno, por ano',
+    analfabetismo_absoluto: 'Adultos que não sabem ler nem escrever',
+    analfabetismo_funcional: 'Adultos que não entendem o que leem',
+    criancas_fora_escola: 'Crianças fora da escola',
+    evasao_ensino_medio: 'Jovens que abandonam o ensino médio',
+    homicidios_2023: 'Homicídios em 2023',
+    taxa_homicidios_2023: 'Taxa de homicídios (por 100 mil)',
+    taxa_2017_pico: 'Pior momento já medido (2017)',
+    feminicidio_2023: 'Mulheres mortas por serem mulheres',
+    morte_por_policia_2023: 'Mortes causadas pela polícia',
+    morte_de_policiais_2023: 'Policiais mortos',
+    estupro_2023: 'Estupros registrados (2023)',
+    encarceramento: 'Pessoas presas',
+    desemprego_2025: 'Desemprego (2025)',
+    informalidade: 'Trabalhadores sem carteira e sem direitos',
+    renda_mediana_mensal: 'Renda do meio do país (mediana)',
+    renda_p10: 'Renda dos 10% mais pobres',
+    renda_p99: 'Renda do 1% mais rico',
+    trabalho_infantil: 'Crianças em trabalho infantil',
+    trabalho_escravo_estimado: 'Pessoas em trabalho escravo (estimativa)',
+    trabalho_escravo_resgatado_2023: 'Resgatadas em 2023',
+    desmatamento_amazonia_2023: 'Desmatamento na Amazônia (2023)',
+    desmatamento_amazonia_2024_tendencia: 'Desmatamento na Amazônia (tendência 2024)',
+    desmatamento_cerrado_2023: 'Desmatamento no Cerrado (2023)',
+    desmatamento_pantanal: 'Desmatamento no Pantanal',
+    queimadas_focos_2024: 'Focos de queimada (2024)',
+    agrotoxicos_uso_2023: 'Veneno na lavoura, por ano',
+    brasil_pct_agrotoxicos_mundial: 'Brasil no consumo mundial de veneno',
+    deficit_habitacional: 'Falta de moradia (déficit)',
+    sem_teto: 'Pessoas sem casa',
+    favelas_habitantes: 'Moradores de favela',
+    sem_agua_tratada: 'Sem água tratada em casa',
+    sem_esgoto: 'Sem coleta de esgoto',
+    sem_coleta_lixo: 'Sem coleta de lixo',
+    aluguel_pct_renda_periferia: 'Da renda da periferia gasta com aluguel',
+    idh_brasil: 'Qualidade de vida (IDH)',
+    pib_mundial_rank: 'Economia no ranking mundial',
+    gini_brasil: 'Desigualdade (Gini)',
+    percepcao_corrupcao_rank: 'Posição no ranking de corrupção',
+    violencia_rank: 'Posição no ranking de violência',
+    pisa_rank: 'Posição na educação (PISA)',
+    matriz_energetica_renovavel_pct: 'Energia renovável (toda a matriz)',
+    matriz_eletrica_renovavel_pct: 'Energia elétrica renovável',
+    hidreletrica_pct_geracao: 'Das hidrelétricas',
+    eolica_pct: 'Dos ventos (eólica)',
+    solar_pct: 'Do sol (solar)',
+    gas_carvao_termica_pct: 'De gás e carvão',
+    nuclear_pct: 'Nuclear',
+    sem_acesso_energia_eletrica: 'Pessoas sem luz em casa',
+    pre_sal_producao_barris_dia: 'Barris de petróleo do pré-sal por dia',
+    concentracao_fundiaria_gini: 'Concentração de terra (Gini)',
+    latifundios_1000_plus_hectares_pct_fazendas: 'Fazendas gigantes (mais de 1.000 hectares)',
+    latifundios_controlam_terra_pct: 'Da terra nas mãos dessas fazendas',
+    minifundios_pct_fazendas: 'Pequenas propriedades',
+    minifundios_controlam_terra_pct: 'Da terra nas mãos das pequenas',
+    assentamentos_incra: 'Assentamentos criados',
+    familias_assentadas: 'Famílias assentadas',
+    conflitos_campo_2023: 'Conflitos no campo (2023)',
+    assassinatos_campo_2023: 'Assassinatos no campo (2023)',
+    processos_em_andamento: 'Processos na Justiça',
+    taxa_litigiosidade: 'Ações por 100 mil habitantes',
+    tempo_medio_processo: 'Tempo médio de um processo',
+    presos_provisorios_pct: 'Presos sem julgamento',
+    populacao_prisional: 'População presa',
+    presos_sem_defensoria: 'Presos sem defensor',
+    usuarios_cocaina_estimado: 'Usuários de cocaína (estimativa)',
+    usuarios_crack_estimado: 'Usuários de crack',
+    mortalidade_usuarios_crack_5anos: 'Morte entre usuários de crack em 5 anos',
+    estupro_relacao_drogas: 'Estupros ligados a drogas',
+    prisoes_drogas_pct_total: 'Prisões por tráfico de drogas',
+    orcamento_defesa_2025: 'Orçamento da Defesa (2025)',
+    efetivo_total: 'Militares no total',
+    ranking_mundial_gasto: 'Posição mundial em gasto militar',
+    gasto_militar_pct_pib: 'Do PIB em gasto militar',
+    pensions_militares_anual: 'Pensões militares por ano',
+    militares_na_politica_pos_1964: 'Militares na política desde 1964',
+    refugiados_reconhecidos: 'Refugiados reconhecidos',
+    solicitantes_refugio: 'Pedidos de refúgio',
+    venezuelanos_acolhidos: 'Venezuelanos acolhidos',
+    venezuelanos_interiorizados: 'Venezuelanos levados a outras cidades',
+    haitianos: 'Haitianos',
+    carga_tributaria_pct_pib: 'Impostos sobre tudo que o país produz',
+    ranking_mundial_carga: 'Posição mundial em carga de imposto',
+    arrecadacao_total_2024: 'Arrecadação total (2024)',
+    sistema: 'Sistema tributário',
+    impostos_consumo_pct: 'Impostos sobre o que se compra',
+    impostos_renda_pct: 'Impostos sobre o que se ganha',
+    impostos_patrimonio_pct: 'Impostos sobre o que se tem',
+    tarifa_media_onibus_capitais: 'Tarifa média de ônibus nas capitais',
+    tarifa_pct_renda_media_capitais: 'Da renda gasta com a tarifa',
+    extensao_metro_km: 'Extensão de metrô',
+    cidades_com_metro: 'Cidades com metrô',
+    frota_veiculos_milhoes: 'Frota de veículos',
+    mortes_transito_ano: 'Mortes no trânsito por ano',
+    investimento_necessario_mobilidade_2042: 'O que falta investir em mobilidade até 2042',
+    congresso_total_parlamentares: 'Parlamentares no total',
+    bancada_ruralista: 'Bancada do campo (ruralista)',
+    bancada_evangelica: 'Bancada evangélica',
+    bancada_da_bala: 'Bancada da bala (segurança)',
+    sobreposicao: 'Parlamentares em mais de uma bancada',
+    orcamento_mcti_2025: 'Orçamento da ciência (2025)',
+    orcamento_cnpq_bolsas_2021: 'Bolsas do CNPq (2021)',
+    bolsas_aprovadas_vs_pagas_2021: 'Bolsas aprovadas que foram pagas (2021)',
+    orcamento_capes_cortes_2026: 'Corte na Capes (2026)',
+    fuga_cerebros: 'Cientistas que vão embora',
+    investimento_pct_pib: 'Do PIB investido em ciência',
+    orcamento_ministerio_cultura_2025: 'Orçamento do Ministério da Cultura (2025)',
+    lei_rouanet_2024: 'Dinheiro da Lei Rouanet (2024)',
+    lei_rouanet_2025_estimado: 'Lei Rouanet (estimativa 2025)',
+    pct_renuncia_fiscal_cultura: 'Do orçamento aberto mão para a cultura',
+    pib_cultural_pct: 'Da economia vem da cultura',
+    empregos_cultura_milhoes: 'Empregos na cultura',
+    populacao_indigena_2022: 'Indígenas no Brasil (2022)',
+    '305_etnias': 'Etnias',
+    '274_linguas': 'Línguas',
+    terras_indigenas_demarcadas: 'Terras indígenas demarcadas',
+    terras_em_processo_demarcacao: 'Terras em processo de demarcação',
+    criancas_yanomami_mortas_2_anos: 'Crianças Yanomami mortas em 2 anos',
+    demarcacoes_2023_2024: 'Demarcações feitas em 2023-2024',
+    total_avaliados: 'Políticos avaliados',
+    aprovados_score_4plus: 'Aprovados (nota 4,0 ou mais)',
+    em_analise: 'Em análise',
+    bloqueados_wo: 'Bloqueados (sem proposta)',
+    taxa_aprovacao: 'Taxa de aprovação',
+    congresso_score_medio: 'Nota média do Congresso',
+    principio: 'O princípio',
+    taxa: 'Taxa',
+    estado: 'Estado',
+    ranking: 'Posição',
+    populacao: 'População',
+    p50: 'Renda do meio do estado',
+    ideb: 'Nota do ensino',
+    nota: 'Nota',
+    variacao: 'Mudança',
+    desmatamento_km2: 'Desmatamento (km²)',
+    pct_negro: 'Negros entre as vítimas',
+    total: 'Total',
+    nome: 'Nome',
+    partido: 'Partido',
+    cargo: 'Cargo',
+    ano: 'Ano',
+    cidade: 'Cidade',
+    regiao: 'Região',
+    sexo: 'Sexo',
+    raca: 'Raça',
+    idade: 'Idade',
+    poder: 'Poder',
+    custo_disputa: 'Custo de disputa',
+    atual_situacao: 'Situação atual',
+    valor_estrategico: 'Valor estratégico',
+    instrumento: 'Instrumento',
+    frente: 'Frente',
+    exemplo_projeto: 'Exemplo / referência',
+    estrategia: 'Estratégia',
+    tamanho_necessario: 'Tamanho necessário',
+    senadores_necessarios: 'Senadores necessários',
+    o_que_trava: 'O que trava',
+    custo_estimado: 'Custo estimado',
+    retorno: 'Retorno',
+    cargo: 'Cargo',
+    poder_constitucional: 'Poder constitucional',
+    poder_real: 'Poder real',
+    custo_conquistar: 'Custo de conquistar',
+    mandato: 'Mandato',
+    base_eleitoral: 'Base eleitoral',
+    dificuldade: 'Dificuldade',
+    papel_no_contrapoder: 'Papel no contrapoder',
+    posicao: 'Posição',
+    ator: 'Ator',
+    por_que: 'Por quê',
+    tese: 'A tese',
+    meta_congresso: 'Meta no Congresso',
+    meta_governadorias: 'Meta nas governadorias',
+    meta_narrativa: 'Meta na narrativa',
+    custo_presidencial_vs_congresso: 'Presidência vs. Congresso (custo)',
+  };
+
+  // Títulos simples para os sub-blocos das seções (chaves aninhadas).
+  var SUB_LABELS = {
+    indicadores_criticos: 'O que está crítico',
+    desigualdade_racial_saude: 'Cor e saúde: quem morre mais',
+    ranking_mortalidade_infantil_por_estado_top5: 'Onde mais bebês morrem (5 estados)',
+    ranking_ideb_anos_finais_2023_top5: 'Melhores notas do ensino (Ideb, 5 estados)',
+    ranking_ideb_anos_finais_2023_bottom5: 'Piores notas do ensino (Ideb, 5 estados)',
+    desigualdade_racial_educacao: 'Cor e escola: quem fica para trás',
+    perfil_das_vitimas: 'Quem são as vítimas',
+    encarceramento: 'Quem está preso',
+    racismo_estrutural_violencia: 'A violência e o racismo',
+    distribuicao_renda_decil: 'A escada da renda, degrau por degrau',
+    desigualdade_racial_renda: 'Cor e renda',
+    trabalho_infantil: 'Crianças trabalhando',
+    trabalho_escravo: 'Trabalho escravo',
+    ranking_desemprego_por_estado: 'Desemprego por estado',
+    desmatamento_por_bioma: 'Desmatamento por bioma',
+    agrotoxicos: 'Veneno na lavoura',
+    ranking_desmatamento_amazonia_por_estado: 'Desmatamento da Amazônia por estado',
+    violencia_contra_mulher: 'Violência contra a mulher',
+    violencia_lgbtqia: 'Violência contra LGBTQIA+',
+    racismo_estrutural: 'O racismo no dia a dia',
+    povos_tradicionais: 'Povos tradicionais',
+    pessoas_com_deficiencia: 'Pessoas com deficiência',
+    populacao_rua: 'Gente morando na rua',
+    saneamento: 'Água e esgoto',
+    favelas: 'Favelas',
+    ranking_deficit_habitacional_por_estado: 'Falta de casa por estado',
+    concentracao: 'Poucos grupos mandam na mídia',
+    exclusao_digital: 'Quem fica sem internet',
+    radio_comunitaria: 'Rádio comunitária',
+    desinformacao: 'Mentira espalhada',
+    brasil_vs_ocde: 'Brasil contra os países ricos',
+    brasil_vs_america_latina: 'Brasil contra a América Latina',
+    brasil_vs_pares_emergentes: 'Brasil contra outros países emergentes',
+    matriz_eletrica_2024: 'De onde vem a luz (2024)',
+    petroleo_pre_sal: 'O pré-sal',
+    acesso_energia: 'Quem fica sem luz',
+    transicao_energetica: 'Trocar o petróleo por energia limpa',
+    concentracao_fundiaria: 'Poucos donos de muita terra',
+    reforma_agraria_historico: 'Reforma agrária na história',
+    violencia_campo: 'Violência no campo',
+    agricultura_familiar: 'Quem alimenta o Brasil',
+    morosidade: 'Justiça que demora',
+    encarceramento_seletivo: 'Prisão que escolhe',
+    impunidade_corrupcao: 'Corrupção sem punição',
+    seletividade_racial: 'A cor da cadeia',
+    crack_no_brasil: 'O crack no Brasil',
+    reducao_de_danos: 'Tratar em vez de prender',
+    guerra_as_drogas: 'A guerra às drogas',
+    gastos_militares: 'Gasto com militares',
+    militares_na_politica: 'Militares na política',
+    policia_militar: 'A polícia que mata',
+    operacao_acolhida: 'Operação Acolhida',
+    refugiados_por_origem: 'Refugiados por país de origem',
+    xenofobia_e_racismo: 'Medo do diferente',
+    regressividade: 'Quem mais paga imposto',
+    reforma_tributaria_2024: 'A reforma tributária (2024)',
+    ranking_carga_tributaria_internacional: 'Imposto pelo mundo',
+    tarifa_vs_renda: 'A tarifa contra o salário',
+    metros_do_brasil: 'Os metrôs do Brasil',
+    mortalidade_transito: 'Morte no trânsito',
+    tarifa_zero: 'Tarifa zero',
+    bancada_ruralista: 'Bancada do campo',
+    bancada_evangelica: 'Bancada evangélica',
+    bancada_da_bala: 'Bancada da bala',
+    parlamento_x_populacao: 'Congresso contra a população',
+    cortes_orcamentarios: 'Cortes no orçamento',
+    fuga_de_cérebros: 'Cientistas que vão embora',
+    comparativo_internacional_ciencia: 'Ciência pelo mundo',
+    inovacao_e_tecnologia: 'Inovação e tecnologia',
+    leis_de_incentivo: 'Lei Rouanet e incentivos',
+    desmonte_cultural_2019_2022: 'O desmonte da cultura (2019-2022)',
+    concentracao_regional_cultural: 'Cultura concentrada em poucos estados',
+    cultura_popular_tradicional: 'A cultura do povo',
+    maiores_povos: 'Os maiores povos',
+    crise_yanomami: 'A crise Yanomami',
+    demarcacao_de_terras: 'Demarcação de terras',
+    violencia_contra_indigenas: 'Violência contra indígenas',
+    agentes_saude_indigena: 'Saúde indígena',
+    movimentos_de_destaque: 'Movimentos que fazem a diferença',
+    pilares: 'Os pilares',
+    requisitos: 'Requisitos',
+    coalizao: 'A coalizão',
+    stats: 'Números',
+    nos_de_poder: 'Os nós de poder',
+    alvos_congresso: 'Alvos no Congresso',
+    alvos_governadores: 'Alvos nas governadorias',
+    alvos_narrativa: 'Frente de narrativa',
+    hierarquia_poder: 'Hierarquia do poder',
+    presidencia: 'Presidência',
+    congresso: 'Congresso',
+    governadores: 'Governadores',
+    judiciario: 'Judiciário',
+    sociedade_civil: 'Sociedade civil',
+    cargo: 'Cargo',
+    poder_constitucional: 'Poder constitucional',
+    poder_real: 'Poder real',
+    custo_conquistar: 'Custo de conquistar',
+    mandato: 'Mandato',
+    base_eleitoral: 'Base eleitoral',
+    dificuldade: 'Dificuldade',
+    papel_no_contrapoder: 'Papel no contrapoder',
+    estrategia: 'Estratégia',
+    tamanho_necessario: 'Tamanho necessário',
+    senadores_necessarios: 'Senadores necessários',
+    o_que_trava: 'O que trava',
+    custo_estimado: 'Custo estimado',
+    retorno: 'Retorno',
+    valor_estrategico: 'Valor estratégico',
+    custo_disputa: 'Custo de disputa',
+    atual_situacao: 'Situação atual',
+    instrumento: 'Instrumento',
+    meta: 'Meta',
+    exemplo_projeto: 'Exemplo / referência',
+    frente: 'Frente',
+    ranking_poder_de_fato: 'Ranking de poder de fato',
+    posicao: 'Posição',
+    ator: 'Ator',
+    por_que: 'Por quê',
+    tese: 'A tese',
+    meta_congresso: 'Meta no Congresso',
+    meta_governadorias: 'Meta nas governadorias',
+    meta_narrativa: 'Meta na narrativa',
+    custo_presidencial_vs_congresso: 'Presidência vs. Congresso (custo)',
+  };
+
+  // Chaves que não são números e não devem virar cartão na grade.
+  var STAT_SKIP = { fonte: true, fontes: true, veredito: true, veredito_openrepublic: true };
+
   // Formata valor para exibição (string, número, etc.)
   function fmtVal(val) {
     if (val === null || val === undefined) return '<span class="ds-na">—</span>';
@@ -172,13 +499,13 @@
     var cards = entries
       .filter(function (e) {
         var v = e[1];
-        return !(v !== null && typeof v === 'object');
+        return !(v !== null && typeof v === 'object') && !STAT_SKIP[e[0]];
       })
       .map(function (e) {
         var k = e[0], v = e[1];
         return (
           '<div class="ds-stat">' +
-          '<div class="ds-stat-label">' + humanize(k) + '</div>' +
+          '<div class="ds-stat-label">' + (STAT_LABELS[k] || humanize(k)) + '</div>' +
           '<div class="ds-stat-val">' + fmtVal(v) + '</div>' +
           '</div>'
         );
@@ -196,7 +523,7 @@
     var keys = Object.keys(list[0]);
 
     var head = keys
-      .map(function (k) { return '<th>' + humanize(k) + '</th>'; })
+      .map(function (k) { return '<th>' + (STAT_LABELS[k] || humanize(k)) + '</th>'; })
       .join('');
 
     var body = rows
@@ -225,7 +552,7 @@
         var subGrid = renderStatGrid(val);
         if (subGrid) {
           html += '<div class="ds-sub-block">' +
-            '<h4 class="ds-sub-title">' + humanize(key) + '</h4>' +
+            '<h4 class="ds-sub-title">' + (SUB_LABELS[key] || humanize(key)) + '</h4>' +
             subGrid + '</div>';
         }
       }
@@ -237,7 +564,7 @@
   function renderVeredito(section) {
     if (!section || typeof section !== 'object') return '';
     var v = section.veredito_openrepublic;
-    if (!v && section.resumo) v = section.resumo.veredito_openrepublic;
+    if (!v && section.resumo) v = section.resumo.veredito_openrepublic || section.resumo.veredito;
     if (!v) return '';
     return '<div class="ds-veredito"><span class="ds-veredito-tag">Veredito</span><p>' + esc(v) + '</p></div>';
   }
@@ -280,7 +607,7 @@
         if (Array.isArray(sv)) {
           // Lista → tabela
           if (sv.length && typeof sv[0] === 'object') {
-            html += '<h4 class="ds-sub-title">' + humanize(sk) + '</h4>';
+            html += '<h4 class="ds-sub-title">' + (SUB_LABELS[sk] || humanize(sk)) + '</h4>';
             html += renderTable(sv, 15);
           }
         } else if (sv !== null && typeof sv === 'object') {
@@ -289,9 +616,9 @@
             return v === null || typeof v !== 'object';
           });
           if (hasOnlyScalars) {
-            html += '<div class="ds-sub-block"><h4 class="ds-sub-title">' + humanize(sk) + '</h4>' + renderStatGrid(sv) + '</div>';
+            html += '<div class="ds-sub-block"><h4 class="ds-sub-title">' + (SUB_LABELS[sk] || humanize(sk)) + '</h4>' + renderStatGrid(sv) + '</div>';
           } else {
-            html += '<div class="ds-sub-block"><h4 class="ds-sub-title">' + humanize(sk) + '</h4>' + renderSubBlocks(sv);
+            html += '<div class="ds-sub-block"><h4 class="ds-sub-title">' + (SUB_LABELS[sk] || humanize(sk)) + '</h4>' + renderSubBlocks(sv);
             // Tabelas dentro de sub-objects
             for (var ssk in sv) {
               if (Array.isArray(sv[ssk]) && sv[ssk].length && typeof sv[ssk][0] === 'object') {

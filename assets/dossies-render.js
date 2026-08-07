@@ -89,7 +89,7 @@
     for (var key in obj) {
       if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
       var val = obj[key];
-      var title = humanize(key);
+      var title = DOSSIER_LABELS[key] || humanize(key);
 
       if (Array.isArray(val)) {
         // Lista de strings ou objetos — filtra items ND
@@ -143,6 +143,35 @@
   function humanize(key) {
     return key.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   }
+
+  // Rótulos em linguagem simples para os blocos dos dossiês.
+  // Alguns coincidem com os títulos esperados pela aba "Dossiê contra".
+  var DOSSIER_LABELS = {
+    perfil_trajetoria: 'Perfil e trajetória',
+    origem: 'Origem',
+    formacao_academica: 'Formação',
+    cargos_publicos: 'Cargos públicos',
+    bens_patrimonio: 'Patrimônio',
+    evolucao: 'Evolução patrimonial (declarada)',
+    principais_bens: 'Principais bens',
+    questionamentos: 'Questionamentos sobre patrimônio',
+    financiamento_gastos: 'Financiamento e gastos',
+    ceap_verba_gabinete: 'Verba de gabinete (CEAP)',
+    doadores_principais: 'Doadores principais',
+    glosas_irregularidades: 'Glosas e irregularidades',
+    atuacao_legislativa: 'Atuação no cargo',
+    proposicoes_principais: 'Projetos principais',
+    questoes_judiciais_eticas: 'Questões na Justiça e ética',
+    processos_tse_tcu: 'Processos (TSE/TCU)',
+    ficha_limpa: 'Lei da Ficha Limpa',
+    inqueritos_denuncias: 'Inquéritos e denúncias',
+    polemicas: 'Polêmicas',
+    denuncias: 'Denúncias',
+    aliancas_bases: 'Alianças e base',
+    bancadas: 'Bancadas',
+    relevancia_imagem_publica: 'Imagem pública',
+    avaliacao_pesquisas: 'Pesquisas de imagem',
+  };
 
   // Detecta campos placeholder ("Dados não disponíveis...")
   function isNd(s) {

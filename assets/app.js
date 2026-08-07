@@ -410,7 +410,7 @@ function renderRaioX({ svg, w, anim }, data) {
   const cap = $('#cap-raiox');
   if (cap) {
     const custo = data.raio_x_nacional?.custo || {};
-    cap.innerHTML = `<strong>${clean(custo.total_anual_milhoes || 'R$ 85 milhões')} por ano</strong> mediriam o país de verdade — ${clean(custo.comparativo_ibge_censo || '')}. Barras: % de automação de cada exame.`;
+    cap.innerHTML = `<strong>${clean(custo.total_anual_milhoes || 'R$ 85 milhões')} por ano</strong> — só ${clean(custo.comparativo_ibge_censo || '')} — bastariam para saber, na hora, onde o país está falhando. A barra mostra quanto de cada exame dá para fazer no automático.`;
   }
 }
 
@@ -548,7 +548,7 @@ function renderOrcamento({ svg, w, anim }, data) {
   if (cap) {
     const g = data.orcamento_publico?.resumo_geral || {};
     const bottom = rows.slice(-2).map((r) => AREA_SHORT[r.area] || r.area).join(' e ');
-    cap.innerHTML = `<strong>${clean(g.orcamento_uniao_2025 || 'R$ 5,7 trilhões')}</strong> de orçamento. Juros e pessoal somam mais que saúde e educação juntas; ${bottom} juntas não chegam a 1%.`;
+    cap.innerHTML = `São <strong>${clean(g.orcamento_uniao_2025 || 'R$ 5,7 trilhões')}</strong> no total. Só juros da dívida e salários comem mais do que saúde e educação juntas. E ${bottom}, somadas, não chegam a 1% do bolo.`;
   }
 }
 
@@ -661,7 +661,7 @@ function renderRenda({ svg, w, anim }, data) {
 
   const cap = $('#cap-renda');
   if (cap) {
-    cap.innerHTML = `A base vive com <strong>R$ 300</strong>; a mediana, com <strong>R$ 1.600</strong>; o topo, com <strong>R$ 25.000</strong>. O 1% mais rico detém <strong>28,3%</strong> da renda.`;
+    cap.innerHTML = `Metade do país vive com <strong>R$ 1.600</strong> ou menos; a ponta mais pobre, com <strong>R$ 300</strong>; o topo, com <strong>R$ 25.000</strong>. E o 1% mais rico fica com <strong>28,3%</strong> de toda a renda.`;
   }
 }
 
@@ -736,7 +736,7 @@ function renderRacial(_ctx, data) {
 
   const cap = $('#cap-racial');
   if (cap) {
-    cap.innerHTML = `Renda média: <strong>${pctBranco}%</strong> do trabalhador branco (gap de ${fmt(ratio, 2)}×). Na base, a maioria é negra; no topo, quase ninguém.`;
+    cap.innerHTML = `Um negro recebe <strong>${pctBranco}%</strong> do que um branco recebe — ou seja, o branco ganha ${fmt(ratio, 2)}× mais. Entre os mais pobres, a maioria é negra. Entre os mais ricos, quase ninguém.`;
   }
 }
 
@@ -825,7 +825,7 @@ function renderViolencia({ svg, w, anim }, data) {
   const cap = $('#cap-violencia');
   if (cap) {
     const r = data.violencia_detalhada?.resumo || {};
-    cap.innerHTML = `Taxa nacional: <strong>${clean(r.taxa_homicidios_2023 || '21,2 por 100 mil')}</strong> · <strong>${clean(r.homicidios_2023 || '45.747 por ano')}</strong>. Onde o Estado não chega, a morte chega primeiro.`;
+    cap.innerHTML = `No país inteiro, <strong>${clean(r.homicidios_2023 || '45.747 por ano')}</strong> — mais de 125 por dia. Em alguns estados a chance de morrer assassinado é muito maior. Veja o seu.`;
   }
 }
 
@@ -973,7 +973,7 @@ function renderOcde({ svg, w, anim }, data) {
 
   const cap = $('#cap-ocde');
   if (cap) {
-    cap.innerHTML = `Em <strong>PIB per capita</strong>, educação e saúde, a distância para a média dos países ricos é de <strong>4 a 5×</strong>. Em <strong>homicídios</strong> e <strong>desigualdade</strong>, o abismo está no lado oposto.`;
+    cap.innerHTML = `Os países ricos produzem e gastam <strong>4 a 5× mais</strong> por pessoa em saúde e educação. E mesmo assim têm menos violência e menos desigualdade que o Brasil.`;
   }
 }
 
