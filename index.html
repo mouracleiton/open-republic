@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26221A">
+<meta name="description" content="Notícias do Brasil contadas em figura e em fala, para quem prefere ouvir e ver do que ler. Sem gráfico: pote d'água, saco de feijão, sinal de verde, amarelo e vermelho.">
+<title>Como andam as coisas por aqui — em fala e figura</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#F2F5F9;
+    --papel:#FFFFFF;
+    --tinta:#0E1E33;
+    --tinta-suave:#33435E;
+    --linha:#D8DEE8;
+    --azul:#013A71;
+    --azul-2:#1268BF;
+    --azul-fundo:#E2EDFA;
+    --ouro:#F5B700;
+    --verde:#177A3B;
+    --verde-fundo:#E1F3E5;
+    --amarelo:#A86E00;
+    --amarelo-fundo:#FCEED1;
+    --vermelho:#B00028;
+    --vermelho-fundo:#FBE0E3;
+    --raio:26px;
+    --fonte:'Atkinson Hyperlegible','Trebuchet MS',system-ui,sans-serif;
+    --e:1; /* escala da letra (botões A- / A+) */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    font-family:var(--fonte);
+    background:var(--fundo);
+    color:var(--tinta);
+    font-size:calc(26px * var(--e));
+    line-height:1.35;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:#164B8E}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* pular direto pro conteúdo (leitor de tela) */
+  .pular{
+    position:absolute;left:16px;top:-200px;z-index:50;
+    background:var(--papel);color:var(--tinta);
+    padding:18px 26px;border-radius:16px;border:4px solid var(--tinta);
+    font-weight:700;font-size:26px;
+  }
+  .pular:focus{top:16px}
+
+  /* escondido do olho, presente pro leitor de tela */
+  .sr-only{
+    position:absolute;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+
+  /* === CABEÇA === */
+  .masthead{
+    background:linear-gradient(135deg,#1268BF 0%,#013A71 62%,#012A52 100%);
+    color:var(--papel);
+    padding:44px 0 34px;
+    border-bottom:10px solid var(--ouro);
+  }
+  .masthead .sol{font-size:84px;color:#FFD66B;display:block;margin-bottom:6px}
+  .masthead h1{
+    font-size:calc(min(60px,12vw) * var(--e));
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin-bottom:12px;
+  }
+  .masthead p.sub{font-size:calc(27px * var(--e));color:rgba(255,255,255,.88);max-width:60ch}
+  .masthead .origem{display:inline-block;margin-top:16px;font-size:calc(22px * var(--e));color:rgba(255,255,255,.7);font-style:italic}
+
+  /* === BOTÕES GRANDES === */
+  .btn{
+    font-family:var(--fonte);
+    font-size:calc(29px * var(--e));
+    font-weight:700;
+    line-height:1.1;
+    border:none;
+    border-radius:22px;
+    padding:22px 26px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    color:var(--tinta);
+    background:var(--papel);
+    border:4px solid var(--tinta);
+    box-shadow:0 6px 0 rgba(0,0,0,.28);
+    transition:transform .06s ease, box-shadow .06s ease;
+    min-height:78px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:hover{transform:translateY(1px);box-shadow:0 4px 0 rgba(0,0,0,.28)}
+  .btn:active{transform:translateY(4px);box-shadow:none}
+  .btn[aria-pressed="true"]{
+    background:var(--tinta);color:var(--papel);
+    border-color:var(--papel);
+  }
+  .btn:focus-visible,.nav:focus-visible,button:focus-visible,
+  input:focus-visible,a:focus-visible{
+    outline:6px solid var(--azul);
+    outline-offset:3px;
+  }
+  .btn-azul{background:var(--azul-fundo);border-color:var(--azul);color:#143F6E}
+  .btn-verde{background:var(--verde-fundo);border-color:var(--verde);color:#0F5227}
+  .btn-vermelho{background:var(--vermelho-fundo);border-color:var(--vermelho);color:#7C001B}
+  .btn-block{width:100%}
+  .btn i{font-size:1.15em}
+  .btn .mini{display:block;font-size:calc(20px * var(--e));font-weight:400}
+
+  .acoes-topo{display:flex;flex-direction:column;gap:18px;margin-top:26px}
+
+  /* tamanho da letra */
+  .controles-fonte{
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    margin-top:22px;
+  }
+  .controles-fonte .font-lbl{font-size:calc(22px * var(--e));color:#EADFB8;font-weight:700}
+  .btn-mini{
+    font-family:var(--fonte);
+    font-size:calc(30px * var(--e));
+    font-weight:700;
+    width:74px;height:74px;
+    border-radius:50%;
+    border:4px solid var(--papel);
+    background:transparent;color:var(--papel);
+    cursor:pointer;
+  }
+  .btn-mini:hover{background:rgba(255,255,255,.14)}
+  .btn-mini:focus-visible{outline:6px solid var(--azul);outline-offset:3px}
+
+  /* === LEGENDA DO SINAL === */
+  .legenda{
+    display:flex;gap:14px;flex-wrap:wrap;
+    justify-content:center;
+    margin:26px 0;
+  }
+  .lenda{
+    display:flex;align-items:center;gap:12px;
+    background:var(--papel);
+    border:4px solid var(--linha);
+    border-radius:999px;
+    padding:12px 22px;
+    font-size:calc(24px * var(--e));font-weight:700;
+  }
+  .lenda .bol{width:34px;height:34px;border-radius:50%;border:3px solid var(--tinta);flex:none}
+  .verde .bol{background:var(--verde)}
+  .amarela .bol{background:#F0B429}
+  .vermelha .bol{background:var(--vermelho)}
+
+  /* === CARTÃO === */
+  .etapa{font-size:calc(24px * var(--e));font-weight:700;color:var(--tinta-suave);text-align:center;margin:10px 0 6px}
+  .cartao{
+    background:var(--papel);
+    border-radius:var(--raio);
+    padding:34px 26px 40px;
+    border:6px solid var(--linha);
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    margin-bottom:24px;
+  }
+  .cartao:focus-visible{outline:6px solid var(--azul);outline-offset:4px}
+  .cartao.sinal-verde{border-color:var(--verde)}
+  .cartao.sinal-amarela{border-color:var(--amarelo)}
+  .cartao.sinal-vermelha{border-color:var(--vermelho)}
+
+  .emblema{
+    width:190px;height:190px;
+    margin:4px auto 6px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:96px;
+    color:#fff;
+    border:6px solid var(--tinta);
+  }
+  .sinal-verde .emblema{background:var(--verde)}
+  .sinal-amarela .emblema{background:var(--amarelo)}
+  .sinal-vermelha .emblema{background:var(--vermelho);animation:pulso 2.4s infinite}
+  @keyframes pulso{
+    0%,100%{box-shadow:0 0 0 0 rgba(176,0,40,.45)}
+    50%{box-shadow:0 0 0 26px rgba(176,0,40,0)}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  .rotulo{text-align:center;font-size:calc(26px * var(--e));font-weight:700;margin-bottom:10px}
+
+  /* vasilha: enche conforme o sinal */
+  .vasilha{
+    width:min(340px,78%);
+    margin:6px auto 0;
+    height:64px;
+    border:5px solid var(--tinta);
+    border-radius:22px;
+    background:#EFE6CF;
+    overflow:hidden;
+    position:relative;
+  }
+  .vasilha .agua{
+    position:absolute;inset:auto 0 0 0;
+    height:0%;
+    transition:height .8s ease;
+    border-top:4px solid rgba(0,0,0,.18);
+  }
+  .sinal-verde .vasilha .agua{background:var(--verde)}
+  .sinal-amarela .vasilha .agua{background:#F0B429}
+  .sinal-vermelha .vasilha .agua{background:var(--vermelho)}
+  .vasilha .dica{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:calc(22px * var(--e));font-weight:700;color:var(--tinta);
+  }
+
+  /* pedrinhas de intensidade */
+  .pedras{display:flex;justify-content:center;gap:14px;margin:22px 0 6px}
+  .pedra{
+    width:44px;height:44px;border-radius:50%;
+    background:#E3D9BC;
+    border:3px solid var(--tinta);
+  }
+  .sinal-verde .pedra.acesa{background:var(--verde)}
+  .sinal-amarela .pedra.acesa{background:#F0B429}
+  .sinal-vermelha .pedra.acesa{background:var(--vermelho)}
+
+  .grande{text-align:center;font-weight:700;font-size:calc(min(60px,13vw) * var(--e));line-height:1.05;margin:14px 0 10px}
+  .tema{text-align:center;font-size:calc(min(42px,9vw) * var(--e));font-weight:700;margin-bottom:6px}
+  .frase{font-size:calc(min(40px,8.5vw) * var(--e));line-height:1.15;font-weight:700;text-align:center;margin-bottom:18px}
+  .analogia{
+    font-size:calc(27px * var(--e));text-align:center;color:var(--tinta-suave);
+    background:var(--fundo);border-radius:18px;padding:18px;margin:0 0 16px;
+  }
+  .pergunta{
+    font-size:calc(28px * var(--e));text-align:center;font-weight:700;
+    padding:18px;border-radius:18px;margin-bottom:10px;
+  }
+  .sinal-verde .pergunta{background:var(--verde-fundo)}
+  .sinal-amarela .pergunta{background:var(--amarelo-fundo)}
+  .sinal-vermelha .pergunta{background:var(--vermelho-fundo)}
+  .fonte-p{
+    font-size:calc(19px * var(--e));text-align:center;color:var(--tinta-suave);
+    margin-top:14px;font-style:italic;
+  }
+
+  /* navegação */
+  .navegacao{display:flex;gap:14px;margin:0 0 34px}
+  .nav{
+    flex:1;
+    font-family:var(--fonte);
+    font-size:calc(26px * var(--e));font-weight:700;
+    padding:24px 12px;
+    border-radius:20px;
+    border:4px solid var(--tinta);
+    background:var(--papel);
+    cursor:pointer;
+    box-shadow:0 6px 0 rgba(0,0,0,.28);
+    min-height:96px;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .nav:hover{background:var(--azul-fundo)}
+  .nav:active{transform:translateY(4px);box-shadow:none}
+
+  .botoes-card{display:flex;flex-direction:column;gap:16px}
+
+  /* status de áudio (visível) */
+  .status{
+    text-align:center;
+    font-size:calc(22px * var(--e));font-weight:700;
+    color:#174E8F;
+    min-height:34px;margin:18px 0 6px;
+  }
+
+  /* armário de todos os assuntos */
+  .secao-titulo{
+    font-size:calc(32px * var(--e));font-weight:700;text-align:center;
+    margin:8px 0 18px;
+  }
+  .armario{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+  .gaveta{
+    background:var(--papel);
+    border:4px solid var(--tinta);
+    border-radius:20px;
+    padding:18px 12px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    font-family:var(--fonte);font-size:calc(22px * var(--e));font-weight:700;
+    cursor:pointer;min-height:150px;justify-content:center;
+    box-shadow:0 5px 0 rgba(0,0,0,.25);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .gaveta i{font-size:46px}
+  .gaveta:hover{background:var(--azul-fundo)}
+  .gaveta:focus-visible{outline:6px solid var(--azul);outline-offset:3px}
+  .gaveta.verde{border-color:var(--verde)} .gaveta.verde i{color:var(--verde)}
+  .gaveta.amarela{border-color:var(--amarelo)} .gaveta.amarela i{color:var(--amarelo)}
+  .gaveta.vermelha{border-color:var(--vermelho)} .gaveta.vermelha i{color:var(--vermelho)}
+  .gaveta.ativa{
+    box-shadow:0 5px 0 rgba(0,0,0,.25), 0 0 0 6px var(--azul);
+    background:var(--azul-fundo);
+  }
+  .voltar-comeco{display:flex;justify-content:center;margin:0 0 30px}
+
+  /* rodapé */
+  .rodape{
+    background:#013A71;color:#E8DDBB;
+    padding:34px 0 50px;margin-top:20px;
+  }
+  .rodape h3{font-size:calc(28px * var(--e));margin-bottom:12px;color:#fff}
+  .rodape p{font-size:calc(20px * var(--e));margin-bottom:10px;color:#D9CDA8}
+  .rodape .fonte-lista{font-size:calc(20px * var(--e));color:#C4B68C}
+
+  .off{display:none}
+</style>
+</head>
+<body>
+
+<a class="pular" href="#principal">Pular pro que interessa</a>
+
+<header class="masthead">
+  <div class="wrap">
+    <span class="sol" aria-hidden="true"><i class="fa-solid fa-sun"></i></span>
+    <h1 id="titulo-pagina">Após ouvir isso aqui, será mesmo que vale a pena votar no PT? PL (22) é a alternativa!</h1>
+    <p class="sub" id="sub-pagina">Meu caro amigo(a), sente aqui que eu vou te contar como tá a vida. É só apertar o botão pra ouvir — e as figuras falam por si.</p>
+    <div class="acoes-topo">
+      <button class="btn btn-azul btn-block" id="btn-ouvir-tudo" aria-label="Ouvir tudo com calma, do começo ao fim">
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+        <span>OUVIR TUDO COM CALMA</span>
+      </button>
+      <button class="btn btn-block" id="btn-pausar" aria-pressed="false" aria-label="Esperar ou continuar a fala">
+        <i class="fa-solid fa-pause" aria-hidden="true"></i>
+        <span id="lbl-pausar">ESPERAR UM POUCO</span>
+      </button>
+      <button class="btn btn-block" id="btn-parar" aria-label="Parar de falar">
+        <i class="fa-solid fa-stop" aria-hidden="true"></i>
+        <span>PARAR DE FALAR</span>
+      </button>
+      <label class="btn" for="auto-som" style="cursor:pointer">
+        <i class="fa-solid fa-ear-listen" aria-hidden="true"></i>
+        <span>LIGA O SOM SOZINHO<br><span class="mini">aí cada assunto fala quando aparece</span></span>
+        <input type="checkbox" id="auto-som" style="width:44px;height:44px;accent-color:var(--azul)" aria-label="Ligar o som sozinho">
+      </label>
+    </div>
+    <div class="controles-fonte" role="group" aria-label="Tamanho da letra">
+      <button class="btn-mini" id="btn-menos" aria-label="Diminuir a letra">A−</button>
+      <span class="font-lbl" aria-hidden="true">LETRA</span>
+      <button class="btn-mini" id="btn-mais" aria-label="Aumentar a letra">A+</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="principal">
+  <div class="legenda" role="group" aria-label="O significado das cores">
+    <span class="lenda verde"><span class="bol" aria-hidden="true"></span> TÁ BOM</span>
+    <span class="lenda amarela"><span class="bol" aria-hidden="true"></span> TÁ NO MEIO</span>
+    <span class="lenda vermelha"><span class="bol" aria-hidden="true"></span> TÁ RUIM</span>
+  </div>
+
+  <p class="etapa" id="etapa">Carregando…</p>
+
+  <article class="cartao" id="cartao" tabindex="-1" aria-labelledby="tema">
+    <div class="emblema" id="emblema" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></div>
+    <p class="rotulo" id="rotulo"></p>
+    <div class="vasilha" id="vasilha" aria-hidden="true">
+      <div class="agua" id="agua"></div>
+      <div class="dica" id="dica-vasilha"></div>
+    </div>
+    <div class="pedras" id="pedras" aria-hidden="true">
+      <span class="pedra"></span><span class="pedra"></span><span class="pedra"></span><span class="pedra"></span><span class="pedra"></span>
+    </div>
+    <p class="tema" id="tema"></p>
+    <p class="grande" id="dado"></p>
+    <p class="frase" id="frase"></p>
+    <p class="analogia" id="analogia"></p>
+    <p class="pergunta" id="pergunta"></p>
+    <p class="fonte-p" id="fonte-p"></p>
+  </article>
+
+  <div class="navegacao">
+    <button class="nav" id="btn-anterior" aria-label="Voltar pro assunto anterior">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> VOLTAR
+    </button>
+    <button class="nav" id="btn-proximo" aria-label="Passar pro próximo assunto">
+      PASSAR <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="botoes-card">
+    <button class="btn btn-verde btn-block" id="btn-ouvir-card" aria-label="Ouvir este assunto de novo">
+      <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      <span>OUVIR ESTE ASSUNTO</span>
+    </button>
+    <button class="btn btn-block" id="btn-ouvir-devagarinho" aria-label="Ouvir bem devagarinho, uma palavra de cada vez">
+      <i class="fa-solid fa-turtle" aria-hidden="true"></i>
+      <span>OUVIR BEM DEVAGARINHO</span>
+    </button>
+  </div>
+
+  <p class="status" id="status" aria-live="polite"></p>
+  <p class="sr-only" id="anuncio" aria-live="polite" aria-atomic="true"></p>
+
+  <section id="todos" aria-label="Lista de todos os assuntos">
+    <h2 class="secao-titulo">TODOS OS ASSUNTOS — aperte em qualquer um</h2>
+    <div class="armario" id="armario"></div>
+    <div class="voltar-comeco">
+      <button class="btn" id="btn-voltar-topo" aria-label="Voltar pro começo da página">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>VOLTAR PRO COMEÇO</span>
+      </button>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <h3>De onde vêm esses números?</h3>
+    <p>Nada aqui foi inventado. Tudo tem dono: IBGE, Ministério da Saúde, INEP, FBSP, TSE, TCU, PNUD, OCDE, INPE, Rede PENSSAN.</p>
+    <p class="fonte-lista" id="fonte-rodape"></p>
+  </div>
+</footer>
+
+<noscript>
+  <p style="background:#FBE0E3;color:#7C001B;padding:20px;font-size:26px;text-align:center">
+    Este site precisa que o som e as figuras funcionem. Se o "modo leitura" estiver desligado, ele não aparece — peça ajuda para ligar o JavaScript.
+  </p>
+</noscript>
+
+<script>
+(function(){
+  "use strict";
+
+  var DADOS = [];
+  var INDICE = 0;
+  var FALANDO = false;
+  var TUDO_ATIVO = false;
+  var UTT_SEQ = 0; /* número da fala atual — invalida falas velhas */
+
+  /* ============ DADOS DE EMERGÊNCIA (se o arquivo faltar) ============ */
+  var MOCK = {
+    "_meta": {
+      "descricao": "Cópia de segurança embutida no site.",
+      "fonte": "dados_acessiveis.json (offline)"
+    },
+    "dados": [
+      {
+        "id":"fome","tema":"Fome",
+        "dado":"33 milhões de brasileiros passam fome",
+        "texto_curto":"Um em cada seis brasileiros não sabe se vai comer hoje.",
+        "analogia":"É como a população inteira da Argentina vivendo aqui dentro, sem comida garantida.",
+        "pergunta_para_acao":"Você conhece alguém que já dormiu com fome?",
+        "fonte":"Rede PENSSAN","hashtag":"#CaixaPreta"
+      },
+      {
+        "id":"agua","tema":"Água tratada",
+        "dado":"35 milhões de brasileiros sem água tratada",
+        "texto_curto":"Um país banhado por rios onde 35 milhões dependem de poço, caminhão-pipa ou rio poluído.",
+        "analogia":"É como se as cidades de São Paulo e Rio, juntas, ficassem sem torneira.",
+        "pergunta_para_acao":"Na última vez que abriu a torneira, você pensou de onde veio aquela água?",
+        "fonte":"SNIS","hashtag":"#CaixaPreta"
+      },
+      {
+        "id":"educacao","tema":"Educação",
+        "dado":"Nota média de 377 no PISA; média dos países ricos é 500",
+        "texto_curto":"O aluno brasileiro termina o ensino médio atrasado em anos de aprendizado.",
+        "analogia":"É como se a escola do Brasil fosse uma sala onde os alunos saem tendo lido a metade dos livros que os colegas de países ricos leram.",
+        "pergunta_para_acao":"Uma criança só tem uma chance de aprender a ler direito. Estamos usando essa chance?",
+        "fonte":"PISA / OCDE","hashtag":"#CaixaPreta"
+      },
+      {
+        "id":"bolsa_familia","tema":"Bolsa Família",
+        "dado":"R$ 167 bilhões por ano para 21 milhões de famílias",
+        "texto_curto":"O programa que tira da fome 21 milhões de famílias custa menos que os juros da dívida.",
+        "analogia":"É como um seguro que segura o prato de comida de uma em cada três famílias brasileiras.",
+        "pergunta_para_acao":"Se o Bolsa Família tira da fome e os juros não salvam ninguém, onde está a prioridade?",
+        "fonte":"Ministério do Desenvolvimento Social","hashtag":"#ExecutorEficiente"
+      },
+      {
+        "id":"energia_limpa","tema":"Energia",
+        "dado":"88,2% da eletricidade brasileira vem de fontes renováveis — líder mundial",
+        "texto_curto":"O Brasil já produz quase toda a sua energia elétrica de forma limpa.",
+        "analogia":"É como ter uma casa que funciona quase toda com energia solar — mas ainda sem bateria para o carro.",
+        "pergunta_para_acao":"Por que o país com a energia mais limpa anda com o carro mais sujo?",
+        "fonte":"EPE / ONS","hashtag":"#PredatorioAmbiental"
+      },
+      {
+        "id":"cotas","tema":"Política de cotas",
+        "dado":"A presença de negros nas universidades subiu de 10% para 50% com as cotas",
+        "texto_curto":"A política que quase foi extinta é a que mais mudou a cara da universidade.",
+        "analogia":"É como abrir a porta de uma sala que estava trancada há 500 anos.",
+        "pergunta_para_acao":"Por que abrir a porta é chamado de privilégio?",
+        "fonte":"INEP","hashtag":"#CorDoAbismo"
+      }
+    ]
+  };
+
+  /* ============ FIGURAS DO COTIDIANO (metáforas) ============ */
+  var METAFORAS = {
+    "fome":              {i:"fa-bowl-food",           r:"panela vazia", n:15},
+    "inseguranca_alimentar":{i:"fa-egg",              r:"ovo na mesa", n:35},
+    "medir_fome":        {i:"fa-temperature-half",    r:"termômetro da fome", n:45},
+    "agricultura_familiar":{i:"fa-sack",              r:"saco de feijão", n:80},
+    "agua":              {i:"fa-jug",                 r:"pote de água", n:30},
+    "esgoto":            {i:"fa-toilet",              r:"privada", n:20},
+    "saneamento_ritmo":  {i:"fa-clock",               r:"relógio da obra", n:35},
+    "lixo":              {i:"fa-trash-can",           r:"lixo na porta", n:30},
+    "deficit_habitacional":{i:"fa-house",             r:"casa", n:25},
+    "favelas":           {i:"fa-people-roof",         r:"morro de casa", n:30},
+    "sem_teto":          {i:"fa-tent",                r:"barraco na rua", n:20},
+    "dengue":            {i:"fa-mosquito",            r:"mosquito", n:25},
+    "saude_gasto":       {i:"fa-hospital",            r:"posto de saúde", n:30},
+    "medicos":           {i:"fa-user-doctor",         r:"doutor", n:35},
+    "mortalidade_infantil":{i:"fa-baby",              r:"bebê", n:20},
+    "mortalidade_materna":{i:"fa-person-pregnant",    r:"mãe", n:20},
+    "tuberculose":       {i:"fa-lungs",               r:"pulmão", n:30},
+    "suicidio":          {i:"fa-heart-crack",         r:"coração", n:15},
+    "obesidade":         {i:"fa-scale-balanced",      r:"balança", n:40},
+    "educacao":          {i:"fa-school",              r:"escola", n:30},
+    "analfabetismo":     {i:"fa-book",                r:"livro fechado", n:25},
+    "leitura":           {i:"fa-book-open",           r:"livro aberto", n:25},
+    "evasao_escolar":    {i:"fa-graduation-cap",      r:"formatura", n:25},
+    "escola_integral":   {i:"fa-chalkboard",          r:"quadro de escola", n:35},
+    "renda_mediana":     {i:"fa-money-bill-wave",     r:"dinheiro", n:40},
+    "renda_extremos":    {i:"fa-stairs",              r:"escada da renda", n:25},
+    "desemprego":        {i:"fa-briefcase",           r:"pasta de emprego", n:45},
+    "trabalho_infantil": {i:"fa-child-reaching",      r:"criança trabalhando", n:15},
+    "trabalho_escravo":  {i:"fa-link",                r:"grilhão", n:10},
+    "desigualdade_racial":{i:"fa-scale-unbalanced",   r:"balança torta", n:20},
+    "cotas":             {i:"fa-door-open",           r:"porta aberta", n:80},
+    "homicidios":        {i:"fa-gun",                 r:"arma", n:10},
+    "jovens_negros":     {i:"fa-skull",               r:"alvo da violência", n:10},
+    "violencia_policial":{i:"fa-shield",              r:"escudo", n:15},
+    "feminicidio":       {i:"fa-person-dress",        r:"mulher", n:15},
+    "estupro":           {i:"fa-person-circle-exclamation", r:"pedido de socorro", n:10},
+    "violencia_trans":   {i:"fa-transgender",         r:"bandeira", n:15},
+    "encarceramento":    {i:"fa-lock",                r:"cadeia", n:15},
+    "justica_lenta":     {i:"fa-gavel",               r:"martelo da justiça", n:25},
+    "mortes_transito":   {i:"fa-motorcycle",          r:"moto", n:15},
+    "orcamento_juros":   {i:"fa-money-bill-trend-up", r:"conta de juros", n:20},
+    "bolsa_familia":     {i:"fa-hand-holding-heart",  r:"mão amiga", n:75},
+    "corrupcao":         {i:"fa-sack-dollar",         r:"saco de dinheiro", n:10},
+    "carga_tributaria":  {i:"fa-receipt",             r:"nota de compra", n:30},
+    "ciencia":           {i:"fa-flask",               r:"frascos de remédio", n:35},
+    "cultura":           {i:"fa-drum",                r:"zabumba do forró", n:30},
+    "militar":           {i:"fa-flag",                r:"bandeira", n:35},
+    "desmatamento":      {i:"fa-axe",                 r:"machado", n:15},
+    "mata_atlantica":    {i:"fa-tree",                r:"árvore", n:20},
+    "agrotoxicos":       {i:"fa-biohazard",           r:"veneno", n:15},
+    "energia_limpa":     {i:"fa-sun",                 r:"sol", n:90},
+    "sem_luz":           {i:"fa-lightbulb",           r:"lamparina", n:30},
+    "pre_sal":           {i:"fa-oil-well",            r:"torre de petróleo", n:75},
+    "concentracao_terra":{i:"fa-cow",                 r:"boi", n:20},
+    "violencia_campo":   {i:"fa-tractor",             r:"trator", n:10},
+    "midia":             {i:"fa-tv",                  r:"televisão", n:25},
+    "exclusao_digital":  {i:"fa-wifi",                r:"sinal de internet", n:30},
+    "fake_news":         {i:"fa-message",             r:"recado no celular", n:25},
+    "congresso":         {i:"fa-landmark",            r:"prédio do governo", n:25},
+    "bancadas":          {i:"fa-users",               r:"gente junta", n:25},
+    "fundo_eleitoral":   {i:"fa-piggy-bank",          r:"cofrinho", n:40},
+    "guerra_drogas":     {i:"fa-handcuffs",           r:"algemas", n:20},
+    "crack":             {i:"fa-smoking",             r:"cigarro", n:15},
+    "reducao_danos":     {i:"fa-hand-holding-medical",r:"mão de cuidado", n:80},
+    "refugiados":        {i:"fa-plane",               r:"avião", n:70},
+    "yanomami":          {i:"fa-feather",             r:"pena", n:10},
+    "demarcacao":        {i:"fa-map",                 r:"mapa da terra", n:40},
+    "pcd":               {i:"fa-wheelchair",          r:"cadeira de rodas", n:30},
+    "comparativo_pib":   {i:"fa-globe",               r:"bola do mundo", n:40},
+    "mobilidade":        {i:"fa-bus",                 r:"ônibus", n:30},
+    "historia_escravidao":{i:"fa-ship",               r:"navio", n:15},
+    "ditadura":          {i:"fa-monument",            r:"monumento", n:15}
+  };
+
+  /* Metáforas genéricas (qualquer JSON pode pedir pelo nome) */
+  var META_ALIASES = {
+    "pote_agua":        {i:"fa-jug",        r:"pote de água"},
+    "saco_feijao_cheio":{i:"fa-sack",       r:"saco de feijão"},
+    "fila_sorrindo":    {i:"fa-face-smile", r:"fila pequena, gente sorrindo"},
+    "fila_grande":      {i:"fa-person-walking", r:"fila grande"},
+    "sol_brilhando":    {i:"fa-sun",        r:"sol"},
+    "nuvem_chuva":      {i:"fa-cloud-rain", r:"nuvem de chuva"},
+    "nuvem_escura":     {i:"fa-cloud",      r:"nuvem escura"},
+    "machado":          {i:"fa-axe",        r:"machado"},
+    "lampada_acesa":    {i:"fa-lightbulb",  r:"lâmpada acesa"},
+    "fogao_apagado":    {i:"fa-fire-burner",r:"fogão apagado"},
+    "galinha":          {i:"fa-egg",        r:"galinha"},
+    "casa":             {i:"fa-house",      r:"casa"},
+    "escola":           {i:"fa-school",     r:"escola"},
+    "posto_saude":      {i:"fa-hospital",   r:"posto de saúde"}
+  };
+
+  /* Cata palavras para achar uma figura (quando não tem metáfora pronta) */
+  function palavraAcha(txt){
+    txt = (txt||"").toLowerCase();
+    if(/fome|comer|aliment|feijão|comida/.test(txt)) return {i:"fa-bowl-food", r:"comida"};
+    if(/água|agua|chuva|pote/.test(txt))            return {i:"fa-jug", r:"pote de água"};
+    if(/escola|aluno|estuda|leitura|livro/.test(txt)) return {i:"fa-school", r:"escola"};
+    if(/saúde|saude|hospit|médico|doutor|doença/.test(txt)) return {i:"fa-hospital", r:"posto de saúde"};
+    if(/casa|moradia|morar|teto/.test(txt))         return {i:"fa-house", r:"casa"};
+    if(/violên|violen|morte|assassin|arma|mata/.test(txt)) return {i:"fa-gun", r:"arma"};
+    if(/dinheiro|imposto|salário|renda|preço/.test(txt)) return {i:"fa-money-bill-wave", r:"dinheiro"};
+    if(/árvore|arvore|floresta|mata|desmata/.test(txt)) return {i:"fa-tree", r:"árvore"};
+    if(/sol|luz|energia|lâmpada|lamparina/.test(txt)) return {i:"fa-sun", r:"sol"};
+    if(/terra|campo|roça|plant/.test(txt))          return {i:"fa-tractor", r:"terra"};
+    if(/ônibus|onibus|transporte|passagem/.test(txt)) return {i:"fa-bus", r:"ônibus"};
+    return {i:"fa-circle-info", r:"assunto"};
+  }
+
+  /* ============ SINAL (verde/amarelo/vermelho) ============ */
+  function sinalDe(n){
+    if(n>=65) return {classe:"sinal-verde",   rotulo:"TÁ BOM",      dica:"vasilha bem cheia"};
+    if(n>=35) return {classe:"sinal-amarela", rotulo:"TÁ NO MEIO",  dica:"vasilha pela metade"};
+    return     {classe:"sinal-vermelha", rotulo:"TÁ RUIM",    dica:"vasilha quase vazia"};
+  }
+
+  /* ============ INTERPRETA UM ITEM DO JSON ============ */
+  function interpreta(item){
+    var nivel = null;
+    var figura = null;
+
+    if(typeof item.valor === "number"){
+      nivel = item.valor <= 1 ? Math.round(item.valor*100) : Math.min(100, item.valor);
+    }
+    else if(typeof item.nivel === "number"){
+      nivel = item.nivel <= 1 ? Math.round(item.nivel*100) : Math.min(100, item.nivel);
+    }
+    else if(typeof item.valor === "boolean"){
+      nivel = item.valor ? 100 : 15;
+      figura = {i: item.valor ? "fa-circle-check" : "fa-circle-xmark", r: item.valor ? "sim" : "não"};
+    }
+    else if(typeof item.valor === "string"){
+      var v = item.valor.toLowerCase();
+      if(/melhorou|cheio|cheia|chega|tem de tudo|bom/.test(v)) nivel = 85;
+      else if(/piorou|vazio|vazia|falta|ruim/.test(v)) nivel = 15;
+      else if(/mais ou menos|meio|assim/.test(v)) nivel = 50;
+    }
+
+    if(!figura && item.metafora && META_ALIASES[item.metafora]) figura = META_ALIASES[item.metafora];
+    if(!figura && METAFORAS[item.id]) figura = METAFORAS[item.id];
+    if(!figura) figura = palavraAcha((item.tema||"")+" "+(item.dado||"")+" "+(item.texto_curto||""));
+
+    if(nivel === null) nivel = (figura && typeof figura.n === "number") ? figura.n : 50;
+
+    return {
+      figura: figura,
+      nivel: Math.max(0, Math.min(100, nivel)),
+      sinal: sinalDe(nivel)
+    };
+  }
+
+  /* ============ FALA ============ */
+  /* áudio pré-gravado com edge-tts em assets/audio/<id>.mp3 */
+  var PLAYER = document.createElement("audio");
+  PLAYER.preload = "auto";
+
+  /* toca(id, devagar, aoTerminar). Só o chamado mais recente vale. */
+  function toca(id, devagar, aoTerminar){
+    var seq = ++UTT_SEQ;
+    FALANDO = true;
+    PLAYER.onended = function(){
+      if(seq === UTT_SEQ){ FALANDO = false; PLAYER.onended = null; PLAYER.onerror = null; if(aoTerminar) aoTerminar(); }
+    };
+    PLAYER.onerror = function(){
+      if(seq === UTT_SEQ){ FALANDO = false; PLAYER.onended = null; PLAYER.onerror = null; setStatus("Não achei o áudio deste assunto. Tente outro."); }
+    };
+    PLAYER.src = "assets/audio/" + id + ".mp3";
+    PLAYER.playbackRate = devagar ? 0.72 : 1;
+    var p = PLAYER.play();
+    if(p && p.catch){
+      p.catch(function(){
+        if(seq === UTT_SEQ){ FALANDO = false; setStatus("Este aparelho bloqueou o som. Aperte de novo."); }
+      });
+    }
+  }
+
+  function parar(){
+    PLAYER.pause();
+    PLAYER.currentTime = 0;
+    UTT_SEQ++;
+    FALANDO = false;
+    TUDO_ATIVO = false;
+    setStatus("");
+    setPausa(false);
+  }
+
+  function setPausa(pausado){
+    var b = $("btn-pausar");
+    b.setAttribute("aria-pressed", pausado ? "true" : "false");
+    $("lbl-pausar").textContent = pausado ? "CONTINUAR A FALA" : "ESPERAR UM POUCO";
+  }
+
+  function pausaContinua(){
+    if(!FALANDO){ setStatus("Agora não estou falando nada."); return; }
+    if(PLAYER.paused){
+      var p = PLAYER.play();
+      if(p && p.catch) p.catch(function(){ setStatus("Não consegui continuar o som."); });
+      setPausa(false);
+      setStatus("Continuei falando.");
+    } else {
+      PLAYER.pause();
+      setPausa(true);
+      setStatus("Parei pra esperar. Aperte de novo pra continuar.");
+    }
+  }
+
+  /* ============ RENDERIZA O CARTÃO ============ */
+  var $ = function(id){ return document.getElementById(id); };
+
+  function renderizaCard(item){
+    var inte = interpreta(item);
+    var s = inte.sinal;
+
+    var cartao = $("cartao");
+    cartao.className = "cartao " + s.classe;
+
+    $("emblema").innerHTML = '<i class="fa-solid '+inte.figura.i+'"></i>';
+    $("rotulo").textContent = "Figura: " + inte.figura.r + " — o sinal está " + s.rotulo + " (" + s.dica + ").";
+    $("dica-vasilha").textContent = s.dica;
+    $("agua").style.height = inte.nivel + "%";
+    $("tema").textContent = item.tema || "Assunto";
+    $("dado").textContent = item.dado || "";
+    $("frase").textContent = item.texto_curto || "";
+    $("analogia").textContent = item.analogia ? "Pense assim: " + item.analogia : "";
+    $("pergunta").textContent = item.pergunta_para_acao || "";
+    $("fonte-p").textContent = "De onde saiu: " + (item.fonte || "fonte pública") + ".";
+
+    var pedras = $("pedras").children;
+    var acesas = Math.max(1, Math.round(inte.nivel/100*5));
+    for(var i=0;i<pedras.length;i++){
+      pedras[i].classList.toggle("acesa", i < acesas);
+    }
+
+    $("cartao").setAttribute("aria-label",
+      item.tema + ". O sinal está " + s.rotulo + ". " + (item.texto_curto||"") + " " + (item.dado||""));
+
+    var pos = (INDICE+1) + " de " + DADOS.length;
+    $("etapa").textContent = "Assunto " + pos + ".";
+    /* anúncio só para o leitor de tela */
+    $("anuncio").textContent = "Assunto " + pos + ". " + (item.tema||"") + ". O sinal está " + s.rotulo + ". " + (item.texto_curto||"");
+    document.title = (item.tema||"Assunto") + " · Como andam as coisas por aqui";
+  }
+
+  function mostraCard(idx, falaAuto, moverFoco){
+    if(!DADOS.length) return;
+    INDICE = (idx + DADOS.length) % DADOS.length;
+    renderizaCard(DADOS[INDICE]);
+    atualizaGavetaAtiva();
+    window.scrollTo({top:0, behavior:"smooth"});
+    if(moverFoco) $("cartao").focus({preventScroll:true});
+    if(falaAuto && $("auto-som").checked) toca(DADOS[INDICE].id);
+  }
+
+  function irPara(idx, moverFoco){
+    parar();
+    mostraCard(idx, true, moverFoco);
+  }
+
+  function pintaGavetas(){
+    var arm = $("armario");
+    arm.innerHTML = "";
+    DADOS.forEach(function(item, idx){
+      var inte = interpreta(item);
+      var btn = document.createElement("button");
+      btn.className = "gaveta " + inte.sinal.classe;
+      btn.innerHTML = '<i class="fa-solid '+inte.figura.i+'" aria-hidden="true"></i><span>'+ (item.tema||"") +'</span>';
+      btn.setAttribute("aria-label", "Abrir o assunto " + (item.tema||"") + ". O sinal está " + inte.sinal.rotulo + ".");
+      btn.addEventListener("click", function(){ irPara(idx, true); });
+      arm.appendChild(btn);
+    });
+    atualizaGavetaAtiva();
+  }
+
+  function atualizaGavetaAtiva(){
+    var botoes = $("armario").querySelectorAll(".gaveta");
+    for(var i=0;i<botoes.length;i++){
+      if(i === INDICE){
+        botoes[i].classList.add("ativa");
+        botoes[i].setAttribute("aria-current", "true");
+      } else {
+        botoes[i].classList.remove("ativa");
+        botoes[i].removeAttribute("aria-current");
+      }
+    }
+  }
+
+  /* ============ OUVE TUDO (uma sentada, cartão a cartão) ============ */
+  function ouvirTudo(){
+    parar();
+    TUDO_ATIVO = true;
+    var i = 0;
+
+    function proximo(){
+      if(!TUDO_ATIVO) return;
+      if(i >= DADOS.length){
+        TUDO_ATIVO = false;
+        setStatus("Terminei de ler tudo. Pode apertar nos botões para voltar em algum assunto.");
+        return;
+      }
+      mostraCard(i, false, false);
+      setStatus("Falando o assunto " + (i+1) + " de " + DADOS.length + ".");
+      toca(DADOS[i].id, false, function(){ i++; proximo(); });
+    }
+
+    setStatus("Comecei a ler tudo com calma. Para dar uma pausa, aperte ESPERAR. Para parar, PARAR.");
+    toca("__intro__", false, proximo);
+  }
+
+  /* ============ STATUS ============ */
+  function setStatus(t){ $("status").textContent = t; }
+
+  /* ============ TAMANHO DA LETRA ============ */
+  var ESCALAS = [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
+  var indEscala = 1;
+  function aplicaEscala(){
+    document.documentElement.style.setProperty("--e", ESCALAS[indEscala]);
+    try{ localStorage.setItem("acc-escala", String(indEscala)); }catch(e){}
+  }
+  function mudaEscala(delta){
+    indEscala = Math.max(0, Math.min(ESCALAS.length-1, indEscala + delta));
+    aplicaEscala();
+  }
+
+  /* ============ BOOT ============ */
+  function montaPagina(data){
+    if(data.titulo_pagina) $("titulo-pagina").textContent = data.titulo_pagina;
+    if(data.intro_audio) $("sub-pagina").textContent = data.intro_audio;
+    var fonte = (data._meta && data._meta.fonte) || "dados_acessiveis.json";
+    $("fonte-rodape").textContent = "Fonte dos dados: " + fonte;
+
+    DADOS = (data.dados && data.dados.length) ? data.dados : MOCK.dados;
+    INDICE = 0;
+    renderizaCard(DADOS[0]);
+    pintaGavetas();
+    $("etapa").textContent = "Assunto 1 de " + DADOS.length + ".";
+  }
+
+  function carrega(){
+    fetch("dados_acessiveis.json", {cache:"no-cache"})
+      .then(function(res){
+        if(!res.ok) throw new Error("HTTP "+res.status);
+        return res.json();
+      })
+      .then(montaPagina)
+      .catch(function(){
+        console.warn("dados_acessiveis.json não carregou; usando cópia de emergência.");
+        montaPagina(MOCK);
+      });
+  }
+
+  /* tamanho da letra guardado */
+  try{
+    var salvo = parseInt(localStorage.getItem("acc-escala"), 10);
+    if(!isNaN(salvo) && salvo>=0 && salvo<ESCALAS.length) indEscala = salvo;
+  }catch(e){}
+  aplicaEscala();
+
+  $("btn-ouvir-tudo").addEventListener("click", ouvirTudo);
+  $("btn-pausar").addEventListener("click", pausaContinua);
+  $("btn-parar").addEventListener("click", parar);
+  $("btn-ouvir-card").addEventListener("click", function(){ toca(DADOS[INDICE].id); });
+  $("btn-ouvir-devagarinho").addEventListener("click", function(){ toca(DADOS[INDICE].id, true); });
+  $("btn-anterior").addEventListener("click", function(){ irPara(INDICE-1); });
+  $("btn-proximo").addEventListener("click", function(){ irPara(INDICE+1); });
+  $("btn-voltar-topo").addEventListener("click", function(){
+    window.scrollTo({top:0, behavior:"smooth"});
+    $("btn-voltar-topo").focus();
+  });
+  $("btn-menos").addEventListener("click", function(){ mudaEscala(-1); });
+  $("btn-mais").addEventListener("click", function(){ mudaEscala(1); });
+
+  document.addEventListener("keydown", function(e){
+    if(e.target.tagName === "INPUT" || e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
+    if(e.key === "ArrowRight"){ e.preventDefault(); irPara(INDICE+1); }
+    if(e.key === "ArrowLeft"){ e.preventDefault(); irPara(INDICE-1); }
+  });
+
+  carrega();
+})();
+</script>
+</body>
+</html>
