@@ -1,755 +1,748 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>O Brasil em dados — e a máquina de propaganda</title>
-  <meta name="description" content="Nove capítulos de dados públicos oficiais e uma máquina de propaganda: imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.">
-  <meta property="og:title" content="O Brasil em dados — e a máquina de propaganda">
-  <meta property="og:description" content="Dados com fonte primeiro. Depois, imagens, mensagens, áudio e roteiros prontos para espalhar.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="assets/up_logo.svg">
-  <link rel="stylesheet" href="assets/styles.css">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>O Brasil em dados — e a máquina de propaganda</title>
+ <meta name="description" content="Nove capítulos de dados públicos oficiais e uma máquina de propaganda: imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.">
+ <meta property="og:title" content="O Brasil em dados — e a máquina de propaganda">
+ <meta property="og:description" content="Dados com fonte primeiro. Depois, imagens, mensagens, áudio e roteiros prontos para espalhar.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
-  <header class="brand-bar">
-    <div class="container brand-bar-inner">
-      <img src="assets/up_logo.svg" alt="Unidade Popular pelo Socialismo" class="brand-logo" width="180" height="99">
-    </div>
-  </header>
-
-  <header class="masthead">
-    <div class="container">
-      <p class="kicker masthead-kicker">Dados públicos oficiais + máquina de propaganda · download grátis</p>
-      <h1 class="masthead-title">Os dados primeiro. <em>A propaganda depois.</em></h1>
-      <p class="lede">Nove capítulos de números com fonte — e uma máquina de propaganda com imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#ch-raiox">Ver os dados</a>
-        <a class="btn btn-ghost" href="#ch-propaganda">Máquina de propaganda</a>
-      </div>
-    </div>
-  </header>
-
-  <main>
-
-    <section class="chapter" id="ch-raiox">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">01</span>
-          <p class="kicker">O raio-x do país</p>
-          <h2>Dezoito exames que ninguém faz</h2>
-          <p class="chapter-lede">18 domínios vitais. Um checkup nacional que custaria uma fração do censo — e revelaria, em tempo real, onde o país falha.</p>
-        </header>
-        <div class="legend" id="raio-legend" aria-hidden="true"></div>
-        <div class="chart" id="chart-raiox" data-chart="raioX"></div>
-        <p class="caption" id="cap-raiox"></p>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-orcamento">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">02</span>
-          <p class="kicker">Para onde vai o dinheiro</p>
-          <h2>O orçamento é um plano</h2>
-          <p class="chapter-lede">Orçamento é escolha. Cada barra abaixo é uma decisão tomada em nome de todos — e revela prioridades.</p>
-        </header>
-        <div class="chart" id="chart-orcamento" data-chart="orcamento"></div>
-        <p class="caption" id="cap-orcamento"></p>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-renda">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">03</span>
-          <p class="kicker">A escada da renda</p>
-          <h2>De 300 a 25 mil</h2>
-          <p class="chapter-lede">A distribuição de renda não é uma fila — é uma escada. Do degrau de quem ganha R$ 300 ao topo de quem ganha R$ 25.000.</p>
-        </header>
-        <div class="chart" id="chart-renda" data-chart="renda"></div>
-        <p class="caption" id="cap-renda"></p>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-racial">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">04</span>
-          <p class="kicker">A cor do abismo</p>
-          <h2>Desigualdade que tem rosto</h2>
-          <p class="chapter-lede">Nos dez por cento mais pobres, a maioria é negra. No um por cento mais rico, quase ninguém. O abismo é estrutural.</p>
-        </header>
-        <div class="chart chart-html" id="chart-racial" data-chart="racial"></div>
-        <p class="caption" id="cap-racial"></p>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-violencia">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">05</span>
-          <p class="kicker">A violência por estado</p>
-          <h2>Onde a vida acaba mais cedo</h2>
-          <p class="chapter-lede">A taxa de homicídios varia brutalmente entre os estados. Onde o Estado não chega, a morte chega primeiro.</p>
-        </header>
-        <div class="chart" id="chart-violencia" data-chart="violencia"></div>
-        <p class="caption" id="cap-violencia"></p>
-        <div class="state-strip" id="state-strip"></div>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-ocde">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">06</span>
-          <p class="kicker">O país no espelho do mundo</p>
-          <h2>Brasil vs. países ricos</h2>
-          <p class="chapter-lede">Na educação e na saúde, a distância é de 5×. Na violência e na desigualdade, o abismo é para o lado oposto.</p>
-        </header>
-        <div class="chart" id="chart-ocde" data-chart="ocde"></div>
-        <p class="caption" id="cap-ocde"></p>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-fatos">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">07</span>
-          <p class="kicker">Números que gritam</p>
-          <h2>O mosaico dos fatos</h2>
-          <p class="chapter-lede">Números isolados, com fonte. Toque nas categorias para filtrar o mosaico.</p>
-        </header>
-        <div class="pills" id="fact-pills" role="tablist" aria-label="Filtrar fatos por categoria"></div>
-        <div class="fact-grid" id="fact-grid"></div>
-      </div>
-    </section>
-
-    <section class="chapter" id="ch-timeline">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">08</span>
-          <p class="kicker">A linha do tempo</p>
-          <h2>Quinhentos anos, capítulo a capítulo</h2>
-          <p class="chapter-lede">O presente não caiu do céu. Ele foi construído, evento por evento — e cada um ainda ecoa hoje.</p>
-        </header>
-        <ol class="timeline" id="timeline"></ol>
-      </div>
-    </section>
-
-        <section class="chapter" id="ch-dossies">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">09</span>
-          <p class="kicker">Quem manda, de perto</p>
-          <h2>Dossiês de políticos ativos</h2>
-          <p class="chapter-lede">525 perfis de políticos ativos: 14 com dados factuais detalhados (fontes oficiais e imprensa de referência) e 511 deputados em candidatura em 2026 (nome, partido e cargo; dados detalhados em compilação). Toque em cada cartão para abrir o dossiê completo.</p>
-        </header>
-        <div class="dossier-grid" id="dossier-grid">
-          <!-- Dossiês renderizados dinamicamente do JSON por dossies-render.js -->
-        </div>
-        <p class="caption" id="cap-dossies">Informações podem desatualizar. Verifique sempre a fonte primária antes de qualquer uso.<br>Pesquisa web em fontes oficiais (TSE, Senado, Câmara, STF, TCU, CGU) e jornais de referência. Campos sem fonte verificada são marcados explicitamente.
-      </div>
-        </section>
-
-    <section class="chapter" id="ch-propaganda">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">10</span>
-          <p class="kicker">A máquina de propaganda</p>
-          <h2>Dados que saem da tela</h2>
-          <p class="chapter-lede">Imagens, mensagens, áudio e roteiros prontos para espalhar — com o @ da sua rede em cada peça. Tudo gerado no seu navegador, sem upload para servidor.</p>
-        </header>
-
-        <div class="tabs" role="tablist" aria-label="Máquina de propaganda">
-          <button class="tab-btn is-active" data-tab="tab-imagens" role="tab" aria-selected="true">Imagens</button>
-          <button class="tab-btn" data-tab="tab-dossies" role="tab" aria-selected="false">Dossiês</button>
-          <button class="tab-btn" data-tab="tab-whatsapp" role="tab" aria-selected="false">WhatsApp</button>
-          <button class="tab-btn" data-tab="tab-x" role="tab" aria-selected="false">X (Twitter)</button>
-          <button class="tab-btn" data-tab="tab-mensagens" role="tab" aria-selected="false">Mensagens</button>
-          <button class="tab-btn" data-tab="tab-audio" role="tab" aria-selected="false">Áudio</button>
-          <button class="tab-btn" data-tab="tab-prompts" role="tab" aria-selected="false">Prompts</button>
-          <button class="tab-btn" data-tab="tab-dossie" role="tab" aria-selected="false">Dossiê contra</button>
-        </div>
-
-        <div class="customizer">
-          <div class="customizer-row">
-            <label class="field">
-              <span class="field-label">@ da sua rede</span>
-              <input type="text" id="carr-handle" value="@seuperfil" placeholder="@seuperfil" spellcheck="false" autocomplete="off">
-            </label>
-            <label class="field">
-              <span class="field-label">Formato</span>
-              <select id="carr-format">
-                <option value="square">1080×1080 (quadrado)</option>
-                <option value="vertical">1080×1350 (4:5 retrato)</option>
-              </select>
-            </label>
-            <div class="field field-actions">
-              <span class="field-label">&nbsp;</span>
-              <button type="button" class="btn btn-ghost" id="carr-reset">Restaurar padrão</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel is-active" id="tab-imagens">
-          <div class="carr-grid" id="carr-grid" role="list"></div>
-          <p class="caption">20 carrosseis de propaganda · dados de fontes públicas oficiais · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
-        </div>
-
-        <div class="tab-panel" id="tab-dossies">
-          <div class="carr-grid" id="doss-grid" role="list"></div>
-          <p class="caption" id="doss-caption">Carrosséis de dossiê — um por político com fatos públicos oficiais citados, sem inventar · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
-        </div>
-
-        <div class="tab-panel" id="tab-whatsapp">
-          <p class="caption">Mensagens prontas para copiar e colar no WhatsApp. Customize o @ da sua rede e escolha o tema.</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tema</span>
-              <select id="wa-topic" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">@ da sua rede</span>
-              <input type="text" id="wa-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
-            </label>
-          </div>
-          <div class="msg-list" id="wa-list"></div>
-        </div>
-
-        <div class="tab-panel" id="tab-x">
-          <p class="caption">Posts prontos para colar no X (máximo de 280 caracteres).</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tema</span>
-              <select id="x-topic" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">@ da sua rede</span>
-              <input type="text" id="x-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
-            </label>
-          </div>
-          <div class="msg-list" id="x-list"></div>
-        </div>
-
-        <div class="tab-panel" id="tab-mensagens">
-          <p class="caption">Mensagens para enviar a uma pessoa ou a um grupo. Customize o @ e coloque o seu nome se quiser.</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tema</span>
-              <select id="msg-topic" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">@ da sua rede</span>
-              <input type="text" id="msg-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
-            </label>
-          </div>
-          <div class="msg-list" id="msg-list"></div>
-        </div>
-
-        <div class="tab-panel" id="tab-audio">
-          <p class="caption">Ouça as mensagens antes de mandar. Prévia por voz do seu navegador (Web Speech) — ajuste velocidade e tom.</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tema</span>
-              <select id="au-topic" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">Texto</span>
-              <select id="au-text" class="machine-select"></select>
-            </label>
-          </div>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Velocidade <output id="au-rate-val">1.0×</output></span>
-              <input type="range" id="au-rate" min="0.5" max="1.5" step="0.1" value="1">
-            </label>
-            <label class="field">
-              <span class="field-label">Tom <output id="au-pitch-val">1.0</output></span>
-              <input type="range" id="au-pitch" min="0.5" max="1.5" step="0.1" value="1">
-            </label>
-          </div>
-          <div class="machine-actions">
-            <button type="button" class="btn btn-primary" id="au-play">▶ Ouvir</button>
-            <button type="button" class="btn btn-ghost" id="au-stop">■ Parar</button>
-          </div>
-          <p class="caption">Para exportar o áudio como arquivo, grave a prévia com o gravador do seu dispositivo ou use um serviço de TTS com o texto acima.</p>
-        </div>
-
-        <div class="tab-panel" id="tab-prompts">
-          <p class="caption">Gere um prompt pronto para pedir roteiro em qualquer IA — e salve no site para copiar e colar depois.</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tema</span>
-              <select id="pr-topic" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">Plataforma</span>
-              <select id="pr-platform" class="machine-select">
-                <option value="TikTok">TikTok</option>
-                <option value="YouTube">YouTube</option>
-                <option value="Instagram Reels">Instagram Reels</option>
-                <option value="X (Twitter)">X (Twitter)</option>
-              </select>
-            </label>
-            <label class="field">
-              <span class="field-label">Duração</span>
-              <select id="pr-duration" class="machine-select">
-                <option value="30s">30s</option>
-                <option value="60s">60s</option>
-                <option value="90s">90s</option>
-                <option value="3 min">3 min</option>
-                <option value="5 min">5 min</option>
-              </select>
-            </label>
-          </div>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Tom</span>
-              <input type="text" id="pr-tone" value="direto, indignado com os números, mas esperançoso">
-            </label>
-            <label class="field">
-              <span class="field-label">Nome do prompt (para salvar)</span>
-              <input type="text" id="pr-name" placeholder="Ex.: Reels do orçamento">
-            </label>
-          </div>
-          <textarea class="prompt-out" id="pr-out" rows="10" readonly></textarea>
-          <div class="machine-actions">
-            <button type="button" class="btn btn-primary" id="pr-copy">Copiar prompt</button>
-            <button type="button" class="btn btn-ghost" id="pr-save">Salvar no site</button>
-          </div>
-          <h3 class="saved-title">Prompts salvos</h3>
-          <div class="msg-list" id="pr-saved"></div>
-        </div>
-
-        <div class="tab-panel" id="tab-dossie">
-          <p class="caption">Propaganda de oposição baseada nos dossiês factuais (fontes públicas oficiais: TSE, Senado, Câmara, STF, TCU, CGU). Escolha o político e o ângulo — tudo é citado do dossiê, não inventado.</p>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Político</span>
-              <select id="do-politico" class="machine-select"></select>
-            </label>
-            <label class="field">
-              <span class="field-label">Ângulo</span>
-              <select id="do-angulo" class="machine-select">
-                <option value="patrimonio">Patrimônio e riqueza</option>
-                <option value="fundos">Fundos públicos (doações)</option>
-                <option value="processos">Processos e ficha limpa</option>
-                <option value="polemicas">Polêmicas e denúncias</option>
-                <option value="glosas">Glosas e irregularidades</option>
-              </select>
-            </label>
-            <label class="field">
-              <span class="field-label">@ da sua rede</span>
-              <input type="text" id="do-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
-            </label>
-          </div>
-
-          <article class="msg-card">
-            <div class="msg-head">
-              <span class="msg-label" id="do-name">—</span>
-              <span class="msg-meta">Fatos citados do dossiê</span>
-            </div>
-            <ul class="doss-facts" id="do-facts"></ul>
-          </article>
-
-          <div class="msg-list" id="do-list"></div>
-
-          <h3 class="saved-title">Roteiro contra — prompt</h3>
-          <div class="machine-bar">
-            <label class="field">
-              <span class="field-label">Plataforma</span>
-              <select id="do-platform" class="machine-select">
-                <option value="TikTok">TikTok</option>
-                <option value="YouTube">YouTube</option>
-                <option value="Instagram Reels">Instagram Reels</option>
-                <option value="X (Twitter)">X (Twitter)</option>
-              </select>
-            </label>
-            <label class="field">
-              <span class="field-label">Duração</span>
-              <select id="do-duration" class="machine-select">
-                <option value="30s">30s</option>
-                <option value="60s">60s</option>
-                <option value="90s">90s</option>
-                <option value="3 min">3 min</option>
-                <option value="5 min">5 min</option>
-              </select>
-            </label>
-            <label class="field">
-              <span class="field-label">Tom</span>
-              <input type="text" id="do-tone" value="direto, irônico, sempre citando a fonte">
-            </label>
-          </div>
-          <textarea class="prompt-out" id="do-out" rows="10" readonly></textarea>
-          <div class="machine-actions">
-            <button type="button" class="btn btn-primary" id="do-copy">Copiar prompt</button>
-            <button type="button" class="btn btn-ghost" id="do-save">Salvar no site</button>
-          </div>
-          <p class="caption">O prompt salvo aparece em "Prompts" — aba acima. Confira sempre a fonte primária antes de publicar.</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ============================================================
-         CAPÍTULO 11 — CALCULADORA DE MAIS-VALIA
-         Ferramenta de letramento político: quanto da jornada é "pra você"
-         e quanto é "de graça pro patrão". Baseado na teoria marxista.
-         CSS/JS namespaced sob #mv-root para não conflitar com o restante.
-         ============================================================ -->
-    <section class="chapter" id="ch-mais-valia">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">11</span>
-          <p class="kicker">Ferramenta · letramento político</p>
-          <h2>Calculadora de Mais-Valia</h2>
-          <p class="chapter-lede">Descubra, em qualquer bloco de tempo, quanto da sua jornada você trabalha <strong>para você</strong> e quanto trabalha <strong>de graça para o patrão</strong>. Baseado na teoria de Karl Marx.</p>
-        </header>
-
-        <div id="mv-root">
-          <!-- ============ ENTRADAS ============ -->
-          <section class="mv-card" aria-labelledby="mv-tit-entradas">
-            <h2 class="mv-card-title" id="mv-tit-entradas">1. Seus dados</h2>
-
-            <!-- Salário -->
-            <div class="mv-field">
-              <label for="mv-salario">Salário bruto mensal</label>
-              <p class="mv-hint">Quanto você recebe por mês, antes dos descontos.</p>
-              <div class="mv-input-wrap">
-                <input type="text" inputmode="decimal" id="mv-salario" class="mv-has-prefix" placeholder="R$ 2.000,00" autocomplete="off">
-              </div>
-            </div>
-
-            <!-- Jornada -->
-            <div class="mv-field">
-              <label>Jornada de trabalho</label>
-              <p class="mv-hint">Escolha como prefere informar sua jornada mensal.</p>
-              <div class="mv-mode-toggle" role="group" aria-label="Modo de jornada">
-                <button type="button" id="mv-btn-jornada-detalhe" class="active" aria-pressed="true">Por dia/semana</button>
-                <button type="button" id="mv-btn-jornada-total" aria-pressed="false">Total de horas/mês</button>
-              </div>
-
-              <div id="mv-jornada-detalhe" class="mv-row-2">
-                <div>
-                  <label for="mv-horas-dia" class="mv-sr-only">Horas por dia</label>
-                  <input type="text" inputmode="decimal" id="mv-horas-dia" placeholder="8 (h/dia)">
-                </div>
-                <div>
-                  <label for="mv-dias-semana" class="mv-sr-only">Dias por semana</label>
-                  <input type="text" inputmode="decimal" id="mv-dias-semana" placeholder="5 (dias/sem.)">
-                </div>
-              </div>
-
-              <div id="mv-jornada-total">
-                <label for="mv-horas-mes" class="mv-sr-only">Horas totais no mês</label>
-                <input type="text" inputmode="decimal" id="mv-horas-mes" placeholder="176 (horas no mês)">
-              </div>
-            </div>
-
-            <!-- Valor produzido -->
-            <div class="mv-field">
-              <label>Valor que você produz para a empresa (por mês)</label>
-              <p class="mv-hint">É a riqueza real que seu trabalho gera. Se não souber, use a estimativa.</p>
-              <div class="mv-valor-mode-toggle" role="group" aria-label="Modo de valor produzido">
-                <button type="button" id="mv-btn-valor-direto" class="active" aria-pressed="true">Eu sei o valor</button>
-                <button type="button" id="mv-btn-valor-estimativa" aria-pressed="false">Estimar por markup</button>
-              </div>
-
-              <div id="mv-valor-direto">
-                <div class="mv-input-wrap">
-                  <span class="mv-prefix">R$</span>
-                  <input type="text" inputmode="decimal" id="mv-valor-produzido" class="mv-has-prefix" placeholder="6.000,00" autocomplete="off">
-                </div>
-              </div>
-
-              <div id="mv-valor-estimativa" style="display:none">
-                <div class="mv-input-wrap">
-                  <input type="text" inputmode="decimal" id="mv-markup" placeholder="200 (%)">
-                  <span class="mv-suffix">%</span>
-                </div>
-                <p class="mv-estimativa-note">ⓘ Estimativa: se o markup é 200%, significa que você produz 3× seu salário (1× pra você + 2× pro patrão). Valor comum em pesquisa: 100% a 300%.</p>
-              </div>
-            </div>
-
-            <button type="button" class="mv-btn-calc" id="mv-btn-calcular">Calcular minha mais-valia</button>
-
-            <div class="mv-alert mv-alert-error" id="mv-alerta" role="alert"></div>
-            <div class="mv-alert mv-alert-warning" id="mv-alerta-aviso" role="status"></div>
-          </section>
-
-          <!-- ============ RESULTADOS ============ -->
-          <section id="mv-results" aria-live="polite" aria-atomic="true">
-
-            <div class="mv-card">
-              <div class="mv-result-headline">
-                <p class="mv-kicker" style="margin-bottom:4px">Sua taxa de mais-valia</p>
-                <div class="mv-taxa-grande" id="mv-r-taxa">—<small>%</small></div>
-                <p class="mv-taxa-interp" id="mv-r-taxa-interp"></p>
-              </div>
-            </div>
-
-            <div class="mv-card">
-              <h2 class="mv-card-title">Barra da exploração</h2>
-              <div class="mv-bar-wrap">
-                <div class="mv-bar-labels">
-                  <span class="mv-lbl-voce" id="mv-r-lbl-voce">Tempo pra você</span>
-                  <span class="mv-lbl-patrao" id="mv-r-lbl-patrao">Tempo pro patrão</span>
-                </div>
-                <div class="mv-bar" role="img" aria-label="Barra proporcional do tempo trabalhado para você e para o patrão">
-                  <div class="mv-seg-voce"  id="mv-r-seg-voce"  style="width:0%"></div>
-                  <div class="mv-seg-patrao" id="mv-r-seg-patrao" style="width:0%"></div>
-                </div>
-                <div class="mv-bar-times">
-                  <span id="mv-r-tempo-voce"></span>
-                  <span id="mv-r-tempo-patrao"></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="mv-card">
-              <h2 class="mv-card-title">Relógio da exploração</h2>
-              <div class="mv-relogio">
-                <div class="mv-relogio-icone" aria-hidden="true">⏰</div>
-                <p class="mv-relogio-frase" id="mv-r-relogio"></p>
-                <p class="mv-relogio-sub" id="mv-r-relogio-sub"></p>
-              </div>
-            </div>
-
-            <div class="mv-card">
-              <h2 class="mv-card-title">Os números</h2>
-              <div class="mv-num-grid">
-                <div class="mv-num-box mv-destaque">
-                  <div class="mv-num-label">Mais-valia / mês</div>
-                  <div class="mv-num-val" id="mv-r-mv-mes">—</div>
-                </div>
-                <div class="mv-num-box">
-                  <div class="mv-num-label">Mais-valia / dia</div>
-                  <div class="mv-num-val" id="mv-r-mv-dia">—</div>
-                </div>
-                <div class="mv-num-box">
-                  <div class="mv-num-label">Mais-valia / hora</div>
-                  <div class="mv-num-val" id="mv-r-mv-hora">—</div>
-                </div>
-                <div class="mv-num-box">
-                  <div class="mv-num-label">Valor que você produz / hora</div>
-                  <div class="mv-num-val" id="mv-r-valor-hora">—</div>
-                </div>
-                <div class="mv-num-box">
-                  <div class="mv-num-label">Tempo pra você</div>
-                  <div class="mv-num-val" id="mv-r-tn">—</div>
-                </div>
-                <div class="mv-num-box">
-                  <div class="mv-num-label">Tempo pro patrão</div>
-                  <div class="mv-num-val" id="mv-r-te">—</div>
-                </div>
-              </div>
-
-              <button type="button" class="mv-btn-share" id="mv-btn-share">📤 Compartilhar resultado</button>
-            </div>
-
-          </section>
-
-          <!-- ============ DICIONÁRIO ============ -->
-          <section class="mv-card mv-dicionario" aria-labelledby="mv-tit-dic">
-            <h2 class="mv-card-title" id="mv-tit-dic">Dicionário do trabalhador</h2>
-            <dl>
-              <dt>Mais-valia</dt>
-              <dd>É a parte do seu trabalho que você não recebe. Tudo que você produz além do seu salário vai para o bolso do dono da empresa como lucro.</dd>
-              <dt>Trabalho Necessário</dt>
-              <dd>É o tempo que você leva trabalhando só para produzir o valor do seu próprio salário. É quando você trabalha "para você".</dd>
-              <dt>Trabalho Excedente</dt>
-              <dd>É o tempo extra depois de já ter "pago" seu salário. Aí você está trabalhando de graça para o patrão.</dd>
-              <dt>Taxa de Exploração</dt>
-              <dd>Mostra em % quanto o sistema tira de você. 100% = metade do tempo é sua, metade é do patrão. 200% = 1/3 é sua, 2/3 é dele.</dd>
-            </dl>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         CAPÍTULO 12 — GLOSSÁRIO COMUNISTA
-         O fundamental, em linguagem simples. Education popular:
-         termos que aparecem nas ruas, nas assembleias e nos textos.
-         ============================================================ -->
-    <section class="chapter" id="ch-glossario">
-      <div class="container">
-        <header class="chapter-head">
-          <span class="chapter-no">12</span>
-          <p class="kicker">Educação popular · letramento político</p>
-          <h2>Glossário comunista</h2>
-          <p class="chapter-lede">O fundamental, em linguagem simples. Sem jargão acadêmico, sem complicação — para entender a conversa que os donos do poder fazem questão de manter distante do povo.</p>
-        </header>
-
-        <div class="gl-root" id="gl-root">
-          <p class="gl-intro">Toque em cada termo para ler a explicação completa. Use a busca para encontrar rápido.</p>
-
-          <div class="gl-search-wrap">
-            <input type="text" id="gl-search" class="gl-search" placeholder="Buscar termo..." autocomplete="off" aria-label="Buscar no glossário">
-          </div>
-
-          <dl class="gl-list" id="gl-list">
-
-            <div class="gl-item" data-term="capitalismo">
-              <dt>Capitalismo</dt>
-              <dd>O sistema em que vivemos. Um punhado de pessoas (os donos do dinheiro, das fábricas, das terras, dos bancos) possui os <strong>meios de produção</strong>, e a maioria (nós) só tem a própria <strong>força de trabalho</strong> para vender. O patrão compra seu trabalho por um salário e fica com o lucro. Tudo gira em torno do lucro — não das pessoas.</dd>
-            </div>
-
-            <div class="gl-item" data-term="socialismo">
-              <dt>Socialismo</dt>
-              <dd>A fase de transição. Os meios de produção (fábricas, terras, bancos) deixam de ser propriedade privada de uns poucos e passam a ser propriedade coletiva da sociedade, sob controle dos trabalhadores. O objetivo: produzir para atender as necessidades do povo, não para enriquecer donos. Ainda há Estado, ainda há dinheiro — mas a exploração começa a ser desmontada.</dd>
-            </div>
-
-            <div class="gl-item" data-term="comunismo">
-              <dt>Comunismo</dt>
-              <dd>A meta final. Uma sociedade sem classes, sem Estado, sem dinheiro, sem exploração. Onde cada um contribui segundo suas capacidades e recebe segundo suas necessidades. <em>"De cada um segundo sua capacidade, a cada um segundo sua necessidade."</em> Não é utopia — é o horizonte para o qual o socialismo caminha. Nunca existiu na história; o que existiu foram países em transição socialista.</dd>
-            </div>
-
-            <div class="gl-item" data-term="luta de classes">
-              <dt>Luta de classes</dt>
-              <dd>O motor da história. A sociedade capitalista está dividida em classes com interesses opostos: a burguesia (donos) quer lucro máximo, o proletariado (trabalhadores) quer salário e vida digna. Esses interesses entram em conflito o tempo todo — na fábrica, na rua, na política. Toda a história da humanidade é história de luta de classes. Quem diz que "não tem mais classe social" está do lado de quem lucra com o fim das classes.</dd>
-            </div>
-
-            <div class="gl-item" data-term="burguesia">
-              <dt>Burguesia</dt>
-              <dd>A classe dos donos dos meios de produção. Vivem do lucro extraído do trabalho alheio. Não são "pessoas que trabalharam muito e ficaram ricas" — são herdeiras de séculos de roubo, acúmulo e exploração. No Brasil, ~1% da população concentra a maior parte da riqueza.</dd>
-            </div>
-
-            <div class="gl-item" data-term="proletariado">
-              <dt>Proletariado (classe trabalhadora)</dt>
-              <dd>Nós. Quem não tem meios de produção e precisa vender sua força de trabalho para sobreviver. Operários, professores, motoristas, caixas, entregadores, enfermeiros, servidores públicos. Quem recebe salário — assalariado ou terceirizado — é proletário. <em>"Trabalhador não é quem suja as mãos: é quem não pode parar de trabalhar ou passa fome."</em></dd>
-            </div>
-
-            <div class="gl-item" data-term="meios de produção">
-              <dt>Meios de produção</dt>
-              <dd>Tudo o que se precisa para produzir: fábricas, máquinas, terras, ferramentas, minas, transportes, bancos, tecnologia. Quem é dono disso manda na sociedade. No capitalismo, são privados (de poucos). No socialismo, passam a ser coletivos (de todos).</dd>
-            </div>
-
-            <div class="gl-item" data-term="forças produtivas">
-              <dt>Forças produtivas</dt>
-              <dd>A combinação dos meios de produção com a força de trabalho e o conhecimento técnico de uma época. Quanto mais as forças produtivas se desenvolvem (tecnologia, automação), mais riqueza poderia ser distribuída — mas no capitalismo, o ganho de produtividade só beneficia o dono, não o trabalhador.</dd>
-            </div>
-
-            <div class="gl-item" data-term="mais-valia">
-              <dt>Mais-valia</dt>
-              <dd>A origem do lucro. O trabalhador produz, em poucas horas de jornada, o equivalente ao próprio salário. O resto da jornada ele trabalha de graça — e esse excedente é apropriado pelo patrão como lucro. É a parte do seu trabalho que você não recebe. Quanto maior a mais-valia, maior a exploração. <em>(Use a Calculadora de Mais-Valia acima para ver a sua.)</em></dd>
-            </div>
-
-            <div class="gl-item" data-term="alienação">
-              <dt>Alienação</dt>
-              <dd>Quando o trabalhador não se reconhece no que produz. Você aperta parafuso o dia inteiro mas não vê o produto final. O fruto do seu trabalho pertence a outro. Você vira peça, extensão da máquina. A alienação também separa as pessoas umas das outras — o colega vira "concorrência", não companheiro.</dd>
-            </div>
-
-            <div class="gl-item" data-term="acumulação primitiva">
-              <dt>Acumulação primitiva (e acumulação capitalista)</dt>
-              <dd>A origem histórica do capital não foi poupança honesta — foi roubo. A "acumulação primitiva" foi a expropriação violenta: camponeses expulsos da terra, povos originários massacrados, pessoas escravizadas. Esse roubo inicial gerou o capital que hoje se reproduz pela "acumulação capitalista": parte do lucro é reinvestida para gerar mais lucro, num ciclo que concentra cada vez mais riqueza nas mãos de poucos.</dd>
-            </div>
-
-            <div class="gl-item" data-term="imperialismo">
-              <dt>Imperialismo</dt>
-              <dd>A fase superior do capitalismo. Quando os bancos e as indústrias se fundem em monopólios gigantes e passam a dominar não só o próprio país mas outros — através de guerra, golpe, dívida, sanção, saque de matérias-primas. É por isso que países pobres ficam pobres: sua riqueza é drenada para os países ricos. O Brasil sofre isso há 500 anos.</dd>
-            </div>
-
-            <div class="gl-item" data-term="materialismo histórico">
-              <dt>Materialismo histórico</dt>
-              <dd>O método de análise de Marx e Engels. Em vez de explicar o mundo por ideias abstratas ou "destino", analisa como as condições materiais (como se produz, quem é dono do quê) determinam a sociedade, a cultura e a política. <em>"Não é a consciência dos homens que determina o seu ser; é o ser social que determina a consciência."</em> Mude a base material, mude tudo o mais.</dd>
-            </div>
-
-            <div class="gl-item" data-term="ditadura do proletariado">
-              <dt>Ditadura do proletariado</dt>
-              <dd>Não é "ditadura" no sentido de tropa na rua. É o conceito de que toda sociedade é uma ditadura de uma classe sobre a outra — no capitalismo, é a ditadura da burguesia (as leis, a polícia, o Estado servem aos donos). A ditadura do proletariado seria o inverso: os trabalhadores tomando o controle do Estado para desmontar a exploração e abrir caminho para o comunismo. É democracia para a maioria, repressão para os exploradores.</dd>
-            </div>
-
-            <div class="gl-item" data-term="mercadoria">
-              <dt>Mercadoria</dt>
-              <dd>Tudo o que é produzido para ser vendido, não para ser usado. No capitalismo, até a força de trabalho vira mercadoria — você "vende" seu tempo e seu corpo. O problema não é a coisa em si, mas o fato de que tudo vira mercadoria: a saúde, a educação, a água, a moradia.</dd>
-            </div>
-
-            <div class="gl-item" data-term="valor de uso valor de troca">
-              <dt>Valor de uso × valor de troca</dt>
-              <dd><strong>Valor de uso:</strong> a utilidade real de uma coisa (uma casa serve para morar). <strong>Valor de troca:</strong> quanto ela vale no mercado (uma casa vale R$ 500 mil). No capitalismo, o valor de troca domina — uma casa pode ficar vazia esperando valorização enquanto gente dorme na rua. A necessidade humana perde para o lucro.</dd>
-            </div>
-
-            <div class="gl-item" data-term="internacionalismo proletário">
-              <dt>Internacionalismo proletário</dt>
-              <dd><em>"Proletários de todos os países, uni-vos!"</em> A exploração não tem fronteira — o trabalhador brasileiro, chinês, nigeriano, alemão sofre o mesmo sistema. A divisão entre trabalhadores (por nação, raça, gênero, religião) só serve à burguesia. A libertação de um é a libertação de todos.</dd>
-            </div>
-
-            <div class="gl-item" data-term="estado">
-              <dt>Estado</dt>
-              <dd>A máquina de dominação de uma classe sobre a outra: exército, polícia, judiciário, prisões, burocracia. No capitalismo, o Estado protege a propriedade privada e os interesses dos donos. No socialismo, serve para desmontar a exploração. No comunismo, deixa de ser necessário e se extingue — <em>"definhamento do Estado"</em>.</dd>
-            </div>
-
-            <div class="gl-item" data-term="revolução">
-              <dt>Revolução</dt>
-              <dd>Não é violência pela violência. É a mudança radical das relações de produção — quando a classe explorada toma o controle dos meios de produção e reorganiza a sociedade. Pode ser mais ou menos violenta dependendo da resistência da classe dominante, mas é sempre necessária: nenhuma classe dominante abre mão do poder por vontade própria.</dd>
-            </div>
-
-            <div class="gl-item" data-term="partido comunista vanguarda">
-              <dt>Partido comunista / vanguarda</dt>
-              <dd>A organização política dos trabalhadores. Não é um grupelho — é a ferramenta para conscientizar, organizar e coordenar a luta. Sem organização, a luta é dispersa e isolada. O partido estuda a realidade, forma quadros, articula as lutas e aponta o caminho. <em>"A teoria sem prática é vazia; a prática sem teoria é cega."</em></dd>
-            </div>
-
-          </dl>
-
-          <div class="gl-cite">
-            <p class="gl-cite-title">Para se aprofundar</p>
-            <ul class="gl-cite-list">
-              <li>Karl Marx · <em>O Capital</em> (comece pelo capítulo sobre jornada de trabalho)</li>
-              <li>Marx &amp; Engels · <em>Manifesto do Partido Comunista</em> (curto, direto)</li>
-              <li>Engels · <em>Socialismo Utópico e Socialismo Científico</em></li>
-              <li>Lenin · <em>Estado e Revolução</em></li>
-              <li>Lenin · <em>Imperialismo, fase superior do capitalismo</em></li>
-            </ul>
-            <p class="gl-quote">"Liberdade é o reconhecimento da necessidade." — Friedrich Engels</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Capítulo 13 — Tutoriais de organização popular -->
-  <section class="chapter" id="ch-tutoriais">
-    <div class="container">
-      <header class="chapter-head">
-        <span class="chapter-no">13</span>
-        <p class="kicker">Manuais práticos · organização popular</p>
-        <h2>Tutoriais de organização</h2>
-        <p class="chapter-lede">Quatro manuais práticos: como se unir e filiar-se, como organizar uma greve na lei brasileira, como produzir conteúdo para redes sociais, e como fazer letramento político presencial. Toque em cada manual para abrir.</p>
-      </header>
-      <div id="tut-container"></div>
-    </div>
-  </section>
-
-  <!-- Container para capítulos gerados dinamicamente do JSON
-       (data-sections.js insere aqui os capítulos A-K) -->
-  <div id="ds-container"></div>
-
-  <footer class="footer">
-    <div class="container">
-      <p class="kicker">Método &amp; fontes</p>
-      <p class="footer-note">Todos os números vêm de fontes públicas oficiais listadas abaixo. As imagens, mensagens, áudios e prompts da Máquina de Propaganda são gerados no seu navegador — sem upload para servidor.</p>
-      <ul class="sources" id="sources"></ul>
-      <p class="footer-meta">Feito com D3.js · mobile-first · dados abertos, código aberto</p>
-    </div>
-  </footer>
-
-  <div id="tip" class="tip" aria-hidden="true"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <script src="assets/carrosseis.js"></script>
-  <script src="assets/carousel-site.js"></script>
-  <script src="assets/machine.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/mais-valia.js"></script>
-  <script src="assets/glossario.js"></script>
-  <script src="assets/data-sections.js"></script>
-  <script src="assets/tutoriais.js"></script>
-  <script src="assets/dossies-render.js"></script>
+ <header class="masthead">
+ <div class="container">
+ <p class="kicker masthead-kicker">Dados públicos oficiais + máquina de propaganda · download grátis</p>
+ <h1 class="masthead-title">Os dados primeiro. <em>A propaganda depois.</em></h1>
+ <p class="lede">Nove capítulos de números com fonte — e uma máquina de propaganda com imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.</p>
+ <div class="hero-cta">
+ <a class="btn btn-primary" href="#ch-raiox">Ver os dados</a>
+ <a class="btn btn-ghost" href="#ch-propaganda">Máquina de propaganda</a>
+ </div>
+ </div>
+ </header>
+
+ <main>
+
+ <section class="chapter" id="ch-raiox">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">01</span>
+ <p class="kicker">O raio-x do país</p>
+ <h2>Dezoito exames que ninguém faz</h2>
+ <p class="chapter-lede">18 domínios vitais. Um checkup nacional que custaria uma fração do censo — e revelaria, em tempo real, onde o país falha.</p>
+ </header>
+ <div class="legend" id="raio-legend" aria-hidden="true"></div>
+ <div class="chart" id="chart-raiox" data-chart="raioX"></div>
+ <p class="caption" id="cap-raiox"></p>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-orcamento">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">02</span>
+ <p class="kicker">Para onde vai o dinheiro</p>
+ <h2>O orçamento é um plano</h2>
+ <p class="chapter-lede">Orçamento é escolha. Cada barra abaixo é uma decisão tomada em nome de todos — e revela prioridades.</p>
+ </header>
+ <div class="chart" id="chart-orcamento" data-chart="orcamento"></div>
+ <p class="caption" id="cap-orcamento"></p>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-renda">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">03</span>
+ <p class="kicker">A escada da renda</p>
+ <h2>De 300 a 25 mil</h2>
+ <p class="chapter-lede">A distribuição de renda não é uma fila — é uma escada. Do degrau de quem ganha R$ 300 ao topo de quem ganha R$ 25.000.</p>
+ </header>
+ <div class="chart" id="chart-renda" data-chart="renda"></div>
+ <p class="caption" id="cap-renda"></p>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-racial">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">04</span>
+ <p class="kicker">A cor do abismo</p>
+ <h2>Desigualdade que tem rosto</h2>
+ <p class="chapter-lede">Nos dez por cento mais pobres, a maioria é negra. No um por cento mais rico, quase ninguém. O abismo é estrutural.</p>
+ </header>
+ <div class="chart chart-html" id="chart-racial" data-chart="racial"></div>
+ <p class="caption" id="cap-racial"></p>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-violencia">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">05</span>
+ <p class="kicker">A violência por estado</p>
+ <h2>Onde a vida acaba mais cedo</h2>
+ <p class="chapter-lede">A taxa de homicídios varia brutalmente entre os estados. Onde o Estado não chega, a morte chega primeiro.</p>
+ </header>
+ <div class="chart" id="chart-violencia" data-chart="violencia"></div>
+ <p class="caption" id="cap-violencia"></p>
+ <div class="state-strip" id="state-strip"></div>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-ocde">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">06</span>
+ <p class="kicker">O país no espelho do mundo</p>
+ <h2>Brasil vs. países ricos</h2>
+ <p class="chapter-lede">Na educação e na saúde, a distância é de 5×. Na violência e na desigualdade, o abismo é para o lado oposto.</p>
+ </header>
+ <div class="chart" id="chart-ocde" data-chart="ocde"></div>
+ <p class="caption" id="cap-ocde"></p>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-fatos">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">07</span>
+ <p class="kicker">Números que gritam</p>
+ <h2>O mosaico dos fatos</h2>
+ <p class="chapter-lede">Números isolados, com fonte. Toque nas categorias para filtrar o mosaico.</p>
+ </header>
+ <div class="pills" id="fact-pills" role="tablist" aria-label="Filtrar fatos por categoria"></div>
+ <div class="fact-grid" id="fact-grid"></div>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-timeline">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">08</span>
+ <p class="kicker">A linha do tempo</p>
+ <h2>Quinhentos anos, capítulo a capítulo</h2>
+ <p class="chapter-lede">O presente não caiu do céu. Ele foi construído, evento por evento — e cada um ainda ecoa hoje.</p>
+ </header>
+ <ol class="timeline" id="timeline"></ol>
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-dossies">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">09</span>
+ <p class="kicker">Quem manda, de perto</p>
+ <h2>Dossiês de políticos ativos</h2>
+ <p class="chapter-lede">525 perfis de políticos ativos: 14 com dados factuais detalhados (fontes oficiais e imprensa de referência) e 511 deputados em candidatura em 2026 (nome, partido e cargo; dados detalhados em compilação). Toque em cada cartão para abrir o dossiê completo.</p>
+ </header>
+ <div class="dossier-grid" id="dossier-grid">
+ <!-- Dossiês renderizados dinamicamente do JSON por dossies-render.js -->
+ </div>
+ <p class="caption" id="cap-dossies">Informações podem desatualizar. Verifique sempre a fonte primária antes de qualquer uso.<br>Pesquisa web em fontes oficiais (TSE, Senado, Câmara, STF, TCU, CGU) e jornais de referência. Campos sem fonte verificada são marcados explicitamente.
+ </div>
+ </section>
+
+ <section class="chapter" id="ch-propaganda">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">10</span>
+ <p class="kicker">A máquina de propaganda</p>
+ <h2>Dados que saem da tela</h2>
+ <p class="chapter-lede">Imagens, mensagens, áudio e roteiros prontos para espalhar — com o @ da sua rede em cada peça. Tudo gerado no seu navegador, sem upload para servidor.</p>
+ </header>
+
+ <div class="tabs" role="tablist" aria-label="Máquina de propaganda">
+ <button class="tab-btn is-active" data-tab="tab-imagens" role="tab" aria-selected="true">Imagens</button>
+ <button class="tab-btn" data-tab="tab-dossies" role="tab" aria-selected="false">Dossiês</button>
+ <button class="tab-btn" data-tab="tab-whatsapp" role="tab" aria-selected="false">WhatsApp</button>
+ <button class="tab-btn" data-tab="tab-x" role="tab" aria-selected="false">X (Twitter)</button>
+ <button class="tab-btn" data-tab="tab-mensagens" role="tab" aria-selected="false">Mensagens</button>
+ <button class="tab-btn" data-tab="tab-audio" role="tab" aria-selected="false">Áudio</button>
+ <button class="tab-btn" data-tab="tab-prompts" role="tab" aria-selected="false">Prompts</button>
+ <button class="tab-btn" data-tab="tab-dossie" role="tab" aria-selected="false">Dossiê contra</button>
+ </div>
+
+ <div class="customizer">
+ <div class="customizer-row">
+ <label class="field">
+ <span class="field-label">@ da sua rede</span>
+ <input type="text" id="carr-handle" value="@seuperfil" placeholder="@seuperfil" spellcheck="false" autocomplete="off">
+ </label>
+ <label class="field">
+ <span class="field-label">Formato</span>
+ <select id="carr-format">
+ <option value="square">1080×1080 (quadrado)</option>
+ <option value="vertical">1080×1350 (4:5 retrato)</option>
+ </select>
+ </label>
+ <div class="field field-actions">
+ <span class="field-label">&nbsp;</span>
+ <button type="button" class="btn btn-ghost" id="carr-reset">Restaurar padrão</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="tab-panel is-active" id="tab-imagens">
+ <div class="carr-grid" id="carr-grid" role="list"></div>
+ <p class="caption">20 carrosseis de propaganda · dados de fontes públicas oficiais · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
+ </div>
+
+ <div class="tab-panel" id="tab-dossies">
+ <div class="carr-grid" id="doss-grid" role="list"></div>
+ <p class="caption" id="doss-caption">Carrosséis de dossiê — um por político com fatos públicos oficiais citados, sem inventar · PNG 1080px por slide, baixados em um ZIP por postagem.</p>
+ </div>
+
+ <div class="tab-panel" id="tab-whatsapp">
+ <p class="caption">Mensagens prontas para copiar e colar no WhatsApp. Customize o @ da sua rede e escolha o tema.</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tema</span>
+ <select id="wa-topic" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">@ da sua rede</span>
+ <input type="text" id="wa-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
+ </label>
+ </div>
+ <div class="msg-list" id="wa-list"></div>
+ </div>
+
+ <div class="tab-panel" id="tab-x">
+ <p class="caption">Posts prontos para colar no X (máximo de 280 caracteres).</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tema</span>
+ <select id="x-topic" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">@ da sua rede</span>
+ <input type="text" id="x-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
+ </label>
+ </div>
+ <div class="msg-list" id="x-list"></div>
+ </div>
+
+ <div class="tab-panel" id="tab-mensagens">
+ <p class="caption">Mensagens para enviar a uma pessoa ou a um grupo. Customize o @ e coloque o seu nome se quiser.</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tema</span>
+ <select id="msg-topic" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">@ da sua rede</span>
+ <input type="text" id="msg-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
+ </label>
+ </div>
+ <div class="msg-list" id="msg-list"></div>
+ </div>
+
+ <div class="tab-panel" id="tab-audio">
+ <p class="caption">Ouça as mensagens antes de mandar. Prévia por voz do seu navegador (Web Speech) — ajuste velocidade e tom.</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tema</span>
+ <select id="au-topic" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">Texto</span>
+ <select id="au-text" class="machine-select"></select>
+ </label>
+ </div>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Velocidade <output id="au-rate-val">1.0×</output></span>
+ <input type="range" id="au-rate" min="0.5" max="1.5" step="0.1" value="1">
+ </label>
+ <label class="field">
+ <span class="field-label">Tom <output id="au-pitch-val">1.0</output></span>
+ <input type="range" id="au-pitch" min="0.5" max="1.5" step="0.1" value="1">
+ </label>
+ </div>
+ <div class="machine-actions">
+ <button type="button" class="btn btn-primary" id="au-play">▶ Ouvir</button>
+ <button type="button" class="btn btn-ghost" id="au-stop">■ Parar</button>
+ </div>
+ <p class="caption">Para exportar o áudio como arquivo, grave a prévia com o gravador do seu dispositivo ou use um serviço de TTS com o texto acima.</p>
+ </div>
+
+ <div class="tab-panel" id="tab-prompts">
+ <p class="caption">Gere um prompt pronto para pedir roteiro em qualquer IA — e salve no site para copiar e colar depois.</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tema</span>
+ <select id="pr-topic" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">Plataforma</span>
+ <select id="pr-platform" class="machine-select">
+ <option value="TikTok">TikTok</option>
+ <option value="YouTube">YouTube</option>
+ <option value="Instagram Reels">Instagram Reels</option>
+ <option value="X (Twitter)">X (Twitter)</option>
+ </select>
+ </label>
+ <label class="field">
+ <span class="field-label">Duração</span>
+ <select id="pr-duration" class="machine-select">
+ <option value="30s">30s</option>
+ <option value="60s">60s</option>
+ <option value="90s">90s</option>
+ <option value="3 min">3 min</option>
+ <option value="5 min">5 min</option>
+ </select>
+ </label>
+ </div>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Tom</span>
+ <input type="text" id="pr-tone" value="direto, indignado com os números, mas esperançoso">
+ </label>
+ <label class="field">
+ <span class="field-label">Nome do prompt (para salvar)</span>
+ <input type="text" id="pr-name" placeholder="Ex.: Reels do orçamento">
+ </label>
+ </div>
+ <textarea class="prompt-out" id="pr-out" rows="10" readonly></textarea>
+ <div class="machine-actions">
+ <button type="button" class="btn btn-primary" id="pr-copy">Copiar prompt</button>
+ <button type="button" class="btn btn-ghost" id="pr-save">Salvar no site</button>
+ </div>
+ <h3 class="saved-title">Prompts salvos</h3>
+ <div class="msg-list" id="pr-saved"></div>
+ </div>
+
+ <div class="tab-panel" id="tab-dossie">
+ <p class="caption">Propaganda de oposição baseada nos dossiês factuais (fontes públicas oficiais: TSE, Senado, Câmara, STF, TCU, CGU). Escolha o político e o ângulo — tudo é citado do dossiê, não inventado.</p>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Político</span>
+ <select id="do-politico" class="machine-select"></select>
+ </label>
+ <label class="field">
+ <span class="field-label">Ângulo</span>
+ <select id="do-angulo" class="machine-select">
+ <option value="patrimonio">Patrimônio e riqueza</option>
+ <option value="fundos">Fundos públicos (doações)</option>
+ <option value="processos">Processos e ficha limpa</option>
+ <option value="polemicas">Polêmicas e denúncias</option>
+ <option value="glosas">Glosas e irregularidades</option>
+ </select>
+ </label>
+ <label class="field">
+ <span class="field-label">@ da sua rede</span>
+ <input type="text" id="do-handle" value="@seuperfil" spellcheck="false" autocomplete="off">
+ </label>
+ </div>
+
+ <article class="msg-card">
+ <div class="msg-head">
+ <span class="msg-label" id="do-name">—</span>
+ <span class="msg-meta">Fatos citados do dossiê</span>
+ </div>
+ <ul class="doss-facts" id="do-facts"></ul>
+ </article>
+
+ <div class="msg-list" id="do-list"></div>
+
+ <h3 class="saved-title">Roteiro contra — prompt</h3>
+ <div class="machine-bar">
+ <label class="field">
+ <span class="field-label">Plataforma</span>
+ <select id="do-platform" class="machine-select">
+ <option value="TikTok">TikTok</option>
+ <option value="YouTube">YouTube</option>
+ <option value="Instagram Reels">Instagram Reels</option>
+ <option value="X (Twitter)">X (Twitter)</option>
+ </select>
+ </label>
+ <label class="field">
+ <span class="field-label">Duração</span>
+ <select id="do-duration" class="machine-select">
+ <option value="30s">30s</option>
+ <option value="60s">60s</option>
+ <option value="90s">90s</option>
+ <option value="3 min">3 min</option>
+ <option value="5 min">5 min</option>
+ </select>
+ </label>
+ <label class="field">
+ <span class="field-label">Tom</span>
+ <input type="text" id="do-tone" value="direto, irônico, sempre citando a fonte">
+ </label>
+ </div>
+ <textarea class="prompt-out" id="do-out" rows="10" readonly></textarea>
+ <div class="machine-actions">
+ <button type="button" class="btn btn-primary" id="do-copy">Copiar prompt</button>
+ <button type="button" class="btn btn-ghost" id="do-save">Salvar no site</button>
+ </div>
+ <p class="caption">O prompt salvo aparece em "Prompts" — aba acima. Confira sempre a fonte primária antes de publicar.</p>
+ </div>
+
+ </div>
+ </section>
+
+ <!-- ============================================================
+ CAPÍTULO 11 — CALCULADORA DE MAIS-VALIA
+ Ferramenta de letramento político: quanto da jornada é "pra você"
+ e quanto é "de graça pro patrão". Baseado na teoria marxista.
+ CSS/JS namespaced sob #mv-root para não conflitar com o restante.
+ ============================================================ -->
+ <section class="chapter" id="ch-mais-valia">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">11</span>
+ <p class="kicker">Ferramenta · letramento político</p>
+ <h2>Calculadora de Mais-Valia</h2>
+ <p class="chapter-lede">Descubra, em qualquer bloco de tempo, quanto da sua jornada você trabalha <strong>para você</strong> e quanto trabalha <strong>de graça para o patrão</strong>. Baseado na teoria de Karl Marx.</p>
+ </header>
+
+ <div id="mv-root">
+ <!-- ============ ENTRADAS ============ -->
+ <section class="mv-card" aria-labelledby="mv-tit-entradas">
+ <h2 class="mv-card-title" id="mv-tit-entradas">1. Seus dados</h2>
+
+ <!-- Salário -->
+ <div class="mv-field">
+ <label for="mv-salario">Salário bruto mensal</label>
+ <p class="mv-hint">Quanto você recebe por mês, antes dos descontos.</p>
+ <div class="mv-input-wrap">
+ <input type="text" inputmode="decimal" id="mv-salario" class="mv-has-prefix" placeholder="R$ 2.000,00" autocomplete="off">
+ </div>
+ </div>
+
+ <!-- Jornada -->
+ <div class="mv-field">
+ <label>Jornada de trabalho</label>
+ <p class="mv-hint">Escolha como prefere informar sua jornada mensal.</p>
+ <div class="mv-mode-toggle" role="group" aria-label="Modo de jornada">
+ <button type="button" id="mv-btn-jornada-detalhe" class="active" aria-pressed="true">Por dia/semana</button>
+ <button type="button" id="mv-btn-jornada-total" aria-pressed="false">Total de horas/mês</button>
+ </div>
+
+ <div id="mv-jornada-detalhe" class="mv-row-2">
+ <div>
+ <label for="mv-horas-dia" class="mv-sr-only">Horas por dia</label>
+ <input type="text" inputmode="decimal" id="mv-horas-dia" placeholder="8 (h/dia)">
+ </div>
+ <div>
+ <label for="mv-dias-semana" class="mv-sr-only">Dias por semana</label>
+ <input type="text" inputmode="decimal" id="mv-dias-semana" placeholder="5 (dias/sem.)">
+ </div>
+ </div>
+
+ <div id="mv-jornada-total">
+ <label for="mv-horas-mes" class="mv-sr-only">Horas totais no mês</label>
+ <input type="text" inputmode="decimal" id="mv-horas-mes" placeholder="176 (horas no mês)">
+ </div>
+ </div>
+
+ <!-- Valor produzido -->
+ <div class="mv-field">
+ <label>Valor que você produz para a empresa (por mês)</label>
+ <p class="mv-hint">É a riqueza real que seu trabalho gera. Se não souber, use a estimativa.</p>
+ <div class="mv-valor-mode-toggle" role="group" aria-label="Modo de valor produzido">
+ <button type="button" id="mv-btn-valor-direto" class="active" aria-pressed="true">Eu sei o valor</button>
+ <button type="button" id="mv-btn-valor-estimativa" aria-pressed="false">Estimar por markup</button>
+ </div>
+
+ <div id="mv-valor-direto">
+ <div class="mv-input-wrap">
+ <span class="mv-prefix">R$</span>
+ <input type="text" inputmode="decimal" id="mv-valor-produzido" class="mv-has-prefix" placeholder="6.000,00" autocomplete="off">
+ </div>
+ </div>
+
+ <div id="mv-valor-estimativa" style="display:none">
+ <div class="mv-input-wrap">
+ <input type="text" inputmode="decimal" id="mv-markup" placeholder="200 (%)">
+ <span class="mv-suffix">%</span>
+ </div>
+ <p class="mv-estimativa-note">ⓘ Estimativa: se o markup é 200%, significa que você produz 3× seu salário (1× pra você + 2× pro patrão). Valor comum em pesquisa: 100% a 300%.</p>
+ </div>
+ </div>
+
+ <button type="button" class="mv-btn-calc" id="mv-btn-calcular">Calcular minha mais-valia</button>
+
+ <div class="mv-alert mv-alert-error" id="mv-alerta" role="alert"></div>
+ <div class="mv-alert mv-alert-warning" id="mv-alerta-aviso" role="status"></div>
+ </section>
+
+ <!-- ============ RESULTADOS ============ -->
+ <section id="mv-results" aria-live="polite" aria-atomic="true">
+
+ <div class="mv-card">
+ <div class="mv-result-headline">
+ <p class="mv-kicker" style="margin-bottom:4px">Sua taxa de mais-valia</p>
+ <div class="mv-taxa-grande" id="mv-r-taxa">—<small>%</small></div>
+ <p class="mv-taxa-interp" id="mv-r-taxa-interp"></p>
+ </div>
+ </div>
+
+ <div class="mv-card">
+ <h2 class="mv-card-title">Barra da exploração</h2>
+ <div class="mv-bar-wrap">
+ <div class="mv-bar-labels">
+ <span class="mv-lbl-voce" id="mv-r-lbl-voce">Tempo pra você</span>
+ <span class="mv-lbl-patrao" id="mv-r-lbl-patrao">Tempo pro patrão</span>
+ </div>
+ <div class="mv-bar" role="img" aria-label="Barra proporcional do tempo trabalhado para você e para o patrão">
+ <div class="mv-seg-voce" id="mv-r-seg-voce" style="width:0%"></div>
+ <div class="mv-seg-patrao" id="mv-r-seg-patrao" style="width:0%"></div>
+ </div>
+ <div class="mv-bar-times">
+ <span id="mv-r-tempo-voce"></span>
+ <span id="mv-r-tempo-patrao"></span>
+ </div>
+ </div>
+ </div>
+
+ <div class="mv-card">
+ <h2 class="mv-card-title">Relógio da exploração</h2>
+ <div class="mv-relogio">
+ <div class="mv-relogio-icone" aria-hidden="true">⏰</div>
+ <p class="mv-relogio-frase" id="mv-r-relogio"></p>
+ <p class="mv-relogio-sub" id="mv-r-relogio-sub"></p>
+ </div>
+ </div>
+
+ <div class="mv-card">
+ <h2 class="mv-card-title">Os números</h2>
+ <div class="mv-num-grid">
+ <div class="mv-num-box mv-destaque">
+ <div class="mv-num-label">Mais-valia / mês</div>
+ <div class="mv-num-val" id="mv-r-mv-mes">—</div>
+ </div>
+ <div class="mv-num-box">
+ <div class="mv-num-label">Mais-valia / dia</div>
+ <div class="mv-num-val" id="mv-r-mv-dia">—</div>
+ </div>
+ <div class="mv-num-box">
+ <div class="mv-num-label">Mais-valia / hora</div>
+ <div class="mv-num-val" id="mv-r-mv-hora">—</div>
+ </div>
+ <div class="mv-num-box">
+ <div class="mv-num-label">Valor que você produz / hora</div>
+ <div class="mv-num-val" id="mv-r-valor-hora">—</div>
+ </div>
+ <div class="mv-num-box">
+ <div class="mv-num-label">Tempo pra você</div>
+ <div class="mv-num-val" id="mv-r-tn">—</div>
+ </div>
+ <div class="mv-num-box">
+ <div class="mv-num-label">Tempo pro patrão</div>
+ <div class="mv-num-val" id="mv-r-te">—</div>
+ </div>
+ </div>
+
+ <button type="button" class="mv-btn-share" id="mv-btn-share">📤 Compartilhar resultado</button>
+ </div>
+
+ </section>
+
+ <!-- ============ DICIONÁRIO ============ -->
+ <section class="mv-card mv-dicionario" aria-labelledby="mv-tit-dic">
+ <h2 class="mv-card-title" id="mv-tit-dic">Dicionário do trabalhador</h2>
+ <dl>
+ <dt>Mais-valia</dt>
+ <dd>É a parte do seu trabalho que você não recebe. Tudo que você produz além do seu salário vai para o bolso do dono da empresa como lucro.</dd>
+ <dt>Trabalho Necessário</dt>
+ <dd>É o tempo que você leva trabalhando só para produzir o valor do seu próprio salário. É quando você trabalha "para você".</dd>
+ <dt>Trabalho Excedente</dt>
+ <dd>É o tempo extra depois de já ter "pago" seu salário. Aí você está trabalhando de graça para o patrão.</dd>
+ <dt>Taxa de Exploração</dt>
+ <dd>Mostra em % quanto o sistema tira de você. 100% = metade do tempo é sua, metade é do patrão. 200% = 1/3 é sua, 2/3 é dele.</dd>
+ </dl>
+ </section>
+ </div>
+ </div>
+ </section>
+
+ <!-- ============================================================
+ CAPÍTULO 12 — GLOSSÁRIO COMUNISTA
+ O fundamental, em linguagem simples. Education popular:
+ termos que aparecem nas ruas, nas assembleias e nos textos.
+ ============================================================ -->
+ <section class="chapter" id="ch-glossario">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">12</span>
+ <p class="kicker">Educação popular · letramento político</p>
+ <h2>Glossário comunista</h2>
+ <p class="chapter-lede">O fundamental, em linguagem simples. Sem jargão acadêmico, sem complicação — para entender a conversa que os donos do poder fazem questão de manter distante do povo.</p>
+ </header>
+
+ <div class="gl-root" id="gl-root">
+ <p class="gl-intro">Toque em cada termo para ler a explicação completa. Use a busca para encontrar rápido.</p>
+
+ <div class="gl-search-wrap">
+ <input type="text" id="gl-search" class="gl-search" placeholder="Buscar termo..." autocomplete="off" aria-label="Buscar no glossário">
+ </div>
+
+ <dl class="gl-list" id="gl-list">
+
+ <div class="gl-item" data-term="capitalismo">
+ <dt>Capitalismo</dt>
+ <dd>O sistema em que vivemos. Um punhado de pessoas (os donos do dinheiro, das fábricas, das terras, dos bancos) possui os <strong>meios de produção</strong>, e a maioria (nós) só tem a própria <strong>força de trabalho</strong> para vender. O patrão compra seu trabalho por um salário e fica com o lucro. Tudo gira em torno do lucro — não das pessoas.</dd>
+ </div>
+
+ <div class="gl-item" data-term="socialismo">
+ <dt>Socialismo</dt>
+ <dd>A fase de transição. Os meios de produção (fábricas, terras, bancos) deixam de ser propriedade privada de uns poucos e passam a ser propriedade coletiva da sociedade, sob controle dos trabalhadores. O objetivo: produzir para atender as necessidades do povo, não para enriquecer donos. Ainda há Estado, ainda há dinheiro — mas a exploração começa a ser desmontada.</dd>
+ </div>
+
+ <div class="gl-item" data-term="comunismo">
+ <dt>Comunismo</dt>
+ <dd>A meta final. Uma sociedade sem classes, sem Estado, sem dinheiro, sem exploração. Onde cada um contribui segundo suas capacidades e recebe segundo suas necessidades. <em>"De cada um segundo sua capacidade, a cada um segundo sua necessidade."</em> Não é utopia — é o horizonte para o qual o socialismo caminha. Nunca existiu na história; o que existiu foram países em transição socialista.</dd>
+ </div>
+
+ <div class="gl-item" data-term="luta de classes">
+ <dt>Luta de classes</dt>
+ <dd>O motor da história. A sociedade capitalista está dividida em classes com interesses opostos: a burguesia (donos) quer lucro máximo, o proletariado (trabalhadores) quer salário e vida digna. Esses interesses entram em conflito o tempo todo — na fábrica, na rua, na política. Toda a história da humanidade é história de luta de classes. Quem diz que "não tem mais classe social" está do lado de quem lucra com o fim das classes.</dd>
+ </div>
+
+ <div class="gl-item" data-term="burguesia">
+ <dt>Burguesia</dt>
+ <dd>A classe dos donos dos meios de produção. Vivem do lucro extraído do trabalho alheio. Não são "pessoas que trabalharam muito e ficaram ricas" — são herdeiras de séculos de roubo, acúmulo e exploração. No Brasil, ~1% da população concentra a maior parte da riqueza.</dd>
+ </div>
+
+ <div class="gl-item" data-term="proletariado">
+ <dt>Proletariado (classe trabalhadora)</dt>
+ <dd>Nós. Quem não tem meios de produção e precisa vender sua força de trabalho para sobreviver. Operários, professores, motoristas, caixas, entregadores, enfermeiros, servidores públicos. Quem recebe salário — assalariado ou terceirizado — é proletário. <em>"Trabalhador não é quem suja as mãos: é quem não pode parar de trabalhar ou passa fome."</em></dd>
+ </div>
+
+ <div class="gl-item" data-term="meios de produção">
+ <dt>Meios de produção</dt>
+ <dd>Tudo o que se precisa para produzir: fábricas, máquinas, terras, ferramentas, minas, transportes, bancos, tecnologia. Quem é dono disso manda na sociedade. No capitalismo, são privados (de poucos). No socialismo, passam a ser coletivos (de todos).</dd>
+ </div>
+
+ <div class="gl-item" data-term="forças produtivas">
+ <dt>Forças produtivas</dt>
+ <dd>A combinação dos meios de produção com a força de trabalho e o conhecimento técnico de uma época. Quanto mais as forças produtivas se desenvolvem (tecnologia, automação), mais riqueza poderia ser distribuída — mas no capitalismo, o ganho de produtividade só beneficia o dono, não o trabalhador.</dd>
+ </div>
+
+ <div class="gl-item" data-term="mais-valia">
+ <dt>Mais-valia</dt>
+ <dd>A origem do lucro. O trabalhador produz, em poucas horas de jornada, o equivalente ao próprio salário. O resto da jornada ele trabalha de graça — e esse excedente é apropriado pelo patrão como lucro. É a parte do seu trabalho que você não recebe. Quanto maior a mais-valia, maior a exploração. <em>(Use a Calculadora de Mais-Valia acima para ver a sua.)</em></dd>
+ </div>
+
+ <div class="gl-item" data-term="alienação">
+ <dt>Alienação</dt>
+ <dd>Quando o trabalhador não se reconhece no que produz. Você aperta parafuso o dia inteiro mas não vê o produto final. O fruto do seu trabalho pertence a outro. Você vira peça, extensão da máquina. A alienação também separa as pessoas umas das outras — o colega vira "concorrência", não companheiro.</dd>
+ </div>
+
+ <div class="gl-item" data-term="acumulação primitiva">
+ <dt>Acumulação primitiva (e acumulação capitalista)</dt>
+ <dd>A origem histórica do capital não foi poupança honesta — foi roubo. A "acumulação primitiva" foi a expropriação violenta: camponeses expulsos da terra, povos originários massacrados, pessoas escravizadas. Esse roubo inicial gerou o capital que hoje se reproduz pela "acumulação capitalista": parte do lucro é reinvestida para gerar mais lucro, num ciclo que concentra cada vez mais riqueza nas mãos de poucos.</dd>
+ </div>
+
+ <div class="gl-item" data-term="imperialismo">
+ <dt>Imperialismo</dt>
+ <dd>A fase superior do capitalismo. Quando os bancos e as indústrias se fundem em monopólios gigantes e passam a dominar não só o próprio país mas outros — através de guerra, golpe, dívida, sanção, saque de matérias-primas. É por isso que países pobres ficam pobres: sua riqueza é drenada para os países ricos. O Brasil sofre isso há 500 anos.</dd>
+ </div>
+
+ <div class="gl-item" data-term="materialismo histórico">
+ <dt>Materialismo histórico</dt>
+ <dd>O método de análise de Marx e Engels. Em vez de explicar o mundo por ideias abstratas ou "destino", analisa como as condições materiais (como se produz, quem é dono do quê) determinam a sociedade, a cultura e a política. <em>"Não é a consciência dos homens que determina o seu ser; é o ser social que determina a consciência."</em> Mude a base material, mude tudo o mais.</dd>
+ </div>
+
+ <div class="gl-item" data-term="ditadura do proletariado">
+ <dt>Ditadura do proletariado</dt>
+ <dd>Não é "ditadura" no sentido de tropa na rua. É o conceito de que toda sociedade é uma ditadura de uma classe sobre a outra — no capitalismo, é a ditadura da burguesia (as leis, a polícia, o Estado servem aos donos). A ditadura do proletariado seria o inverso: os trabalhadores tomando o controle do Estado para desmontar a exploração e abrir caminho para o comunismo. É democracia para a maioria, repressão para os exploradores.</dd>
+ </div>
+
+ <div class="gl-item" data-term="mercadoria">
+ <dt>Mercadoria</dt>
+ <dd>Tudo o que é produzido para ser vendido, não para ser usado. No capitalismo, até a força de trabalho vira mercadoria — você "vende" seu tempo e seu corpo. O problema não é a coisa em si, mas o fato de que tudo vira mercadoria: a saúde, a educação, a água, a moradia.</dd>
+ </div>
+
+ <div class="gl-item" data-term="valor de uso valor de troca">
+ <dt>Valor de uso × valor de troca</dt>
+ <dd><strong>Valor de uso:</strong> a utilidade real de uma coisa (uma casa serve para morar). <strong>Valor de troca:</strong> quanto ela vale no mercado (uma casa vale R$ 500 mil). No capitalismo, o valor de troca domina — uma casa pode ficar vazia esperando valorização enquanto gente dorme na rua. A necessidade humana perde para o lucro.</dd>
+ </div>
+
+ <div class="gl-item" data-term="internacionalismo proletário">
+ <dt>Internacionalismo proletário</dt>
+ <dd><em>"Proletários de todos os países, uni-vos!"</em> A exploração não tem fronteira — o trabalhador brasileiro, chinês, nigeriano, alemão sofre o mesmo sistema. A divisão entre trabalhadores (por nação, raça, gênero, religião) só serve à burguesia. A libertação de um é a libertação de todos.</dd>
+ </div>
+
+ <div class="gl-item" data-term="estado">
+ <dt>Estado</dt>
+ <dd>A máquina de dominação de uma classe sobre a outra: exército, polícia, judiciário, prisões, burocracia. No capitalismo, o Estado protege a propriedade privada e os interesses dos donos. No socialismo, serve para desmontar a exploração. No comunismo, deixa de ser necessário e se extingue — <em>"definhamento do Estado"</em>.</dd>
+ </div>
+
+ <div class="gl-item" data-term="revolução">
+ <dt>Revolução</dt>
+ <dd>Não é violência pela violência. É a mudança radical das relações de produção — quando a classe explorada toma o controle dos meios de produção e reorganiza a sociedade. Pode ser mais ou menos violenta dependendo da resistência da classe dominante, mas é sempre necessária: nenhuma classe dominante abre mão do poder por vontade própria.</dd>
+ </div>
+
+ <div class="gl-item" data-term="partido comunista vanguarda">
+ <dt>Partido comunista / vanguarda</dt>
+ <dd>A organização política dos trabalhadores. Não é um grupelho — é a ferramenta para conscientizar, organizar e coordenar a luta. Sem organização, a luta é dispersa e isolada. O partido estuda a realidade, forma quadros, articula as lutas e aponta o caminho. <em>"A teoria sem prática é vazia; a prática sem teoria é cega."</em></dd>
+ </div>
+
+ </dl>
+
+ <div class="gl-cite">
+ <p class="gl-cite-title">Para se aprofundar</p>
+ <ul class="gl-cite-list">
+ <li>Karl Marx · <em>O Capital</em> (comece pelo capítulo sobre jornada de trabalho)</li>
+ <li>Marx &amp; Engels · <em>Manifesto do Partido Comunista</em> (curto, direto)</li>
+ <li>Engels · <em>Socialismo Utópico e Socialismo Científico</em></li>
+ <li>Lenin · <em>Estado e Revolução</em></li>
+ <li>Lenin · <em>Imperialismo, fase superior do capitalismo</em></li>
+ </ul>
+ <p class="gl-quote">"Liberdade é o reconhecimento da necessidade." — Friedrich Engels</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ </main>
+
+ <!-- Capítulo 13 — Tutoriais de organização popular -->
+ <section class="chapter" id="ch-tutoriais">
+ <div class="container">
+ <header class="chapter-head">
+ <span class="chapter-no">13</span>
+ <p class="kicker">Manuais práticos · organização popular</p>
+ <h2>Tutoriais de organização</h2>
+ <p class="chapter-lede">Quatro manuais práticos: como se unir e filiar-se, como organizar uma greve na lei brasileira, como produzir conteúdo para redes sociais, e como fazer letramento político presencial. Toque em cada manual para abrir.</p>
+ </header>
+ <div id="tut-container"></div>
+ </div>
+ </section>
+
+ <!-- Container para capítulos gerados dinamicamente do JSON
+ (data-sections.js insere aqui os capítulos A-K) -->
+ <div id="ds-container"></div>
+
+ <footer class="footer">
+ <div class="container">
+ <p class="kicker">Método &amp; fontes</p>
+ <p class="footer-note">Todos os números vêm de fontes públicas oficiais listadas abaixo. As imagens, mensagens, áudios e prompts da Máquina de Propaganda são gerados no seu navegador — sem upload para servidor.</p>
+ <ul class="sources" id="sources"></ul>
+ <p class="footer-meta">Feito com D3.js · mobile-first · dados abertos, código aberto</p>
+ </div>
+ </footer>
+
+ <div id="tip" class="tip" aria-hidden="true"></div>
+
+ <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+ <script src="assets/carrosseis.js"></script>
+ <script src="assets/carousel-site.js"></script>
+ <script src="assets/machine.js"></script>
+ <script src="assets/app.js"></script>
+ <script src="assets/mais-valia.js"></script>
+ <script src="assets/glossario.js"></script>
+ <script src="assets/data-sections.js"></script>
+ <script src="assets/tutoriais.js"></script>
+ <script src="assets/dossies-render.js"></script>
 </body>
 </html>

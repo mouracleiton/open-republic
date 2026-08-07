@@ -567,8 +567,11 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
 
   /* -------------------- Init -------------------- */
 
+  var initialized = false;
   function init() {
+    if (initialized) return;
     if (!window.CARROSSEIS || !window.CARROSSEIS.length) return;
+    initialized = true;
 
     tabsInit();
 
@@ -594,4 +597,7 @@ Formato de saída: tabela com Cena | Visual | Áudio/Narração | Legenda.`;
   } else {
     init();
   }
+  // Os carrosséis chegam via fetch assíncrono (carrosseis.js). Se ainda
+  // não estavam prontos no init, o evento "carrosseis-loaded" retoma.
+  document.addEventListener('carrosseis-loaded', init);
 })();

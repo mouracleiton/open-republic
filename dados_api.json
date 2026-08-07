@@ -3877,49 +3877,48 @@
     "repositorio": "github.com/mouracleiton/open-republic",
     "url_base": "https://mouracleiton.github.io/open-republic/",
     "secoes": [
-      "projeto",
-      "url_base",
-      "manifesto",
-      "requisitos_politico",
+      "ambiente_detalhado",
+      "bancadas_parlamentares",
+      "capitulos",
+      "carrosseis_instagram",
+      "ciencia_tecnologia",
+      "comparativo_internacional",
+      "compartilhamento_whatsapp",
+      "cultura",
+      "dados_eleitorais",
+      "dados_para_acao",
+      "direitos_humanos",
+      "dossie_politicos",
+      "drogas_reducao_danos",
+      "educacao_detalhada",
+      "energia_detalhada",
       "frente_comunista_unida",
       "historia_brasil_524_anos",
-      "raio_x_nacional",
-      "procura_se_candidatos",
-      "mapa_estados",
-      "carrosseis_instagram",
-      "compartilhamento_whatsapp",
-      "rankings_politicos",
-      "ranking_dinheiro_publico",
-      "orcamento_publico",
-      "meta",
-      "saude_detalhada",
-      "educacao_detalhada",
-      "violencia_detalhada",
-      "trabalho_renda",
-      "ambiente_detalhado",
-      "direitos_humanos",
-      "moradia_cidades",
-      "midia_comunicacao",
-      "comparativo_internacional",
       "historia_timeline_expandida",
-      "dados_eleitorais",
-      "energia_detalhada",
-      "reforma_agraria",
-      "sistema_justica",
-      "drogas_reducao_danos",
-      "militarismo",
       "imigrantes_refugiados",
-      "propostas_executaveis",
-      "tributacao",
-      "transporte_mobilidade",
-      "bancadas_parlamentares",
-      "ciencia_tecnologia",
-      "cultura",
-      "povos_originarios",
+      "manifesto",
+      "mapa_estados",
+      "midia_comunicacao",
+      "militarismo",
+      "moradia_cidades",
       "movimentos_sociais",
-      "dados_para_acao"
+      "orcamento_publico",
+      "povos_originarios",
+      "procura_se_candidatos",
+      "propostas_executaveis",
+      "raio_x_nacional",
+      "ranking_dinheiro_publico",
+      "rankings_politicos",
+      "reforma_agraria",
+      "requisitos_politico",
+      "saude_detalhada",
+      "sistema_justica",
+      "trabalho_renda",
+      "transporte_mobilidade",
+      "tributacao",
+      "violencia_detalhada"
     ],
-    "total_secoes": 41,
+    "total_secoes": 40,
     "fontes_principais": [
       "IBGE (PNAD, Censo 2022, PIB, RDPC)",
       "IPEA",
@@ -6545,7 +6544,9 @@
       "data_compilacao": "06/08/2026",
       "metodo": "Pesquisa web em fontes oficiais (TSE, Senado, Câmara, STF, TCU, CGU) e jornais de referência. Campos sem fonte verificada são marcados explicitamente.",
       "aviso": "Informações podem desatualizar. Verifique sempre a fonte primária antes de qualquer uso.",
-      "fonte_principal": "TSE/DivulgaCand, Senado Federal, Câmara dos Deputados, STF, TCU, CGU, imprensa de referência"
+      "fonte_principal": "TSE/DivulgaCand, Senado Federal, Câmara dos Deputados, STF, TCU, CGU, imprensa de referência",
+      "nota_etapa": "Etapa de enriquecimento via API da Câmara dos Deputados (dadosabertos.camara.leg.br): 32 dossiês priorizados receberam dados estruturados (CEAP, votações nominais, proposições recentes, frentes parlamentares). Outros 512 dossiês permanecem com dados básicos.",
+      "nota_etapa_2": "Etapa de enriquecimento via pesquisa web (Wikipédia e fontes de referência): 6 políticos de alta relevância (Boulos, Marina Silva, Tabata Amaral, Padilha, Sâmia Bomfim, Erika Hilton) receberam dados factuais detalhados de biografia, patrimônio, financiamento, questões judiciais e imagem pública."
     },
     "politicos": [
       {
@@ -12768,14 +12769,14 @@
       },
       {
         "nome": "Eunício Oliveira",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo CE (mandato 2023-2027)",
         "partido_atual": "MDB",
         "estado": "CE",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "30/09/1952, Lavras da Mangabeira/CE",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Lavras da Mangabeira/CE. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "MDB (candidato(a) em 2026)"
           ],
@@ -12791,20 +12792,48 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 387.008,90; 2024: R$ 590.671,05; 2023: R$ 530.004,02 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 3444/2000: Institui e disciplina a cobrança do selo-pedágio.",
+            "PL 3404/2000: Altera os arts. 39, 71, 72 e 73 da Lei nº 8.213, de 24 de julho de 1991, para facilitar o acesso das seguradas do Regime Geral de Previdência Social ao benefício do salário-maternidade.",
+            "PL 3403/2000: Altera a redação do § 3º do art. 18 da Lei nº 7.998, de 11 de janeiro de 1990, para dispor sobre a indicação dos representantes de trabalhadores e de empregadores no CODEFAT - Conselho Deliberativo do...",
+            "PL 3362/2000: Acrescenta parágrafo único ao art. 16 e altera a redação dos §§ 2º, 3º e 5º do art. 121 e o inciso I do art. 122 do Estatuto da Criança e do Adolescente - Lei nº 8.069, de 13 de julho de 1990.",
+            "PL 3040/2000: Proíbe a apresentação com finalidade comercial de animais ferozes em espetáculos circenses e congêneres.",
+            "PL 2886/2000: 1Altera a redação do art. 101 da Lei nº 8.213, de 24 de julho de 1991, bem como revoga o art. 70 da Lei nº 8.212, de 24 de julho de 1991, para extinguir a obrigatoriedade da perícia médica periódica p...",
+            "PL 2498/2000: Altera a Lei nº 7.418, de 16 de dezembro de 1985, que \"institui o Vale-Transporte, e dá outras providências\", para instituir alternativamente o Auxílio-Transporte.",
+            "PEC 285/2000: Dá nova redação ao § 1º do art. 144, atribuindo à Polícia Federal a apuração de assaltos praticados contra instituições financeiras, carros-fortes e bases de depósito de valores.",
+            "PLP 140/2000: Regulamenta o inciso III do art. 192 da Constituição Federal.",
+            "PL 1932/1999: Estipula prazo para o pagamento de indenização aos segurados nos casos de morte ou invalidez permanente.",
+            "PL 1848/1999: Institui isenção do Imposto sobre Produtos Industrializados (IPI) nas aquisições de automóveis de passageiros, veículos de uso misto ou ambulâncias feitas pelas Associações de Pais e Amigos dos Excepc...",
+            "PL 340/1999: Altera o § 1º e o § 2º do art. 477 da Consolidação das Leis do Trabalho, que dispõe sobre homologação de rescisão contratual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 31 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista pela Valorização do Serviço Social; Frente Parlamentar em Defesa das Bacias Hidrográficas Brasileiras; Frente Parlamentar em Defesa dos Profissionais da Dança etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -12824,7 +12853,12 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/eunicio",
+          "https://www.instagram.com/euniciooliveira"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/74454.jpg"
       },
       {
         "nome": "Fernanda Pessoa",
@@ -13668,14 +13702,14 @@
       },
       {
         "nome": "Bia Kicis",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo DF (mandato 2023-2027)",
         "partido_atual": "PL",
         "estado": "DF",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "19/09/1961, Resende/DF",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Resende/DF. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PL (candidato(a) em 2026)"
           ],
@@ -13691,20 +13725,45 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 415.996,04; 2024: R$ 404.175,86; 2023: R$ 355.112,03 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1777/2019: Altera as Leis n° 7.116, de 1983, nº 9.454, de 1997, e n° 13.444, de 2017, para estabelecer a adoção de número único para os documentos que especifica.",
+            "PL 1182/2019: Acrescenta o item 6 ao art. 39 da Lei Nº. 1.079 de 10 de abril de 1.950.",
+            "PL 246/2019: Institui o \"Programa Escola sem Partido\"",
+            "PLP 103/2019: Revoga a Lei Complementar nº 152, de 3 de dezembro de 2015, que dispõe sobre a aposentadoria compulsória por idade, com proventos proporcionais, nos termos do inciso II, do § 1º do art. 40 da Constitu..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Não",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 141 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar Mista do Ambiente de Negócios (FPN); Frente Parlamentar Mista Brasil - Espanha etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -13724,18 +13783,25 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/biakicis",
+          "https://www.facebook.com/biakicis",
+          "https://www.instagram.com/biakicis",
+          "https://youtube.com/biakicis"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204374.jpg"
       },
       {
         "nome": "Erika Kokay",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo DF (mandato 2023-2027)",
         "partido_atual": "PT",
         "estado": "DF",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "15/08/1957, Fortaleza/DF",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Fortaleza/DF. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PT (candidato(a) em 2026)"
           ],
@@ -13751,20 +13817,43 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 432.742,97; 2024: R$ 436.026,80; 2023: R$ 389.967,48 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PRC 34/2011: Acrescenta o inciso VI no art. 4º capítulo III do Código de Ética e Decoro Parlamentar da Câmara dos Deputados.",
+            "PRC 33/2011: Dá nova redação ao inciso II art. 4º do capítulo III do Código de Ética e Decoro Parlamentar da Câmara dos Deputados."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 153 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em Defesa da Cannabis Medicinal e do Cânhamo Industrial; Frente Parlamentar Mista pela Integração Sul-Americana etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -13784,7 +13873,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/160575.jpg"
       },
       {
         "nome": "Fred Linhares",
@@ -15828,14 +15918,14 @@
       },
       {
         "nome": "André Fufuca",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Ministro de Estado - Ministério do Esporte; Deputado(a) Federal pelo MA (mandato 2023-2027, licenciado)",
         "partido_atual": "PP",
         "estado": "MA",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "27/08/1989, Santa Inês/MA",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Santa Inês/MA. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PP (candidato(a) em 2026)"
           ],
@@ -15851,7 +15941,7 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 1.059,85; 2023: R$ 156.987,59 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
@@ -15860,11 +15950,23 @@
           "proposicoes_principais": [
             "Dados não disponíveis no banco de dados atual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 24 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar da Mineração e Construção Civil; Frente Parlamentar Mista em Defesa da Exploração de Petróleo na Margem Equatorial do Brasil; Frente Parlamentar Mista de Apoio à Emancipação de Distritos no Brasil etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -15884,7 +15986,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/178882.jpg"
       },
       {
         "nome": "Cleber Verde",
@@ -16788,14 +16891,14 @@
       },
       {
         "nome": "Aécio Neves",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo MG (mandato 2023-2027)",
         "partido_atual": "PSDB",
         "estado": "MG",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "10/03/1960, Belo Horizonte/MG",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Belo Horizonte/MG. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PSDB (candidato(a) em 2026)"
           ],
@@ -16811,20 +16914,48 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 495.697,80; 2024: R$ 478.463,20; 2023: R$ 453.845,28 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 2046/1999: Estabelece o procedimento sumário em causas cíveis ou trabalhistas para a cobrança de crédito de caráter alimentar devido a pessoa inválida, portadora de deficiência ou de idade superior a sessenta an...",
+            "PL 908/1999: Altera dispositivos das Leis nº 8.436, de 25 de junho de 1992 e nº 7.998, de 11 de janeiro de 1990, que institucionalizam o Programa de Crédito Educativo para estudantes carentes e regula o Programa d...",
+            "PL 4634/1998: Altera a Lei nº 7.713, de 22 de dezembro de 1988, que dispõe sobre o Imposto de Renda.",
+            "PL 4544/1998: Dispõe sobre obrigatoriedade de bares, boates, restaurantes e similares, estabelecimentos de ensino, entidade social, cultural, recreativa, esportiva ou beneficente fixarem, em lugar de destaque, quad...",
+            "PL 4539/1998: Altera o art. 31 da Lei nº 9.099, de 26 de setembro de 1995.",
+            "PL 3346/1997: Dispõe sobre a comemoração de feriados.",
+            "PRC 162/1997: Dispõe sobre o prazo para apreciação na Comissão de Constituição e Justiça e de Redação e no Plenário da solicitação do Presidente do Supremo Tribunal Federal para instaurar processo criminal contra D...",
+            "PL 2670/1992: DISPÕE SOBRE CONCESSÃO DE ABATIMENTOS NO SETOR DE ENSINO.",
+            "PL 2470/1991: DISPÕE SOBRE O DIREITO DE OS CONSORCIADOS DE BENS REAVER AS IMPORTANCIAS PAGAS.",
+            "PL 2461/1991: DISPÕE SOBRE FACILIDADES PARA RECEBIMENTO DE APOSENTADORIAS E PENSÕES, NAS CONDIÇÕES QUE MENCIONA.",
+            "PL 1958/1991: DISPÕE SOBRE O TRANSPORTE DE DEFICIENTES FISICOS EM ONIBUS INTERESTADUAIS.",
+            "PL 1677/1991: DISPÕE SOBRE A PENSÃO A MILITARES QUE MENCIONA."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 13 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista Brasil - Espanha; Frente Parlamentar Mista dos Correspondentes Bancários; Frente Parlamentar Mista da Energia Limpa etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -16844,7 +16975,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/74646.jpg"
       },
       {
         "nome": "Ana Paula Leão",
@@ -16968,14 +17100,14 @@
       },
       {
         "nome": "André Janones",
-        "cargo_atual": "Candidato(a) a governador(a) (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo MG (mandato 2023-2027)",
         "partido_atual": "REDE",
         "estado": "MG",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "05/05/1984, Ituiutaba/MG",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Ituiutaba/MG. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "REDE (candidato(a) em 2026)"
           ],
@@ -16991,20 +17123,48 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 369.869,37; 2024: R$ 494.872,76; 2023: R$ 454.089,24 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 2790/2019: Altera a Lei nº 12.608, de 10 de abril de 2012 (Estatuto de Proteção e Defesa Civil), para incluir a prevenção a desastres induzidos por ação humana.  NOVA EMENTA; Altera a Lei nº 12.608, de 10 de abr...",
+            "PL 2789/2019: Modifica a Lei nº 8.001, de 13 de março de 1990, para ajustar alíquotas da Compensação Financeira pela Exploração de Recursos Minerais (CFEM) e instituir fundo para ações emergenciais decorrentes de d...",
+            "PL 2788/2019: Institui a Política Nacional de Direitos das Populações Atingidas por Barragens, e dá outras providências.   NOVA EMENTA: Institui a Política Nacional de Direitos das Populações Atingidas por Barragen...",
+            "PL 2785/2019: Define normas gerais para o licenciamento ambiental de empreendimentos minerários.",
+            "PL 2288/2019: Altera dispositivos da Lei nº 9.096, de 19 de setembro de 1995 - Lei dos Partidos Políticos - e da Lei nº 9.504, de 30 de setembro de 1997 - Lei das Eleições, para dispor sobre a finalidade dos Fundos...",
+            "PLP 127/2019: Altera a Lei Complementar nº 140, de 8 de dezembro de 2011, para aperfeiçoar as regras sobre as atribuições para o licenciamento ambiental.",
+            "PLP 126/2019: Dispõe sobre exclusão da isenção tributária de produtos primários da atividade mineral."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 65 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -17024,7 +17184,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/AndreJanonesAdv",
+          "https://www.facebook.com/andrejanones",
+          "https://www.instagram.com/andrejanones",
+          "https://youtube.com/AndreJanonesAdv"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204515.jpg"
       },
       {
         "nome": "Bruno Farias",
@@ -17088,14 +17255,14 @@
       },
       {
         "nome": "Célia Xakriabá",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo MG (mandato 2023-2027)",
         "partido_atual": "PSOL",
         "estado": "MG",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "10/05/1989, São Paulo/MG",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: São Paulo/MG. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Doutorado (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PSOL (candidato(a) em 2026)"
           ],
@@ -17111,20 +17278,43 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 488.199,93; 2024: R$ 503.488,61; 2023: R$ 472.749,58 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 627/2023: Proíbe homenagem a escravocratas, higienistas ou genocidas no Sistema Nacional de Viação – SNV, em obras de arte, nomeação de Prédios Públicos da Administração Federal e nos Monumentos Nacionais em to...",
+            "PLP 19/2023: Altera a Lei Complementar nº 179, de 24 de fevereiro de 2021, que “Define os objetivos do Banco Central do Brasil e dispõe sobre sua autonomia e sobre a nomeação e a exoneração de seu Presidente e de ..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 116 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar Mista em Defesa da Cannabis Medicinal e do Cânhamo Industrial; Frente Parlamentar em Defesa das Trabalhadoras e dos Trabalhadores da Economia Informal etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -17144,7 +17334,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/206018.jpg"
       },
       {
         "nome": "Dandara",
@@ -21468,14 +21659,14 @@
       },
       {
         "nome": "Joaquim Passarinho",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PA (mandato 2023-2027)",
         "partido_atual": "PL",
         "estado": "PA",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "02/12/1961, Belém/PA",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Belém/PA. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PL (candidato(a) em 2026)"
           ],
@@ -21491,20 +21682,42 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 545.620,50; 2024: R$ 450.578,74; 2023: R$ 483.539,76 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 887/2015: Altera a Lei Complementar nº 62, de 28 de dezembro de 1989, que \"estabelece normas sobre o cálculo, a entrega e o controle das liberações dos recursos dos Fundos de Participação e dá outras providênci..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Não",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 154 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira; Frente Parlamentar Mista Brasil - Espanha etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -21524,7 +21737,13 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/depjpassarinho",
+          "https://www.facebook.com/joaquimpassarinhooficial",
+          "https://www.instagram.com/joaquim_passarinho"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/178910.jpg"
       },
       {
         "nome": "José Priante",
@@ -22128,14 +22347,14 @@
       },
       {
         "nome": "Hugo Motta",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PB (mandato 2023-2027)",
         "partido_atual": "REPUBLICANOS",
         "estado": "PB",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "11/09/1989, João Pessoa/PB",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: João Pessoa/PB. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "REPUBLICANOS (candidato(a) em 2026)"
           ],
@@ -22151,20 +22370,42 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 565.227,59; 2024: R$ 538.744,81; 2023: R$ 534.234,26 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 743/2011: Dispõe sobre o livre exercício da profissão de músico."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 58 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista dos Correspondentes Bancários; Frente Parlamentar Mista da Energia Limpa; Frente Parlamentar em Defesa da Enfermagem etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -22184,7 +22425,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/160674.jpg"
       },
       {
         "nome": "Leonardo Gadelha",
@@ -22548,14 +22790,14 @@
       },
       {
         "nome": "Wellington Roberto",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PB (mandato 2023-2027)",
         "partido_atual": "PSD",
         "estado": "PB",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "19/05/1959, São José de Piranhas/PB",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: São José de Piranhas/PB. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior Incompleto (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PSD (candidato(a) em 2026)"
           ],
@@ -22571,7 +22813,7 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 571.783,71; 2024: R$ 541.619,14; 2023: R$ 531.470,26 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
@@ -22580,11 +22822,33 @@
           "proposicoes_principais": [
             "Dados não disponíveis no banco de dados atual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 98 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar Mista do Ambiente de Negócios (FPN) etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -22604,7 +22868,11 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://www.instagram.com/wellingtonroberto.pb"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/74043.jpg"
       },
       {
         "nome": "André Ferreira",
@@ -23088,14 +23356,14 @@
       },
       {
         "nome": "Felipe Carreras",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PE (mandato 2023-2027)",
         "partido_atual": "PSB",
         "estado": "PE",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "16/04/1975, Recife/PE",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Recife/PE. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior Incompleto (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PSB (candidato(a) em 2026)"
           ],
@@ -23111,20 +23379,50 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 554.623,46; 2024: R$ 474.774,95; 2023: R$ 300.581,83 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 8906/2017: Altera a Lei nº 10.891, de 9 de julho de 2004, que institui a Bolsa-Atleta, para dispor sobre garantia de pagamento mensal e reajuste da Bolsa-Atleta.",
+            "PL 6806/2017: Altera a lei 9.615, de 24 de março de 1998, para instituir o incentivo financeiro para Medalhistas Olímpicos.",
+            "PL 6805/2017: Institui o Programa Adote uma Ciclovia para incentivar o uso da bicicleta visando a melhoria das condições de mobilidade urbana.",
+            "PL 6804/2017: Dispõe sobre a isenção de estabelecimentos hoteleiros do pagamento do Programa de Integração Social (PIS) e da Contribuição para o Financiamento da Seguridade Social (COFINS)",
+            "PL 6803/2017: Exclui o inciso VIII, do art. 8º, da Lei 13.202, de 8 de dezembro de 2015, para evitar aumento nas passagens aéreas.",
+            "PL 6802/2017: Desonera as operações com bicicletas, suas partes, peças e acessórios, do pagamento do Imposto sobre Produtos Industrializados - IPI, da Contribuição para os Programas de Integração Social e de Formaç...",
+            "PL 6801/2017: Altera o inciso II, do artigo 7º, da Lei Nº 12.546, de 14 de dezembro de 2011, alterado pela Lei nº 12.715 de 2012 para determinar a alíquota de contribuição sobre da receita bruta.",
+            "PL 165/2015: Dispõe sobre a política de valorização do salário mínimo para o período compreendido entre 2016 e 2019, inclusive.",
+            "PL 163/2015: Altera a Lei nº 10.891, de 9 de julho de 2004, que institui a Bolsa-Atleta, estendendo a concessão do benefício da Bolsa-Atleta aos atletas-guia dos atletas das categorias T11 e T12."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 185 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista do Ambiente de Negócios (FPN); Frente Parlamentar Mista Brasil - Espanha etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -23144,7 +23442,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/72442.jpg"
       },
       {
         "nome": "Fernando Coelho Filho",
@@ -23508,14 +23807,14 @@
       },
       {
         "nome": "Luciano Bivar",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PE (mandato 2023-2027)",
         "partido_atual": "MDB",
         "estado": "PE",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "29/11/1944, Recife/PE",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Recife/PE. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "MDB (candidato(a) em 2026)"
           ],
@@ -23531,20 +23830,31 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 532.255,55; 2024: R$ 403.924,41; 2023: R$ 270.133,59 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 5199/2001: Altera o art. 280 da Lei nº 9.503, de 23 de setembro de 1997, dispondo sobre a notificação de auto de infração de trânsito.",
+            "PL 4802/2001: Dispõe sobre a impenhorabilidade das rendas arrecadadas em bilheterias de espetáculos sociodesportivos e culturais.",
+            "PEC 267/2000: Altera o art. 45, da Constituição Federal, determinando a eleição dos candidatos individualmente mais votados à Câmara dos Deputados, às Assembléias Legislativas e à Câmara Legislativa.",
+            "PL 761/1999: Dá nova redação ao inciso IV do art. 5º da Lei nº 9.514, de 20 de novembro de 1997.",
+            "PEC 113/1999: Dispõe sobre a consulta popular, mediante o referendo de que trata o art. 14, II, da Constituição Federal, para a adoção temporária da pena de morte, prevista na alínea \"a\" do inciso XLVII do art. 5º."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 37 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Brasil - Israel; Frente Parlamentar da Baixada Fluminense do Rio de Janeiro; Frente Parlamentar em Defesa das Pessoas com Doenças Reumáticas etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -23564,7 +23874,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/74478.jpg"
       },
       {
         "nome": "Lula da Fonte",
@@ -23868,14 +24179,14 @@
       },
       {
         "nome": "Renildo Calheiros",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PE (mandato 2023-2027)",
         "partido_atual": "PCdoB",
         "estado": "PE",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "20/04/1959, Murici/PE",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Murici/PE. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PCdoB (candidato(a) em 2026)"
           ],
@@ -23891,20 +24202,43 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 453.967,73; 2024: R$ 424.269,29; 2023: R$ 377.125,80 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 502/2003: Dispõe sobre a obrigatoriedade de prestação de serviços de acondicionamento ou embalagem das compras em estabelecimentos comerciais denominados supermercados, hipermercados ou similares.",
+            "PL 2824/1992: Institui a meia-entrada para estudantes em estabelecimentos que proporcionem lazer e entretenimento."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 132 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -23924,18 +24258,19 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/73801.jpg"
       },
       {
         "nome": "Silvio Costa Filho",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Republicanos",
+        "cargo_atual": "Ministro de Estado - Ministério de Portos e Aeroportos; Deputado(a) Federal pelo PE (mandato 2023-2027, licenciado)",
+        "partido_atual": "REPUBLICANOS",
         "estado": "PE",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "05/03/1982, Recife/PE",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Recife/PE. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Republicanos (candidato(a) em 2026)"
           ],
@@ -23951,7 +24286,7 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2023: R$ 305.465,36 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
@@ -23960,11 +24295,23 @@
           "proposicoes_principais": [
             "Dados não disponíveis no banco de dados atual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 167 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar da Mineração e Construção Civil; Frente Parlamentar em Defesa da Soberania Nacional; Frente Parlamentar Mista de Apoio ao Sistema Nacional de Fomento para o Financiamento do Desenvolvimento etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -23984,7 +24331,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/Silvio_CFilho",
+          "https://www.facebook.com/silvio.costafilhoi",
+          "https://www.instagram.com/silviocostafilho",
+          "https://youtube.com/SilvioCostaFilhooficial"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204425.jpg"
       },
       {
         "nome": "Túlio Gadelha",
@@ -24828,14 +25182,14 @@
       },
       {
         "nome": "Beto Richa",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PR (mandato 2023-2027)",
         "partido_atual": "PSDB",
         "estado": "PR",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "29/07/1965, Londrina/PR",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Londrina/PR. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PSDB (candidato(a) em 2026)"
           ],
@@ -24851,7 +25205,7 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 523.846,73; 2024: R$ 431.606,45; 2023: R$ 471.472,43 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
@@ -24860,11 +25214,33 @@
           "proposicoes_principais": [
             "Dados não disponíveis no banco de dados atual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 163 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -24884,7 +25260,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://pt-br.facebook.com/BetoRichaOficial",
+          "https://twitter.com/BetoRicha",
+          "https://www.instagram.com/betoricha/",
+          "https://www.youtube.com/channel/UC11K_Oia5ib5Zknm87oG1FQ"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220683.jpg"
       },
       {
         "nome": "Carol Dartora",
@@ -25308,14 +25691,14 @@
       },
       {
         "nome": "Gleisi Hoffmann",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
+        "cargo_atual": "Deputado(a) Federal pelo PR (mandato 2023-2027)",
         "partido_atual": "PT",
         "estado": "PR",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "06/09/1965, Curitiba/PR",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Curitiba/PR. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Pós-Graduação (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PT (candidato(a) em 2026)"
           ],
@@ -25331,20 +25714,47 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 91.628,48; 2024: R$ 525.279,57; 2023: R$ 441.291,28 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1462/2019: Altera a Lei Complementar nº 78, de 30 de dezembro de 1993, para estabelecer percentual de vagas destinadas ao preenchimento por mulheres nas eleições proporcionais.",
+            "PL 372/2019: Altera a Lei no 11.482, de 31 de maio de 2007, para modificar a faixa de isenção constante na tabela progressiva do Imposto sobre a Renda da Pessoa Física.",
+            "PL 371/2019: Fixa o preço do gás de cozinha (GLP) em botijão de 13 kg, no valor de até R$ 49,00, para o consumidor final.",
+            "PL 370/2019: Dispõe sobre a política de valorização do salário mínimo para o período de 2020 a 2023.",
+            "PLP 109/2019: Altera a Lei Complementar nº 78, de 30 de dezembro de 1993, para estabelecer percentual de vagas destinadas ao preenchimento por mulheres nas eleições proporcionais.",
+            "PLP 108/2019: Altera a Lei nº 4.595, de 31 de dezembro de 1964, para que passe a figurar como competência do Banco Central do Brasil a expressão \"perseguir a estabilidade do poder de compra da moeda, fiscalizar e r..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 59 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira; Frente Parlamentar em Defesa das Trabalhadoras e dos Trabalhadores da Economia Informal; Frente Parlamentar Mista em Defesa dos Correios etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -25364,7 +25774,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/gleisi",
+          "https://www.facebook.com/gleisi.hoffmann",
+          "https://www.instagram.com/gleisihoffmann",
+          "https://youtube.com/GleisiHoffmannPT"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/107283.jpg"
       },
       {
         "nome": "Itamar Paim",
@@ -26808,14 +27225,14 @@
       },
       {
         "nome": "Carlos Jordy",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo RJ (mandato 2023-2027)",
         "partido_atual": "PL",
         "estado": "RJ",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "08/02/1982, Niterói/RJ",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Niterói/RJ. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PL (candidato(a) em 2026)"
           ],
@@ -26831,20 +27248,41 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 517.437,87; 2024: R$ 294.885,30; 2023: R$ 462.929,34 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 3033/2019: Declara São José de Anchieta patrono da educação brasileira e revoga a Lei nº Lei nº 12.612, de 13 de abril de 2012.",
+            "PL 2095/2019: Acrescenta o inciso VII ao §2º do art. 157 do Decreto-Lei nº 2.848, de 1.940 - Código Penal - para estabelecer pena no caso de uso de simulacro de arma de fogo.",
+            "PL 2094/2019: Altera a Lei nº 7.210, de 11 de julho de 1994 e dá outras providências.",
+            "PL 2093/2019: Altera a redação do § 2º do Artigo 8º da Lei Federal nº 7.990, de 28 de Dezembro de 1989 e dá outras providências.",
+            "PL 2092/2019: Dispõe sobre a necessidade de o fiador ser notificado sobre a inadimplência do locatário em tempo hábil, acrescentando dispositivo à Lei n° 8.245, de 18 de outubro de 1991, que dispõe sobre as locaçõe...",
+            "PL 1298/2019: Acrescenta o art. 218-D ao Decreto-Lei nº2.848, de 7 de setembro de 1940 (Código Penal), a fim de estabelecer responsabilidades àqueles que submetem ou permitem crianças e adolescentes em eventos que ...",
+            "PL 1297/2019: Altera a pena do art. 233 do Decreto-Lei nº2.848 (Código Penal), de 7 de setembro de 1940  e acrescenta o parágrafo único que dispõe sobre o agravamento da pena.",
+            "PL 876/2019: Dispõe sobre garantias dos integrantes dos órgãos responsáveis pela Segurança Pública.",
+            "PL 554/2019: Dispõe sobre a retirada de invasores de propriedade privada.",
+            "PL 246/2019: Institui o \"Programa Escola sem Partido\""
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Não",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 63 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar em Defesa da Ética na Saúde Suplementar etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -26864,7 +27302,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/carlosjordy",
+          "https://www.facebook.com/carlosjordyoficial",
+          "https://www.instagram.com/carlosjordy",
+          "https://youtube.com/channel/UCkWU59eSRp41W6bCdyJlRdg"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204460.jpg"
       },
       {
         "nome": "Chico Alencar",
@@ -27708,14 +28153,14 @@
       },
       {
         "nome": "Jandira Feghali",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo RJ (mandato 2023-2027)",
         "partido_atual": "PCdoB",
         "estado": "RJ",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "17/05/1957, Curitiba/RJ",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Curitiba/RJ. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Pós-Graduação (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PCdoB (candidato(a) em 2026)"
           ],
@@ -27731,20 +28176,53 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 491.911,13; 2024: R$ 378.610,72; 2023: R$ 386.466,28 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PEC 198/2000: Estabelece limite máximo para o valor dos benefícios do regime geral de previdência social.",
+            "PL 1241/1999: Dispõe sobre aposentadoria em tempo inferior para guardas de endemias, bem como outros funcionários da Fundação Nacional de Saúde que trabalham diretamente com inseticidas.",
+            "PL 1240/1999: Dispõe sobre a regulamentação da profissão de Trabalhador Subaquático.",
+            "PL 722/1999: Dispõe sobre a obrigatoriedade do uso de papel reciclado por parte dos órgãos públicos federais.",
+            "PL 260/1999: Dispõe sobre a obrigatoriedade de realização do exame DNA na rede hospitalar pública.",
+            "PL 194/1999: Dispõe sobre a concessão de reajustes aos salários dos trabalhadores do setor privado, ao salário mínimo e aos benefícios de prestação continuada da Previdência Social.",
+            "PL 94/1999: Estabelece os direitos dos usuários dos serviços de saúde e dá outras providências.",
+            "PL 93/1999: Acrescenta inciso ao art. 20 da Lei nº 8.036, de 1990, possibilitando ao estudante universitário a movimentação da conta vinculada no Fundo de Garantia do Tempo de Serviço (FGTS) para pagamento das me...",
+            "PL 92/1999: Dispõe sobre o exercício da medicina, a organização e atuação dos Conselhos de Medicina e dá outras providências.",
+            "PL 2349/1996: Dispõe sobre a contratação de assistentes sociais.",
+            "PEC 308/1996: Dá nova redação ao parágrafo 2º do artigo 17 da Constituição Federal.   NOVA EMENTA DA REDAÇÃO DO VENCIDO: Dá nova redação à alínea \"C\" do inciso XVI do art. 37 da Constituição Federal.",
+            "PL 822/1995: Dispõe sobre a proibição de revista íntima de funcionárias nos locais de trabalho."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 73 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira; Frente Parlamentar Mista Brasil - Espanha etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -27764,7 +28242,8 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/74848.jpg"
       },
       {
         "nome": "Jorge Braz",
@@ -29088,14 +29567,14 @@
       },
       {
         "nome": "Sóstenes Cavalcante",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo RJ (mandato 2023-2027)",
         "partido_atual": "PL",
         "estado": "RJ",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "16/01/1975, Maceió/RJ",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Maceió/RJ. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PL (candidato(a) em 2026)"
           ],
@@ -29111,7 +29590,7 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 511.239,64; 2024: R$ 497.030,82; 2023: R$ 461.058,91 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
@@ -29120,11 +29599,28 @@
           "proposicoes_principais": [
             "Dados não disponíveis no banco de dados atual."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Não",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 209 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -29144,18 +29640,25 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/DepSostenes",
+          "https://www.facebook.com/sostenescavalcante",
+          "https://www.instagram.com/sostenescavalcante",
+          "https://youtube.com/channel/UCI2j76o7JyLVSmooEcSvLxA"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/178947.jpg"
       },
       {
         "nome": "Talíria Petrone",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Deputado(a) Federal pelo RJ (mandato 2023-2027)",
+        "partido_atual": "PSOL",
         "estado": "RJ",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "09/04/1985, Niterói/RJ",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Niterói/RJ. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Mestrado Incompleto (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Psol (candidato(a) em 2026)"
           ],
@@ -29171,20 +29674,45 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 495.356,41; 2024: R$ 496.119,18; 2023: R$ 409.477,64 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 878/2019: Dispõe sobre a humanização da assistência à mulher e ao neonato durante o ciclo gravídico-puerperal e dá outras providências.",
+            "PL 877/2019: Altera a lei 10.714/2003, com o objetivo de ampliar a divulgação do Disque 180.",
+            "PL 855/2019: Institui a licença parental em todo território nacional.",
+            "PL 502/2019: Institui o programa \"Escola Sem Mordaça\" em todo o território nacional."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 90 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar Mista em Defesa da Cannabis Medicinal e do Cânhamo Industrial etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -29204,18 +29732,19 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204464.jpg"
       },
       {
         "nome": "Tarcísio Motta",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Deputado(a) Federal pelo RJ (mandato 2023-2027)",
+        "partido_atual": "PSOL",
         "estado": "RJ",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "28/01/1975, Petrópolis/RJ",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Petrópolis/RJ. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Doutorado (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Psol (candidato(a) em 2026)"
           ],
@@ -29231,20 +29760,43 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 519.268,88; 2024: R$ 481.045,43; 2023: R$ 372.803,23 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 627/2023: Proíbe homenagem a escravocratas, higienistas ou genocidas no Sistema Nacional de Viação – SNV, em obras de arte, nomeação de Prédios Públicos da Administração Federal e nos Monumentos Nacionais em to...",
+            "PLP 19/2023: Altera a Lei Complementar nº 179, de 24 de fevereiro de 2021, que “Define os objetivos do Banco Central do Brasil e dispõe sobre sua autonomia e sobre a nomeação e a exoneração de seu Presidente e de ..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 138 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -29264,7 +29816,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/MottaTarcisio",
+          "https://www.facebook.com/TarcisioMottaPSOL",
+          "https://www.instagram.com/tarcisiomottapsol",
+          "https://youtube.com/tarcisiomottapsol"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220598.jpg"
       },
       {
         "nome": "Benes Leocádio",
@@ -34008,14 +34567,14 @@
       },
       {
         "nome": "Adriana Ventura",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Novo",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "NOVO",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "06/03/1969, São Paulo/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: São Paulo/SP. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Doutorado (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Novo (candidato(a) em 2026)"
           ],
@@ -34031,20 +34590,48 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 101.976,09; 2024: R$ 67.109,05; 2023: R$ 58.576,44 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 2302/2019: Revoga a Lei 9.956, de 12 de janeiro de 2000 e permite o funcionamento de bombas de autosserviço operadas pelo próprio consumidor nos postos de abastecimento de combustíveis, em todo o território naci...",
+            "PL 103/2019: Altera os arts. 382, 574, 584, 600, § 4º, 613, inc. I, 619, 620 e 584, do Decreto-Lei nº 3.689 de 3 de outubro de 1941, Código de Processo Penal, e acrescenta os arts. 578-A, 580-A, 620-A E 667-A, e t...",
+            "PL 83/2019: Altera a Lei nº 9.096, de 19 de setembro de 1995, a fim de prever a responsabilização dos partidos políticos por atos de corrupção e similares; acrescenta os arts. 32- A e 32-B à Lei nº 9.504, de 30 d...",
+            "PL 82/2019: Acrescenta o art. 312-A ao Decreto-Lei n. 2.848, de 7 de dezembro de 1940. Código Penal, para tornar crime o enriquecimento ilícito de agentes públicos.",
+            "PL 74/2019: Altera a Lei nº 9.096, de 19 de setembro de 1995, a Lei nº 9.504, de 30 de setembro de 1997, e a Lei nº 12.527, de 18 de novembro de 2011, a fim de estabelecer a responsabilização dos partidos polític...",
+            "PL 15/2019: Altera a Lei no 9.096, de 19 de setembro de 1995 (Lei dos Partidos Políticos), e a Lei no 9.504, de 30 de setembro de 1997 (Lei das Eleições), para dispor sobre a destinação dos recursos dos Fundos Pa...",
+            "PL 14/2019: Altera a Lei nº 9.504, de 30 de setembro de 1997 (Lei das Eleições), para extinguir o Fundo Especial de Financiamento de Campanha."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 206 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar Mista do Ambiente de Negócios (FPN) etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -34064,7 +34651,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/adriventurasp",
+          "https://www.facebook.com/adriventurasp",
+          "https://www.instagram.com/adriventurasp",
+          "https://youtube.com/adrianaventura"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204528.jpg"
       },
       {
         "nome": "Alencar Santana",
@@ -34248,63 +34842,90 @@
       },
       {
         "nome": "Alexandre Padilha",
-        "cargo_atual": "Deputado(a) Federal (2026)",
+        "cargo_atual": "Ministro de Estado - Ministério da Sáude; Deputado(a) Federal pelo SP (mandato 2023-2027, licenciado)",
         "partido_atual": "PT",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "14/09/1971, São Paulo/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Nascido em São Paulo em 14/09/1971; filho de Anivaldo Padilha (exilado político durante a ditadura) e Macilea Rocha Santos Chaves (médica). Fonte: Wikipedia.",
+          "formacao_academica": "Graduação em Medicina pela Universidade Estadual de Campinas (Unicamp), concluída em 1997; Residência/Especialização em Infectologia pela Faculdade de Medicina da USP (FMUSP), concluída em 2000 (CRM-SP 91136); pós-graduação na USP.",
           "filiacoes_partidarias": [
-            "PT (candidato(a) em 2026)"
+            "Partido dos Trabalhadores (PT) desde 1988 (filiação aos 17 anos)"
           ],
           "cargos_publicos": [
-            "Deputado(a) Federal (2026)"
+            "2004-2005: Diretor de Saúde Indígena da Fundação Nacional de Saúde (Funasa)",
+            "2005-2009: Chefe de gabinete e subchefe de Assuntos Federativos da SRI da Presidência",
+            "2009-2010: Ministro-chefe da Secretaria de Relações Institucionais (governo Lula II)",
+            "2011-2014: Ministro da Saúde (governo Dilma Rousseff)",
+            "2015-2016: Secretário Municipal de Saúde de São Paulo (gestão Fernando Haddad)",
+            "2019-presente: Deputado Federal por SP (mandatos 2019-2022 e 2023-2026); atualmente licenciado",
+            "2023-2025: Ministro-chefe da Secretaria de Relações Institucionais (governo Lula III)",
+            "2025-presente: Ministro da Saúde (governo Lula III)"
           ]
         },
         "bens_patrimonio": {
           "evolucao": [],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "Patrimônio não localizado nas fontes consultadas (Wikipedia e perfil da Câmara). Para declaração completa, consultar o TSE DivulgaCandContas."
           ]
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "Sem despesas declaradas na CEAP no período (pode indicar licença/ministério).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado nas fontes consultadas."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 896/2019: Altera os arts. 2º e 5º da Lei 12.813, de 16 de maio de 2013, que dispõe sobre o conflito de interesses no exercício de cargo ou emprego do Poder Executivo federal, para incluir o Presidente e o Vice-...",
+            "PL 376/2019: Dispõe que maternidades, casas de parto e estabelecimentos hospitalares congêneres, da rede pública e privada de todo o território nacional ficam obrigados a permitir a presença de doulas durante todo...",
+            "PL 375/2019: Acrescenta os § 3º e 4º ao art. 1º e os arts. 3-A e 80-A na Lei nº 9.394, de 20 de dezembro de 1996 (Lei de Diretrizes e Bases da Educação Nacional), para dispor sobre a liberdade de opinião e pensame...",
+            "PL 352/2019: Dispõe sobre o consentimento informado e instruções prévias de vontade sobre tratamento de enfermidade em fase terminal de vida.",
+            "PL 351/2019: Cria a Força Nacional do Sistema Único de Saúde (FN-SUS) e dá outras providências.",
+            "PL 350/2019: Dispõe sobre a liberação de entrada de animais de estimação em hospitais públicos para visitas a pacientes internados e dá outras providências"
           ],
-          "votacoes": []
+          "votacoes": [
+            "Votações nominais em compilação (fonte: API da Câmara dos Deputados)."
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "PT (Partido dos Trabalhadores); base do governo Lula"
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "Lula (PT, indicou-o duas vezes ministro da Saúde)",
+            "PT (partido)",
+            "Frente Parlamentar da Saúde"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado nas fontes consultadas (sem menção a processos no TSE ou TCU envolvendo diretamente Padilha)."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "Em maio/2013, investigação mediada pelo então PGR Roberto Gurgel por suspeitas de irregularidades na celebração/execução de convênios entre a Funasa e a FUB de 2004, quando Padilha era diretor de Saúde Indígena da Funasa. Segundo nota do Ministério da Saúde, as irregularidades teriam ocorrido antes de Padilha assumir o cargo.",
+            "Em julho/2013, o CRM-PA abriu processo ético-disciplinar contra Padilha sob alegação de anúncio indevido como infectologista; Padilha divulgou seu diploma de especialista e a FMUSP confirmou sua conclusão do programa de residência.",
+            "Não há menção, nas fontes consultadas, a envolvimento direto de Padilha no Mensalão ou na Operação Lava Jato."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Conflito com entidades médicas (AMB e CFM) em 2013 por causa do Programa Mais Médicos, especialmente pela não exigência de revalidação de diplomas dos médicos estrangeiros (cubanos); declarado 'persona non grata' por essas entidades.",
+            "Crítica à inserção de sua companheira, Thássia Alves, em cargo comissionado na EBC São Paulo em outubro/2015 (sob gestão do ministro Edinho Silva), em contexto de discussões sobre nepotismo cruzado vedado pelo STF.",
+            "Mudança de domicílio eleitoral de Santarém (PA) para São Paulo em junho/2013, vista pela oposição como motivação eleitoral para 2014."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "Segundo Datafolha citado na Wikipédia, em março/2014 cerca de 14 milhões de pessoas já haviam sido atendidas por médicos estrangeiros do Mais Médicos. Em 2017, listado pelo portal iG como o 37º 'mais poderoso do País'. Não localizado índice de aprovação/rejeição atualizado."
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/padilhando",
+          "https://www.facebook.com/padilhando",
+          "https://www.instagram.com/padilhando",
+          "https://youtube.com/AlexandrePadilhaTV"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204503.jpg"
       },
       {
         "nome": "Alfredinho",
@@ -34488,14 +35109,14 @@
       },
       {
         "nome": "Baleia Rossi",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
         "partido_atual": "MDB",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "09/06/1972, São Paulo/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: São Paulo/SP. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "MDB (candidato(a) em 2026)"
           ],
@@ -34511,20 +35132,48 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 377.188,69; 2024: R$ 310.788,96; 2023: R$ 315.471,40 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1074/2015: Revoga dispositivo da Lei nº 9.503, de 23 de setembro de 1997, para dispor sobre a placa de identificação dos veículos de duas ou três rodas.",
+            "PL 893/2015: Altera a Lei nº 12.305, de 2 de agosto de 2010, para dispor sobre o descarte de medicamentos, produtos médicos e produtos para diagnóstico de uso \"in vitro\".",
+            "PL 889/2015: Altera a Lei no 9.434, de 4 de fevereiro de 1997, para inserir critério para retirada de tecidos, órgãos e partes do corpo de pessoas falecidas para transplantes ou outra finalidade terapêutica e dá o...",
+            "PL 737/2015: Dispõe sobre a criação do Programa de Estímulo à Cidadania Fiscal no âmbito da União Federal.",
+            "PL 736/2015: Dispõe sobre a manutenção de desfibrilador cardíaco em locais especificados de todo o território nacional e dá outras providências",
+            "PL 735/2015: Cria o Programa Nacional de Prevenção e Controle da Obesidade.",
+            "PLP 33/2015: Altera a Lista de serviços anexa à Lei Complementar n.º 116, de 2003, que relaciona atividades sujeitas ao Imposto sobre Serviços de qualquer natureza - ISS"
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 28 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira; Frente Parlamentar Mista de Telecomunicações e Soluções Digitais.; Frente Parlamentar Mista pela Valorização do Serviço Social etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -34544,7 +35193,11 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://www.instagram.com/baleia.rossi"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/178975.jpg"
       },
       {
         "nome": "Bruno Ganem",
@@ -35208,63 +35861,107 @@
       },
       {
         "nome": "Erika Hilton",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "PSOL",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "09/12/1992, Franco da Rocha/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Natural de Franco da Rocha (SP), nascida em 9/12/1992; cresceu na periferia de Francisco Morato e, aos 14 anos, mudou-se para Itu (SP). Criada por mãe, tias e avós; aos 15 foi expulsa de casa e passou por situação de rua, recorrendo à prostituição para sobreviver até ser resgatada pela mãe. Fonte: Wikipedia.",
+          "formacao_academica": "Concluiu o ensino médio pela Educação de Jovens e Adultos (EJA). Ingressou na Universidade Federal de São Carlos (UFSCar), onde iniciou (mas não concluiu) Gerontologia, vindo a concluir Pedagogia. Nesse período entrou no movimento estudantil.",
           "filiacoes_partidarias": [
-            "Psol (candidato(a) em 2026)"
+            "PSOL (Partido Socialismo e Liberdade) — filiada desde 2015; atualmente na Federação PSOL REDE"
           ],
           "cargos_publicos": [
-            "Deputado(a) Federal (candidato(a) à reeleição 2026)"
+            "2016: candidata a vereadora em Itu (SP) pelo PSOL (não eleita)",
+            "2018-2020: assessora da Bancada Ativista (mandato coletivo encabeçado por Mônica Seixas) na ALESP",
+            "2021-2023: vereadora da Câmara Municipal de São Paulo (50.508 votos; vereadora mais votada do país em 2020 e primeira mulher trans eleita para a casa)",
+            "2023-presente: deputada federal por São Paulo (256.903 votos; primeira deputada federal negra e trans do Brasil)",
+            "2024: primeira pessoa trans a assumir a liderança do PSOL/Federação PSOL REDE na Câmara",
+            "2026: eleita presidente da Comissão de Defesa dos Direitos da Mulher da Câmara dos Deputados (11/03/2026)"
           ]
         },
         "bens_patrimonio": {
           "evolucao": [],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "não localizado nas fontes consultadas (Wikipedia pt e perfil oficial na Câmara dos Deputados) – recomenda-se consulta direta ao TSE DivulgaCandContas para declaração de bens."
           ]
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 466.500,03; 2024: R$ 478.898,47; 2023: R$ 398.301,03 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "não localizado nas fontes consultadas (sem menção a glosas, multas ou irregularidades na prestação de contas em 2020 ou 2022).",
+            "Despesas totais declaradas: 2020 (veradora SP): R$ 96.294,32; 2022 (deputada federal SP): R$ 1.479.837,39."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 458/2023: Autoriza a criação do Memorial Brasileiro da Resistência Negra, Indígena e Popular, com sede em Brasília.",
+            "PL 457/2023: Altera a Lei nº 12.711, de 29 de agosto de 2012, para estabelecer a prorrogação do prazo de vigência do programa especial de cotas e dá outras providências.",
+            "PL 380/2023: Altera a Lei nº 10.257, de 10 de julho de 2001 para criar diretrizes que fomentem a construção de cidades resilientes às mudanças climáticas.",
+            "PLP 19/2023: Altera a Lei Complementar nº 179, de 24 de fevereiro de 2021, que “Define os objetivos do Banco Central do Brasil e dispõe sobre sua autonomia e sobre a nomeação e a exoneração de seu Presidente e de ..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 143 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar Mista em Defesa da Cannabis Medicinal e do Cânhamo Industrial etc."
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "Sâmia Bomfim (PSOL/SP)",
+            "Guilherme Boulos (PSOL/SP)",
+            "Federação PSOL REDE",
+            "Bancada ativista"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "não localizado – não há menção, nas fontes consultadas, a processos no TSE ou TCU contra a parlamentar."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "não localizado processo ou inquérito contra Erika Hilton nas fontes consultadas.",
+            "A parlamentar aparece nas fontes como AUTORA de ações (queixa-crime contra Jair Bolsonaro no STF; denúncia contra Maurício Souza por LGBTfobia; ação contra 50 pessoas por ameaças transfóbicas; ação contra Ratinho/SBT por transfobia pedindo R$ 10 mi de indenização coletiva), e não como ré em processos éticos relevantes."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Contratação de dois maquiadores profissionais como assessores do gabinete desde maio/2024 – questionada sobre a função e o uso de recursos públicos; a deputada afirmou que exercem também funções de assessores e são profissionais LGBT com formação.",
+            "Viagem a Lisboa (Europride 2025) e Paris (show de Beyoncé) em junho/2025 – acusada de usar dinheiro público para lazer; Erika afirmou que foi viagem de trabalho autorizada pelo presidente da Câmara Hugo Motta, com recursos próprios.",
+            "Europride 2025 (Lisboa) foi alvo de boicote por entidades LGBT portuguesas (ILGA Portugal, Rede Ex Aequo, AMPLOS) por financiamento israelense e denúncia de pinkwashing – Hilton foi convidada de destaque.",
+            "Conflito com o apresentador Ratinho (SBT) em março/2026 após críticas transfóbicas dele à sua eleição para a presidência da Comissão de Defesa dos Direitos da Mulher; troca de processos (Erika pediu R$ 10 mi de indenização coletiva no MPF; Ratinho a processou por injúria/calúnia/difamação) e Justiça de SP determinou direito de resposta no Programa do Ratinho (17/06/2026).",
+            "Eleição para a presidência da Comissão da Mulher em 11/03/2026 descrita pela Agência Câmara como 'votação polêmica', com oposição do PL (11 votos a favor, 10 brancos)."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "Avaliada positivamente em premiações parlamentares: 2º lugar na votação popular do Prêmio Congresso em Foco 2023; em 2024 venceu a votação popular como 'Melhor Deputada do Brasil' e em 2025 ficou em 2º lugar geral com 223.545 votos, sendo a mais bem avaliada pelos jornalistas. Reconhecida internacionalmente: BBC '100 Mulheres' (2022), MTV EMA 'Generation Change' (2021), Time 'Next Generation Leaders', prêmio MIPAD apoiado pela ONU. Primeira travesti a ser entrevistada no Roda Viva (TV Cultura)."
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/erikakhilton",
+          "https://www.instagram.com/hilton_erika"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220645.jpg"
       },
       {
         "nome": "Fábio Teruel",
@@ -35508,63 +36205,100 @@
       },
       {
         "nome": "Guilherme Boulos",
-        "cargo_atual": "Deputado(a) Federal (2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Ministro de Estado - Secretaria-Geral da Presidência da República; Deputado(a) Federal pelo SP (mandato 2023-2027, licenciado)",
+        "partido_atual": "PSOL",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "19/06/1982, São Paulo/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Nascido em São Paulo em 19/06/1982; neto paterno de comerciante libanês; filho do casal de médicos Marcos Boulos (FMUSP) e Maria Ivete Castro Boulos (infectologista). Engajou-se no movimento estudantil em 1997 (UJC) e ingressou no MTST em 2002; coordenador nacional do MTST. Fonte: Wikipedia/Câmara.",
+          "formacao_academica": "Bacharel em Filosofia pela FFLCH-USP; especialização em Psicologia Clínica pela PUC-SP; mestre em Psiquiatria pela FMUSP (2017), com dissertação sobre sintomas depressivos em ocupações de sem-teto em São Paulo.",
           "filiacoes_partidarias": [
-            "Psol (candidato(a) em 2026)"
+            "PSOL (março/2018 – atualidade)"
           ],
           "cargos_publicos": [
-            "Deputado(a) Federal (2026)"
+            "Deputado Federal por SP (1º/02/2023 – atualidade; licenciado desde 29/10/2025)",
+            "Ministro-chefe da Secretaria-Geral da Presidência da República (29/10/2025 – atualidade)",
+            "Líder da Federação PSOL REDE na Câmara (01/02/2023 – 21/02/2024)"
           ]
         },
         "bens_patrimonio": {
           "evolucao": [],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado nas fontes consultadas (Wikipedia e Portal da Câmara) qualquer questionamento público registrado sobre patrimônio declarado de Guilherme Boulos."
           ]
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 424.009,48; 2024: R$ 378.627,42; 2023: R$ 433.370,69 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado nas fontes consultadas registro de glosas ou irregularidades nas contas de campanha.",
+            "Gastos parlamentares 2024 (Câmara): cota parlamentar R$ 378.641,78 (73,52% do teto); verba de gabinete R$ 1.310.357,28 (95,43%)."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 491/2023: Fica instituído o Programa Cozinha Solidária, que dispõe sobre a distribuição de alimentação gratuita preferencialmente à população em situação de vulnerabilidade e risco social, incluindo a população...",
+            "PLP 19/2023: Altera a Lei Complementar nº 179, de 24 de fevereiro de 2021, que “Define os objetivos do Banco Central do Brasil e dispõe sobre sua autonomia e sobre a nomeação e a exoneração de seu Presidente e de ..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 77 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar de Combate à Violência em Ambiente Digital contra Crianças e Adolescentes etc."
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "Lula (PT, indicou-o ministro)",
+            "PSOL (partido)",
+            "MTST (movimento social fundador)"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado nas fontes consultadas qualquer processo TSE ou TCU contra Guilherme Boulos."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "Prisão em 17/01/2017 durante reintegração de posse de terreno no distrito de São Mateus (SP), sob acusações de desobediência e incitação à violência; liberado no mesmo dia; alega detenção arbitrária e política.",
+            "Boulos afirma ter sido preso diversas vezes e responder a diversos processos judiciais (Agência Pública)."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Campanha para prefeitura de SP em 2020 com apoiadores usando jaleco branco e álcool em gel, criticada por infectologista do HC-FMUSP.",
+            "Nomeação como ministro em outubro/2025 (substituindo Márcio Macêdo) reportada como ajuste para relação com movimentos sociais."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "Liderou pesquisa Datafolha de 05/09/2024 com 23% das intenções de voto para prefeito de SP. Em 2022, foi o deputado federal mais votado em SP (~1.001.472 votos, 4,22%) e o 2º mais votado do país. 3º lugar no Prêmio Congresso em Foco 2023 (Melhores na Câmara). Incluído na lista Time 100 Next de 2021 (revista Time)."
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/guilhermeboulos?s=11&t=PbdbjkD7sGuAiT6UirTpIw",
+          "https://www.facebook.com/guilhermeboulos?mibextid=LQQJ4d",
+          "https://www.instagram.com/guilhermeboulos.oficial",
+          "https://www.youtube.com/@GuilhermeBoulosoficial"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220639.jpg"
       },
       {
         "nome": "Guilherme Derrite",
@@ -35988,14 +36722,14 @@
       },
       {
         "nome": "Kim Kataguiri",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Missão",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "MISSÃO",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "28/01/1996, Salto/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Salto/SP. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior Incompleto (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Missão (candidato(a) em 2026)"
           ],
@@ -36011,20 +36745,51 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 148.042,31; 2024: R$ 162.356,34; 2023: R$ 254.752,67 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1652/2019: Dispõe sobre a cobrança de taxa de conveniência associada à venda online de ingressos para eventos de qualquer natureza.",
+            "PL 1049/2019: Altera o artigo 136 e parágrafos, do Decreto Lei número 2.848, de 7 de dezembro de 1940 (Código Penal), para aumentar a pena prevista para o crime de maus-tratos.",
+            "PL 987/2019: Altera o artigo 32 e parágrafos, da lei número 9.605, de 12 de fevereiro de 1998, que dispõe sobre as sanções penais e administrativas derivadas de condutas e atividades lesivas ao meio ambiente e da?...",
+            "PL 986/2019: Acresce o parágrafo único ao artigo 63, do Decreto Lei número 2.848, de 7 de dezembro de 1940 (Código Penal), para estabelecer pena mínima de 25 anos a partir da terceira reincidência na prática dos c...",
+            "PL 985/2019: Dispõe sobre a publicidade dos órgãos dos atos, programas, obras, serviços e campanhas dos órgãos da administração direta e indireta no âmbito da União, dos Estados, do Distrito Federal e dos Municípi...",
+            "PL 246/2019: Institui o \"Programa Escola sem Partido\"",
+            "PLP 70/2019: Altera o Código Eleitoral (lei número 4.737/65), para retirar da Justiça Eleitoral a competência para processar e julgar crimes comuns.",
+            "PL 40/2019: Altera a lei número 9.096, de 19 de setembro de 1995 (Lei dos Partidos Políticos) e a lei número 9.504, de 30 de setembro de 1997 (Lei das Eleições), para extinguir o Fundo Partidário, o Fundo Eleitor...",
+            "PL 39/2019: Estabelece mecanismos de seguro para garantir o interesse público nos processos de licitação e a correta aplicação dos recursos públicos.",
+            "PL 38/2019: Revoga a alínea ''e'', do artigo 38, da lei número 4.117/62, que instituiu o Código Brasileiro de Telecomunicações, para extinguir a obrigatoriedade de transmissão do programa \"A Voz do Brasil\"."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Sim",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 208 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -36044,7 +36809,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/kimkataguiri",
+          "https://www.facebook.com/Kim-Kataguiri-833053646745836",
+          "https://www.instagram.com/kimkataguiri",
+          "https://youtube.com/kimkataguiri"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204536.jpg"
       },
       {
         "nome": "Luiz Carlos Motta",
@@ -36168,14 +36940,14 @@
       },
       {
         "nome": "Luiz Philippe",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
         "partido_atual": "PL",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "03/04/1969, Rio de Janeiro/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Rio de Janeiro/SP. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Mestrado (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "PL (candidato(a) em 2026)"
           ],
@@ -36191,20 +36963,44 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 515.565,11; 2024: R$ 513.396,58; 2023: R$ 217.718,24 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1745/2019: Altera a Lei nº 12.527, de 18 novembro de 2011 - Lei de Acesso à Informação, para ampliar as hipóteses de acesso a dados públicos pelos administrados.",
+            "PL 1299/2019: Altera o art. 2º e acrescenta um art. 2º-A ao Decreto-Lei nº 1.804, de 3 de setembro de 1980, para dispor sobre a isenção do imposto de importação sobre os bens contidos em remessas de valor igual ou ...",
+            "PL 1195/2019: Altera o §2º do artigo 105 da Lei 13.105 de 16 de março de 2015; altera e acresce dispositivos à Lei 8.906, de 04 de julho de 1994.",
+            "PL 1194/2019: Inclui, no crime de receptação qualificada, o exercício de atividade profissional; bem como insere as pessoas físicas ou jurídicas que promovam postulação a qualquer órgão do Poder Judiciário, bem com...",
+            "PL 819/2019: Altera a Lei nº 6.019, de 3 de janeiro de 1974, para dispor sobre o trabalho temporário e a prestação de serviços a terceiros.",
+            "PL 246/2019: Institui o \"Programa Escola sem Partido\"",
+            "PLP 51/2019: Regulamenta o inciso III do § 1º do art. 41 da Constituição Federal, para disciplinar o procedimento de avaliação periódica de desempenho de servidores públicos estáveis das administrações diretas, au...",
+            "PLP 39/2019: Altera a Lei Complementar no 101, de 4 de maio de 2000, para instituir o Relatório Simplificado de Arrecadação Tributária, a ser divulgado pelos Poderes Executivos federal, estaduais, distrital e muni..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Não",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Não",
+              "ano": "2024"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 127 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar de Acolhimento e Desenvolvimento Integrado; Frente Parlamentar para o Fortalecimento da Indústria Ferroviária Brasilieira; Frente Parlamentar Mista do Ambiente de Negócios (FPN) etc."
           ],
           "aliados": [
             "Dados não disponíveis no banco de dados atual."
@@ -36224,7 +37020,14 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/lpbragancabr",
+          "https://www.facebook.com/luizphilippebr",
+          "https://www.instagram.com/lpbragancabr",
+          "https://youtube.com/luizphilippebr"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204526.jpg"
       },
       {
         "nome": "Luiza Erundina",
@@ -36528,63 +37331,131 @@
       },
       {
         "nome": "Marina Silva",
-        "cargo_atual": "Candidato(a) ao Senado Federal (2026)",
-        "partido_atual": "Rede",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "REDE",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "08/02/1958, Rio Branco/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Nascida Maria Osmarina da Silva em 8/2/1958 no seringal Breu Velho, em Rio Branco (AC). Filha do seringueiro cearense Pedro Augusto da Silva e da dona de casa Maria Augusta da Silva. Trabalhou no seringal desde os 10 anos; contraiu malária, hepatite e contaminação por mercúrio. Alfabetizou-se aos 16 anos via Mobral. Descrição de cor/raça no TSE: PRETA. Fonte: Wikipedia/TSE.",
+          "formacao_academica": "Graduação em História pela Universidade Federal do Acre (UFAC), concluída em 1984. Especialização em Teoria Psicanalítica (UnB) e em Psicopedagogia (UCB). Ocupação declarada ao TSE: Historiador. Doutora Honoris Causa pela UFBA e pela Academia Chinesa de Silvicultura.",
           "filiacoes_partidarias": [
-            "Rede (candidato(a) em 2026)"
+            "Partido dos Trabalhadores (PT): 1985-2009 (militante desde os anos 1980)",
+            "Partido Verde (PV): 2009-2011",
+            "Partido Socialista Brasileiro (PSB): 2013-2015",
+            "Rede Sustentabilidade (REDE): fundadora; partido com registro definitivo em 22/9/2015; filiada desde então"
           ],
           "cargos_publicos": [
-            "Candidato(a) ao Senado Federal (2026)"
+            "1989-1991: Vereadora de Rio Branco/AC (vereadora mais votada em 1988)",
+            "1991-1995: Deputada Estadual pelo Acre",
+            "1995-2011: Senadora pelo Acre (eleita em 1994 — aos 36 anos, a senadora mais jovem do país na época — e reeleita em 2002)",
+            "2003-2008: 13ª Ministra do Meio Ambiente do Brasil (governo Lula; renunciou em 13/05/2008)",
+            "2023-31/03/2026: 23ª Ministra do Meio Ambiente e Mudança do Clima (governo Lula; pediu exoneração para ficar elegível ao Senado por SP)",
+            "2023-presente: Deputada Federal por São Paulo (REDE, Federação PSOL-REDE); esteve licenciada entre 01/02/2023 e 31/03/2026"
           ]
         },
         "bens_patrimonio": {
-          "evolucao": [],
+          "evolucao": [
+            {
+              "ano": "2014",
+              "valor": "R$ 181.019,32",
+              "principais_bens": "Casa em Rio Branco/AC (R$ 60.000); seis lotes na Chácara SHADAI II, Rio Branco/AC (R$ 42.481,50); aplicação de renda fixa no HSBC (R$ 30.000); conta corrente BB (R$ 27.920,88); poupança HSBC (R$ 15.616,94); firma individual MOM da S.V. de Lima (R$ 5.000)"
+            },
+            {
+              "ano": "2018",
+              "valor": "R$ 118.835,13",
+              "principais_bens": "Casa em Rio Branco/AC (R$ 60.000); lotes em chácara SHADA II (R$ 42.481,50); aplicação Bradesco (R$ 7.159,87); poupança BB (R$ 3.900,52); firma individual (R$ 5.000); conta BB (R$ 293,24)"
+            },
+            {
+              "ano": "2022",
+              "valor": "R$ 120.945,41",
+              "principais_bens": "Casa em Rio Branco/AC (R$ 60.000); lotes em chácara (R$ 42.481,50); conta corrente + VGBL (R$ 12.322,78); firma individual (R$ 5.000); poupança (R$ 458,26); aplicação (R$ 681,87)"
+            }
+          ],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "Patrimônio declarado é relativamente modesto e estável (R$ 118 mil - R$ 181 mil no período 2014-2022); sem investigações de enriquecimento ou inconsistência patrimonial localizadas nas fontes consultadas.",
+            "Marina afirma ter abdicado da pensão vitalícia e do plano de saúde do Senado, e devolvido R$ 500 mil em doações por discordar do 'modus operandi' das empresas doadoras (campanha de 2010)."
           ]
         },
         "financiamento_gastos": {
-          "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "doadores_principais": [
+            {
+              "tipo": "Pessoa física (vice na chapa)",
+              "nome": "Guilherme Peirão Leal (acionista da Natura)",
+              "valor": "Cerca de R$ 12 milhões (campanha presidencial de 2010)"
+            },
+            {
+              "tipo": "Pessoa jurídica - construtora",
+              "nome": "Andrade Gutierrez",
+              "valor": "R$ 1,1 milhão (2010)"
+            },
+            {
+              "tipo": "Pessoa jurídica - construtora",
+              "nome": "Camargo Correa",
+              "valor": "R$ 1 milhão (2010)"
+            },
+            {
+              "tipo": "Pessoa jurídica - banco",
+              "nome": "Itaú Unibanco",
+              "valor": "R$ 1 milhão (2010)"
+            },
+            {
+              "tipo": "Pessoa jurídica - papel e celulose",
+              "nome": "Suzano Papel e Celulose",
+              "valor": "R$ 532 mil (2010)"
+            }
+          ],
+          "ceap_verba_gabinete": "Sem despesas declaradas na CEAP no período (pode indicar licença/ministério).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "Total arrecadado em 2010: cerca de R$ 24 milhões em doações (campanha presidencial pelo PV).",
+            "Em 2014 (PSB) e 2018 (REDE), financiamento passou a depender majoritariamente do Fundo Eleitoral e pessoas físicas (após Lei 13.165/2015, que proíbe doações de pessoas jurídicas). Marina usou a plataforma Voto Legal (blockchain) para registro transparente de doações.",
+            "Em 2013, o TSE (6x1) rejeitou o registro da Rede Sustentabilidade por insuficiência de assinaturas (~95 mil invalidadas). Registro definitivo: 22/9/2015. Sem apuração de culpa pessoal de Marina.",
+            "Não foram localizadas, nas fontes consultadas, glosas, multas ou sanções por irregularidade na prestação de contas pessoal."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 2478/2026: Altera a Lei nº 14.790, de 29 de dezembro de 2023, para dispor sobre a proteção da saúde mental, do consumidor e da economia familiar no ambiente de apostas de quota fixa e jogos online, com ênfase na...",
+            "PEC 13/2026: Altera o art. 9º da Emenda Constitucional nº 132, de 20 de dezembro de 2023, para permitir a concessão de créditos do Imposto sobre Bens e Serviços através de fomento indireto a doadores e patrocinado..."
           ],
-          "votacoes": []
+          "votacoes": [
+            "Votações nominais em compilação (fonte: API da Câmara dos Deputados)."
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Rede Sustentabilidade (REDE) em federação com PSOL; base do governo Lula"
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "Lula (PT, indicou-a ministra do Meio Ambiente)",
+            "PSOL (federação)",
+            "Frente Parlamentar Ambientalista"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "TSE — Registro do partido Rede Sustentabilidade (2013): rejeitado por 6x1 por insuficiência de assinaturas; registro definitivo obtido em 22/9/2015. Sem apuração de culpa pessoal.",
+            "Não foram localizados processos de cassação, desconstituição de mandato ou condenações do TCU envolvendo Marina Silva. TSE 2022: 'processosCassacao' vazio; todas as flags de motivo (Ficha Limpa, abuso de poder, etc.) marcadas como false."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não foram localizados, nas fontes oficiais (Câmara, TSE DivulgaCandContas, Wikipédia), inquéritos, denúncias formais do MP ou operações da PF em curso contra Marina Silva."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Divergências com Dilma Rousseff e Mangabeira Unger no governo Lula, sobre o Plano Amazônia Sustentável e licenciamento das obras do rio Madeira — culminando na renúncia do Ministério em 13/05/2008.",
+            "Em 2010, declarou-se contra casamento homoafetivo (apenas união civil de bens), contra descriminalização do aborto (defendeu plebiscito), contra legalização de drogas e contra pesquisas com células-tronco embrionárias.",
+            "Em 2014, programa de governo alterado 24h após divulgação para suavizar união homoafetiva.",
+            "Em 2016, posicionou-se favorável ao impeachment de Dilma Rousseff e criticou o PT.",
+            "Candidata à Presidência três vezes (2010: 19,33%; 2014: 21,32%; 2018: 1,00%) sem chegar ao segundo turno."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "Em 2010, 'onda verde' pela imprensa: Datafolha 6/9/2010 registrava 10%; véspera do pleito (2/10), 16%. Resultado final: 19.636.359 votos (19,33%, 3º lugar). Em 2014, ~22 milhões de votos (21,32%, 3º). Em 2018, apenas 1.069.578 votos (1,00%, 8º). Reconhecimentos: revista Time (100 mais influentes, 2024), Cavaleira da Ordem Nacional da Legião de Honra da França (2026), Prêmio Goldman (1996), Champions of the Earth da ONU (2007), Prêmio Sofia (Noruega, 2009). Fontes: Datafolha/Folha de S.Paulo, Ibope."
+        },
+        "rede_social_oficial": [
+          "https://www.instagram.com/marinasilvaoficial"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220637.jpg"
       },
       {
         "nome": "Mario Frias",
@@ -37788,63 +38659,106 @@
       },
       {
         "nome": "Sâmia Bomfim",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "PSOL",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "22/08/1989, Presidente Prudente/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Nasceu em Presidente Prudente (SP), em 22/08/1989. Iniciou militância política no movimento estudantil da USP (Centro Acadêmico de Letras e DCE Alexandre Vannucchi Leme) e no movimento feminista. Fonte: Wikipedia.",
+          "formacao_academica": "Graduação em Letras pela Faculdade de Filosofia, Letras e Ciências Humanas da USP (FFLCH-USP), concluída em 2014 (ingresso em 2007).",
           "filiacoes_partidarias": [
-            "Psol (candidato(a) em 2026)"
+            "PSOL (Partido Socialismo e Liberdade) — filiada desde 2011; atualmente na Federação PSOL REDE"
           ],
           "cargos_publicos": [
-            "Deputado(a) Federal (candidato(a) à reeleição 2026)"
+            "2017-2019: Vereadora da cidade de São Paulo (eleita pelo PSOL com 12.464 votos; renunciou em 30/01/2019 para assumir mandato federal)",
+            "2019-2023: Deputada Federal por São Paulo (56ª Legislatura)",
+            "2023-presente: Deputada Federal por São Paulo (57ª Legislatura)",
+            "2020-2021 e 2022-2023: Líder do PSOL na Câmara dos Deputados; Vice-Líder da Federação PSOL REDE (2023-presente)"
           ]
         },
         "bens_patrimonio": {
           "evolucao": [],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "Nenhum apontamento localizado nas fontes consultadas (Wikipédia e Portal da Câmara). Declaração de bens deve ser consultada no TSE DivulgaCandContas.",
+            "Faz uso de imóvel funcional da Câmara desde 09/10/2023 e não recebe auxílio-moradia."
           ]
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 518.189,14; 2024: R$ 476.471,18; 2023: R$ 379.462,63 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "Nenhuma glosa ou irregularidade localizada nas fontes consultadas.",
+            "Despesas declaradas em campanhas (TSE): 2016 (veradora SP): R$ 21.051,59; 2018 (deputada federal): R$ 414.518,23; 2022 (reeleição): R$ 2.003.954,27."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 853/2019: Acrescenta ao calendário oficial a \"Semana Nacional de Conscientização sobre Direitos das Gestantes\", a ser celebrada anualmente em 15 de agosto, e dá outras providências.",
+            "PL 852/2019: Institui a \"Campanha Nacional Maria da Penha nas Escolas\" e dá outras providências.",
+            "PL 851/2019: Dispõe sobre a obrigatoriedade de afixação de placa informativa da Central de Atendimento à Mulher - Ligue 180 em estabelecimentos públicos e privados e locais de grande circulação de pessoas",
+            "PL 818/2019: Altera o inciso VII do art. 186 e o inciso III do art. 197, ambos da Lei nº4.737, de 15 de julho de 1965, que institui o Código Eleitoral, para criar cota para cada sexo.",
+            "PL 502/2019: Institui o programa \"Escola Sem Mordaça\" em todo o território nacional.",
+            "PLP 35/2019: Altera o caput e o parágrafo único do art. 2º e o caput do art. 3º da Lei Complementar nº 78, de 30 de dezembro de 1993, que disciplina a fixação do número de Deputados, para criar cota para cada sexo..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Abstenção",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 163 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais; Frente Parlamentar de Acolhimento e Desenvolvimento Integrado etc."
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "Glauber Braga (PSOL/RJ, marido)",
+            "Guilherme Boulos (PSOL/SP)",
+            "Federação PSOL REDE"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizado processo ou representação no TSE/TCU nas fontes consultadas."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizada denúncia ou inquérito contra a parlamentar nas fontes consultadas."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Em 2021, durante licença-maternidade (120 dias a partir de 24/06/2021), foi alvo de críticas porque as ausências em votações em plenário eram computadas sem distinção; requereu à Mesa Diretora da Câmara que os painéis passassem a indicar licença-maternidade — medida posteriormente acatada.",
+            "Atuação destacada na organização de manifestações contra o então presidente da Câmara Eduardo Cunha (PMDB-RJ) e contra a 'cultura do estupro' (2016).",
+            "Em 5/10/2023, seu irmão Diego Ralf Bomfim (médico ortopedista) foi assassinado em atentado na Barra da Tijuca (RJ); Ministério da Justiça (Flávio Dino) determinou acompanhamento da PF, com hipótese de motivação política pela atuação dela e do marido Glauber Braga."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "1º lugar nas categorias 'Melhores na Câmara pela internet' e 'Melhores na Câmara pelos jornalistas' do Prêmio Congresso em Foco 2023; destaque também na edição de 2022. Não localizada pesquisa de intenção de voto para o Senado nas fontes consultadas."
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/samiabomfim",
+          "https://www.facebook.com/samia.bomfim.psol",
+          "https://www.instagram.com/samiabomfim",
+          "https://youtube.com/samiabomfimpsol"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204535.jpg"
       },
       {
         "nome": "Saulo Pedroso",
@@ -37968,14 +38882,14 @@
       },
       {
         "nome": "Sônia Guajajara",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
-        "partido_atual": "Psol",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
+        "partido_atual": "PSOL",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "06/03/1974, Amarante do Maranhão/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Origem: Amarante do Maranhão/SP. Dados em compilação a partir do perfil oficial da Câmara dos Deputados.",
+          "formacao_academica": "Superior (fonte: perfil oficial da Câmara dos Deputados; detalhes em compilação).",
           "filiacoes_partidarias": [
             "Psol (candidato(a) em 2026)"
           ],
@@ -37991,16 +38905,21 @@
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "Sem despesas declaradas na CEAP no período (pode indicar licença/ministério).",
           "glosas_irregularidades": [
             "Dados não disponíveis no banco de dados atual."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 2478/2026: Altera a Lei nº 14.790, de 29 de dezembro de 2023, para dispor sobre a proteção da saúde mental, do consumidor e da economia familiar no ambiente de apostas de quota fixa e jogos online, com ênfase na...",
+            "PL 2080/2026: Dispõe sobre a transparência e o controle no uso de aeronaves privadas por autoridades públicas, estabelece obrigações de declaração, submissão a procedimentos de segurança e alfandegários, e dá outra...",
+            "PL 1669/2026: Institui o Marco Legal dos Esportes Indígenas no Brasil e dá outras providências.",
+            "PEC 13/2026: Altera o art. 9º da Emenda Constitucional nº 132, de 20 de dezembro de 2023, para permitir a concessão de créditos do Imposto sobre Bens e Serviços através de fomento indireto a doadores e patrocinado..."
           ],
-          "votacoes": []
+          "votacoes": [
+            "Votações nominais em compilação (fonte: API da Câmara dos Deputados)."
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
@@ -38024,67 +38943,110 @@
             "Dados não disponíveis no banco de dados atual."
           ],
           "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+        },
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/220643.jpg"
       },
       {
         "nome": "Tabata Amaral",
-        "cargo_atual": "Deputado(a) Federal (candidato(a) à reeleição 2026)",
+        "cargo_atual": "Deputado(a) Federal pelo SP (mandato 2023-2027)",
         "partido_atual": "PSB",
         "estado": "SP",
-        "nascimento": "Dados não disponíveis no banco de dados atual.",
+        "nascimento": "14/11/1993, São Paulo/SP",
         "ultima_atualizacao": "06/08/2026",
         "perfil_trajetoria": {
-          "origem": "Dados não disponíveis no banco de dados atual.",
-          "formacao_academica": "Dados não disponíveis no banco de dados atual.",
+          "origem": "Tabata Claudia Amaral de Pontes nasceu em São Paulo em 14/11/1993, filha de uma diarista baiana e de um cobrador de ônibus paraibano; cresceu na Vila Missionária (Zona Sul de São Paulo). Cofundou em 2014 o Movimento Mapa Educação e, em 2017, o Movimento Acredito, ambos voltados à pauta de educação e à renovação política. Fonte: Wikipedia.",
+          "formacao_academica": "Graduou-se em Governo (Ciências Políticas) pela Universidade Harvard (EUA), com honras máximas; bolsista integral (Lemann Fellow). Em 2012 aprovada com bolsa integral em Harvard, Yale, Columbia, Princeton, Pensilvânia e Caltech, e no vestibular da USP. Representou o Brasil em olimpíadas internacionais de química, astronomia e astrofísica.",
           "filiacoes_partidarias": [
-            "PSB (candidato(a) em 2026)"
+            "PDT (Partido Democrático Trabalhista): 2018 a 2021",
+            "PSB (Partido Socialista Brasileiro): desde setembro/2021"
           ],
           "cargos_publicos": [
-            "Deputado(a) Federal (candidato(a) à reeleição 2026)"
+            "2019-2023: Deputada Federal por São Paulo (56ª Legislatura), eleita pelo PDT com 264.450 votos",
+            "2023-presente: Deputada Federal por São Paulo (57ª Legislatura), reeleita pelo PSB com 337.873 votos",
+            "2026: Primeira-dama do Recife (21/02/2026 a 02/04/2026; casada com João Campos, que renunciou)"
           ]
         },
         "bens_patrimonio": {
           "evolucao": [],
           "questionamentos": [
-            "Dados não disponíveis no banco de dados atual."
+            "DivulgaCandContas do TSE retornou HTTP 403 no acesso automático; declaração de bens não pôde ser confirmada nas fontes consultadas."
           ]
         },
         "financiamento_gastos": {
           "doadores_principais": [],
-          "ceap_verba_gabinete": "Dados não disponíveis no banco de dados atual.",
+          "ceap_verba_gabinete": "CEAP no Senado/Câmara: 2025: R$ 530.231,55; 2024: R$ 517.899,32; 2023: R$ 475.312,63 (fonte: Portal da Transparência da Câmara dos Deputados).",
           "glosas_irregularidades": [
-            "Dados não disponíveis no banco de dados atual."
+            "Lista nominal de doadores não disponível (TSE DivulgaCandContas indisponível para acesso automático).",
+            "Wikipédia registra (Veja e Folha de S.Paulo, julho/2019) que Tabata pagou R$ 23 mil ao então namorado Daniel Alejandro Martínez com recursos do fundo eleitoral do PDT para 'análise estratégica de campanha' (serviços entre agosto e outubro de 2018). O STF já havia decidido que contratação de parentes/cônjuges é legal, mas a prática foi criticada como contraditória com seu discurso de 'renovação'."
           ]
         },
         "atuacao_legislativa": {
           "proposicoes_principais": [
-            "Dados não disponíveis no banco de dados atual."
+            "PL 1672/2019: Dispõe sobre o repasse de transferências federais voluntárias, na área de educação, para os Estados, o Distrito Federal e os Municípios.",
+            "PL 1422/2019: Institui o Cadastro de Pessoas Físicas (CPF) como número suficiente para identificação do cidadão nos bancos de dados de serviços públicos, altera dispositivos da Lei nº 13.460, de 26 de junho de 2017...",
+            "PL 7843/2017: Institui regras e instrumentos para a eficiência pública.  NOVA EMENTA: Dispõe sobre princípios, regras e instrumentos para o Governo Digital e para o aumento da eficiência pública; altera as Leis nºs...",
+            "PLP 238/2016: Altera a Lei Complementar nº 101, de 4 de maio de 2000, para incluir as ações de combate à violência contra a mulher no rol de exceções à suspensão de transferências voluntárias a entes da Federação i..."
           ],
-          "votacoes": []
+          "votacoes": [
+            {
+              "pauta": "Reforma Tributária (PEC 45/2019)",
+              "voto": "Sim",
+              "ano": "2023"
+            },
+            {
+              "pauta": "PEC 44/2023 - Prevenção de Desastres Naturais (enchentes RS)",
+              "voto": "Não",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PLP 68/2024 - Reforma Administrativa",
+              "voto": "Sim",
+              "ano": "2024"
+            },
+            {
+              "pauta": "PL 490/07 - Marco Temporal (1º turno)",
+              "voto": "Não",
+              "ano": "2023"
+            }
+          ]
         },
         "aliancas_bases": {
           "bancadas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Participa de 123 frentes parlamentares na legislatura 57 (fonte: Câmara dos Deputados).",
+            "Principais: Frente Parlamentar Mista do Serviço Exterior Brasileiro; Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.; Frente Parlamentar Mista em Defesa das Universidades Públicas Estaduais e Municipais etc."
           ],
           "aliados": [
-            "Dados não disponíveis no banco de dados atual."
+            "João Campos (marido, ex-prefeito do Recife/PSB)",
+            "Movimento Mapa Educação (cofundadora)",
+            "PSB (partido)"
           ]
         },
         "questoes_judiciais_eticas": {
           "processos_tse_tcu": [
-            "Dados não disponíveis no banco de dados atual."
+            "Ação no TSE (2020-2021): após ser suspensa pelo PDT por votar a favor da Reforma da Previdência do governo Bolsonaro, Tabata ingressou com ação para se desfiliaR do partido sem perder o mandato. Em maio/2021, o TSE (6x1) acolheu o pedido e reconheceu justa causa para a desfiliação.",
+            "Não localizados: processos no TCU ou outras ações no TSE nas fontes consultadas."
           ],
           "inqueritos_denuncias": [
-            "Dados não disponíveis no banco de dados atual."
+            "Não localizada menção, na Wikipédia, a inquéritos policiais, denúncias do MP ou condenações."
           ],
           "ficha_limpa": "Sem registros de denúncia, condenação ou inelegibilidade nas fontes consultadas."
         },
         "relevancia_imagem_publica": {
           "polemicas": [
-            "Dados não disponíveis no banco de dados atual."
+            "Voto favorável à Reforma da Previdência do governo Bolsonaro (2019), em desacordo com a orientação do PDT, gerando suspensão do mandato pelo partido e rompimento público com Ciro Gomes.",
+            "Contratação do então namorado Daniel Alejandro Martínez com R$ 23 mil do fundo eleitoral para análise estratégica da campanha de 2018 (Veja e Folha de S.Paulo, julho/2019).",
+            "Em março/2026, apresentou o PL 1424/2026 para definir antissemitismo com base nos parâmetros da IHRA; projeto criticado por juristas (Thiago Amparo), pelo veículo Jacobin e pelo colunista Glenn Greenwald como potencial instrumento de censura a críticas a Israel; ao menos 9 dos 45 deputados coautores retiraram a assinatura.",
+            "Candidatura à prefeitura de São Paulo em 2024: 4º lugar (9,91%, 605.552 votos); no 2º turno declarou apoio a Guilherme Boulos."
           ],
-          "avaliacao_pesquisas": "Dados não disponíveis no banco de dados atual."
-        }
+          "avaliacao_pesquisas": "BBC 100 Mulheres mais influentes do mundo (2019); eleita 'Melhor deputada federal de 2019' pelo Prêmio Congresso em Foco; prêmios Faz a Diferença (O Globo), Next Generation Women Leader Awards (McKinsey) e Gente Que Faz (Glamour). Não foram localizadas pesquisas de opinião (rejeição/avaliação) atualizadas nas fontes consultadas."
+        },
+        "rede_social_oficial": [
+          "https://twitter.com/tabataamaralsp",
+          "https://www.facebook.com/tabataamaralSP",
+          "https://www.instagram.com/tabataamaralsp",
+          "https://youtube.com/channel/UCWcx5M5negY_kqSawo2bjZQ"
+        ],
+        "url_foto_oficial": "https://www.camara.leg.br/internet/deputado/bandep/204534.jpg"
       },
       {
         "nome": "Tiririca",

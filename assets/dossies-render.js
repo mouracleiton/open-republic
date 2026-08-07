@@ -13,12 +13,14 @@
   }
 
   // Renderiza um político como doss-card
-  function renderCard(p) {
+  function renderCard(p, apoio) {
     var nome = p.nome || '—';
     var cargo = p.cargo_atual || '';
     var partido = p.partido_atual || '';
     var estado = p.estado || '';
-    var html = '<details class="doss-card" data-politico="' + esc(nome) + '">';
+    var cardClass = 'doss-card';
+    if (apoio && apoio[nome]) cardClass += ' doss-card--apoio';
+    var html = '<details class="' + cardClass + '" data-politico="' + esc(nome) + '">';
     html += '<summary>';
     html += '<span class="doss-chev" aria-hidden="true"></span>';
     html += '<span class="doss-main">';
@@ -90,19 +92,24 @@
       var title = humanize(key);
 
       if (Array.isArray(val)) {
-        // Lista de strings ou objetos
-        if (val.length === 0) continue;
+        // Lista de strings ou objetos — filtra items ND
+        var filtered = val.filter(function (item) {
+          if (typeof item === 'string') return !isNd(item);
+          return true;
+        });
+        if (filtered.length === 0) continue;
         html += '<div class="doss-block">';
         html += '<h4 class="doss-block-title">' + esc(title) + '</h4>';
         html += '<ul class="doss-list">';
-        val.forEach(function (item) {
+        filtered.forEach(function (item) {
           if (typeof item === 'string') {
             html += '<li>' + esc(item) + '</li>';
           } else if (typeof item === 'object' && item !== null) {
-            // Objeto: serializa campos em linha
+            // Objeto: serializa campos em linha (filtra valores ND)
             var parts = [];
             for (var k in item) {
               if (Object.prototype.hasOwnProperty.call(item, k) && typeof item[k] !== 'object') {
+                if (isNd(item[k])) continue;
                 parts.push(item[k]);
               }
             }
@@ -113,6 +120,7 @@
         });
         html += '</ul></div>';
       } else if (typeof val === 'string' && val.trim()) {
+        if (isNd(val)) continue;
         html += '<div class="doss-block">';
         html += '<h4 class="doss-block-title">' + esc(title) + '</h4>';
         html += '<p class="doss-text">' + esc(val) + '</p>';
@@ -136,6 +144,90 @@
     return key.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   }
 
+  // Detecta campos placeholder ("Dados não disponíveis...")
+  function isNd(s) {
+    if (typeof s !== 'string') return false;
+    return s.indexOf('Dados não disponíveis') !== -1;
+  }
+
+  // Cruza dossiês com rankings_politicos para identificar candidatos à
+  // reeleição com "possibilidade de apoio popular": ficha limpa + sem
+  // processos + relevância alta (score >= 3.5 com etiquetas positivas).
+  // Retorna um Set de nomes qualificados.
+  function buildApoioMap(data) {
+    var ranked = {};
+    var rk = data.rankings_politicos;
+    if (rk) {
+      ['aprovados', 'em_analise'].forEach(function (k) {
+        (rk[k] || []).forEach(function (r) {
+          ranked[r.nome] = r;
+        });
+      });
+    }
+
+    var politicos = data.dossie_politicos && data.dossie_politicos.politicos;
+    if (!politicos) return {};
+
+    var apoio = {};
+    politicos.forEach(function (p) {
+      // 1. Candidato à reeleição?
+      //    Dossiês compilados têm "reeleição" em cargos_publicos/cargo_atual.
+      //    Dossiês detalhados (texto real) podem não ter a palavra — se estão
+      //    no ranking, são candidatos 2026.
+      var pt = p.perfil_trajetoria;
+      if (!pt || typeof pt !== 'object') return;
+      var cps = pt.cargos_publicos || [];
+      var cargoAtual = p.cargo_atual || '';
+      var isReelec = cps.some(function (cp) {
+        return typeof cp === 'string' && cp.toLowerCase().indexOf('reeleição') !== -1;
+      });
+      if (!isReelec && cargoAtual.toLowerCase().indexOf('reeleição') !== -1) isReelec = true;
+      if (!isReelec && ranked[p.nome]) {
+        // Detalhado no ranking = candidato 2026 com mandato actual
+        var cargoLower = cargoAtual.toLowerCase();
+        if (cargoLower.indexOf('deputad') !== -1 || cargoLower.indexOf('senador') !== -1 ||
+            cargoLower.indexOf('governador') !== -1) {
+          isReelec = true;
+        }
+      }
+      if (!isReelec) return;
+
+      // 2. Ficha limpa?
+      var qj = p.questoes_judiciais_eticas;
+      if (!qj || typeof qj !== 'object') return;
+      var fl = qj.ficha_limpa || '';
+      if (typeof fl !== 'string' || fl.indexOf('Sem registros') === -1) return;
+
+      // 3. Sem processos reais (não-ND, não-"não localizado", não-autora)?
+      var hasRealProc = false;
+      ['processos_tse_tcu', 'inqueritos_denuncias'].forEach(function (k) {
+        var arr = qj[k];
+        if (!Array.isArray(arr)) return;
+        arr.forEach(function (item) {
+          if (typeof item !== 'string') return;
+          if (isNd(item)) return;
+          var lower = item.toLowerCase();
+          // "não localizado" = ficha limpa confirmada
+          if (lower.indexOf('não localizado') !== -1) return;
+          // "autora de ações" = a parlamentar move ações, não é ré
+          if (lower.indexOf('autora') !== -1) return;
+          hasRealProc = true;
+        });
+      });
+      if (hasRealProc) return;
+
+      // 4. Relevância alta no ranking?
+      var r = ranked[p.nome];
+      if (!r) return;
+      var score = r.score || 0;
+      var posEtiquetas = r.etiquetas_positivas || [];
+      if (score < 3.5 || posEtiquetas.length === 0) return;
+
+      apoio[p.nome] = true;
+    });
+    return apoio;
+  }
+
   // Renderiza todos os políticos no grid
   function renderDossies(data) {
     var grid = document.getElementById('dossier-grid');
@@ -148,9 +240,10 @@
     }
 
     // Renderiza todos (525)
+    var apoio = buildApoioMap(data);
     var html = '';
     politicos.forEach(function (p) {
-      html += renderCard(p);
+      html += renderCard(p, apoio);
     });
     grid.innerHTML = html;
 
@@ -158,7 +251,9 @@
     var cap = document.getElementById('cap-dossies');
     if (cap) {
       var detalhados = politicos.filter(function (p) {
-        return p.perfil_trajetoria || p.bens_patrimonio;
+        return p.perfil_trajetoria &&
+          typeof p.perfil_trajetoria.origem === 'string' &&
+          p.perfil_trajetoria.origem.indexOf('Dados não disponíveis') === -1;
       }).length;
       var minimal = politicos.length - detalhados;
       cap.innerHTML = '<strong>' + politicos.length + ' dossiês</strong> (' +

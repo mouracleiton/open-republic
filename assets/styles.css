@@ -704,6 +704,14 @@ code {
   overflow: hidden;
 }
 
+/* Esquema oculto: candidatos à reeleição com possibilidade de apoio popular
+   (ficha limpa + sem processos + relevância alta). Marca sutil — borda
+   esquerda fina + leve tint de fundo — não imediatamente óbvia. */
+.doss-card--apoio {
+  border-left: 3px solid var(--green);
+  background: color-mix(in srgb, var(--card) 92%, var(--green) 8%);
+}
+
 .doss-card summary {
   list-style: none;
   cursor: pointer;

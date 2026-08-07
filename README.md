@@ -40,9 +40,7 @@ open-republic-website/
 │   ├── mais-valia.js        Calculadora de mais-valia (Marx)
 │   ├── glossario.js         Glossário interativo com busca
 │   ├── tutoriais.js         4 tutoriais de organização popular
-│   ├── styles.css           Estilos editoriais (tema escuro + vermelho UP)
-│   └── up_logo.svg          Logo da Unidade Popular
-├── icon.png                Favicon / og:image
+│   ├── styles.css           Estilos editoriais (tema escuro + vermelho)
 ├── .gitignore
 └── README.md
 ```
