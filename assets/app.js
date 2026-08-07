@@ -21,9 +21,10 @@ const PALETTE = {
   violet: '#6C5B9E',
   green: '#2F8F4E',
   steel: '#5B6B7A',
-  ink: '#FFFFFF',
-  inkFaint: '#909096',
-  paper: '#000000',
+  ink: '#0E1E33',
+  inkFaint: '#6C7789',
+  paper: '#F2F5F9',
+  grid: '#D8DEE8',
 };
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
@@ -331,7 +332,7 @@ function renderRaioX({ svg, w, anim }, data) {
       .attr('x2', barX + barW)
       .attr('y1', y + 30)
       .attr('y2', y + 30)
-      .attr('stroke', '#E3DCCE')
+      .attr('stroke', PALETTE.grid)
       .attr('stroke-width', 1);
 
     const bar = g
@@ -482,7 +483,7 @@ function renderOrcamento({ svg, w, anim }, data) {
       .attr('x2', barX + barW)
       .attr('y1', y + 34)
       .attr('y2', y + 34)
-      .attr('stroke', '#E3DCCE')
+      .attr('stroke', PALETTE.grid)
       .attr('stroke-width', 1);
 
     const bar = g
@@ -786,7 +787,7 @@ function renderViolencia({ svg, w, anim }, data) {
       .attr('x2', barX + barW)
       .attr('y1', y + 20)
       .attr('y2', y + 20)
-      .attr('stroke', '#E3DCCE')
+      .attr('stroke', PALETTE.grid)
       .attr('stroke-width', 1);
 
     const c = color(i + 1);
@@ -907,7 +908,7 @@ function renderOcde({ svg, w, anim }, data) {
       .attr('x2', trackX + trackW)
       .attr('y1', y + 34)
       .attr('y2', y + 34)
-      .attr('stroke', '#E3DCCE')
+      .attr('stroke', PALETTE.grid)
       .attr('stroke-width', 1);
 
     const connector = g

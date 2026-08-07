@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#26221A">
+<meta name="description" content="Notícias do Brasil contadas em figura e em fala, para quem prefere ouvir e ver do que ler. Sem gráfico: pote d'água, saco de feijão, sinal de verde, amarelo e vermelho.">
 <title>Como andam as coisas por aqui — em fala e figura</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,13 +12,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --fundo:#F3ECD9;
-    --papel:#FFFDF4;
-    --tinta:#26221A;
-    --tinta-suave:#4E4738;
-    --linha:#D5CBB2;
-    --azul:#1F5FA8;
+    --fundo:#F2F5F9;
+    --papel:#FFFFFF;
+    --tinta:#0E1E33;
+    --tinta-suave:#33435E;
+    --linha:#D8DEE8;
+    --azul:#013A71;
+    --azul-2:#1268BF;
     --azul-fundo:#E2EDFA;
+    --ouro:#F5B700;
     --verde:#177A3B;
     --verde-fundo:#E1F3E5;
     --amarelo:#A86E00;
@@ -25,41 +29,59 @@
     --vermelho-fundo:#FBE0E3;
     --raio:26px;
     --fonte:'Atkinson Hyperlegible','Trebuchet MS',system-ui,sans-serif;
+    --e:1; /* escala da letra (botões A- / A+) */
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{
     font-family:var(--fonte);
     background:var(--fundo);
     color:var(--tinta);
-    font-size:26px;
+    font-size:calc(26px * var(--e));
     line-height:1.35;
     -webkit-font-smoothing:antialiased;
   }
-  a{color:var(--azul)}
+  a{color:#164B8E}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+
+  /* pular direto pro conteúdo (leitor de tela) */
+  .pular{
+    position:absolute;left:16px;top:-200px;z-index:50;
+    background:var(--papel);color:var(--tinta);
+    padding:18px 26px;border-radius:16px;border:4px solid var(--tinta);
+    font-weight:700;font-size:26px;
+  }
+  .pular:focus{top:16px}
+
+  /* escondido do olho, presente pro leitor de tela */
+  .sr-only{
+    position:absolute;width:1px;height:1px;
+    padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
 
   /* === CABEÇA === */
   .masthead{
-    background:var(--tinta);
+    background:linear-gradient(135deg,#1268BF 0%,#013A71 62%,#012A52 100%);
     color:var(--papel);
-    padding:44px 0 38px;
-    border-bottom:10px solid var(--azul);
+    padding:44px 0 34px;
+    border-bottom:10px solid var(--ouro);
   }
   .masthead .sol{font-size:84px;color:#FFD66B;display:block;margin-bottom:6px}
   .masthead h1{
-    font-size:clamp(40px,8vw,60px);
+    font-size:calc(min(60px,12vw) * var(--e));
     line-height:1.05;
     letter-spacing:-0.01em;
     margin-bottom:12px;
   }
-  .masthead p.sub{font-size:28px;color:#EADFB8;max-width:60ch}
-  .masthead .origem{display:inline-block;margin-top:16px;font-size:22px;color:#C9BC95;font-style:italic}
+  .masthead p.sub{font-size:calc(27px * var(--e));color:rgba(255,255,255,.88);max-width:60ch}
+  .masthead .origem{display:inline-block;margin-top:16px;font-size:calc(22px * var(--e));color:rgba(255,255,255,.7);font-style:italic}
 
   /* === BOTÕES GRANDES === */
   .btn{
     font-family:var(--fonte);
-    font-size:30px;
+    font-size:calc(29px * var(--e));
     font-weight:700;
     line-height:1.1;
     border:none;
@@ -77,10 +99,16 @@
     box-shadow:0 6px 0 rgba(0,0,0,.28);
     transition:transform .06s ease, box-shadow .06s ease;
     min-height:78px;
+    -webkit-tap-highlight-color:transparent;
   }
   .btn:hover{transform:translateY(1px);box-shadow:0 4px 0 rgba(0,0,0,.28)}
   .btn:active{transform:translateY(4px);box-shadow:none}
-  .btn:focus-visible,.nav:focus-visible,button:focus-visible{
+  .btn[aria-pressed="true"]{
+    background:var(--tinta);color:var(--papel);
+    border-color:var(--papel);
+  }
+  .btn:focus-visible,.nav:focus-visible,button:focus-visible,
+  input:focus-visible,a:focus-visible{
     outline:6px solid var(--azul);
     outline-offset:3px;
   }
@@ -89,9 +117,28 @@
   .btn-vermelho{background:var(--vermelho-fundo);border-color:var(--vermelho);color:#7C001B}
   .btn-block{width:100%}
   .btn i{font-size:1.15em}
-  .btn .mini{display:block;font-size:20px;font-weight:400}
+  .btn .mini{display:block;font-size:calc(20px * var(--e));font-weight:400}
 
   .acoes-topo{display:flex;flex-direction:column;gap:18px;margin-top:26px}
+
+  /* tamanho da letra */
+  .controles-fonte{
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    margin-top:22px;
+  }
+  .controles-fonte .font-lbl{font-size:calc(22px * var(--e));color:#EADFB8;font-weight:700}
+  .btn-mini{
+    font-family:var(--fonte);
+    font-size:calc(30px * var(--e));
+    font-weight:700;
+    width:74px;height:74px;
+    border-radius:50%;
+    border:4px solid var(--papel);
+    background:transparent;color:var(--papel);
+    cursor:pointer;
+  }
+  .btn-mini:hover{background:rgba(255,255,255,.14)}
+  .btn-mini:focus-visible{outline:6px solid var(--azul);outline-offset:3px}
 
   /* === LEGENDA DO SINAL === */
   .legenda{
@@ -105,15 +152,15 @@
     border:4px solid var(--linha);
     border-radius:999px;
     padding:12px 22px;
-    font-size:24px;font-weight:700;
+    font-size:calc(24px * var(--e));font-weight:700;
   }
-  .lenda .bol{width:34px;height:34px;border-radius:50%;border:3px solid var(--tinta)}
+  .lenda .bol{width:34px;height:34px;border-radius:50%;border:3px solid var(--tinta);flex:none}
   .verde .bol{background:var(--verde)}
   .amarela .bol{background:#F0B429}
   .vermelha .bol{background:var(--vermelho)}
 
   /* === CARTÃO === */
-  .etapa{font-size:24px;font-weight:700;color:var(--tinta-suave);text-align:center;margin:10px 0 6px}
+  .etapa{font-size:calc(24px * var(--e));font-weight:700;color:var(--tinta-suave);text-align:center;margin:10px 0 6px}
   .cartao{
     background:var(--papel);
     border-radius:var(--raio);
@@ -122,6 +169,7 @@
     box-shadow:0 10px 30px rgba(0,0,0,.18);
     margin-bottom:24px;
   }
+  .cartao:focus-visible{outline:6px solid var(--azul);outline-offset:4px}
   .cartao.sinal-verde{border-color:var(--verde)}
   .cartao.sinal-amarela{border-color:var(--amarelo)}
   .cartao.sinal-vermelha{border-color:var(--vermelho)}
@@ -144,7 +192,7 @@
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  .rotulo{text-align:center;font-size:26px;font-weight:700;margin-bottom:10px}
+  .rotulo{text-align:center;font-size:calc(26px * var(--e));font-weight:700;margin-bottom:10px}
 
   /* vasilha: enche conforme o sinal */
   .vasilha{
@@ -168,7 +216,7 @@
   .sinal-vermelha .vasilha .agua{background:var(--vermelho)}
   .vasilha .dica{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-size:22px;font-weight:700;color:var(--tinta);
+    font-size:calc(22px * var(--e));font-weight:700;color:var(--tinta);
   }
 
   /* pedrinhas de intensidade */
@@ -182,22 +230,22 @@
   .sinal-amarela .pedra.acesa{background:#F0B429}
   .sinal-vermelha .pedra.acesa{background:var(--vermelho)}
 
-  .grande{text-align:center;font-weight:700;font-size:clamp(42px,9vw,64px);line-height:1.05;margin:14px 0 10px}
-  .tema{text-align:center;font-size:clamp(30px,6vw,40px);font-weight:700;margin-bottom:6px}
-  .frase{font-size:clamp(30px,6vw,42px);line-height:1.15;font-weight:700;text-align:center;margin-bottom:18px}
+  .grande{text-align:center;font-weight:700;font-size:calc(min(60px,13vw) * var(--e));line-height:1.05;margin:14px 0 10px}
+  .tema{text-align:center;font-size:calc(min(42px,9vw) * var(--e));font-weight:700;margin-bottom:6px}
+  .frase{font-size:calc(min(40px,8.5vw) * var(--e));line-height:1.15;font-weight:700;text-align:center;margin-bottom:18px}
   .analogia{
-    font-size:27px;text-align:center;color:var(--tinta-suave);
+    font-size:calc(27px * var(--e));text-align:center;color:var(--tinta-suave);
     background:var(--fundo);border-radius:18px;padding:18px;margin:0 0 16px;
   }
   .pergunta{
-    font-size:29px;text-align:center;font-weight:700;
+    font-size:calc(28px * var(--e));text-align:center;font-weight:700;
     padding:18px;border-radius:18px;margin-bottom:10px;
   }
   .sinal-verde .pergunta{background:var(--verde-fundo)}
   .sinal-amarela .pergunta{background:var(--amarelo-fundo)}
   .sinal-vermelha .pergunta{background:var(--vermelho-fundo)}
   .fonte-p{
-    font-size:19px;text-align:center;color:var(--tinta-suave);
+    font-size:calc(19px * var(--e));text-align:center;color:var(--tinta-suave);
     margin-top:14px;font-style:italic;
   }
 
@@ -206,7 +254,7 @@
   .nav{
     flex:1;
     font-family:var(--fonte);
-    font-size:26px;font-weight:700;
+    font-size:calc(26px * var(--e));font-weight:700;
     padding:24px 12px;
     border-radius:20px;
     border:4px solid var(--tinta);
@@ -215,27 +263,37 @@
     box-shadow:0 6px 0 rgba(0,0,0,.28);
     min-height:96px;
     display:flex;align-items:center;justify-content:center;gap:10px;
+    -webkit-tap-highlight-color:transparent;
   }
   .nav:hover{background:var(--azul-fundo)}
   .nav:active{transform:translateY(4px);box-shadow:none}
 
   .botoes-card{display:flex;flex-direction:column;gap:16px}
 
+  /* status de áudio (visível) */
+  .status{
+    text-align:center;
+    font-size:calc(22px * var(--e));font-weight:700;
+    color:#174E8F;
+    min-height:34px;margin:18px 0 6px;
+  }
+
   /* armário de todos os assuntos */
   .secao-titulo{
-    font-size:34px;font-weight:700;text-align:center;
+    font-size:calc(32px * var(--e));font-weight:700;text-align:center;
     margin:8px 0 18px;
   }
-  .armario{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:50px}
+  .armario{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
   .gaveta{
     background:var(--papel);
     border:4px solid var(--tinta);
     border-radius:20px;
     padding:18px 12px;
     display:flex;flex-direction:column;align-items:center;gap:10px;
-    font-family:var(--fonte);font-size:22px;font-weight:700;
+    font-family:var(--fonte);font-size:calc(22px * var(--e));font-weight:700;
     cursor:pointer;min-height:150px;justify-content:center;
     box-shadow:0 5px 0 rgba(0,0,0,.25);
+    -webkit-tap-highlight-color:transparent;
   }
   .gaveta i{font-size:46px}
   .gaveta:hover{background:var(--azul-fundo)}
@@ -243,28 +301,27 @@
   .gaveta.verde{border-color:var(--verde)} .gaveta.verde i{color:var(--verde)}
   .gaveta.amarela{border-color:var(--amarelo)} .gaveta.amarela i{color:var(--amarelo)}
   .gaveta.vermelha{border-color:var(--vermelho)} .gaveta.vermelha i{color:var(--vermelho)}
+  .gaveta.ativa{
+    box-shadow:0 5px 0 rgba(0,0,0,.25), 0 0 0 6px var(--azul);
+    background:var(--azul-fundo);
+  }
+  .voltar-comeco{display:flex;justify-content:center;margin:0 0 30px}
 
   /* rodapé */
   .rodape{
-    background:var(--tinta);color:#E8DDBB;
+    background:#013A71;color:#E8DDBB;
     padding:34px 0 50px;margin-top:20px;
   }
-  .rodape h3{font-size:28px;margin-bottom:12px;color:#fff}
-  .rodape p{font-size:20px;margin-bottom:10px;color:#D9CDA8}
-  .rodape .fonte-lista{font-size:20px;color:#C4B68C}
+  .rodape h3{font-size:calc(28px * var(--e));margin-bottom:12px;color:#fff}
+  .rodape p{font-size:calc(20px * var(--e));margin-bottom:10px;color:#D9CDA8}
+  .rodape .fonte-lista{font-size:calc(20px * var(--e));color:#C4B68C}
 
-  /* status de áudio */
-  .status{
-    text-align:center;
-    font-size:22px;font-weight:700;
-    color:var(--azul);
-    min-height:30px;margin:4px 0;
-  }
-  [aria-live="polite"]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   .off{display:none}
 </style>
 </head>
 <body>
+
+<a class="pular" href="#principal">Pular pro que interessa</a>
 
 <header class="masthead">
   <div class="wrap">
@@ -276,6 +333,10 @@
         <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
         <span>OUVIR TUDO COM CALMA</span>
       </button>
+      <button class="btn btn-block" id="btn-pausar" aria-pressed="false" aria-label="Esperar ou continuar a fala">
+        <i class="fa-solid fa-pause" aria-hidden="true"></i>
+        <span id="lbl-pausar">ESPERAR UM POUCO</span>
+      </button>
       <button class="btn btn-block" id="btn-parar" aria-label="Parar de falar">
         <i class="fa-solid fa-stop" aria-hidden="true"></i>
         <span>PARAR DE FALAR</span>
@@ -283,23 +344,28 @@
       <label class="btn" for="auto-som" style="cursor:pointer">
         <i class="fa-solid fa-ear-listen" aria-hidden="true"></i>
         <span>LIGA O SOM SOZINHO<br><span class="mini">aí cada assunto fala quando aparece</span></span>
-        <input type="checkbox" id="auto-som" style="width:44px;height:44px;accent-color:var(--azul)">
+        <input type="checkbox" id="auto-som" style="width:44px;height:44px;accent-color:var(--azul)" aria-label="Ligar o som sozinho">
       </label>
+    </div>
+    <div class="controles-fonte" role="group" aria-label="Tamanho da letra">
+      <button class="btn-mini" id="btn-menos" aria-label="Diminuir a letra">A−</button>
+      <span class="font-lbl" aria-hidden="true">LETRA</span>
+      <button class="btn-mini" id="btn-mais" aria-label="Aumentar a letra">A+</button>
     </div>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="principal">
   <div class="legenda" role="group" aria-label="O significado das cores">
     <span class="lenda verde"><span class="bol" aria-hidden="true"></span> TÁ BOM</span>
     <span class="lenda amarela"><span class="bol" aria-hidden="true"></span> TÁ NO MEIO</span>
     <span class="lenda vermelha"><span class="bol" aria-hidden="true"></span> TÁ RUIM</span>
   </div>
 
-  <p class="etapa" id="etapa" aria-live="polite"></p>
+  <p class="etapa" id="etapa">Carregando…</p>
 
-  <article class="cartao" id="cartao" aria-live="polite">
-    <div class="emblema" id="emblema" role="img" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></div>
+  <article class="cartao" id="cartao" tabindex="-1" aria-labelledby="tema">
+    <div class="emblema" id="emblema" aria-hidden="true"><i class="fa-solid fa-circle-info"></i></div>
     <p class="rotulo" id="rotulo"></p>
     <div class="vasilha" id="vasilha" aria-hidden="true">
       <div class="agua" id="agua"></div>
@@ -336,11 +402,18 @@
     </button>
   </div>
 
-  <p class="status" id="status"></p>
+  <p class="status" id="status" aria-live="polite"></p>
+  <p class="sr-only" id="anuncio" aria-live="polite" aria-atomic="true"></p>
 
   <section id="todos" aria-label="Lista de todos os assuntos">
     <h2 class="secao-titulo">TODOS OS ASSUNTOS — aperte em qualquer um</h2>
     <div class="armario" id="armario"></div>
+    <div class="voltar-comeco">
+      <button class="btn" id="btn-voltar-topo" aria-label="Voltar pro começo da página">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>VOLTAR PRO COMEÇO</span>
+      </button>
+    </div>
   </section>
 </main>
 
@@ -352,6 +425,12 @@
   </div>
 </footer>
 
+<noscript>
+  <p style="background:#FBE0E3;color:#7C001B;padding:20px;font-size:26px;text-align:center">
+    Este site precisa que o som e as figuras funcionem. Se o "modo leitura" estiver desligado, ele não aparece — peça ajuda para ligar o JavaScript.
+  </p>
+</noscript>
+
 <script>
 (function(){
   "use strict";
@@ -359,7 +438,8 @@
   var DADOS = [];
   var INDICE = 0;
   var FALANDO = false;
-  var PARAR_FALAR = false;
+  var TUDO_ATIVO = false;
+  var UTT_SEQ = 0; /* número da fala atual — invalida falas velhas */
 
   /* ============ DADOS DE EMERGÊNCIA (se o arquivo faltar) ============ */
   var MOCK = {
@@ -419,10 +499,7 @@
     ]
   };
 
-  /* ============ FIGURAS DO COTIDIANO (metáforas) ============
-     Cada assunto ganha: um objeto do dia a dia (ícone),
-     um rótulo falado, e um nível de 0 (ruim) a 100 (bom).
-     O nível vira o sinal (verde/amarelo/vermelho) e enche a vasilha. */
+  /* ============ FIGURAS DO COTIDIANO (metáforas) ============ */
   var METAFORAS = {
     "fome":              {i:"fa-bowl-food",           r:"panela vazia", n:15},
     "inseguranca_alimentar":{i:"fa-egg",              r:"ovo na mesa", n:35},
@@ -545,20 +622,16 @@
     var nivel = null;
     var figura = null;
 
-    /* 1) número direto no JSON (valor 0..1 ou 0..100) */
     if(typeof item.valor === "number"){
       nivel = item.valor <= 1 ? Math.round(item.valor*100) : Math.min(100, item.valor);
     }
-    /* 2) nível escrito */
     else if(typeof item.nivel === "number"){
       nivel = item.nivel <= 1 ? Math.round(item.nivel*100) : Math.min(100, item.nivel);
     }
-    /* 3) verdadeiro/falso */
     else if(typeof item.valor === "boolean"){
       nivel = item.valor ? 100 : 15;
       figura = {i: item.valor ? "fa-circle-check" : "fa-circle-xmark", r: item.valor ? "sim" : "não"};
     }
-    /* 4) palavra que diz como está */
     else if(typeof item.valor === "string"){
       var v = item.valor.toLowerCase();
       if(/melhorou|cheio|cheia|chega|tem de tudo|bom/.test(v)) nivel = 85;
@@ -566,13 +639,11 @@
       else if(/mais ou menos|meio|assim/.test(v)) nivel = 50;
     }
 
-    /* figura: metáfora pedida no JSON > figura por id > por palavra */
     if(!figura && item.metafora && META_ALIASES[item.metafora]) figura = META_ALIASES[item.metafora];
     if(!figura && METAFORAS[item.id]) figura = METAFORAS[item.id];
     if(!figura) figura = palavraAcha((item.tema||"")+" "+(item.dado||"")+" "+(item.texto_curto||""));
 
     if(nivel === null) nivel = (figura && typeof figura.n === "number") ? figura.n : 50;
-    if(nivel === null) nivel = 50;
 
     return {
       figura: figura,
@@ -582,58 +653,58 @@
   }
 
   /* ============ FALA ============ */
-  function limpaFala(t){
-    return String(t||"")
-      .replace(/R\$\s*/g,"reais ")
-      .replace(/%/g," por cento ")
-      .replace(/km²|km2/g,"quilômetros quadrados")
-      .replace(/x\s?(mais|menos|vezes)/g," vezes $1")
-      .replace(/\bx\b/g," vezes")
-      .replace(/~/g," ")
-      .replace(/#\w+/g,"")
-      .replace(/\s+/g," ").trim();
-  }
+  /* áudio pré-gravado com edge-tts em assets/audio/<id>.mp3 */
+  var PLAYER = document.createElement("audio");
+  PLAYER.preload = "auto";
 
-  function montaAudio(item){
-    var frases = [];
-    frases.push("Assunto: " + item.tema + ". ");
-    if(item.texto_curto) frases.push(item.texto_curto + ". ");
-    if(item.dado) frases.push("O número é este: " + item.dado + ". ");
-    if(item.analogia && item.analogia.length < 220) frases.push("Pense assim: " + item.analogia + " ");
-    if(item.pergunta_para_acao) frases.push("Fica a pergunta: " + item.pergunta_para_acao);
-    return limpaFala(frases.join(""));
-  }
-
-  function vozPortugues(){
-    var vs = window.speechSynthesis.getVoices();
-    var preferidas = ["pt-BR","pt-br","Portuguese (Brazil)","pt_br"];
-    for(var i=0;i<vs.length;i++){
-      for(var j=0;j<preferidas.length;j++){
-        if(vs[i].lang && vs[i].lang.replace("-","_").toLowerCase().indexOf("pt_br")===0) return vs[i];
-        if(vs[i].name && vs[i].name.indexOf(preferidas[j])>-1) return vs[i];
-      }
+  /* toca(id, devagar, aoTerminar). Só o chamado mais recente vale. */
+  function toca(id, devagar, aoTerminar){
+    var seq = ++UTT_SEQ;
+    FALANDO = true;
+    PLAYER.onended = function(){
+      if(seq === UTT_SEQ){ FALANDO = false; PLAYER.onended = null; PLAYER.onerror = null; if(aoTerminar) aoTerminar(); }
+    };
+    PLAYER.onerror = function(){
+      if(seq === UTT_SEQ){ FALANDO = false; PLAYER.onended = null; PLAYER.onerror = null; setStatus("Não achei o áudio deste assunto. Tente outro."); }
+    };
+    PLAYER.src = "assets/audio/" + id + ".mp3";
+    PLAYER.playbackRate = devagar ? 0.72 : 1;
+    var p = PLAYER.play();
+    if(p && p.catch){
+      p.catch(function(){
+        if(seq === UTT_SEQ){ FALANDO = false; setStatus("Este aparelho bloqueou o som. Aperte de novo."); }
+      });
     }
-    return null;
-  }
-
-  function falar(texto, devagar){
-    if(!("speechSynthesis" in window)){ setStatus("Este aparelho não sabe falar sozinho."); return; }
-    if(FALANDO) window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(texto);
-    u.lang = "pt-BR";
-    u.rate = devagar ? 0.72 : 0.9;
-    u.pitch = 0.85;
-    var v = vozPortugues();
-    if(v) u.voice = v;
-    FALANDO = true; PARAR_FALAR = false;
-    u.onend = u.onerror = function(){ FALANDO = false; setStatus(""); };
-    window.speechSynthesis.speak(u);
   }
 
   function parar(){
-    if("speechSynthesis" in window) window.speechSynthesis.cancel();
-    FALANDO = false; PARAR_FALAR = true;
+    PLAYER.pause();
+    PLAYER.currentTime = 0;
+    UTT_SEQ++;
+    FALANDO = false;
+    TUDO_ATIVO = false;
     setStatus("");
+    setPausa(false);
+  }
+
+  function setPausa(pausado){
+    var b = $("btn-pausar");
+    b.setAttribute("aria-pressed", pausado ? "true" : "false");
+    $("lbl-pausar").textContent = pausado ? "CONTINUAR A FALA" : "ESPERAR UM POUCO";
+  }
+
+  function pausaContinua(){
+    if(!FALANDO){ setStatus("Agora não estou falando nada."); return; }
+    if(PLAYER.paused){
+      var p = PLAYER.play();
+      if(p && p.catch) p.catch(function(){ setStatus("Não consegui continuar o som."); });
+      setPausa(false);
+      setStatus("Continuei falando.");
+    } else {
+      PLAYER.pause();
+      setPausa(true);
+      setStatus("Parei pra esperar. Aperte de novo pra continuar.");
+    }
   }
 
   /* ============ RENDERIZA O CARTÃO ============ */
@@ -647,7 +718,7 @@
     cartao.className = "cartao " + s.classe;
 
     $("emblema").innerHTML = '<i class="fa-solid '+inte.figura.i+'"></i>';
-    $("rotulo").textContent = "figura: " + inte.figura.r + " — o sinal está " + s.rotulo;
+    $("rotulo").textContent = "Figura: " + inte.figura.r + " — o sinal está " + s.rotulo + " (" + s.dica + ").";
     $("dica-vasilha").textContent = s.dica;
     $("agua").style.height = inte.nivel + "%";
     $("tema").textContent = item.tema || "Assunto";
@@ -664,8 +735,28 @@
     }
 
     $("cartao").setAttribute("aria-label",
-      item.tema + ". " + s.rotulo + ". " + (item.texto_curto||"") + " " + (item.dado||""));
-    $("etapa").textContent = "Assunto " + (INDICE+1) + " de " + DADOS.length + ".";
+      item.tema + ". O sinal está " + s.rotulo + ". " + (item.texto_curto||"") + " " + (item.dado||""));
+
+    var pos = (INDICE+1) + " de " + DADOS.length;
+    $("etapa").textContent = "Assunto " + pos + ".";
+    /* anúncio só para o leitor de tela */
+    $("anuncio").textContent = "Assunto " + pos + ". " + (item.tema||"") + ". O sinal está " + s.rotulo + ". " + (item.texto_curto||"");
+    document.title = (item.tema||"Assunto") + " · Como andam as coisas por aqui";
+  }
+
+  function mostraCard(idx, falaAuto, moverFoco){
+    if(!DADOS.length) return;
+    INDICE = (idx + DADOS.length) % DADOS.length;
+    renderizaCard(DADOS[INDICE]);
+    atualizaGavetaAtiva();
+    window.scrollTo({top:0, behavior:"smooth"});
+    if(moverFoco) $("cartao").focus({preventScroll:true});
+    if(falaAuto && $("auto-som").checked) toca(DADOS[INDICE].id);
+  }
+
+  function irPara(idx, moverFoco){
+    parar();
+    mostraCard(idx, true, moverFoco);
   }
 
   function pintaGavetas(){
@@ -676,54 +767,75 @@
       var btn = document.createElement("button");
       btn.className = "gaveta " + inte.sinal.classe;
       btn.innerHTML = '<i class="fa-solid '+inte.figura.i+'" aria-hidden="true"></i><span>'+ (item.tema||"") +'</span>';
-      btn.setAttribute("aria-label", "Abrir o assunto " + (item.tema||"") + ". Sinal: " + inte.sinal.rotulo);
-      btn.addEventListener("click", function(){ irPara(idx); });
+      btn.setAttribute("aria-label", "Abrir o assunto " + (item.tema||"") + ". O sinal está " + inte.sinal.rotulo + ".");
+      btn.addEventListener("click", function(){ irPara(idx, true); });
       arm.appendChild(btn);
     });
+    atualizaGavetaAtiva();
   }
 
-  function irPara(idx){
-    parar();
-    INDICE = (idx + DADOS.length) % DADOS.length;
-    renderizaCard(DADOS[INDICE]);
-    window.scrollTo({top:0, behavior:"smooth"});
-    if($("auto-som").checked) falar(montaAudio(DADOS[INDICE]), false);
-  }
-
-  /* ============ OUVE TUDO (uma sentada) ============ */
-  function ouvirTudo(){
-    if(!("speechSynthesis" in window)){ setStatus("Este aparelho não sabe falar sozinho."); return; }
-    parar();
-    var fraseIntro = limpaFala(
-      "Vó, sente aqui e tenha calma. Eu vou ler um assunto de cada vez." +
-      " Quando acabar, você aperta a seta pra passar. No final tem também a lista de todos os assuntos, é só apertar em cima."
-    );
-    var todos = [];
-    for(var i=0;i<DADOS.length;i++){
-      todos.push("Assunto " + (i+1) + ": " + montaAudio(DADOS[i]));
+  function atualizaGavetaAtiva(){
+    var botoes = $("armario").querySelectorAll(".gaveta");
+    for(var i=0;i<botoes.length;i++){
+      if(i === INDICE){
+        botoes[i].classList.add("ativa");
+        botoes[i].setAttribute("aria-current", "true");
+      } else {
+        botoes[i].classList.remove("ativa");
+        botoes[i].removeAttribute("aria-current");
+      }
     }
-    var completo = fraseIntro + " " + todos.join(" ");
-    falar(completo, false);
-    setStatus("Falando tudo com calma. Aperte PARAR a hora que quiser.");
+  }
+
+  /* ============ OUVE TUDO (uma sentada, cartão a cartão) ============ */
+  function ouvirTudo(){
+    parar();
+    TUDO_ATIVO = true;
+    var i = 0;
+
+    function proximo(){
+      if(!TUDO_ATIVO) return;
+      if(i >= DADOS.length){
+        TUDO_ATIVO = false;
+        setStatus("Terminei de ler tudo. Pode apertar nos botões para voltar em algum assunto.");
+        return;
+      }
+      mostraCard(i, false, false);
+      setStatus("Falando o assunto " + (i+1) + " de " + DADOS.length + ".");
+      toca(DADOS[i].id, false, function(){ i++; proximo(); });
+    }
+
+    setStatus("Comecei a ler tudo com calma. Para dar uma pausa, aperte ESPERAR. Para parar, PARAR.");
+    toca("__intro__", false, proximo);
   }
 
   /* ============ STATUS ============ */
   function setStatus(t){ $("status").textContent = t; }
 
+  /* ============ TAMANHO DA LETRA ============ */
+  var ESCALAS = [0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
+  var indEscala = 1;
+  function aplicaEscala(){
+    document.documentElement.style.setProperty("--e", ESCALAS[indEscala]);
+    try{ localStorage.setItem("acc-escala", String(indEscala)); }catch(e){}
+  }
+  function mudaEscala(delta){
+    indEscala = Math.max(0, Math.min(ESCALAS.length-1, indEscala + delta));
+    aplicaEscala();
+  }
+
   /* ============ BOOT ============ */
   function montaPagina(data){
     if(data.titulo_pagina) $("titulo-pagina").textContent = data.titulo_pagina;
-    if(data.intro_audio){
-      $("sub-pagina").textContent = data.intro_audio;
-    }
+    if(data.intro_audio) $("sub-pagina").textContent = data.intro_audio;
     var fonte = (data._meta && data._meta.fonte) || "dados_acessiveis.json";
     $("fonte-rodape").textContent = "Fonte dos dados: " + fonte;
 
-    DADOS = data.dados || [];
-    if(!DADOS.length) DADOS = MOCK.dados;
+    DADOS = (data.dados && data.dados.length) ? data.dados : MOCK.dados;
     INDICE = 0;
     renderizaCard(DADOS[0]);
     pintaGavetas();
+    $("etapa").textContent = "Assunto 1 de " + DADOS.length + ".";
   }
 
   function carrega(){
@@ -739,21 +851,29 @@
       });
   }
 
-  /* vozes do navegador demoram a aparecer */
-  if("speechSynthesis" in window){
-    window.speechSynthesis.onvoiceschanged = function(){ vozPortugues(); };
-    vozPortugues();
-  }
+  /* tamanho da letra guardado */
+  try{
+    var salvo = parseInt(localStorage.getItem("acc-escala"), 10);
+    if(!isNaN(salvo) && salvo>=0 && salvo<ESCALAS.length) indEscala = salvo;
+  }catch(e){}
+  aplicaEscala();
 
   $("btn-ouvir-tudo").addEventListener("click", ouvirTudo);
+  $("btn-pausar").addEventListener("click", pausaContinua);
   $("btn-parar").addEventListener("click", parar);
-  $("btn-ouvir-card").addEventListener("click", function(){ falar(montaAudio(DADOS[INDICE]), false); });
-  $("btn-ouvir-devagarinho").addEventListener("click", function(){ falar(montaAudio(DADOS[INDICE]), true); });
+  $("btn-ouvir-card").addEventListener("click", function(){ toca(DADOS[INDICE].id); });
+  $("btn-ouvir-devagarinho").addEventListener("click", function(){ toca(DADOS[INDICE].id, true); });
   $("btn-anterior").addEventListener("click", function(){ irPara(INDICE-1); });
   $("btn-proximo").addEventListener("click", function(){ irPara(INDICE+1); });
+  $("btn-voltar-topo").addEventListener("click", function(){
+    window.scrollTo({top:0, behavior:"smooth"});
+    $("btn-voltar-topo").focus();
+  });
+  $("btn-menos").addEventListener("click", function(){ mudaEscala(-1); });
+  $("btn-mais").addEventListener("click", function(){ mudaEscala(1); });
 
   document.addEventListener("keydown", function(e){
-    if(e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
+    if(e.target.tagName === "INPUT" || e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
     if(e.key === "ArrowRight"){ e.preventDefault(); irPara(INDICE+1); }
     if(e.key === "ArrowLeft"){ e.preventDefault(); irPara(INDICE-1); }
   });

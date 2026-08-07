@@ -7,15 +7,42 @@
  <meta name="description" content="Nove capítulos de dados públicos oficiais e uma máquina de propaganda: imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.">
  <meta property="og:title" content="O Brasil em dados — e a máquina de propaganda">
  <meta property="og:description" content="Dados com fonte primeiro. Depois, imagens, mensagens, áudio e roteiros prontos para espalhar.">
+ <meta name="theme-color" content="#013A71">
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
+ <div class="barra-topo" id="topo">
+  <div class="container barra-topo-inner">
+   <p class="barra-topo-saudacao"><i class="fa-solid fa-circle-user" aria-hidden="true"></i><span>Dados públicos com fonte primeiro.</span></p>
+   <div class="barra-topo-social">
+    <a href="acessivel.html" title="Versão acessível — pra vovó entender"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></a>
+   </div>
+  </div>
+ </div>
+
+ <div class="menu-principal">
+  <div class="container menu-principal-inner">
+   <a class="menu-principal-logo" href="#topo"><i class="fa-solid fa-landmark" aria-hidden="true"></i> O Brasil em dados</a>
+   <nav class="menu-principal-nav" aria-label="Seções do site">
+    <a href="#ch-raiox">Raio-X</a>
+    <a href="#ch-orcamento">Orçamento</a>
+    <a href="#ch-violencia">Violência</a>
+    <a href="#ch-dossies">Dossiês</a>
+    <a href="#ch-propaganda">Propaganda</a>
+    <a href="#ch-tutoriais">Tutoriais</a>
+   </nav>
+   <a class="btn btn-primary menu-principal-cta" href="#ch-raiox">Ver os dados</a>
+  </div>
+ </div>
+
  <header class="masthead">
  <div class="container">
+ <span class="masthead-sol" aria-hidden="true"><i class="fa-solid fa-landmark"></i></span>
  <p class="kicker masthead-kicker">Dados públicos oficiais + máquina de propaganda · download grátis</p>
  <h1 class="masthead-title">Os dados primeiro. <em>A propaganda depois.</em></h1>
  <p class="lede">Nove capítulos de números com fonte — e uma máquina de propaganda com imagens, mensagens, áudio e roteiros prontos para espalhar no WhatsApp, Instagram, X e TikTok.</p>
@@ -723,11 +750,31 @@
  (data-sections.js insere aqui os capítulos A-K) -->
  <div id="ds-container"></div>
 
+ <section class="navegue">
+  <div class="container">
+   <h2>Navegue</h2>
+   <div class="navegue-grid">
+    <a class="navegue-item" href="#ch-raiox"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-stethoscope"></i></span> Raio-X</a>
+    <a class="navegue-item" href="#ch-orcamento"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-coins"></i></span> Orçamento</a>
+    <a class="navegue-item" href="#ch-renda"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-stairs"></i></span> Renda</a>
+    <a class="navegue-item" href="#ch-racial"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-people-group"></i></span> Cor do abismo</a>
+    <a class="navegue-item" href="#ch-violencia"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></span> Violência</a>
+    <a class="navegue-item" href="#ch-ocde"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-earth-americas"></i></span> Mundo</a>
+    <a class="navegue-item" href="#ch-dossies"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-file-lines"></i></span> Dossiês</a>
+    <a class="navegue-item" href="#ch-propaganda"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-bullhorn"></i></span> Propaganda</a>
+    <a class="navegue-item" href="#ch-mais-valia"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-calculator"></i></span> Mais-valia</a>
+    <a class="navegue-item" href="#ch-glossario"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span> Glossário</a>
+    <a class="navegue-item" href="#ch-tutoriais"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-hands-holding-circle"></i></span> Tutoriais</a>
+    <a class="navegue-item" href="acessivel.html"><span class="navegue-icone" aria-hidden="true"><i class="fa-solid fa-volume-high"></i></span> Pra Vovó</a>
+   </div>
+  </div>
+ </section>
+
  <footer class="footer">
  <div class="container">
  <p class="kicker">Método &amp; fontes</p>
   <p class="footer-note">Todos os números vêm de fontes públicas oficiais listadas abaixo. As imagens, mensagens, áudios e prompts da Máquina de Propaganda são gerados no seu navegador — sem upload para servidor.</p>
-  <p class="footer-note"><a href="acessivel.html">📢 Pra Vovó entender</a> — a mesma informação em desenho e voz alta, para quem não nasceu lendo números.</p>
+  <p class="footer-note"><a href="acessivel.html"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> Pra Vovó entender</a> — a mesma informação em desenho e voz alta, para quem não nasceu lendo números.</p>
  <ul class="sources" id="sources"></ul>
  <p class="footer-meta">Feito com D3.js · mobile-first · dados abertos, código aberto</p>
  </div>
